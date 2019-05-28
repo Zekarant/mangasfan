@@ -166,7 +166,30 @@ $sqdd = $_POST['sqdd'] ?? "";
             <div class='alert alert-danger' role='alert'>
               Vous n'avez pas sélectionné d'image pour votre avatar. Veuillez recommencer.
             </div>
-          <?php } } ?>
+          <?php } }
+          if (!empty($_POST['valider_informations'])) {
+             $modifier_compte = $pdo->prepare('UPDATE users SET site = ?, description = ?, role = ? WHERE id = ?');
+             $modifier_compte->execute(array($_POST['site'], $_POST['description'], $_POST['role'], $utilisateur['id']));
+          ?>
+            <div class='alert alert-success' role='alert'>
+              Vos informations ont bien été modifiées !
+            </div>
+          <?php } 
+          if (!empty($_POST['valider_autre'])) {
+             $modifier_compte = $pdo->prepare('UPDATE users SET manga = ?, anime = ? WHERE id = ?');
+             $modifier_compte->execute(array($_POST['manga'], $_POST['anime'], $utilisateur['id']));
+          ?>
+            <div class='alert alert-success' role='alert'>
+              Vos informations ont bien été modifiées !
+            </div>
+          <?php }  
+          
+
+
+            $recuperer_compte = $pdo->prepare('SELECT * FROM users WHERE id = ?'); 
+            $recuperer_compte->execute(array($utilisateur['id']));
+            $informations = $recuperer_compte->fetch();
+          ?>
 <section class="marge_page">
   <div class="container">
     <div class="row">
@@ -211,14 +234,14 @@ $sqdd = $_POST['sqdd'] ?? "";
               <div class="row">
                 <label class="col-md-3">Mon site :</label>
                     <div class="col-md-9">
-                      <input type="text" name="site" class="form-control" placeholder="Changer mon site (Mettre le lien)" value="<?php if($utilisateur['site'] != NULL){ echo sanitize($utilisateur['site']); } ?>" />
+                      <input type="text" name="site" class="form-control" placeholder="Changer mon site (Mettre le lien)" value="<?php if($informations['site'] != NULL){ echo sanitize($informations['site']); } ?>" />
                     </div>
                 </div>
                 <br/>
                 <div class="row">
                 <label class="col-md-3">Ma description :</label>
                     <div class="col-md-9">
-                      <textarea name="description" class="form-control" rows="10" cols="70" placeholder="Entrez ou modifiez votre description sur vous ou mettez quelque chose que vous avez envie de dire ! Cette partie est à vous."><?php if($utilisateur['description'] != NULL){ echo sanitize($utilisateur['description']); } ?></textarea>
+                      <textarea name="description" class="form-control" rows="10" cols="70" placeholder="Entrez ou modifiez votre description sur vous ou mettez quelque chose que vous avez envie de dire ! Cette partie est à vous."><?php if($informations['description'] != NULL){ echo sanitize($informations['description']); } ?></textarea>
                       <a href="bbcode_active.html" class="lien_bbcode" target="blank">Voici la liste des bbcodes possibles</a><br/>
                       <button class="btn btn-sm btn-danger" type="reset">Défaut</button>
                     </div>
@@ -228,7 +251,7 @@ $sqdd = $_POST['sqdd'] ?? "";
                 <div class="row">
                   <label class="col-md-3">Mon rôle (Staff) :</label>
                     <div class="col-md-9">
-                      <textarea name="role" class="form-control" rows="10" cols="30"  placeholder="Entrez ou modifiez votre rôle sur le site, cette partie n'est visible que par les membres du staff et servira à montrer sur votre page de profil le rôle que vous avez !" ><?php if($utilisateur['role'] != NULL){ echo sanitize($utilisateur['role']); } ?></textarea>
+                      <textarea name="role" class="form-control" rows="10" cols="30"  placeholder="Entrez ou modifiez votre rôle sur le site, cette partie n'est visible que par les membres du staff et servira à montrer sur votre page de profil le rôle que vous avez !" ><?php if($informations['role'] != NULL){ echo sanitize($informations['role']); } ?></textarea>
                       <button class="btn btn-sm btn-danger" type="reset">Défaut</button>
                     </div>
                 </div>
@@ -244,18 +267,18 @@ $sqdd = $_POST['sqdd'] ?? "";
             Vos autres informations - <span class="couleur_mangas">M</span>angas'<span class="couleur_fans">F</span>an
           </div>
           <div class="card-body">
-            <form>
+            <form method="POST" action="">
               <div class="row">
                   <label class="col-md-3">Mon mangas :</label>
                     <div class="col-md-9">
-                      <input type="text" name="manga" class="form-control" placeholder="Renseigner mon manga préféré" value="<?php if($utilisateur['manga'] != NULL){ echo sanitize($utilisateur['manga']); } ?>" />
+                      <input type="text" name="manga" class="form-control" placeholder="Renseigner mon manga préféré" value="<?php if($informations['manga'] != NULL){ echo sanitize($informations['manga']); } ?>" />
                     </div>
                 </div>
                 <br/>
                 <div class="row">
                   <label class="col-md-3">Mon anime :</label>
                     <div class="col-md-9">
-                      <input type="text" name="anime" class="form-control" placeholder="Renseigner mon anime préféré" value="<?php if($utilisateur['anime'] != NULL){ echo sanitize($utilisateur['anime']); } ?>" />
+                      <input type="text" name="anime" class="form-control" placeholder="Renseigner mon anime préféré" value="<?php if($informations['anime'] != NULL){ echo sanitize($informations['anime']); } ?>" />
                     </div>
                 </div>
                 <br/>
