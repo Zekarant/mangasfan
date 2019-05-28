@@ -180,7 +180,7 @@ $sqdd = $_POST['sqdd'] ?? "";
              $modifier_compte->execute(array($_POST['manga'], $_POST['anime'], $utilisateur['id']));
           ?>
             <div class='alert alert-success' role='alert'>
-              Vos informations ont bien été modifiées !
+              Vos informations supplémentaires ont bien été modifiées !
             </div>
           <?php }  
           
