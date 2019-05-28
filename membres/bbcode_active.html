@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" href="../images/favicon.png"/>
+		<title>Liste des codes BBCode</title>
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Nosifer" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Emilys+Candy" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Butcherman" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="<?php echo $lienCss; ?>">
+	</head>
+	<body>
+		<div id="bloc_page">
+			<center>
+				<table class="table table-striped">
+					<legend>
+						<b>
+							<font color ="darkblue">Liste des BBcodes actuellement disponibles</font>
+						</b>
+					</legend>
+					<thead>
+						<tr>
+							<th>Code à utiliser</th>
+							<th>Rendu</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								[b]Votre texte en gras[/b]
+							</td>
+							<td>
+								<b>Votre texte en gras</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[i]Votre texte en italique[/i]
+							</td>
+							<td>
+								<i>Votre texte en italique</i>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[s]Votre texte en souligné[/s]
+							</td>
+							<td>
+								<u>Votre texte en souligné</u>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[color=NOM DE LA COULEUR]Texte de la couleur choisie[/color]
+							</td>
+							<td>
+								<font color ="pink">Texte de couleur rose</font> -> [color=pink ou #FFC0CB]Texte de couleur rose[/color]
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[centre]Votre texte centré[/centre]
+							</td>
+							<td>
+								<center>Votre texte centré</center>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[img]Votre image[/img]
+							</td>
+							<td>
+								<img src="https://www.pixenli.com/image/xY1f7m2v" style="width: 150px;"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[url=lien]Ce texte est un lien[/url]
+							</td>
+							<td>
+								<a href="#">Ce texte est un lien</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[under]Texte surligné[/under]
+							</td>
+							<td>
+								<mark style="background-color: yellow">Texte surligné</mark>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[under2]Texte surligné 2[/under2]
+							</td>
+							<td>
+								<mark style="background-color: #DAA520">Texte surligné 2</mark>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Votre texte[br]Encore un texte
+							</td>
+							<td>
+								Votre texte<br/>
+								Encore un texte
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[code]Votre texte[/code]
+							</td>
+							<td>
+								<div style="border: 1px dashed black; padding: 5px;">Votre texte</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								[spoiler]Votre texte sous spoiler[/spoiler]
+							</td>
+							<td>
+								<div class="spoiler">
+									<input onclick="showSpoiler(this);" value="Spoiler" font-size="10px" type="button" class="btn btn btn-info">
+								<div style="display: none; border: 1px solid grey; padding: 5px;">	Votre texte sous spoiler
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-striped">
+					<legend>
+						<b>
+							<font color ="darkblue">Liste des BBcodes actuellement disponibles</font>
+						</b>
+					</legend>
+					<thead>
+						<tr>
+							<th>Code à utiliser</th>
+							<th>Rendu</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								:)
+							</td>
+							<td>
+								<img src="images/emoticons/sourire.png" alt="Sourire"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								;)
+							</td>
+							<td>
+								<img src="images/emoticons/clin_oeuil.png" alt="Clin d'oeil"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								:( 
+							</td>
+							<td>
+								<img src="images/emoticons/decu.png" alt="Déçu"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								8)
+							</td>
+							<td>
+								<img src="images/emoticons/star.png" alt="Star" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								:@
+							</td>
+							<td>
+								<img src="images/emoticons/no_content.png" alt="Pas content"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								:d
+							</td>
+							<td>
+								<img src="images/emoticons/heureux.png" alt="Heureux"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								=(
+							</td>
+							<td>
+								<img src="images/emoticons/decu.png" alt="Déçu"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								=/
+							</td>
+							<td>
+								<img src="images/emoticons/bouche_coin.png" alt="Bouche en coin"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								:o
+							</td>
+							<td>
+								<img src="images/emoticons/choque.png" alt="Choqué" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								:p
+							</td>
+							<td>
+								<img src="images/emoticons/langue.png" alt="Langue"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								:x
+							</td>
+							<td>
+								<img src="images/emoticons/pete.png" alt="Cousu"/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</center>
+			<script>
+				function showSpoiler(obj)
+				{
+					var inner = obj.parentNode.getElementsByTagName("div")[0];
+					if (inner.style.display == "none")
+						inner.style.display = "";
+					else
+						inner.style.display = "none";
+				}
+			</script>
+		</div>
+	</body>
+</html>
