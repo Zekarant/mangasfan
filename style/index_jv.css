@@ -1,0 +1,349 @@
+a[name="page"],.message_page{
+	display:block;
+	width:40%;
+	text-align:center;
+	padding:3px;
+	margin-left:10%;
+}
+
+a[name="page"]{
+	border:1px solid #1F305C;
+	border-radius:5px;
+	margin-bottom:5px;
+	border-left:3px solid #4F9BCC;
+	transition: all ease 300ms;
+}
+
+a[name="page"]::first-letter, .categorie::first-letter{
+	text-transform:uppercase;
+}
+
+a[name="page"]:hover{
+	text-decoration:none;
+	color:#973C7B;
+	border:1px solid #C265A7;
+	border-left:3px solid #AE448F;
+	transition: all ease 500ms;
+}
+
+.categorie{
+	display:block;
+	font-weight:bold;
+	font-size:22px;
+	width:60%;
+	border-bottom:3px solid #00B7D7;
+	padding-left:2px;
+	letter-spacing:1px;
+	color:#00B7D7;
+	font-family:'Marvel', serif;
+}
+
+
+.no_hover{
+	opacity:0;
+	background:url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family:'Marvel', serif;
+	transform : translateY(-5px);
+	transition: all ease 300ms;
+	position:absolute;
+	bottom:0;
+	width:100%;
+}
+
+.gallery:hover .no_hover {
+	opacity:1;
+	background:url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family:'Marvel', serif;
+	transform : translateY(0px);
+	transition: all ease 300ms;
+}
+
+.tableau_element{
+	margin:auto;
+	width:100%;
+	color:white;
+	display:block;
+	padding:15px;
+}
+
+
+div.accueil_jeu h4{
+	font-family: 'Bangers', cursive;
+	font-size:29px;
+	text-align:center;
+}
+
+div.accueil_jeu h4::first-letter{
+	color:red;
+}
+
+div.accueil_jeu h5{
+	font-family: 'Stint Ultra Condensed', cursive;
+	font-size:28px;
+	margin-left:20px;
+	margin-right:20px;
+	color:#328EC0;
+	border-bottom:1px dashed #328EC0;
+}
+
+div.accueil_jeu h5 + p:not(.direction){
+	margin-left:25px;
+	margin-right:25px;
+	text-indent:25px;
+}
+
+.direction{
+	text-align:center;
+}
+
+.vignette_jeu{
+	display:block;
+	margin:auto;
+	border:1px dotted black;
+	width: 60%;
+	max-height:250px;
+}
+
+#total_last_article{
+	width:700px;
+	margin:auto;
+}
+
+#last_article{
+	display:block;
+	border:1px dotted darkgrey;
+	width:525px;
+	height:250px;
+	margin:auto;
+	position:relative;
+	transform : translateY(-5px);
+	transition: all ease 1000ms;
+}
+
+#button{
+	display:block;
+	text-align:center;
+	color:darkgrey;
+	font-size:28px;
+}
+
+.title_last_art{
+	position:absolute;
+	bottom:0;
+	left:0;
+	background:url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family:'Marvel', serif;
+	font-size:22px;
+	color:white;
+	font-weight:bold;
+	text-align:center;
+	width:100%;
+}
+
+.left_arrow{
+	position:absolute;
+	left:-60px;
+	vertical-align: middle;
+}
+
+.right_arrow{
+	position:absolute;
+	right:-60px;
+	vertical-align: middle;
+}
+
+.left_arrow, .right_arrow{
+	transform : translateY(-5px);
+	transition: all ease 300ms;
+	width:50px;
+	height:auto;
+	opacity:0;
+	top:0;
+    bottom:0;
+    margin:auto;
+}
+
+#total_last_article:hover .left_arrow, #total_last_article:hover .right_arrow{
+	opacity:1;
+	transform : translateY(0px);
+	transition: all ease 300ms;
+}
+
+.onglet{
+	position:absolute;
+	right:10px;
+	top:10px;
+	font-family:'Marvel', serif;
+	padding:5px 10px 5px 10px;
+	border-radius:3px;
+	background-color:#8CC4E1;
+	color:white;
+	font-weight:bold;
+}
+
+#onglet,#liste_pages{
+	display:inline-block;
+	margin: auto;
+}
+
+#onglet{
+	width:350px;
+	margin-left:50px;
+}
+
+
+#onglet .name_cat{
+	display:block;
+	margin:auto;
+	width:200px;
+	margin-bottom:5px;
+	text-align:center;
+	font-weight:bold;
+	color:#99CCFF;
+	border: 1px solid #99CCFF;
+	border-radius:2px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+}
+
+#onglet .name_cat:hover{
+	color:#1C8DFF;
+	border-color:#1C8DFF;
+	transition: all ease 300ms;
+}
+
+#onglet .cat_active{
+	display:block;
+	margin:auto;
+	width:200px;
+	margin-bottom:5px;
+	text-align:center;
+	font-weight:bold;
+	color:#F08080;
+	border: 1px solid #F08080;
+	border-radius:2px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+}
+
+#liste_pages{
+	vertical-align:top;
+}
+
+.entete_liste_page{
+	font-family:'Marvel', serif;
+	font-size:21px;
+	margin-bottom:10px;
+}
+
+div.bloc_page{
+	position:relative;
+	margin-bottom:15px;
+	min-height:50px;
+	width:500px;
+	padding-left:5px;
+	padding-right:2px;
+	padding-bottom:20px;
+	-moz-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	-webkit-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	-o-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	box-shadow: 2px 2px 5px 0px #cfcfcf;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+}
+
+div.pit_mess{
+	border-left:3px solid #AE77F9;
+}
+
+div.name_page{
+	border-left:3px solid lightcoral;
+}
+
+span.titre_pit_mess{
+	font-family:'Quicksand',serif;
+	color:#AE77F9;
+	font-size:18px;
+	word-wrap: break-word;
+}
+
+span.titre_post_page{
+	font-family:'Quicksand',serif;
+	color:lightcoral;
+	font-size:18px;
+	word-wrap: break-word;
+
+}
+
+span.date_time_post_page{
+	position:absolute;
+	bottom:2; 
+	right:5;
+	font-style:italic;
+	font-family:'Marvel', serif;
+}
+
+.page_on{
+	color:#FF5980;
+	border:1px solid #FF5980;
+	background-color:#FFF0F3;
+	border-radius:3px;
+	padding:2px 5px 2px 5px;
+	margin-right:5px;
+}
+
+.page_off{
+	color:#00ABC4!important;
+	border:1px solid #00ABC4;
+	border-radius:3px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+	margin-right:5px!important;
+}
+
+.page_off:hover{
+	color:#007484!important;
+	border:1px solid #007484;
+	transition: all ease 300ms;
+}
+
+a:hover{
+	text-decoration:none!important;
+}
+
+form > input#recherche{
+	border:none;
+	border-bottom:2px solid lightcoral;
+	padding-bottom:2px;
+	font-family:'Quicksand',serif;
+	font-size:16px;
+	margin-left:5px;
+}
+
+form > input#recherche:focus{
+	outline:none;
+	border-color:#C21616;
+}
+
+form#recherche_page{
+	margin-left:75%;
+}
+
+div#button span.button_js{
+	cursor:pointer;
+}
+
+@media screen and (max-width: 800px)
+{
+	#total_last_article, .titre_mobile, #recherche_page
+	{
+		display: none;
+	}
+	div.bloc_page{
+		width: 335px;
+		margin-left: 10px;
+	}
+	#onglet
+	{
+		width: 295px;
+	}
+}

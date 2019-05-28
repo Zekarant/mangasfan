@@ -1,0 +1,1404 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+/* Élements importants des pages */
+.nav_redac
+{
+	background-color: #D8D8D8;
+	color: white;
+	border-bottom: 2px solid grey;
+	font-family: 'Oswald';
+	font-size: 17px;
+}
+body
+{
+	color: black;
+	margin: auto;
+	background-image: url('images/background.png');
+}
+#bloc_page
+{
+   	max-width: 1300px;
+    width: 100%;
+    margin: auto;
+    border: 1px solid grey;
+    background: #ffffff;
+}
+.marge_page
+{
+	padding: 5px 15px 10px 15px;
+}
+
+/* Paragraphes, liens ect...*/
+a 
+{
+	text-decoration: none;
+	color: #585858;
+}
+a:link:hover
+{
+	color: black;
+}
+p
+{
+	color: #585858;
+	font-family: 'Arial';
+	font-size: 14px;	
+}
+
+/* Navigation principale */
+.topnav 
+{
+	overflow: hidden;
+	display: inline;
+	font-size: 25px;
+	color: white;
+	padding: 0; 
+	font-family: 'Oswald';
+	margin: 0;
+	text-align: center;
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+.topnav li 
+{
+	display: inline;
+	list-style: none;
+}	
+.topnav a
+{
+  display: inline;
+  color: #f2f2f2;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 18px;
+}
+.topnav a:hover 
+{
+  color: #CAC6C4;
+}
+.topnav .icon 
+{
+  display: none;
+}
+.rond_accueil
+{
+	border: 2px solid white; 
+	border-radius: 40px; 
+	padding-top: 5px; 
+	padding-bottom: 5px; 
+	padding-left: 30px; 
+	padding-right: 30px;
+}
+.espace_liens_nav
+{
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 20px;
+}
+
+/* Header de Mangas'Fan */
+#banniere_image
+{
+	height: 520px;
+	width: auto;
+	background-image: url(https://www.mangasfan.fr/images/banniere.png);
+	box-shadow: 0px 1px 1px #1c1a19;
+	margin-bottom: 25px;
+}
+#titre_site
+{
+	color: white;
+	font-family: 'Oswald', cursive;
+	font-size: 60px;
+	text-align: center;
+}
+.couleur_mangas
+{
+	color: #ff5980;
+}
+.couleur_fans
+{
+	color: #00daf9;
+}
+.slogan_site
+{
+	text-align: center;
+	font-size: 13px;
+	font-family: 'Oswald', cursive;
+	margin-left: 170px;
+	color: white;
+}
+#actu_moment
+{
+	font-family: 'Quicksand', sans-serif;
+	color: white;
+	text-align: center;
+	font-size: 55px;
+}
+#slogan_actu
+{
+	color: white;
+	text-align: center;
+	padding-top: 10px;
+	font-weight: normal;
+	font-size: 14px;
+}
+.bouton_fofo
+{
+	width: 120px;
+	margin: auto;
+	background-color: #ffffff;
+	border-radius: 40px;
+	color: white;
+	padding: 5px;
+	margin-top: 25px;
+	padding-left: 30px; 
+	padding-right: 30px;
+    text-align: center;
+    font-size: 16px;
+}
+.bouton_connexion
+{
+	width: 18%;
+	border: 2px solid white; 
+	border-radius: 40px;
+	padding: 5px;
+	text-align: center;
+	padding-left: 30px; 
+	padding-right: 30px; 
+	color: white;
+	margin: auto;
+	margin-top: 35px;
+}
+.validation_texte_inscription
+{
+	color: white;
+	text-align: center;
+}
+
+/* Menu déroulant header */
+.navbar_deroulante
+{
+	display: inline-block;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	margin-top: 30px;
+	color: transparent;
+	font-size: 25px;
+	font-family: 'Oswald', cursive;
+}
+.dropdown-menu
+{
+	left: 45%;
+	color: black;
+	font-size: 14px;
+	padding: 10px;
+	padding-left: 15px;
+}
+.dropdown-menu>li>a 
+{
+	color: black;
+}
+.menu_rang
+{
+	font-family: 'Arial';
+}
+.dropdown-menu a
+{
+	color: black;
+}
+.dropdown-menu a:hover
+{
+	color: black;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover
+{
+	background-color: grey;
+	color: black;
+}
+.bienvenue
+{
+	color: white;
+}
+.avatar_menu
+{
+	max-height: 85px; 
+	max-width: 95px; 
+	padding-top: 10px;
+}
+#titre_news
+{
+	background-color: transparent;
+	color: black;
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 45px;
+}
+.sous_news
+{
+	width: 65%;
+	margin: auto;
+	color: grey;
+	font-size: 14px;
+	border-bottom: 1px black dotted;
+	text-align: center;
+	margin-bottom: 25px;
+}
+#titre_commentaire
+{
+	font-family: 'Oswald', cursive;
+	font-weight: normal;
+	font-size: 24px;
+}
+.pagination
+{
+	margin-top: 15px;
+}
+.row
+{
+	margin-top: 15px;
+}
+/* Staff */
+.titre_pannel
+{
+	margin-top: 20px;
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 35px;
+}
+.card
+{
+	margin-bottom: 20px;
+}
+.badge-warning
+{
+	color: white;
+}
+.badge-membre
+{
+	color: white;
+	background-color: #2E9AFE;
+}
+.badge-redacteur
+{
+	color: white;
+	background-color: #40A497;
+}
+.badge-community
+{
+	color: white;
+	background-color: #632569;
+}
+.badge-admin
+{
+	color: white;
+	background-color: darkblue;
+}
+.badge-bot
+{
+	color: white;
+	background-color: #1BB078;
+}
+/* Système de news */
+.effet:hover .effet_activé
+{
+    opacity:1;
+}
+.effet
+{
+	position: relative;
+}
+.effet_activé 
+{
+    opacity: 0;
+    width: 100%;
+    bottom: 0;
+    padding: 1px;
+   	position: absolute;
+    display: inline-block;
+    text-align: center;
+    height: 25px;
+    background: #75AD79;
+    color: white;
+    font-size: 14px;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+#conteneur
+{
+	display: flex;
+	flex-flow: nowrap;
+	justify-content: center;
+}
+.element
+{
+	width: 340px;
+	margin-right: 15px;
+	box-shadow: 2px 2px 5px black;
+}
+.element img
+{
+	width: 100%;
+	max-width:100%;
+	height: 100px;
+	max-height: 100px;
+}
+.auteur_date
+{
+	padding: 5px;
+	font-size: 10px;
+	color: grey;
+}
+.date_news
+{
+	float: right;
+	margin-right: 5px;
+}
+.titre_principal_news
+{
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 17px;
+	font-weight: bold;
+}
+.description_news
+{
+	font-size: 11px;
+	width: 320px;
+	color: grey;
+	padding: 5px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+}
+
+/* Commentaires des news */
+.titre_commentaire_news
+{
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 35px;
+}
+.auteur_news_commentaire
+{
+	padding-top: 15px;
+	text-align: right; 
+}
+.ligne_commentaire
+{
+	border-top: 3px double #8c8b8b; 
+	margin-right: 50%;
+}
+.sources
+{
+	padding-top: 10px;
+}
+/* Formulaire de commentaires */
+#entete_commentaire
+{
+	font-weight: bold;
+}
+
+div.espace_commentaire > h3[name="titre_commentaire_news"] 
+{
+	text-transform: uppercase;
+	display: block;
+	border-bottom: 2px solid white;
+	width: 50%;
+	padding-bottom: 3px;
+	margin-left: 15px;
+	padding-top: 15px;
+	font-family: 'Marvel', serif;
+}
+form[name="formulaire_commentaire_supp"] 
+{
+	margin-top: 50px;
+}
+label[name="label_commentaire"] 
+{ 
+	font-family: 'Marvel',serif;
+	color: black;
+	font-size: 20px!important;
+}
+td[name="colonne_commentaire"] > span.pseudo
+{
+	text-transform: uppercase;
+	font-weight: bold;
+	display: block;
+	margin-top: 5px;
+}
+table[name="tableau_commentaire_news"]
+{
+	border-collapse: collapse;
+	margin: auto;
+	width: 900px;
+}
+td[name="colonne_commentaire"] 
+{
+	vertical-align: top;
+}
+tr[name="commentaire_news_tr"] > td[name="colonne_commentaire"] + td[name="colonne_commentaire"]
+{
+	margin-left: 5px;
+	vertical-align: top;
+	position: relative;
+	width: 800px;
+}
+textarea[name="comme"]
+{
+	width:100%;
+}
+td[name="colonne_commentaire"] > p 
+{
+	padding: 5px;
+}
+.avatar
+{
+	width: 100px;
+	height: 100px;
+	border: 3px solid white;
+	border-radius: 100px;
+	box-shadow: 0px 0px 2px 2px #276FA1;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+.bottom
+{
+	position: absolute;
+	text-align: right;
+	color: grey;
+	font-size: 13px;
+	bottom: 32px;
+	padding-right: 5px;
+	width: 675px;
+}
+.pointe
+{
+	display: inline-block;
+	height: 0;
+	vertical-align: top;
+	width: 0;
+	border-top: 16px solid #D2D1D0;
+	border-left: 20px solid transparent;
+	position: relative;
+	left: 6px;
+	top: 11px;
+}
+.pointe2
+{
+	display: inline-block;
+	vertical-align: top;
+	height: 0;
+	width: 0;
+	border-top: 24px solid #E2E2E2;
+	border-left: 28px solid transparent;
+	position: relative;
+	left: 26px;
+	top: 8px;
+}
+.contenu
+{
+	display: inline-block;
+	word-wrap: break-word;
+	width: 100%;
+	max-width: 700px;
+	min-height: 150px;
+	border-radius: 10px;
+	border: 2px solid #D3D3D3;
+	box-shadow: 0px 0px 2px 2px #E2E2E2;
+	padding: 15px;
+	margin-bottom: 25px;
+}
+.bouton_app 
+{
+	opacity: 0;
+	transform: translateY(-5px);
+	transition: all ease 300ms;
+	position: absolute;
+	vertical-align: top;
+}
+tr[name="commentaire_news_tr"]:hover .bouton_app 
+{
+	opacity: 1;
+	transform: translateY(0px);
+	transition: all ease 300ms;
+}
+.pseudo
+{
+	margin-bottom: 10px;
+	font-size: 13px;
+}
+
+/* Réseaux Sociaux */
+#banniere_reseaux
+{
+	display: flex;
+	justify-content: space-around;
+	height: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: auto;
+	margin-top: 40px;
+	background-image: url(https://www.mangasfan.fr/hebergeur/uploads/1551209572.jpeg);
+	margin-bottom: 25px;
+}
+/* Tableaux */
+.table
+{
+	width: 80%;
+	margin: auto;
+	margin-bottom: 30px;
+}
+/* Page compte */
+.info_avatar
+{
+	font-size: 13px;
+}
+/* Formulaire de contact */ 
+#formulaire_contact
+{
+	width: 90%;
+	padding-top: 20px;
+	margin: auto;
+}
+label
+{
+	font-size: 14px;
+}
+.contact-form .form-field 
+{
+  position: relative;
+  margin: 10px 0;
+}
+.contact-form .input-text 
+{
+  display: block;
+  width: 100%;
+  height: 36px;
+  border-width: 0 0 2px 0;
+  border-color: #000;
+  font-family: Oswald, serif;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: 400;
+}
+.contact-form .input-text:focus 
+{
+  outline: none;
+}
+.contact-form .input-text:focus + .label, .contact-form .input-text.not-empty + .label 
+{
+  -webkit-transform: translateY(-15px);
+          transform: translateY(-15px);
+          font-size: 14px;
+}
+.contact-form .label 
+{
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  font-family: Oswald, serif;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #888;
+  cursor: text;
+  -webkit-transition: -webkit-transform .2s ease-in-out;
+  transition: -webkit-transform .2s ease-in-out;
+  transition: transform .2s ease-in-out;
+  transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+}
+.contact-form .submit-btn 
+{
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  font-family: Raleway, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 16px;
+  line-height: 12px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+}
+.envoi_contact
+{
+	margin-top: 10px;
+	margin-left: 15px;
+	font-size: 8px;
+}
+
+/* QEEL : Qui est en ligne ? */
+.qeel{
+	display: block;
+	background:url('https://upload.wikimedia.org/wikipedia/en/b/b8/Sunset_beach_Bene.jpg') !important;
+	background-position: 25% 50%!important;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	font-size: 15px;
+	border-top:2px solid #8E3557;
+	border-bottom:2px solid #8E3557;
+}
+/* Footer */
+.footer 
+{
+	background: #333333;
+	height: auto;
+	color: white;
+	font-size: 15px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #212121;
+	border-top: 1px solid #DDDDDD;
+}
+.footer h3 
+{
+    border-bottom: 1px solid #BAC1C8;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 27px;
+    padding-top: 20px;
+    padding: 10px 0 10px;
+    text-transform: uppercase;
+}
+.footer p 
+{
+    color: white;
+}
+.footer-bottom 
+{
+	background: #212121;
+	border-top: 1px solid #212121;
+	padding-top: 10px;
+	width: auto;
+	font-size: 15px;
+	text-align: center;
+	padding-bottom: 5px;
+}
+footer-bottom p.pull-left 
+{
+	color: white;
+}
+.pull-left 
+{
+	color: white;
+}
+
+/* Mentions légales */
+#titre_legale
+{
+	color: black;
+	font-family: 'Oswald', cursive;
+	font-size: 20px;
+}
+.mail_liens
+{
+	color: grey;
+}
+
+/* Avatar admin */
+.avatar_admin
+{
+	width: 200px;
+}
+
+/* Page compte */
+#animation_compte img
+{
+	max-width: 25px;
+	max-height: 25px;
+}
+#bloc_animation_maj
+{
+	background-color: #B0B0B0;
+}
+/* Messagerie privée */
+.mp_titre 
+{ 
+	width: 65%; 
+}
+.mp_expediteur 
+{ 
+	width: 12%; 
+}
+.mp_time 
+{ 
+	width: 22%; 
+}
+#titre_messages
+{
+	color: black;
+	font-family: 'Oswald', cursive;
+	font-size: 40px;
+}
+#conteneur_mp
+{
+	background-color: #A4A4A4; 
+	border: 1px solid #BDBDBD; 
+	color: #FFFFFF;  
+	width: 100%;
+	display: flex;
+}
+#avatar_mp img
+{
+    max-height: 200px;
+    margin-right: 20px;
+	max-width: 150px;
+}
+#entete_mp
+{
+	padding-left: 30px;
+	font-size: 20px;
+}
+.message_rappel
+{
+	font-size: 13px;
+}
+
+/* Page profil */
+#view_profil
+{
+	display: flex;
+}
+.element_profil:nth-child(1)
+{
+   	margin: auto;
+    margin-left: 20px;
+    margin-right: 40px;
+}
+.element_profil:nth-child(2)
+{
+    flex: 0.9;
+    padding: 10px;
+    background-color: #D8D8D8;
+    color: black;
+    font-size: 15px;
+}
+.navbar-brand {
+    color: #585858;
+    font-size: 20px;
+}
+#titre_aide_redac
+{
+	font-family: 'Oswald', cursive;
+	font-size: 20px;
+}
+#image_fichier_aide
+{
+	width: 80%;
+	border: 1px solid grey;
+}
+#tab_logic {
+    width: 100%;
+    margin-left: 25%;
+}
+img.avatar
+{
+	width: 100px;
+}
+
+/* Page jeux vidéos */
+a[name="page"],.message_page
+{
+	display: block;
+	width: 60%;
+	text-align: center;
+	padding: 3px;	
+}
+a[name="page"]
+{
+	border: 1px solid #1F305C;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	border-left: 3px solid #4F9BCC;
+	transition: all ease 300ms;
+}
+a[name="page"]::first-letter, .categorie::first-letter
+{
+	text-transform: uppercase;
+}
+a[name="page"]:hover
+{
+	text-decoration: none;
+	color: #973C7B;
+	border: 1px solid #C265A7;
+	border-left: 3px solid #AE448F;
+	transition: all ease 500ms;
+}
+.categorie
+{
+	display: block;
+	font-weight: bold;
+	font-size: 22px;
+	width: 60%;
+	border-bottom: 3px solid #00B7D7;
+	letter-spacing: 1px;
+	color: #00B7D7;
+	font-family: 'Marvel', serif;
+}
+.image_element
+{
+    height: 400px;
+    position: relative;
+}
+.no_hover
+{
+	opacity: 0;
+	background: url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family: 'Marvel', serif;
+	transform: translateY(-5px);
+	transition: all ease 300ms;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.gallery:hover .no_hover 
+{
+	opacity: 1;
+	background: url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family: 'Marvel', serif;
+	transform : translateY(0px);
+	transition: all ease 300ms;
+}
+.tableau_element
+{
+	margin: auto;
+	width: 100%;
+	color: white;
+	display: block;
+	padding: 15px;
+}
+#conteneur_images_jeux
+{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+div.gallery {
+    margin: 2.5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+div.gallery img {
+    width: 100%;
+    height: 400px;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+div.gallery_images
+{
+	margin: 2px;
+	padding: 0;
+    border: 1px solid #ccc;
+    width: 550px;
+}
+div.gallery_images img 
+{
+    width: 100%;
+    height: 400px;
+   
+}
+#billets_blogs
+{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+.titre_billet
+{
+	font-size: 20px; 
+}
+img#image_galerie
+{
+	width: 50%;
+}
+#conteneur_galerie
+{
+	display: flex;
+	flex-wrap: wrap;
+}
+#card-galerie
+{
+	width: 300px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+#image
+{
+	height: 170px;
+	width: 290px;
+	margin: auto;
+	margin-top: 5px;
+	background-position: 50% 50%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+label
+{
+	font-size: 13px;
+	font-weight: bold;
+}
+.titre_billet_commentaire
+{
+	text-align: center;
+	font-family: 'Oswald';
+	padding-bottom: 5px;
+	font-size: 45px;
+}
+.titre_description_galerie
+{
+	font-family: 'Oswald';
+	padding-bottom: 5px;
+	font-size: 22px;
+	text-decoration: underline;
+}
+.date_post
+{
+	text-align: right;
+}
+#bloc_bannissement
+{
+	background-color: white;
+	margin-left: auto;
+	margin-right: auto;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.image_bannissement
+{
+	padding-top: 50px;
+	width: 20%;
+}
+.footer_ban
+{
+	font-size: 11px;
+}
+#bloc_commentaire
+{
+	width: 80%;
+	margin: auto;
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 2px solid grey;
+}
+.paragraphe_commentaire
+{
+	padding-bottom: 5px;
+	width: 30%;
+	border-bottom: 2px dashed black;
+}
+.image_herberge
+{
+	border: 2px solid black;
+}
+/*Version mobile */
+@media screen and (max-width: 800px)
+{
+	#bloc_page
+	{
+		width: auto;
+	}
+	.topnav.responsive .icon 
+	{
+	    position: absolute;
+	    right: 0;
+	    z-index: 9999;
+	    top: 0;
+	    color: black;
+  	}
+  	.topnav a
+  	{
+  		color: black;
+  	}
+ 	.topnav.responsive a 
+ 	{
+	    float: none;
+	    display: block;
+	    height: 25px;
+	    color: black;
+	    padding-top: 5px;
+	    font-size: 13px;
+	    background: #D8D8D8;
+	    border-bottom: 1px solid grey;
+	    text-align: left;
+	    padding-left: 5px;
+  	}
+  	.rond_accueil
+  	{
+	  	border: 2px solid transparent; 
+		border-radius: 0px; 
+		padding-top: 0px; 
+		padding-bottom: 0px; 
+		padding-left: 0px; 
+		padding-right: 0px;
+  	}
+  	.espace_liens_nav
+  	{
+  		display: none;
+  	}
+  	.news_deux img
+	{
+		width: 100%;
+	}
+	img
+	{
+		max-width: 100%!important;
+	}
+  	.topnav
+  	{
+	  	background-color:#E6E6E6;
+	  	width: 100%;
+	  	top: 0px;
+	  	z-index: 9999;
+	  	margin: 0;
+	  	position: fixed;
+  	}
+  	.topnav ul
+  	{
+		margin: 0;
+		width: 100%;
+		padding: 0;
+  	}
+	.icon
+	{
+		margin: 0;
+		padding-top: 0px!important;
+		height: 20px;
+		color: black!important;
+		background-color: #E6E6E6!important;
+		border-bottom: 2px solid transparent!important;
+		padding: 0;
+	}
+	.lien_accueil_direct
+	{
+		margin-top: 25px;
+	}
+	.topnav a
+	{
+		display: none;
+	}
+	.topnav a.icon 
+	{
+	    float: right;
+	    display: block;
+	}
+	#banniere_image
+	{
+		width: auto;
+		height: 260px;
+		margin-top: auto;
+		background-image: url(https://www.pixenli.com/image/pYK_f8Pt);
+		box-shadow: 0px 1px 1px #1c1a19;
+		background-position: 83% 12%;
+	}
+	#titre_site
+	{
+		color: white;
+		z-index: 9999;
+		font-family: 'Oswald', cursive;
+		font-size: 40px;
+		padding-top: 25px;
+		text-align: center;
+	}
+	.slogan_site
+	{
+		z-index: 9999;
+		text-align: center;
+		font-size: 13px;
+		font-family: 'Oswald', cursive;
+		margin-left: 70px;
+		color: white;
+	}
+	#actu_moment
+	{
+		display: none;
+	}
+	#slogan_actu
+	{
+		display: none;
+	}
+	.bouton_fofo
+	{
+	    font-size: 14px;
+	}
+	.bouton_connexion
+	{
+	width: 210px;
+	font-size: 14px;
+	margin-top: 35px;
+	}
+	#entete_commentaire
+	{
+		display: none;
+	}
+	#titre_news
+	{
+		font-size: 25px;
+		margin-bottom: 20px;
+	}
+	.sous_news
+	{
+		display: none;
+	}
+	#pagination_mobile
+	{
+		display: none;
+	}
+	.dropdown-menu
+	{
+		color: black;
+		min-width: 150px!important;
+		font-size: 14px;
+		text-align: left;
+	}
+	.dropdown-menu>li>a 
+	{
+		color: black;
+		padding-top: 1px;
+		padding-left: 10px;
+		font-size: 14px;
+	}
+	.avatar_menu
+	{
+		max-height: 45px!important; 
+		max-width: 55px!important;
+	}
+	#conteneur
+	{
+		flex-direction: column;
+		margin-bottom: 20px;
+		margin: auto;
+	}
+	.element
+	{
+		width: 320px;
+		margin: auto;
+		margin-bottom: 15px;
+	}
+	.auteur_date
+	{
+		padding: 5px;
+		font-size: 8px;
+		color: grey;
+	}
+	.titre_principal_news
+	{
+		padding-left: 5px;
+		padding-right: 5px;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	.description_news
+	{
+		font-size: 9px;
+		width: 300px;
+		color: grey;
+		padding: 5px;
+		padding-top: 10px;
+		padding-bottom: 15px;
+	}
+	#banniere_reseaux
+	{
+		display: none;
+	}
+	.²
+	{
+	    width: 90%!important;
+	    font-size: 13px;
+	}
+	.qeel, .titre_qeel
+	{
+		display: none;
+	}
+	.footer 
+	{
+		display: none;
+	}
+	.footer-bottom 
+	{
+		margin-top: 10px;
+	}
+	#view_profil
+	{
+		display: flex;
+		flex-direction: column;
+	}
+	.element_profil:nth-child(1)
+	{
+	   	margin: auto;
+	    margin-left: 20px;
+	    margin-right: 40px;
+	    margin-bottom: 20px;
+	}
+	.element_profil:nth-child(2)
+	{
+	    flex: 0;
+	    padding: 10px;
+	    margin-bottom: 20px;
+	}
+	.avatar_profil
+	{
+		max-width: 100px!important;
+		max-height: 110px!important;
+	}
+	#conteneur_images_jeux
+	{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	div.gallery 
+	{
+	    margin: 5px;
+	    border: 1px solid #ccc;
+	    width: 135px;
+	}
+	div.gallery img 
+	{
+	    width: 100%;
+	    height:200px;
+	}
+	div.desc 
+	{
+	    padding: 10px;
+	    font-size: 8px;	
+	    text-align: center;
+	}
+	div.espace_commentaire > h3[name="titre_commentaire_news"] 
+	{
+		text-transform: uppercase;
+		display: block;
+		border-bottom: 2px solid white;
+		padding-bottom: 3px;
+		padding-top: 15px;
+		font-family: 'Marvel', serif;
+	}
+	form[name="formulaire_commentaire_supp"] 
+	{
+		margin-top: 50px;
+	}
+
+	td[name="colonne_commentaire"] > span.pseudo
+	{
+		text-transform: uppercase;
+		font-weight: bold;
+		display: block;
+		margin-top: 5px;
+	}
+	table[name="tableau_commentaire_news"]
+	{
+		border-collapse: collapse;
+		width: 100%;
+		margin: 0;
+	}
+	tr[name="commentaire_news_tr"] > td[name="colonne_commentaire"] + td[name="colonne_commentaire"]
+	{
+		margin-left: 0px;
+		vertical-align: top;
+		position: relative;
+		width: 100%;
+	}
+	textarea[name="comme"]
+	{
+		width: 90%;
+		font-size: 14px;
+	}
+	.avatar
+	{
+		display: none;
+	}
+	.bottom
+	{
+	    text-align: left;
+	    color: grey;
+	    font-size: 13px;
+	    bottom: 32px;
+	    padding-right: 25px;
+	    width: auto;
+	}
+	.pointe
+	{
+		display: none;
+	}
+	.pointe2
+	{
+		 display: none;
+	}
+	.contenu
+	{
+		padding-top: 40px;
+		font-size: 13px;
+		margin-bottom: 25px;
+	}
+	.bouton_app
+	{
+		display: none;
+	}
+	.pseudo
+	{
+		position: absolute;
+		left: 10%;
+		font-size: 14px;
+		text-align: left;
+		padding-top: 10px;
+		border-bottom: 1px solid black;
+		width: 50%;
+	}
+	.grade
+	{
+		display: none;
+	}
+	.avatar_mp:nth-child(1)
+	{
+		display: none;
+	}
+	.avatar_mp:nth-child(2)
+	{
+		padding: 20px;
+	}
+	#tableau_grade, #titre_grade
+	{
+		display: none;
+	}
+	.titre_commentaire_news
+	{
+		margin-top: 30px;
+	}
+	.table
+	{
+		font-size: 13px;
+	}
+	#tab_logic 
+	{
+    	width: 80%;
+    	margin: auto;
+	}
+	.avatar_admin
+	{
+		max-width: 50px;
+	}
+	.mobile_redac
+	{
+		display: none;
+	}
+	#mail_contact
+	{
+		padding-top: 20px;
+	}
+	.tableau_mobile
+	{
+		display: none;
+	}
+	
+}

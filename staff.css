@@ -1,0 +1,38 @@
+h2.titre_staff
+{
+	text-align: center;
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+div.card-header
+{
+	color: white;
+	font-family: 'Oswald';
+	font-size: 20px;
+}
+div.card
+{
+	margin-bottom: 10px;
+}
+div.red
+{
+	background-color: #E93735;
+}
+div.green
+{
+	 background-color: #31B404;
+}
+div.blue
+{
+	 background-color: #40A497;
+}
+div.orange
+{
+	 background-color: orange;
+}
+div.purple
+{
+	background-color: #632569;
+}

@@ -1,0 +1,124 @@
+div.espace_commentaire a{
+	margin:5px !important;
+	color:white !important;
+}
+
+div.espace_commentaire > h3 {
+	text-transform:uppercase;
+	display:block;
+	border-bottom:2px solid white;
+	width:50%;
+	padding-bottom:3px;
+	margin-left:15px;
+	padding-top:15px;
+	font-family:'Marvel', serif;
+}
+
+div.espace_commentaire form:not(span > form) {
+	margin-top:50px;
+}
+
+div.espace_commentaire label { 
+	font-family:'Marvel',serif;
+	font-size:20px !important;
+}
+
+div.espace_commentaire td > span.pseudo{
+	text-transform:uppercase;
+	font-weight:bold;
+	display:block;
+	margin-top:5px;
+}
+
+div.espace_commentaire table{
+	border-collapse:collapse;
+	margin:auto;
+	width:900px;
+}
+
+div.espace_commentaire td {
+	vertical-align:top;
+}
+
+div.espace_commentaire tr > td + td {
+	margin-left:5px;
+	vertical-align:top;
+	position:relative;
+	width:800px;
+}
+
+div.espace_commentaire textarea{
+	width:70% !important;
+}
+
+div.espace_commentaire td > p {
+	padding:5px;
+}
+
+.avatar{
+	width:100px;
+	height:100px;
+	border:3px solid white;
+	border-radius:100px;
+	margin-top:5px;
+}
+
+.bottom{
+	position:absolute;
+	text-align:right;
+	font-style:italic;
+	font-size:14px;
+	bottom:28px;
+	width:675px;
+}
+
+.pointe{
+	display : inline-block;
+	height : 0;
+	vertical-align: top;
+	width : 0;
+	border-top : 16px solid white;
+	border-left : 20px solid transparent;
+	position:relative;
+	left:6px;
+	top:11px;
+}
+
+.pointe2{
+	display : inline-block;
+	vertical-align: top;
+	height : 0;
+	width : 0;
+	border-top : 24px solid #E2E2E2;
+	border-left : 28px solid transparent;
+	position:relative;
+	left:26px;
+	top:8px;
+}
+
+.contenu{
+	display:inline-block;
+	word-wrap: break-word;
+	width:100%;
+	max-width:700px;
+	min-height:200px;
+	border-radius:10px;
+	border:2px solid #D3D3D3;
+	box-shadow: 0px 0px 2px 2px #E2E2E2;
+	padding:15px;
+	margin-bottom:25px;
+}
+
+.bouton_app{
+	opacity:0;
+	transform : translateY(-5px);
+	transition: all ease 300ms;
+	position:absolute;
+	vertical-align:top;
+}
+
+tr:hover .bouton_app {
+	opacity:1;
+	transform : translateY(0px);
+	transition: all ease 300ms;
+}
