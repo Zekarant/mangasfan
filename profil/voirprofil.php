@@ -7,7 +7,6 @@ include('../membres/functions.php');
   $se->bindValue(':id', $var, PDO::PARAM_INT);
   $se->execute();
   $re = $se->fetch();
-  //include('../theme_temporaire.php');
 ?>
 <!doctype HTML>
 <html>

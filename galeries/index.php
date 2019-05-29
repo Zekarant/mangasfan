@@ -11,7 +11,6 @@
       }
 } 
   include('../membres/functions.php'); 
-  //include('../theme_temporaire.php');
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -43,12 +42,14 @@
   </div>
   <div id="conteneur_galerie">
       <?php 
-      $recuperer = $pdo->prepare('SELECT id, filename, titre, titre_image, texte, auteur, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr from galerie ORDER BY date_image DESC');
-      $recuperer->execute();
+      $recuperer = $pdo->prepare('SELECT id, filename, titre, titre_image, texte, auteur, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr FROM galerie ORDER BY date_image DESC');
+      $recuperer->execute(array($utilisateur['id']));
       while ($afficher_galerie = $recuperer->fetch()) { 
         ?>
         <div class="card" id="card-galerie">
-          <div id="image" style="background-image: url('https://www.mangasfan.fr/galeries/images/<?php echo sanitize($afficher_galerie['filename']); ?>');"></div>
+          <div class="image">
+            <img src="https://www.mangasfan.fr/galeries/images/<?php echo sanitize($afficher_galerie['filename']); ?>" class="image_galeries" />
+          </div>
           <hr>
           <div class="card-body">
           <h5 class="card-title"><?php echo sanitize($afficher_galerie['titre']); ?></h5>
@@ -59,7 +60,7 @@
               <center>
                 <u><a href="commentaires.php?galerie=<?php echo sanitize($afficher_galerie['id']); ?>">Voir l'image</a></u>
               </center>
-              Posté par <?php echo sanitize($afficher_galerie['auteur']); ?> le <?php echo sanitize($afficher_galerie['date_image_fr']); ?></small>
+              Posté par <a href="profil/voirprofil.php?membre=<?php echo sanitize($afficher_galerie['id']); ?>"><?php echo sanitize($afficher_galerie['auteur']); ?></a> le <?php echo sanitize($afficher_galerie['date_image_fr']); ?></small>
           </div>
         </div>
       <?php }

@@ -45,8 +45,6 @@
               if (!empty($utilisateur['avatar'])){
                 if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", $utilisateur['avatar'])) { ?>
                   <img src="http://localhost/mangasfan6/membres/images/avatars/<?php echo $utilisateur['avatar']; ?>" alt="avatar" class="avatar_menu" /> <!-- via fichier -->
-                <?php } else { ?>
-                  <img src="<?php echo stripslashes(htmlspecialchars($utilisateur['avatar'])); ?>" alt="avatar" class="avatar_menu"/><br/> <!-- via site url -->
                 <?php } } ?>
             </center>
                 <a class="dropdown-item" href="http://localhost/mangasfan6/profil/messagesprives.php">Messages Privés <?php if ($mp >= 1) { ?>
@@ -54,10 +52,10 @@
                   <?php } ?>
                 </a>
                   <a class="dropdown-item" href="http://localhost/mangasfan6/membres/compte.php">Modifier votre profil</a>
-                  <a class="dropdown-item" href="#">Voir votre profil</a>
+                  <a class="dropdown-item" href="../profil/voirprofil.php?membre=<?php echo $utilisateur['id']; ?>&action=consulter">Voir votre profil</a>
                   <hr>
-                  <a class="dropdown-item" href="#">Index des galeries</a>
-                  <a class="dropdown-item" href="#">Administrer ma galerie</a>
+                  <a class="dropdown-item" href="http://localhost/mangasfan6/galeries">Index des galeries</a>
+                  <a class="dropdown-item" href="http://localhost/mangasfan6/galeries/administration_galerie.php">Administrer ma galerie</a>
                   <a class="dropdown-item" href="#">Voir ma galerie</a>
                   <?php if($utilisateur['grade'] >= 3){ ?>
                     <hr>

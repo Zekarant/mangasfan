@@ -26,13 +26,13 @@ include('membres/functions.php');
 		<hr class="tiret_news">
 		<div class="conteneur">
 			<?php 
-			$news_site = $pdo->prepare('SELECT id, titre, auteur, theme, description, DATE_FORMAT(date_creation, \'%d %M %Y à %Hh %imin\') AS date_news, visible FROM billets WHERE visible = 0 ORDER BY id DESC LIMIT 6');
+			$news_site = $pdo->prepare('SELECT id, titre, auteur, theme, description, DATE_FORMAT(date_creation, \'%d %M %Y à %Hh %imin\') AS date_news, visible FROM billets WHERE visible = 0 ORDER BY id DESC LIMIT 9');
 			$news_site->execute();
 			while($news = $news_site->fetch()){
 				?>
 				<div class="element">
 					<div class="class_test">
-						<img src="<?php echo $news['theme'] ;?>" id="image_news" />
+						<img src="<?php echo $news['theme']; ?>" id="image_news" />
 						<p class="text">
 							<a href="commentaire/<?= sanitize(traduire_nom($news['titre'])); ?>">
 								<span class="btn btn-outline-light">
@@ -40,6 +40,7 @@ include('membres/functions.php');
 								</span>
 							</a>
 						</p>
+					</div>
 						<p class="titre_news">
 							<a href="commentaire/<?= sanitize(traduire_nom($news['titre'])); ?>">
 								<?php echo sanitize($news['titre']); ?>
@@ -52,11 +53,10 @@ include('membres/functions.php');
 							<span class="auteur_news"><?php echo $news['auteur']; ?></span>
 							<span class="date_news">Le <?php echo $news['date_news']; ?></span>
 						</div>
-					</div>
 				</div>
 			<?php } ?>
 		</div>
-		<center><a href="#"><img src="images/test.png" target="_blank" class="image_archive"/></a></center>
+		<center><a href="archives_news.php"><img src="images/test.png" target="_blank" class="image_archive"/></a></center>
 		<img src="images/team.png" alt="Team Mangas'Fan" class="image_team" />
 		<table class="table">
 			<thead>
