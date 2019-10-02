@@ -1,7 +1,7 @@
 <?php
   session_start(); 
   include('../membres/base.php');
-  //include('../inc/data/maintenance_galeries.php');
+  include('../membres/data/maintenance_galeries.php');
   if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false) { 
     $user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $user->execute(array($_SESSION['auth']['id']));
@@ -33,7 +33,6 @@
     <link rel="stylesheet" href="../style.css">
   </head>
   <body>
-    <div id="bloc_page">
     <?php include('../elements/header.php'); ?>
    <section class="marge_page">
   <h2 class="titre_principal_news">Index <span class="couleur_mangas">des</span> <span class="couleur_fans">galeries</span></h2><br/>
@@ -42,7 +41,7 @@
   </div>
   <div id="conteneur_galerie">
       <?php 
-      $recuperer = $pdo->prepare('SELECT id, filename, titre, titre_image, texte, auteur, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr FROM galerie ORDER BY date_image DESC');
+      $recuperer = $pdo->prepare('SELECT g.id AS id_galerie, filename, titre, titre_image, texte, auteur, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr FROM galerie g INNER JOIN users u ON g.auteur = u.username ORDER BY date_image DESC');
       $recuperer->execute(array($utilisateur['id']));
       while ($afficher_galerie = $recuperer->fetch()) { 
         ?>
@@ -58,16 +57,16 @@
           <div class="card-footer">
             <small class="text-muted">
               <center>
-                <u><a href="commentaires.php?galerie=<?php echo sanitize($afficher_galerie['id']); ?>">Voir l'image</a></u>
-              </center>
-              Posté par <a href="profil/voirprofil.php?membre=<?php echo sanitize($afficher_galerie['id']); ?>"><?php echo sanitize($afficher_galerie['auteur']); ?></a> le <?php echo sanitize($afficher_galerie['date_image_fr']); ?></small>
+                <u><a href="commentaires.php?galerie=<?php echo sanitize($afficher_galerie['id_galerie']); ?>">Voir l'image</a></u>
+              <br/>
+              Posté par <?php echo sanitize($afficher_galerie['auteur']); ?> le <?php echo sanitize($afficher_galerie['date_image_fr']); ?></small>
+            </center>
           </div>
         </div>
       <?php }
       ?>
     </div>
   </section>
-<?php include('../elements/footer.php') ?>
-</div>
+<?php include('../elements/footer.php'); ?>
 </body>
 </html>

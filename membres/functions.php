@@ -43,15 +43,7 @@ echo '<span class="badge badge-redacteur">Newseur</span>';
 }
 else if($rang == 6)
 {
-echo '<span class="badge badge-redacteur">Rédacteur animes</span>';
-}
-else if($rang == 7)
-{
-echo '<span class="badge badge-redacteur">Rédacteur mangas</span>';
-}
-else if($rang == 8)
-{
-echo '<span class="badge badge-redacteur">Rédacteur JV</span>';
+echo '<span class="badge badge-redacteur">Rédacteur</span>';
 }
 else if($rang == 9)
 {
@@ -99,14 +91,6 @@ else if($rang == 5)
 $color = '<span style="color: #40A497;">'.$texte.'</span>';
 }
 else if($rang == 6)
-{
-$color = '<span style="color: #40A497;">'.$texte.'</span>';
-}
-else if($rang == 7)
-{
-$color = '<span style="color: #40A497;">'.$texte.'</span>';
-}
-else if($rang == 8)
 {
 $color = '<span style="color: #40A497;">'.$texte.'</span>';
 }
@@ -170,6 +154,42 @@ function avatar_color($rang){
     $color = 'red';
   }
   return $color;
+}
+
+function chef($chef)
+{
+if($chef == 3)
+{
+echo '<span class="badge badge-warning">Chef des animateurs</span>';
+}
+else if($chef == 4)
+{
+echo '<span class="badge badge-community">Chef des Community Manager</span>';
+}
+else if($chef == 5)
+{
+echo '<span class="badge badge-redacteur">Chef des newseurs</span>';
+}
+else if($chef == 6)
+{
+echo '<span class="badge badge-redacteur">Chef des rédacteurs</span>';
+}
+else if($chef == 9)
+{
+echo '<span class="badge badge-success">Chef des modérateurs</span>';
+}
+else if($chef == 10)
+{
+echo '<span class="badge badge-info">Chef des développeurs</span>';
+}
+else if($chef == 11)
+{
+echo '<span class="badge badge-admin">Chef des administrateurs</span>';
+}
+else if($chef == 12)
+{
+echo '<span class="badge badge-danger">Propriétaire</span>';
+}
 }
 
 function traduire_nom($elt){

@@ -9,7 +9,6 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false) {
 } 
 include('../membres/functions.php'); 
 include('../membres/bbcode.php');
-	//include('../theme_temporaire.php');
 $recuperation = $pdo->prepare('SELECT id, filename, titre, titre_image, texte, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr, auteur FROM galerie WHERE id = ?');
 $recuperation->execute(array($_GET['galerie']));
 $galerie = $recuperation->fetch();
@@ -39,15 +38,7 @@ $galerie = $recuperation->fetch();
 	<?php } ?>
 </head>
 <body>
-	<div id="bloc_page">
 		<?php include('../elements/header.php'); 
-		if(!isset($_SESSION['auth'])){ ?>
-			<script>location.href="index.php";</script>
-			<div class='alert alert-danger' role='alert'>
-				<strong>Erreur : </strong>Cette page n'existe pas. Vous allez être redirigé.
-			</div>
-		<?php } ?>
-		<?php 
 		if (isset($galerie['auteur']) AND $_SESSION['auth']['username'] == $galerie['auteur']){ ?>
 			<center>
 				<a href="index.php" class="btn btn-primary">
@@ -183,6 +174,5 @@ $galerie = $recuperation->fetch();
 						<?php } } ?>
 					</section>
 					<?php include('../elements/footer.php'); ?>
-				</div>
 			</body>
 			</html>

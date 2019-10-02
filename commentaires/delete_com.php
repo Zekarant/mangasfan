@@ -1,7 +1,7 @@
 <?php 
 	session_start();
-	require_once '../inc/base.php';
-	include('../inc/functions.php');
+	require_once '../membres/base.php';
+	include('../membres/functions.php');
 	if(isset($_SESSION['auth'])){
 		$id_commentaire = $_GET['id'];
 

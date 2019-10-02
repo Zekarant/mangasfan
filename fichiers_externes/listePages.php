@@ -1,5 +1,5 @@
 <?php 
-require_once '../inc/base.php';
+require_once '../membres/base.php';
 
 $term = $_GET['term'];
 

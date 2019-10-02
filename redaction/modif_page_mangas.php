@@ -1,21 +1,19 @@
 <?php 
 session_start();
-include('../inc/functions.php');
-include('../inc/base.php');
+include('../membres/functions.php');
+include('../membres/base.php');
 if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)
 { 
         $user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
         $user->execute(array($_SESSION['auth']['id']));
         $utilisateur = $user->fetch(); 
 }
-include('../theme_temporaire.php');
 ?>
 <!DOCTYPE HTML>
   <html>
     <head>
         <meta charset="utf-8" />
         <title>Mangas'Fan - Modifier une page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
         <link rel="stylesheet" href="https://www.mangasfan.fr/bootstrap/css/bootstrap.min.css">
@@ -33,7 +31,10 @@ include('../theme_temporaire.php');
       height: 250,
       language: 'fr_FR',
       theme: 'modern',
-      plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+      plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+      image_class_list: [
+          {title: 'Image news', value: 'image_tiny'},
+          ],
       toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
       image_advtab: true,
       entity_encoding : "raw",

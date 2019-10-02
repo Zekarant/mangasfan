@@ -1,19 +1,34 @@
-<!doctype html>
-<html lang="fr">
-	<head>
-		<meta charset="utf-8">
-		<title>Mangas'Fan - Erreur 405</title>
-		<link rel="icon" href="https://mangasfan.000webhostapp.com/images/favicon.png"/>
-		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-		<link rel="stylesheet" href="../style.css">
-	</head>
-	<body id="fond_erreur">
- 		<center>
- 			<div id="titre_news"> E<span class="couleur_mangas">rreur 405 :</span> <span class="couleur_fans">Méthode non acceptée</span>
- 			</div><br/><br/>
-			<span style="font-family: comic sans ms,sans-serif;" title="Cette méthode n'est pas acceptée !"><img src="../images/405.png" alt ="Erreur 405" style="max-height: 350px;" /></span><br/><br/>
-			<a href="https://www.mangasfan.fr/" class="lien_erreur"><b>Revenir sur l'index</b></a>
-		</center>
-	</body>	
+<?php 
+session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mangas'Fan - Erreur 405</title>
+	<link rel="icon" href="../images/favicon.png"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="../style.css">
+</head>
+<body id="erreur">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="bloc_erreur">
+					<h1>Erreur 405 : Méthode non acceptée !</h1>
+					<img src="../images/405.png" alt="Erreur 405" title="Erreur 405 : Cette méhode n'est pas acceptée !" class="image_erreur" />
+					<div class="explication_erreur">
+						Vous avez utilisé la mauvaise méthode...Retour à l'accueil ?
+					</div>
+					<div class="boutons_erreurs">
+						<a href="../" class="btn btn-primary">
+							Retourner à l'accueil
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>	
 </html>

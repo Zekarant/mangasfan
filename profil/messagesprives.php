@@ -26,7 +26,6 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
-    <div id="bloc_page">
         <?php include('../elements/header.php'); ?>
         <section class="marge_page">
             <?php if(!isset($_SESSION['auth'])){ ?>
@@ -51,14 +50,14 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
                     </h1>
                     <?php
                 //La requête nous permet d'obtenir les infos sur ce message :
-                    $query = $pdo->prepare('SELECT  mp_expediteur, mp_receveur, mp_titre, mp_time, mp_text, mp_lu, id, username, avatar FROM forum_mp LEFT JOIN users ON id = mp_expediteur WHERE mp_id = :id');
+                    $query = $pdo->prepare('SELECT mp_expediteur, mp_receveur, mp_titre, mp_time, mp_text, mp_lu, id, username, avatar FROM forum_mp LEFT JOIN users ON id = mp_expediteur WHERE mp_id = :id');
                     $query->bindValue(':id',$id_mess,PDO::PARAM_INT);
                     $query->execute();
                     $data = $query->fetch();
                     ?>
                     <?php if (isset($_SESSION['auth']) AND $utilisateur['grade'] >= 2)
                     { ?>
-                       <a href="./messagesprives.php?action=repondre&amp;dest=<?= $data['mp_expediteur']; ?>">
+                       <a href="./messagesprives.php?action=repondre&amp;dest=<?= sanitize($data['mp_expediteur']); ?>">
                         <img src="../images/rep.png" class="image_enveloppe_mp" alt="Répondre"
                         title="Répondre à ce message" />
                         <br/><br/>
@@ -73,6 +72,33 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
                 $query->bindValue(':id',$id_mess,PDO::PARAM_INT);
                 $query->execute();
                 $data = $query->fetch();
+                 if (isset($_POST['demande_suppression'])) {
+                    $jugement = explode(' ', $_POST['suppression']);
+                    $recuperer = $pdo->prepare('SELECT id, demande FROM billets WHERE id = ?');
+                    $recuperer->execute(array($jugement[1]));
+                    $annuler = $recuperer->fetch();
+                    if ($annuler['demande'] == 1) {
+                    $examiner_jugement = $pdo->prepare('UPDATE billets SET demande = 0 WHERE id = ?');
+                    $examiner_jugement->execute(array($jugement[1]));
+                    ?>
+                    <div class='alert alert-success' role='alert'>
+                        Vous avez annulé la suppression de l'article demandé.
+                    </div>
+                    <?php
+                    }   elseif ($annuler['demande'] == 0) {
+                    ?>
+                    <div class='alert alert-warning' role='alert'>
+                        Il n'y a actuellement pas de demande de suppression sur cet article.
+                    </div>
+                    <?php
+                    } else {
+                    ?>
+                    <div class='alert alert-danger' role='alert'>
+                        Oups ! Cet article a dû être supprimé !
+                    </div>
+                    <?php
+                    }
+                            }
                 ?>
                 <div class="card">
                     <div class="card-header">
@@ -81,18 +107,18 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
                                 <?php if (!empty($data['avatar'])){
                                     if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", $data['avatar'])) { ?>
                                         <center>
-                                            <img src="../membres/images/avatars/<?php echo $data['avatar']; ?>" alt="avatar" class="avatar_mp" title="Avatar de <?php echo $data['username'] ?>"/>
+                                            <img src="../membres/images/avatars/<?php echo sanitize($data['avatar']); ?>" alt="avatar" class="avatar_mp" title="Avatar de <?php echo sanitize($data['username']); ?>"/>
                                         </center> <!-- via fichier -->
                                     <?php } else { ?>
                                         <center>
-                                            <img src="<?php echo sanitize($data['avatar']); ?>" alt="avatar" class="avatar_mp" title="Avatar de <?php echo $data['username']; ?>"/>
+                                            <img src="<?php echo sanitize($data['avatar']); ?>" alt="avatar" class="avatar_mp" title="Avatar de <?php echo sanitize($data['username']); ?>"/>
                                         </center><br/> <!-- via site url -->
                                     <?php }  } ?>   
                                 </div>
                                 <div class="col-sm-10" id="entete_mp">
                                     <?php echo 'Titre : ' .sanitize($data['mp_titre']).'' ?><br/>
                                     <span class="message_rappel">
-                                        Ce message a été envoyé à <?php echo ''.date('H\hi \l\e d M Y',$data['mp_time']).'' ?> par <i><?php echo'<a href="./voirprofil.php?m='.$data['id'].'&amp;action=consulter" title="Accéder au profil du membre">'.stripslashes(htmlspecialchars($data['username'])).'</a>';?>
+                                        Ce message a été envoyé à <?php echo ''.date('H\hi \l\e d M Y', sanitize($data['mp_time'])).'' ?> par <i><?php echo'<a href="./voirprofil.php?m='.sanitize($data['id']).'&amp;action=consulter" title="Accéder au profil du membre">'.stripslashes(sanitize($data['username'])).'</a>';?>
                                     </i><br/><br/>
                                     Rang : <?php echo statut(sanitize($data['grade'])); ?>
                                 </span>
@@ -179,7 +205,7 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
     <?php
     $dest = $_GET['dest'];
     ?>
-    <form method="post" action="postok.php?action=repondremp&amp;dest=<?php echo $dest; ?>" name="formulaire">
+    <form method="post" action="postok.php?action=repondremp&amp;dest=<?php echo sanitize($dest); ?>" name="formulaire">
         <p>
             <label for="titre">Titre : </label>
             <input type="text" size="80" id="titre" name="titre" value="Sans Titre" class="form-control"/>
@@ -268,7 +294,7 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
                         </a></p></span>
                         <?php
                     }
-                    if ($query->rowCount()>=0)
+                    if ($query->rowCount() >= 0)
                     {
                         ?>
                         <table class="table table-striped">
@@ -277,7 +303,7 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
                                 <th></th>
                                 <th class="mp_titre"><strong>Titre</strong></th>
                                 <th class="mp_expediteur"><strong>Expéditeur</strong></th>
-                                <th class="mp_time"><strong>Date de réception</strong></th>
+                                <th class="tableau_mobile"><strong>Date de réception</strong></th>
                                 <th><strong>Action</strong></th>
                             </tr>
                         </thead>
@@ -289,7 +315,7 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
             //Mp jamais lu, on affiche l'icone en question
                             if($data2['mp_lu'] == 0)
                             {
-                                ?><td><img src="../images/message_nonlu.png" class="image_enveloppe_mp_accueil" alt="Non lu" /></td><?php
+                                ?><td><img src="../images/mp_nonlu.png" class="image_enveloppe_mp_accueil" alt="Non lu" /></td><?php
                             }
             else //sinon une autre icone
             {
@@ -298,17 +324,17 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
            echo'
            <td id="mp_titre">
            <a href="./messagesprives.php?action=consulter&amp;id='.$data2['mp_id'].'">
-           '.stripslashes($data2['mp_titre']).'
+           '.stripslashes(sanitize($data2['mp_titre'])).'
            </a>
            </td>
            <td id="mp_expediteur">
-           <a href="./voirprofil.php?action=consulter&amp;m='.$data2['mp_expediteur'].'">
-           '.stripslashes($data2['username']).'
+           <a href="./voirprofil.php?action=consulter&amp;membre='.sanitize($data2['mp_expediteur']).'">
+           '.stripslashes(sanitize($data2['username'])).'
            </a>
            </td>
-           <td id="mp_time">'.date('H\hi \l\e d M Y',$data2['mp_time']).'</td>
+           <td class="tableau_mobile">'.date('H\hi \l\e d M Y', sanitize($data2['mp_time'])).'</td>
            <td>
-           <a href="./messagesprives.php?action=supprimer&amp;id='.$data2['mp_id'].'&amp;sur=0">Supprimer</a></td></tr>';
+           <a href="./messagesprives.php?action=supprimer&amp;id='.sanitize($data2['mp_id']).'&amp;sur=0">Supprimer</a></td></tr>';
         } //Fin de la boucle
         $query->CloseCursor();
         echo '</table>';
@@ -321,6 +347,5 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){
     <?php } } } ?>
         </section>
         <?php include('../elements/footer.php'); ?>
-    </div>
 </body>
 </html>

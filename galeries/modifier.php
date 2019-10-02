@@ -39,7 +39,6 @@ include('../membres/functions.php');
   </script>
 </head>
 <body>
-	<div id="bloc_page">
 		<?php include('../elements/header.php'); ?>
       <section class="marge_page">
         <?php if (isset($_SESSION['auth'])){ 
@@ -69,12 +68,12 @@ include('../membres/functions.php');
               $formulaire_modifié->execute();
                 if(isset($_POST['titre']) && !empty($_POST['titre']) AND strlen($_POST['titre']) >= 4 AND strlen($_POST['titre']) <= 50){
                   if (isset($_POST['titre_image']) && !empty($_POST['titre_image'])) {
-                    if (isset($_POST['texte']) && !empty($_POST['texte']) && strlen($_POST['texte']) >= 100){
+                    if (isset($_POST['texte']) && !empty($_POST['texte']) && strlen($_POST['texte']) >= 20){
                         $ajouter = $pdo->prepare('UPDATE galerie SET titre = ?, titre_image = ?, texte = ? WHERE id = ?');
                         $ajouter->execute(array($_POST['titre'], $_POST['titre_image'], $_POST['texte'], $_GET['galerie']));
                         echo "<div class='alert alert-success' role='alert'>Votre image a bien été modifiée !</div>";
                     } else {
-                        echo "<div class='alert alert-danger' role='alert'>Le contenu doit posséder plus de 100 caractères.</div>";
+                        echo "<div class='alert alert-danger' role='alert'>Le contenu doit posséder plus de 20 caractères.</div>";
                       }
                     }
                     else {
@@ -93,7 +92,6 @@ include('../membres/functions.php');
           ?>
       </section>
 	 <?php include('../elements/footer.php'); ?>
-	</div>
 </body>
 </html>
 

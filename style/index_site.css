@@ -1,0 +1,298 @@
+section
+{
+	padding: 20px;
+}
+header
+{
+	background-image: url('../images/ban_arrondie-min.png');
+	background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+	color: white;
+	height: 700px;
+}
+a
+{
+	color: grey;
+}
+.marge_page
+{
+	padding: 20px;
+}
+.avatar_menu
+{
+	max-height: 85px; 
+	max-width: 95px;
+	padding-top: 10px;
+}
+.titre_site
+{
+	text-align: center;
+	text-transform: uppercase;
+	margin-top: 210px;
+	font-size: 60px;
+}
+.slogan_site
+{
+	text-align: center;
+	font-size: 13px;
+}
+.bouton
+{
+	text-align: center;
+	margin-top: 20px;
+}
+img.image_team
+{
+	margin-top: 30px;
+	width: 100px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.table
+{
+	width: 80%!important;
+	margin: auto;
+}
+
+/* Corps de page */
+
+.titre_principal_news
+{
+	margin-top: 20px;
+	font-size: 40px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+hr.tiret_news
+{
+	width: 70%;
+}
+.conteneur
+{
+	width: 85%;
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.element
+{
+	width: 300px;
+	margin-bottom: 40px;
+	text-align: center;
+}
+.image_news
+{
+	border: 1px solid grey;
+	border-radius: 100%;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+.effet_news
+{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+}
+.effet_news:hover p.text 
+{
+    opacity: 1;
+}
+.effet_news p.text 
+{
+    color: #FFF;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    padding-top: 85px;
+    opacity: 0;
+    display: block;
+    position: absolute;
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -o-transition: opacity .5s ease-in-out;
+    -ms-transition: opacity .5s ease-in-out;
+}
+.titre_news a
+{
+	font-weight: bold;
+	font-size: 17px;
+	color: black;
+}
+.description_news, .bloc_auteur
+{
+	font-size: 12px;
+	text-align: justify;
+}
+.auteur_news
+{
+	float: left;
+}
+.date_news
+{
+	float: right;
+}
+img.image_archive
+{
+	margin: auto;
+	display: block;
+}
+
+/* Derniers jeux/mangas */
+.conteneur_dossiers
+{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+div.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+div.gallery img {
+    width: 100%;
+    height: 400px;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+.titre
+{
+	color: black;
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 30px;
+	padding-top: 20px;
+}
+/* Footer */
+.footer 
+{
+	background: #333333;
+	height: auto;
+	color: white;
+	font-size: 15px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	border-bottom: 1px solid #212121;
+	border-top: 1px solid #DDDDDD;
+}
+.footer h3 
+{
+    border-bottom: 1px solid #BAC1C8;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 27px;
+    padding-top: 20px;
+    padding: 10px 0 10px;
+    text-transform: uppercase;
+}
+.footer p 
+{
+    color: white;
+}
+.footer-bottom 
+{
+	background: #212121;
+	border-top: 1px solid #212121;
+	padding-top: 10px;
+	width: auto;
+	font-size: 15px;
+	text-align: center;
+	padding-bottom: 5px;
+}
+footer-bottom p.pull-left 
+{
+	color: white;
+}
+.pull-left 
+{
+	color: white;
+}
+.lien_site li
+{
+	display: inline-block;
+}
+.lien_site a
+{
+	color: white;
+}
+.lien_site a:hover
+{
+	color: grey;
+	text-decoration: none;
+}
+/* Réseaux sociaux */
+.image_reseaux
+{
+	width: 30px;
+}
+
+/* Staff */
+.badge-warning
+{
+	color: white!important;
+}
+.badge-membre
+{
+	color: white;
+	background-color: #2E9AFE;
+}
+.badge-redacteur
+{
+	color: white;
+	background-color: #40A497;
+}
+.badge-community
+{
+	color: white;
+	background-color: #632569;
+}
+.badge-admin
+{
+	color: white;
+	background-color: darkblue;
+}
+.badge-bot
+{
+	color: white;
+	background-color: #1BB078;
+}
+a.lien_staff
+{
+	color: grey;
+}
+div.red
+{
+	background-color: #E93735;
+	color: white;
+}
+div.green
+{
+	 background-color: #31B404;
+	 color: white;
+}
+div.blue
+{
+	 background-color: #40A497;
+	 color: white;
+}
+div.orange
+{
+	 background-color: orange;
+	 color: white;
+}
+div.purple
+{
+	background-color: #632569;
+	color: white;
+}

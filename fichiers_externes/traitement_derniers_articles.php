@@ -1,5 +1,5 @@
 <?php
-	require_once '../inc/base.php';
+	require_once '../membres/base.php';
 	$tableau_element = "";
 
 	$type = ($_GET['type'] == "jeux") ? "billets_jeux" : "billets_mangas";

@@ -22,7 +22,6 @@ include('../membres/functions.php');
   <link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 <body>
-	<div id="bloc_page">
 		<?php include('../elements/header.php'); ?>
       <section class="marge_page">
         <?php if (isset($_SESSION['auth'])){ ?>
@@ -74,6 +73,5 @@ include('../membres/functions.php');
      ?>
       </section>
 	 <?php include('../elements/footer.php'); ?>
-	</div>
 </body>
 </html>

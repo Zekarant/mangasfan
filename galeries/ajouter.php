@@ -1,13 +1,12 @@
 <?php
   session_start(); 
   require_once '../membres/base.php';
-  //include('../inc/data/maintenance_galeries.php');
+  include('../membres/data/maintenance_galeries.php');
   if ($utilisateur['grade'] == 1) 
     {
       echo '<script>location.href="../bannis.php";</script>';
     }
   include('../membres/functions.php'); 
-  //include('../theme_temporaire.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +46,6 @@
         </script>
 </head>
 <body>
-	<div id="bloc_page">
   <header>
       <?php include('../elements/navigation_principale.php'); ?>
       <h1 class="titre_site">Mangas'Fan</h1>
@@ -78,7 +76,7 @@
        if(isset($_POST['valider']) AND !empty($_POST['valider'])){
         if(isset($_POST['titre']) AND strlen($_POST['titre']) >= 4 AND strlen($_POST['titre']) <= 50){
           if(isset($_FILES['image_galerie']) AND !empty($_FILES['image_galerie']['name'])){
-            if (isset($_POST['contenu']) && !empty($_POST['contenu']) && strlen($_POST['contenu']) >= 100){
+            if (isset($_POST['contenu']) && !empty($_POST['contenu']) && strlen($_POST['contenu']) >= 20){
               $tailleMax = 2097152;
               $image = $_FILES['image_galerie']['name'];
               $extensionsValides = array('jpg', 'jpeg', 'gif', 'png');
@@ -98,7 +96,7 @@
         } }}
         else { ?>
           <div class='alert alert-danger' role='alert'>
-            Votre contenu doit posséder au moins 100 caractères.
+            Votre contenu doit posséder au moins 20 caractères.
           </div>
         <?php }
         }
@@ -127,6 +125,5 @@
   </div>
   </section>
 <?php include('../elements/footer.php'); ?>
-</div>
 </body>
 </html>

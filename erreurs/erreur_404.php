@@ -1,19 +1,34 @@
-<!doctype html>
-<html lang="fr">
-	<head>
-		<meta charset="utf-8">
-		<title>Mangas'Fan - Erreur 404</title>
-		<link rel="icon" href="https://mangasfan.000webhostapp.com/images/favicon.png"/>
-		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-		<link rel="stylesheet" href="../style.css">
-	</head>
-	<body id="fond_erreur">
-		<center>
-			<div id="titre_news"> E<span class="couleur_mangas">rreur 404 :</span> <span class="couleur_fans">Cette page est introuvable !
-			</span></div><br/><br/>
-			<span style="font-family: comic sans ms,sans-serif;" title="Cette page n'exite pas !"><img src="../images/404.png" alt ="Erreur 404" style="max-height: 350px;" /></span><br/><br/>
-			<a href="https://www.mangasfan.fr/" class="lien_erreur"><b>Revenir sur l'index</b></a>
-		</center>
-	</body>	
+<?php 
+session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mangas'Fan - Erreur 404</title>
+	<link rel="icon" href="../images/favicon.png"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://www.mangasfan.fr/erreurs/erreurs.css">
+</head>
+<body id="erreur">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="bloc_erreur">
+					<h1>Erreur 404 : Cette page est introuvable !</h1>
+					<img src="https://www.pixenli.com/image/cfbcXSlm" alt="Erreur 404" title="Erreur 404 : Cette page n'existe pas !" class="image_erreur" />
+					<div class="explication_erreur">
+						On a un problème cher fan : La page n'existe pas ! Pas de soucis, clique sur le bouton pour pouvoir retourner à l'accueil !
+					</div>
+					<div class="boutons_erreurs">
+						<a href="../" class="btn btn-primary">
+							Retourner à l'accueil
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>	
 </html>

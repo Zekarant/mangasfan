@@ -44,22 +44,31 @@
 	$req->execute(array($id_jeu));
 	$requete = $req->fetch();
 	
+	$recuperation_jeux = $pdo->prepare('SELECT nom, image, contenu, member_post FROM billets_jeux_pages WHERE id = ?');
+	$recuperation_jeux->execute(array($id_page));
+	$jeux_recuperation_ok = $recuperation_jeux->fetch();
 
-	//include('../inc/bbcode.php'); 
+
+	include('../membres/bbcode.php'); 
 
 
 	if (!is_null($id_jeu) && !is_null($id_page)){
 		include('../commentaires/ttt_commentary.php');
 	}
 
-	//include('../theme_temporaire.php');
 	?>
 
 
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Mangas'Fan - Accueil des jeux vidéos</title>
+<?php if (!is_null($id_jeu) && !is_null($id_page)){ ?>
+		<title><?php echo $jeux_recuperation_ok['nom']; ?> - <?php echo $requete['titre']; ?> - Mangas'Fan</title>
+<?php } elseif(!is_null($id_jeu)){ ?>
+		<title><?php echo $requete['titre']; ?> - Mangas'Fan</title>
+<?php } else { ?>
+		<title>Accueil des jeux vidéo - Mangas'Fan</title>
+<?php } ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<link rel="icon" href="<?= $ok_page; ?>../images/favicon.png"/>
 		<link rel="stylesheet" href="<?= $ok_page; ?>../bootstrap/css/bootstrap.min.css">
@@ -71,17 +80,41 @@
 		<link href="https://fonts.googleapis.com/css?family=Patrick+Hand" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css?family=Stint+Ultra+Condensed" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet"/>
+<?php if (!is_null($id_jeu) && !is_null($id_page)){ ?>
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:site" content="@Mangas_Fans" />
 		<meta name="twitter:creator" content="@Mangas_Fans" />
 		<meta property="og:site_name" content="mangasfan.fr"/>
 		<meta property="og:url" content="https://www.mangasfan.fr" />
-		<meta property="og:title" content="Mangas'Fan - <?php echo $requete['titre']; ?>" />
+		<meta property="og:title" content="<?php echo $jeux_recuperation_ok['nom']; ?> - <?php echo $requete['titre']; ?> - Mangas'Fan" />
+		<meta property="og:image" content="<?php echo $jeux_recuperation_ok['image']; ?>" />
+		<meta name="twitter:title" content="<?php echo $jeux_recuperation_ok['nom']; ?> - <?php echo $requete['titre']; ?> - Mangas'Fan">
+  		<meta name="twitter:image" content="<?php echo $jeux_recuperation_ok['image']; ?>">
+<?php } elseif (!is_null($id_jeu)){ ?>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@Mangas_Fans" />
+		<meta name="twitter:creator" content="@Mangas_Fans" />
+		<meta property="og:site_name" content="mangasfan.fr"/>
+		<meta property="og:url" content="https://www.mangasfan.fr" />
+		<meta property="og:title" content="<?php echo $requete['titre']; ?> - Mangas'Fan" />
 		<meta property="og:description" content="<?php echo $requete['presentation']; ?>" />
 		<meta property="og:image" content="<?php echo $requete['theme']; ?>" />
-		<meta name="twitter:title" content="Mangas'Fan - <?php echo $requete['titre']; ?>">
+		<meta name="twitter:title" content="<?php echo $requete['titre']; ?> - Mangas'Fan">
   		<meta name="twitter:description" content="<?php echo $requete['presentation']; ?>">
   		<meta name="twitter:image" content="<?php echo $requete['theme']; ?>">
+<?php } else { ?>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@Mangas_Fans" />
+		<meta name="twitter:creator" content="@Mangas_Fans" />
+		<meta property="og:site_name" content="mangasfan.fr"/>
+		<meta property="og:url" content="https://www.mangasfan.fr" />
+		<meta property="og:title" content="Tous les jeux vidéo en rapport avec les mangas disponibles sur le site mangasfan.fr - Mangas'Fan" />
+		<meta property="og:description" content="Vous cherchez un jeux qui a un rapport avec les mangas en particulier ? Notre page réservée à l'indexation de ces jeux est là pour vous sur Mangas'Fan !" />
+		<meta property="og:image" content="https://www.mangasfan.fr/images/ban_arrondie.png" />
+		<meta name="twitter:title" content="Tous les jeux vidéo en rapport avec les mangas disponibles sur le site mangasfan.fr - Mangas'Fan">
+  		<meta name="twitter:description" content="Vous cherchez un jeux qui a un rapport avec les mangas en particulier ? Notre page réservée à l'indexation de ces jeux est là pour vous sur Mangas'Fan !">
+  		<meta name="twitter:image" content="https://www.mangasfan.fr/images/ban_arrondie.png">
+<?php } ?>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -101,7 +134,6 @@
 	</head>
 
 	<body>
-		 <div id="bloc_page">
 		<?php include('../elements/header.php'); ?>
 		<?php if (!is_null($id_jeu) && !is_null($id_page)){
 			$verif_jeu_exist = $pdo->prepare("SELECT * FROM billets_jeux WHERE id = ?");
@@ -142,6 +174,7 @@
 			    ?>
 
 				<div class="accueil_jeu">
+					<span id="titre_news" class="<?php echo $donnees_jeu['id']; ?>"></span>
 					<h4 class="titre_jeu_index"><?= stripslashes($donnees_jeu['titre']); ?></h4>
 					<img src="<?= $donnees_jeu['theme']; ?>" class="vignette_jeu"/>
 					<?php include('../fichiers_externes/notes.php');
@@ -229,7 +262,45 @@
 			<h2 class="titre_principal_news">Nos Jeux Vidéos</h2>
 			<hr>
 		 	<?php include("../elements/messages.php"); ?>
+		 	<?php
+        if (!empty($_GET['page']) && is_numeric($_GET['page']))
+          $page = stripslashes($_GET['page']);
+        else
+        $page = 1;
+        $pagination = 20;
+                    // Numéro du 1er enregistrement à lire
+        $limit_start = ($page - 1) * $pagination;
+        $nb_total = $pdo->prepare('SELECT COUNT(*) AS nb_total FROM billets_jeux');
+        $nb_total->execute();
+        $nb_total = $nb_total->fetchColumn();
+                    // Pagination
+        $nb_pages = ceil($nb_total / $pagination);
 
+        ?>
+    <nav>
+		 	<nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Pages :</a>
+          </li>
+          <?php
+            // Boucle sur les pages
+              for ($i = 1; $i <= $nb_pages; $i++) {
+                if ($i == $page){
+          ?>
+          <li class="page-item">
+            <a class="page-link" href="#">
+              <?php echo $i; ?>
+            </a>
+          <?php } else { ?>
+          <li class="page-item">
+            <a class="page-link" href="<?php echo "?page=" . $i; ?>">
+              <?php echo $i;?>
+            </a>
+          </li>
+        <?php } } ?>
+        </ul>
+      </nav>
 		 	<div id="conteneur_dossiers">
 		  		<?php $req2 = $pdo->query("SELECT * FROM billets_jeux ORDER BY id DESC");
 		  		while ($donnees = $req2->fetch()) { ?>
@@ -241,13 +312,34 @@
 				</div>
   				<?php } $req->closeCursor(); ?>
 			</div>
-
+			<nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Pages :</a>
+          </li>
+          <?php
+            // Boucle sur les pages
+              for ($i = 1; $i <= $nb_pages; $i++) {
+                if ($i == $page){
+          ?>
+          <li class="page-item">
+            <a class="page-link" href="#">
+              <?php echo $i; ?>
+            </a>
+          <?php } else { ?>
+          <li class="page-item">
+            <a class="page-link" href="<?php echo "?page=" . $i; ?>">
+              <?php echo $i;?>
+            </a>
+          </li>
+        <?php } } ?>
+        </ul>
+      </nav>
 		<?php } ?>
 
 		<script type="text/javascript" src="<?= $ok_page; ?>../fichiers_externes/function_redac.js"></script>
 		<script type="text/javascript" src="<?= $ok_page; ?>../fichiers_externes/script.js"></script>
 
 		<?php include('../elements/footer.php'); ?>
-	</div>
 	</body>
 </html>

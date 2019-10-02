@@ -1,13 +1,12 @@
 <?php
  session_start(); 
   require_once '../membres/base.php';
-  //include('../inc/data/maintenance_galeries.php');
+  include('../membres/data/maintenance_galeries.php');
   if ($utilisateur['grade'] == 1) 
     {
       echo '<script>location.href="../bannis.php";</script>';
     }
   include('../membres/functions.php'); 
-  //include('../theme_temporaire.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 <body>
-	<div id="bloc_page">
 		 <header>
       <?php include('../elements/navigation_principale.php'); ?>
       <h1 class="titre_site">Mangas'Fan</h1>
@@ -53,7 +51,7 @@
           $articles = $pdo->prepare('SELECT * FROM galerie WHERE auteur = ?');
           $articles->execute(array($_SESSION['auth']['username']));
             if($articles->rowCount() < 1){
-                echo "<div class='alert alert-danger' role='alert'>Votre galerie ne contient aucune image, n'hésitez pas à en rediger !</div>";
+                echo "<div class='alert alert-danger' role='alert'>Votre galerie ne contient aucune image, n'hésitez pas à en publier !</div>";
             }
             else {
                 echo "<div class='alert alert-info' role='alert'>Il y a actuellement " . $articles->rowCount() . " image(s) sur votre galerie.</div>";
@@ -92,6 +90,5 @@
      ?>
       </section>
 	 <?php include('../elements/footer.php'); ?>
-	</div>
 </body>
 </html>

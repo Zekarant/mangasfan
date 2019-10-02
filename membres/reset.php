@@ -13,9 +13,10 @@ if(isset($_GET['id']) && isset($_GET['token'])){
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $reset = $pdo->prepare("UPDATE users SET password = ?, reset_at = 'NULL', reset_token = 'NULL' WHERE reset_token = ? AND id = ?");
         $reset->execute(array($password, $_GET['token'], $_GET['id']));
-
         $_SESSION['flash']['success'] = "<div class='alert alert-success' role='alert'>Votre mot de passe a bien été modifié ! Vous allez être redirigé.</div>";
         $_SESSION['auth'] = $user;
+        setcookie('username', $user['id'], time() + 365*24*3600, null, null, false, true);
+        setcookie('hash_pass', $user['password'], time() + 365*24*3600, null, null, false, true);
         header('Location: compte.php');
         exit();
       }
@@ -49,7 +50,6 @@ if(isset($_GET['id']) && isset($_GET['token'])){
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <div id="bloc_page">
     <?php include('../elements/header.php'); ?>
    <section class="marge_page">
     <div class="titre_principal_news">
@@ -64,7 +64,6 @@ if(isset($_GET['id']) && isset($_GET['token'])){
       <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-info-sign"></span> Réinitialiser mon mot de passe</button>
     </form>
   </section>
-  <?php include('../elements/footer.php') ?>
-</div>
+  <?php include('../elements/footer.php'); ?>
 </body>
 </html>

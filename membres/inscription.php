@@ -35,7 +35,7 @@ if(empty($_POST['password']) || $_POST['password'] !=$_POST['password_confirm'])
 }
 
 if(empty($errors)){
-  $avatar_defaut = 'https://mangasfan.fr/inc/images/avatars/avatar_defaut.png';
+  $avatar_defaut = 'https://mangasfan.fr/membres/images/avatars/avatar_defaut.png';
   $grade = '2';
      // On enregistre les informations dans la base de données
   $req = $pdo->prepare("INSERT INTO users SET username = ?, password = ?, email = ?, confirmation_token = ?, avatar = ?, grade = ?");
@@ -46,7 +46,7 @@ if(empty($errors)){
   $req->execute([$_POST['username'], $password, $_POST['email'], $token, $avatar_defaut, $grade]);
   $user_id = $pdo->lastInsertId();
      // On envoit l'email de confirmation
-  mail($_POST['email'], 'Confirmation de votre compte Mangas\'Fan', "Vous venez de valider le formulaire d'inscription sur Mangas'Fan, cependant, ce compte est n'est pas encore activé !<br /> Pour pouvoir profiter de ce dernier, vous devez l'activer via le lien ci-dessous. Une fois ceci fait, vous pourrez vous connecter avec l'identifiant et le mot de passe que vous avez entré lors de l'inscription !\n\nhttps://mangasfan.fr/inc/confirm.php?id=$user_id&token=$token");
+  mail($_POST['email'], 'Confirmation de votre compte Mangas\'Fan', "Vous venez de valider le formulaire d'inscription sur Mangas'Fan, cependant, ce compte est n'est pas encore activé !<br /> Pour pouvoir profiter de ce dernier, vous devez l'activer via le lien ci-dessous. Une fois ceci fait, vous pourrez vous connecter avec l'identifiant et le mot de passe que vous avez entré lors de l'inscription !\n\nhttps://mangasfan.fr/membres/confirm.php?id=$user_id&token=$token");
      // On redirige l'utilisateur vers la page de login avec un message flash
   echo ' <script>location.href="connexion.php";</script> ';
   $_SESSION['flash']['success'] = "<div class='alert alert-success' role='alert'>Un email de confirmation vous a été envoyé afin de valider votre compte, veuillez vérifier vos spams aussi au cas où vous ne l'auriez pas reçu.</div>";
@@ -73,7 +73,6 @@ if(empty($errors)){
   <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
- <div id="bloc_page">
    <?php include('../elements/header.php'); ?>
    <section class="marge_page">
     <div class="titre_principal_news">Formulaire d'inscription <span class="couleur_mangas">Mangas</span>'<span class="couleur_fans">Fans</span></div><br/>
@@ -104,6 +103,6 @@ if(empty($errors)){
       <input class="btn btn-info" type="submit" value="M'inscrire">
     </form>
   </section>
-  <?php include('../elements/footer.php') ?>
+  <?php include('../elements/footer.php'); ?>
 </body>
 </html>

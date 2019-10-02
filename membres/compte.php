@@ -19,6 +19,9 @@ $date_anniv = isset($_POST['date_anniv']) ? $_POST['date_anniv'] : '';
 $site = isset($_POST['site']) ? $_POST['site'] : '';
 $description = isset($_POST['description']) ? $_POST['description'] : '';
 $sqdd = $_POST['sqdd'] ?? "";
+require_once '../markdown/Michelf/Markdown.inc.php';
+require_once '../markdown/Michelf/MarkdownExtra.inc.php';
+use Michelf\Markdown;
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,8 +45,21 @@ $sqdd = $_POST['sqdd'] ?? "";
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-<div id="bloc_page">
-    <?php include('../elements/header.php'); ?>
+    <?php include('../elements/header.php');
+    $select_anim = $pdo->prepare("SELECT * FROM animation");
+      $select_anim->execute();
+      $animation = $select_anim->fetch();
+      if ($animation['visible'] == 1) {
+      if($animation['title'] == "alerte") { ?>
+      <div class="alert alert-danger" id="animation_compte" role="alert">
+         <h4 class="alert-heading"><span class="glyphicon glyphicon-remove"></span> <center>Alerte importante </center><span class="glyphicon glyphicon-remove"></span>
+            </h4>
+           <hr>
+        <?php   
+          $resultat = Markdown::defaultTransform($animation['contenu']);
+          echo htmlspecialchars_decode(sanitize($resultat)); ?>
+         </div> 
+      <?php } } ?>
        <h2 class="titre_principal_news">
         Profil de <?php echo sanitize($utilisateur['username']); ?>
       </h2><br/>
@@ -67,54 +83,7 @@ $sqdd = $_POST['sqdd'] ?? "";
         </ul>
       </div>
       <?php
-      }
-      $select_anim = $pdo->prepare("SELECT * FROM animation");
-      $select_anim->execute();
-      $animation = $select_anim->fetch();
-      if ($animation['visible'] == 1) {
-      if($animation['title'] == "animation")
-      { ?>
-        <div class="alert alert-success" id="animation_compte" role="alert">
-           <h4 class="alert-heading"><span class="glyphicon glyphicon-star"></span> 
-              Animation en cours <span class="glyphicon glyphicon-star"></span>
-            </h4>
-           <hr>
-        <?php   
-          echo bbcode(sanitize($animation['contenu']));
-        ?> </div> 
-      <?php } elseif($animation['title'] == "recrutements") { ?>
-      <div class="alert alert-info" id="animation_compte" role="alert">
-         <h4 class="alert-heading"><span class="glyphicon glyphicon-bullhorn"></span> <center>Recrutements en cours </center><span class="glyphicon glyphicon-bullhorn"></span>
-            </h4>
-           <hr>
-        <?php   
-          echo bbcode(sanitize($animation['contenu']));
-        ?> </div> 
-      <?php } elseif($animation['title'] == "annonce") { ?>
-      <div class="alert alert-warning" id="animation_compte" role="alert">
-         <h4 class="alert-heading"><span class="glyphicon glyphicon-bell"></span> <center>Annonce importante </center><span class="glyphicon glyphicon-bell"></span>
-            </h4>
-           <hr>
-        <?php   
-          echo bbcode(sanitize($animation['contenu']));
-        ?> </div> 
-      <?php } elseif($animation['title'] == "maj") { ?>
-      <div class="alert alert-dark" id="bloc_animation_maj" role="alert">
-         <h4 class="alert-heading"><span class="glyphicon glyphicon-cog"></span> <center>Dernière mise à jour </center><span class="glyphicon glyphicon-cog"></span>
-            </h4>
-           <hr>
-        <?php   
-          echo bbcode(sanitize($animation['contenu']));
-        ?> </div> 
-      <?php } elseif($animation['title'] == "alerte") { ?>
-      <div class="alert alert-danger" id="animation_compte" role="alert">
-         <h4 class="alert-heading"><span class="glyphicon glyphicon-remove"></span> <center>Alerte importante </center><span class="glyphicon glyphicon-remove"></span>
-            </h4>
-           <hr>
-        <?php   
-          echo bbcode(sanitize($animation['contenu']));
-        ?> </div> 
-      <?php } } 
+       } 
       if (!empty($_POST['changer_mdp'])) {
         if(!empty(sanitize($password)) && sanitize($password) == sanitize($_POST['password_confirm'])){
           $user_id = $utilisateur['id'];
@@ -317,13 +286,47 @@ $sqdd = $_POST['sqdd'] ?? "";
           <div class="card-body">
             <p>Vos Mangas'Points : <i><b><?php echo sanitize($utilisateur['points']); ?></b></i></p>
             <p>Nombre d'animations gagnées : <i><b><?php echo sanitize($utilisateur['animation_gagne']); ?></b></i></p>
-            <p>Vos badges : <i>Prochainement...</i></p>
           </div>
         </div>
+        <?php 
+          $recuperer_badges = $pdo->prepare('SELECT ba.id, ba.badges_name, ba.badges_description, ba.badges_image, b.id_user, b.attribued_at, b.id_badge
+          FROM badges_dons b
+          INNER JOIN badges ba
+          ON ba.id = b.id_badge
+          WHERE id_user = ?');
+          $recuperer_badges->execute(array($utilisateur['id']));
+          $total_badges = $pdo->prepare('SELECT id FROM badges');
+          $total_badges->execute();
+        ?>
+        <div class="card">
+          <div class="card-header">
+            Vos badges - <?php echo $recuperer_badges->rowCount(); ?> / <?php echo $total_badges->rowCount(); ?> possédés.
+          </div>
+          <div class="card-body">
+            <?php if ($recuperer_badges->rowCount() > 0) {
+              while($badges_affiche = $recuperer_badges->fetch()){ ?>
+               <img src="<?php echo $badges_affiche['badges_image']; ?>" alt="Badge" class="image_enveloppe_mp_accueil" title="<?php echo $badges_affiche['badges_name']; ?> - <?php echo $badges_affiche['badges_description']; ?> Obtenu le <?php echo date('d M Y', strtotime($badges_affiche['attribued_at'])); ?>" />
+            <?php  }
+            } else {
+              echo "Vous n'avez aucun badge !";
+            }
+
+            ?>
+          </div>
+        </div>
+        <?php if($utilisateur['grade'] >= 3){ ?>
+          <div class="card">
+            <div class="card-header">
+              Modération
+            </div>
+            <div class="card-body">
+              <a href="data/demission.php" class="btn btn-outline-danger">Démissionner de mon rôle</a>
+            </div>
+          </div>
+        <?php } ?>
       </div>
   </div>
 </section> 
     <?php include('../elements/footer.php'); ?>
-</div>
 </body>
 </html>

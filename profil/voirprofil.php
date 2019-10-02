@@ -44,7 +44,6 @@ include('../membres/functions.php');
     <link rel="stylesheet" type="text/css" href="../style.css" />
   </head>
   <body>
-    <div id="bloc_page">
       <?php include('../elements/header.php'); ?>
       <section class="marge_page">
         <h3><span class="couleur_mangas">Profil</span> <span class="couleur_fans">de</span> <i><?php echo rang_etat(sanitize($re['grade']), sanitize($re['username']));?></i></h3>
@@ -65,12 +64,13 @@ include('../membres/functions.php');
           </div>
           <div class="element_profil">
             Sa description :<br/><br/>
-            <i>« <?php 
-            echo nl2br(sanitize($re['description'])); ?> » </i><br/><br/>
-            Son rang : <?php echo statut(sanitize($re['grade']));?><br/><br/>
+            <i><?php if($re['description'] == NULL){ echo "Ce membre n'a pas renseigné sa description."; } else { ?>« <?php 
+            echo nl2br(sanitize($re['description'])); ?> » <?php } ?></i><br/><br/>
+            Son rang : <?php if($re['chef'] != 0){ echo chef(sanitize($re['chef'])); } else { echo statut(sanitize($re['grade'])); } ?><br/><br/>
             Son manga préféré : <?php  if($re['manga'] == ""){ echo'Non renseigné';} else {echo sanitize($re['manga']);} ?><br/><br/>
             Son anime préféré : <?php if($re['anime'] == ""){ echo'Non renseigné';} else {echo sanitize($re['anime']);} ?><br/><br/>
-            Son rôle sur le site : <?php if($re['role'] == ""){ echo'Ce membre n\'est pas du staff !';} else { $role = htmlspecialchars($re['role']);echo sanitize($role);} ?><br/><br/>
+            Son rôle sur le site : <?php if($re['grade'] >= 3 AND $re['role'] == NULL){ echo "Ce membre n'a pas renseigné son rôle."; } elseif ($re['grade'] >= 3 AND $re['role'] != NULL) {
+             echo sanitize($re['role']); } else { echo "Ce membre n'est pas du staff."; } ?><br/><br/>
             Son site web : <?php if($re['site'] == ""){ echo'Non renseigné';} else {echo '<a href="'.sanitize($re['site']).'" target="_blank">Voir son site web</a>';} ?><br/><br/>
             Nombre de points : <?php echo sanitize($re['points']); ?> points<br/><br/>
             Nombre d'avertissements : <?php echo sanitize($re['avertissements']); ?><br/><br/>
@@ -78,6 +78,5 @@ include('../membres/functions.php');
         </div>
       </section>
       <?php include('../elements/footer.php'); ?>
-    </div>
   </body>
   </html>

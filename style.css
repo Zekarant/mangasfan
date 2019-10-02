@@ -1,6 +1,6 @@
 body
 {
-	background-image: url('images/background.png');
+	background-color: white;
 	margin: auto;
 }
 #bloc_page
@@ -18,10 +18,12 @@ section
 /* Navigation */
 header
 {
-	background-image: url('images/ban_arrondie.png');
-	background-repeat: no-repeat;
+	background-image: url('images/ban_arrondie-min.png');
+	background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 	color: white;
-	height: 600px;
+	height: 700px;
 }
 a
 {
@@ -67,6 +69,27 @@ img.image_team
 	width: 80%!important;
 	margin: auto;
 }
+/* Erreurs */
+#erreur { 
+	background-image: url('https://i.stack.imgur.com/IehB7.png');
+}
+.bloc_erreur {
+	color: white;
+	text-align: center;
+	padding-top: 30px;
+}
+.boutons_erreurs { 
+	margin-top: 20px; 
+}
+.explication_erreur
+{
+	padding-top: 10px;
+}
+.image_erreur
+{
+	padding-top: 10px;
+	width: 250px;
+}
 /* News du site */
 hr.tiret_news
 {
@@ -87,6 +110,18 @@ hr.tiret_news
 	text-align: center;
 	margin-bottom: 10px;
 }
+.titre_secondaire
+{
+	font-size: 30px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.titre_petit
+{
+	font-size: 25px;
+	text-align: center;
+	margin-bottom: 10px;
+}
 .conteneur
 {
 	width: 85%;
@@ -101,7 +136,7 @@ hr.tiret_news
 	margin-bottom: 40px;
 	text-align: center;
 }
-#image_news
+.image_news
 {
 	border: 1px solid grey;
 	border-radius: 100%;
@@ -109,17 +144,17 @@ hr.tiret_news
 	height: 200px;
 	object-fit: cover;
 }
-.class_test 
+.effet_news
 {
     text-align: center;
     display: inline-block;
     position: relative;
 }
-.class_test:hover p.text 
+.effet_news:hover p.text 
 {
     opacity: 1;
 }
-.class_test p.text 
+.effet_news p.text 
 {
     color: #FFF;
     width: 200px;
@@ -141,7 +176,7 @@ hr.tiret_news
 	font-weight: bold;
 	font-size: 17px;
 }
-.description_news, #bloc_auteur
+.description_news, .bloc_auteur
 {
 	font-size: 12px;
 	text-align: justify;
@@ -158,6 +193,10 @@ hr.tiret_news
 {
 	padding-top: 40px;
 }
+.image_tiny
+{
+	max-width: 100%;
+}
 .auteur_news_commentaire
 {
 	padding-top: 15px;
@@ -166,6 +205,11 @@ hr.tiret_news
 .sources
 {
 	padding-top: 20px;
+}
+img.image_archive
+{
+	margin: auto;
+	display: block;
 }
 /* MP */
 .new_mp
@@ -368,6 +412,35 @@ a.lien_staff
 {
 	color: grey;
 }
+div.red
+{
+	background-color: #E93735;
+	color: white;
+}
+div.green
+{
+	 background-color: #31B404;
+	 color: white;
+}
+div.blue
+{
+	 background-color: #40A497;
+	 color: white;
+}
+div.orange
+{
+	 background-color: orange;
+	 color: white;
+}
+div.purple
+{
+	background-color: #632569;
+	color: white;
+}
+.navbar_staff
+{
+	border-bottom: 1px solid grey;
+}
 /* Derniers articles */
 #conteneur_dossiers
 {
@@ -501,7 +574,7 @@ footer-bottom p.pull-left
 }
 #card-galerie
 {
-	width: 370px;
+	width: 315px;
 	margin-left: 10px;
 	margin-bottom: 10px;
 }
@@ -518,6 +591,28 @@ footer-bottom p.pull-left
 	max-width: 100%;
 	max-height: 100%;
 }
+
+/* Bannissement */
+#bloc_bannissement
+{
+	background-image: url('https://i.stack.imgur.com/IehB7.png');
+	margin-left: auto;
+	color: white;
+	margin-right: auto;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.image_bannissement
+{
+	padding-top: 50px;
+	width: 20%;
+}
+.footer_ban
+{
+	font-size: 11px;
+}
 @media screen and (max-width: 800px){
 	.mx-auto
 	{
@@ -531,7 +626,7 @@ footer-bottom p.pull-left
 	{
 		width: auto;
 		height: 300px;
-		background-image: url(images/ban_arrondie.png);
+		background-image: url(https://www.mangasfan.fr/images/banniere_mobile.jpg);
 		background-position: 50% 40%;
 	}
 	.titre_site
@@ -539,7 +634,7 @@ footer-bottom p.pull-left
 		text-align: center;
 		text-transform: uppercase;
 		margin-top: 40px;
-		font-size: 60px;
+		font-size: 50px;
 	}
 	.slogan_site
 	{
@@ -558,6 +653,11 @@ footer-bottom p.pull-left
 	{
 		margin: auto;
 		margin-bottom: 40px;
+	}
+	.image_tiny
+	{
+		width: 100%;
+		height: auto;
 	}
 	iframe
 	{

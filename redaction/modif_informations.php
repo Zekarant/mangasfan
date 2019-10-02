@@ -1,5 +1,5 @@
 <?php 
-    require_once '../inc/base.php';
+include('../membres/base.php');
 
     if(isset($_POST['valid_entete'])){
     	if(!empty($_POST['title_game']) && !empty($_POST['picture_game']) && !empty($_POST['picture_pres'])){

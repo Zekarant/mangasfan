@@ -1,13 +1,12 @@
 <?php
  session_start(); 
   require_once '../inc/base.php';
-  include('../inc/data/maintenance_galeries.php');
+  include('../membres/data/maintenance_galeries.php');
   if ($utilisateur['grade'] == 1) 
     {
       echo '<script>location.href="../bannis.php";</script>';
     }
   include('../inc/functions.php'); 
-    include('../theme_temporaire.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,7 +26,6 @@
   <link rel="stylesheet" type="text/css" href="<?php echo $lienCss; ?>" />
 </head>
 <body>
-  <div id="bloc_page">
      <header>
           <div id="banniere_image">
           <div id="titre_site"><span class="couleur_mangas">M</span>ANGAS'<span class="couleur_fans">F</span>AN</div>
@@ -83,6 +81,5 @@
      ?>
       </section>
    <?php include('../elements/footer.php'); ?>
-  </div>
 </body>
 </html>

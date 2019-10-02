@@ -1,5 +1,5 @@
 <?php
-	require_once '../inc/base.php';
+	require_once '../membres/base.php';
 	$id_jeu = $_GET['id_jeu'];
 	$name_page = $_GET['name_page'];
 

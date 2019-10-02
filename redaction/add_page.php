@@ -1,5 +1,5 @@
 <?php 
-    require_once '../inc/base.php';
+include('../membres/base.php');
 
     if(isset($_POST['valid_nouvelle_page'])){
         $categorie = addslashes(htmlspecialchars($_POST['liste_categories']));

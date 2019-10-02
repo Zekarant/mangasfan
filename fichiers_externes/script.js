@@ -19,13 +19,13 @@ $(function() {
 
 	var type = recup_type();
 	var id_jeu = parseInt($("span#titre_news").attr("class"));
+	$("span#titre_news").remove();
 	var name_page = 0;
 	
 	function mouvement(){
 		var action = ($(this).attr("class") == "right_arrow") ? "right" : "left";
 
 		$(".butnum"+name_page).css("color","#A9A9A9");
-	
 		$.ajax({
 			url : "../fichiers_externes/traitement_derniers_articles.php?id_elt=" + id_jeu + "&type=" + type + "&id_page=" + name_page + "&action="+action,
 			type : 'GET',

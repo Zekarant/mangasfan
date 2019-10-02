@@ -1,6 +1,6 @@
 <?php
-	require_once '../inc/base.php';
-	include('../inc/functions.php');
+	require_once '../membres/base.php';
+	include('../membres/functions.php');
 
 	$type = ($_GET['type'] == "jeux") ? "billets_jeux" : "billets_mangas";
 	$type2 = ($_GET['type'] == "jeux") ? "billets_jeux_cat" : "billets_mangas_cat";

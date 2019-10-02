@@ -1,44 +1,47 @@
-<?php
-session_start();
-include('membres/base.php');
-include('membres/functions.php');
-include('membres/bbcode.php'); 
-	//include('theme_temporaire.php');
+	<?php
+	session_start();
+	include('membres/base.php');
+	include('membres/functions.php');
 
 	$news_id = ($_GET['billet'] !== null) ? $_GET['billet'] : null;
-if(is_string($news_id) && !is_null($news_id))
-{
+	if(is_string($news_id) && !is_null($news_id))
+	{
 	$recup_id = $news_id;
 	$news_id = null;
-	$recup_news = $pdo->query('SELECT id,titre FROM billets');
+	$recup_news = $pdo->query('SELECT id, titre FROM billets');
 	while($parcours_news = $recup_news->fetch()){
 		if(traduire_nom(stripslashes($parcours_news['titre'])) == $recup_id){
 			$news_id = $parcours_news['id'];
 		}
 	}
-}
-$req = $pdo->prepare('SELECT *, billets.description AS description_billet, billets.id AS id_billet, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr FROM billets LEFT JOIN users ON users.username = billets.auteur WHERE billets.id = ?');
-$req->execute(array($news_id));
-$donnees = $req->fetch();
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+	}
+	var_dump($news_id);
+	$req = $pdo->prepare('SELECT *, billets.description AS description_billet, billets.id AS id_billet, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr FROM billets LEFT JOIN users ON users.username = billets.auteur WHERE billets.id = ?');
+	$req->execute(array($news_id));
+	$donnees = $req->fetch();
+	?>
+	<!DOCTYPE html>
+	<html lang="fr">
+	<head>
 	<meta charset="utf-8" />
-	<title><?php echo sanitize($donnees['titre']); ?> - Mangas'Fan</title>
+	<title><?php echo htmlspecialchars($donnees['titre']); ?> - Mangas'Fan</title>
 	<link rel="icon" href="../images/favicon.png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta name="description" content="<?php echo htmlspecialchars($donnees['description_billet']);  ?>"/>
+	<?php if(!empty($donnees['keywords'])){ ?>
+		<meta name="keywords" content="<?php echo htmlspecialchars($donnees['keywords']); ?>"/>
+	<?php } ?>
 	<meta property="og:site_name" content="mangasfan.fr"/>
 	<meta property="og:url" content="https://www.mangasfan.fr/commentaire/<?= sanitize(traduire_nom($donnees['titre'])); ?>" />
-	<meta property="og:title" content="<?php echo sanitize($donnees['titre']); ?>" />
-	<meta property="og:description" content="<?php echo sanitize($donnees['description_billet']); ?>" />
-	<meta property="og:image" content="<?php echo sanitize($donnees['theme']); ?>" />
+	<meta property="og:title" content="<?php echo htmlspecialchars($donnees['titre']); ?> - Mangas'Fan" />
+	<meta property="og:description" content="<?php echo htmlspecialchars($donnees['description_billet']); ?>" />
+	<meta property="og:image" content="<?php echo htmlspecialchars($donnees['theme']); ?>" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:site" content="@Mangas_Fans" />
-	<meta name="twitter:creator" content="@Mangas_Fans" />
-	<meta name="twitter:title" content="<?php echo sanitize($donnees['titre']); ?>">
-	<meta name="twitter:description" content="<?php echo sanitize($donnees['description_billet']); ?>">
-	<meta name="twitter:image" content="<?php echo sanitize($donnees['theme']); ?>">
+	<meta name="twitter:site" content="@MangasFanOff" />
+	<meta name="twitter:creator" content="@MangasFanOff" />
+	<meta name="twitter:title" content="<?php echo htmlspecialchars($donnees['titre']); ?>">
+	<meta name="twitter:description" content="<?php echo htmlspecialchars($donnees['description_billet']); ?>">
+	<meta name="twitter:image" content="<?php echo htmlspecialchars($donnees['theme']); ?>">
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129397962-1"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
@@ -57,25 +60,13 @@ $donnees = $req->fetch();
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="../style.css">
-</head>
-<body>
-	<div id="bloc_page">
-		<header>
-			<?php include('elements/navigation_principale.php'); ?>
-			<h1 class="titre_site">Mangas'Fan</h1>
-			<p class="slogan_site">
-				Votre site web communautaire sur l'actualité des mangas et des animes. Retrouvez toutes nos pages et news !
-			</p>
-			<div class="bouton">
-				<a href="https://www.twitter.com/MangasFanOff" target="_blank" class="btn btn-outline-light">
-					Twitter
-				</a>
-			</div>
-		</header>
+	</head>
+	<body>
+		<?php include('elements/header.php'); ?>
 		<section class="marge_page">
 			<div class="news_deux">
 				<h1 class="titre_principal_news">
-					<?php echo $donnees['titre']; ?>	
+					<?php echo sanitize($donnees['titre']); ?>	
 				</h1>
 				<div class="contenu_commentaire">
 					<?php
@@ -84,11 +75,11 @@ $donnees = $req->fetch();
 				</div>
 				<?php if(!empty($donnees['sources'])){?>
 					<div class="sources">
-						<em>Sources : <?php echo $donnees['sources']; ?></em>
+						<em>Sources : <?php echo sanitize($donnees['sources']); ?></em>
 					</div>
 				<?php } ?>
 				<div class="auteur_news_commentaire">
-					Publié par <?php echo rang_etat($donnees['grade'], $donnees['auteur']);?> <em>le <?php echo $donnees['date_creation_fr']; ?></em>
+					Publié par <?php echo rang_etat($donnees['grade'], sanitize($donnees['auteur'])); ?> <em>le <?php echo sanitize($donnees['date_creation_fr']); ?></em>
 				</div>				
 			</div>
 			<h3 id="titre_commentaire">
@@ -116,6 +107,7 @@ $donnees = $req->fetch();
 				$grade_membre2 = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 				$grade_membre2->execute(array($_SESSION['auth']['id']));
 				$grade_membre = $grade_membre2->fetch();
+				include('membres/bbcode.php'); 
 				if ($grade_membre['grade'] >= 2)
 					{ ?>
 						<form action="" name="formulaire_commentaire_supp" method="post">
@@ -160,9 +152,9 @@ $donnees = $req->fetch();
 													<td name="colonne_commentaire" align="center" width="100px">
 														<?php 
 														if (!empty($user['avatar'])){
-															if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", $user['avatar'])) 
+															if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", htmlspecialchars($user['avatar']))) 
 															{ 
-																$image_avatar =  '/membres/images/avatars/'.$user['avatar'];
+																$image_avatar =  '/membres/images/avatars/'.htmlspecialchars($user['avatar']);
 															} 
 															else 
 															{
@@ -174,7 +166,7 @@ $donnees = $req->fetch();
 														<?php } ?>
 														<span class="pseudo">
 															<a href="https://www.mangasfan.fr/profil/voirprofil.php?m=<?php echo $user['id']; ?>" target="_blank">
-																<?php echo rang_etat($user['grade'], $donnees2['auteur']); ?>
+																<?php echo rang_etat($user['grade'], sanitize($donnees2['auteur'])); ?>
 															</a>
 														</span>
 													</td>
@@ -189,7 +181,7 @@ $donnees = $req->fetch();
 																<?php $liste_mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 																$date_commentaire_fr = preg_replace_callback("#([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})#",function ($key) use ($liste_mois){ 
 																	return 'Posté le '.$key[3].' '.$liste_mois[$key[2]-1].' '.$key[1].' à '.$key[4].'h '.$key[5].'min '.$key[6]; },$donnees2['date_commentaire_fr']);
-																	echo $date_commentaire_fr;?>
+																	echo sanitize($date_commentaire_fr); ?>
 																</span>
 															</span>
 															<?php
@@ -211,7 +203,7 @@ $donnees = $req->fetch();
 																	{ ?>
 																		<span class="bouton_app">
 																			<form method="POST" name="formulaire_commentaire_supp" action="">
-																				<input type="hidden" name="id_suppr" value="<?php echo $donnees2['id'];?>">
+																				<input type="hidden" name="id_suppr" value="<?php echo sanitize($donnees2['id']);?>">
 																				<input type="submit" class="btn btn-danger" name="suppr" value="Supprimer">
 																			</form>	
 																		</span>
@@ -227,12 +219,6 @@ $donnees = $req->fetch();
 										}		
 										?>
 									</section>
-									<div id="banniere_reseaux">
-										<div id="twitter"><?php include('elements/twitter.php') ?></div>
-										<div id="facebook"><?php include('elements/facebook.php') ?></div>
-										<div id="discord"><?php include('elements/discord.php') ?></div>
-									</div>
 									<?php include('elements/footer.php') ?>
-								</div>
 							</body>
 							</html>

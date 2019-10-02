@@ -26,7 +26,6 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)
   <link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 <body>
-  <div id="bloc_page">
     <?php include('../elements/header.php'); ?>
    <section class="marge_page">
     <div class="titre_principal_news">
@@ -67,7 +66,7 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)
         <li>Autre problème.</li>
         </ul>
         Afin de pouvoir réinitialiser votre mot de passe combien bon vous semble, voici un lien pour réinitialiser ce dernier :<br/><br/>
-        Lien : https://mangasfan.fr/inc/reset.php?id={$user['id']}&token=$reset_token
+        Lien : https://mangasfan.fr/membres/reset.php?id={$user['id']}&token=$reset_token
         <br/><br/>
         En espérant que vous retrouverez l'usage de votre compte.<br/>
         En cas de problème, n'hésitez pas à envoyer un mail à : <b>contact@mangasfan.fr</b>.<br/><br/>
@@ -96,7 +95,6 @@ if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)
       <input type="submit" class="btn btn-info" value="Renvoyer un nouveau mot de passe">
     </form>
   </section>
-  <?php include('../elements/footer.php') ?>
-</div>
+  <?php include('../elements/footer.php'); ?>
 </body>
 </html>

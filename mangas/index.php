@@ -2,7 +2,7 @@
 	session_start();
 	require_once '../membres/base.php';
 	include('../membres/functions.php');
-	//include('../inc/data/maintenance_mangas.php');
+	include('../membres/data/maintenance_mangas.php');
 	$id_mangas = ($_GET['mangas'] !== null) ? $_GET['mangas'] : null;
 	$id_page = ($_GET['page'] !== null) ? $_GET['page'] : null;
 	$type_elt = "mangas";
@@ -43,19 +43,27 @@
 	$req->execute(array($id_mangas));
 	$requete = $req->fetch();
 
+	$recuperation_mangas = $pdo->prepare('SELECT nom, image, contenu, member_post FROM billets_mangas_pages WHERE id = ?');
+	$recuperation_mangas->execute(array($id_page));
+	$mangas_recuperation_ok = $recuperation_mangas->fetch();
+
 	//include('../inc/bbcode.php'); 
 	if (!is_null($id_mangas) && !is_null($id_page)){
 		$id_jeu = $id_mangas;
 		include('../commentaires/ttt_commentary.php');
 	}
-
-	//include('../theme_temporaire.php');
 	?>
 
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Mangas'Fan - Accueil des mangas</title>
+<?php if (!is_null($id_mangas) && !is_null($id_page)){ ?>
+		<title><?php echo $mangas_recuperation_ok['nom']; ?> - <?php echo $requete['titre']; ?> - Mangas'Fan</title>
+<?php } elseif(!is_null($id_mangas)){ ?>
+		<title><?php echo $requete['titre']; ?> - Mangas'Fan</title>
+<?php } else { ?>
+		<title>Accueil des mangas - Mangas'Fan</title>
+<?php } ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<link rel="icon" href="<?= $ok_page; ?>../images/favicon.png"/>
 		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
@@ -72,17 +80,41 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<?php if (!is_null($id_mangas) && !is_null($id_page)){ ?>
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:site" content="@Mangas_Fans" />
 		<meta name="twitter:creator" content="@Mangas_Fans" />
 		<meta property="og:site_name" content="mangasfan.fr"/>
 		<meta property="og:url" content="https://www.mangasfan.fr" />
-		<meta property="og:title" content="Mangas'Fan - <?php echo $requete['titre']; ?>" />
+		<meta property="og:title" content="<?php echo $mangas_recuperation_ok['nom']; ?> - <?php echo $requete['titre']; ?> - Mangas'Fan" />
+		<meta property="og:image" content="<?php echo $mangas_recuperation_ok['image']; ?>" />
+		<meta name="twitter:title" content="<?php echo $mangas_recuperation_ok['nom']; ?> - <?php echo $requete['titre']; ?> - Mangas'Fan">
+  		<meta name="twitter:image" content="<?php echo $mangas_recuperation_ok['image']; ?>">
+<?php } elseif (!is_null($id_mangas)){ ?>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@Mangas_Fans" />
+		<meta name="twitter:creator" content="@Mangas_Fans" />
+		<meta property="og:site_name" content="mangasfan.fr"/>
+		<meta property="og:url" content="https://www.mangasfan.fr" />
+		<meta property="og:title" content="<?php echo $requete['titre']; ?> - Mangas'Fan" />
 		<meta property="og:description" content="<?php echo $requete['presentation']; ?>" />
 		<meta property="og:image" content="<?php echo $requete['theme']; ?>" />
-		<meta name="twitter:title" content="Mangas'Fan - <?php echo $requete['titre']; ?>">
+		<meta name="twitter:title" content="<?php echo $requete['titre']; ?> - Mangas'Fan">
   		<meta name="twitter:description" content="<?php echo $requete['presentation']; ?>">
   		<meta name="twitter:image" content="<?php echo $requete['theme']; ?>">
+<?php } else { ?>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@Mangas_Fans" />
+		<meta name="twitter:creator" content="@Mangas_Fans" />
+		<meta property="og:site_name" content="mangasfan.fr"/>
+		<meta property="og:url" content="https://www.mangasfan.fr" />
+		<meta property="og:title" content="Tous les mangas disponibles sur le site mangasfan.fr - Mangas'Fan" />
+		<meta property="og:description" content="Vous cherchez un manga en particulier ? Notre page réservée à l'indexation des mangas est là pour vous sur Mangas'Fan !" />
+		<meta property="og:image" content="https://www.mangasfan.fr/images/ban_arrondie.png" />
+		<meta name="twitter:title" content="Tous les mangas disponibles sur le site mangasfan.fr - Mangas'Fan">
+  		<meta name="twitter:description" content="Vous cherchez un manga en particulier ? Notre page réservée à l'indexation des mangas est là pour vous sur Mangas'Fan !">
+  		<meta name="twitter:image" content="https://www.mangasfan.fr/images/ban_arrondie.png">
+<?php } ?>
 		<link rel="stylesheet" href="<?= $ok_page; ?>../style.css">
 		<link rel="stylesheet" href="<?= $ok_page; ?>../style/jquery_ui_style.css" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129397962-1"></script>
@@ -96,7 +128,6 @@
 	</head>
 
 	<body>
-		 <div id="bloc_page">
 		<?php include('../elements/header.php'); ?>
 		<?php if (!is_null($id_mangas) && !is_null($id_page)){
 			$verif_jeu_exist = $pdo->prepare("SELECT * FROM billets_mangas WHERE id = ?");
@@ -107,7 +138,7 @@
 				$verif_page_existe = $verif_page_exist->fetch();?>
 
 				<!-- Concernant le titre et le contenu d'une page -->
-				<<h2 class="titre"><?= $verif_page_existe['nom'];?></h2>
+				<h2 class="titre"><?= $verif_page_existe['nom'];?></h2>
 				<div style="margin-left:10px;margin-right:10px;"><?= stripslashes(htmlspecialchars_decode($verif_page_existe['contenu']));?></div>
 
 				<div>
@@ -136,6 +167,7 @@
 
 				<div class="accueil_jeu">
 					<h4><?= $donnees_jeu['titre']; ?></h4>
+					<span id="titre_news" class="<?php echo $donnees_jeu['id']; ?>"></span>
 					<img src="<?= $donnees_jeu['theme']; ?>" class="vignette_jeu"/>
 					<?php include('../fichiers_externes/notes.php');
 					use_note($pdo,$id_mangas,'manga');?>
@@ -224,29 +256,43 @@
 			<hr>
 		 	<?php include("../elements/messages.php"); ?>
 		 	<?php
-         if (!empty($_GET['page']) && is_numeric($_GET['page']) )
-         $page = stripslashes($_GET['page']);
-         else
-         $page = 1;
-         $pagination = 20;
-         // Numéro du 1er enregistrement à lire
-         $limit_start = ($page - 1) * $pagination;
-         $nb_total = $pdo->query('SELECT COUNT(*) AS nb_total FROM billets_mangas');
-         $nb_total->execute();
-         $nb_total = $nb_total->fetchColumn();
-         // Pagination
-         $nb_pages = ceil($nb_total / $pagination);
+        if (!empty($_GET['page']) && is_numeric($_GET['page']))
+          $page = stripslashes($_GET['page']);
+        else
+        $page = 1;
+        $pagination = 20;
+                    // Numéro du 1er enregistrement à lire
+        $limit_start = ($page - 1) * $pagination;
+        $nb_total = $pdo->prepare('SELECT COUNT(*) AS nb_total FROM billets_mangas');
+        $nb_total->execute();
+        $nb_total = $nb_total->fetchColumn();
+                    // Pagination
+        $nb_pages = ceil($nb_total / $pagination);
 
-         echo '<table style="width:50%"><th style="width:33%"><span class="pagination_mobile_membres">[ Page :';
-         // Boucle sur les pages
-         for ($i = 1 ; $i <= $nb_pages ; $i++) {
-         if ($i == $page )
-         echo " $i";
-         else
-         echo " <a href=\"https://www.mangasfan.fr/mangas/p$i\">$i</a> ";
-         }
-         echo ' ]</span></th></table>'; 
-    ?>
+        ?>
+    <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Pages :</a>
+          </li>
+          <?php
+            // Boucle sur les pages
+              for ($i = 1; $i <= $nb_pages; $i++) {
+                if ($i == $page){
+          ?>
+          <li class="page-item">
+            <a class="page-link" href="#">
+              <?php echo $i; ?>
+            </a>
+          <?php } else { ?>
+          <li class="page-item">
+            <a class="page-link" href="<?php echo "?page=" . $i; ?>">
+              <?php echo $i;?>
+            </a>
+          </li>
+        <?php } } ?>
+        </ul>
+      </nav>
 		 	<div id="conteneur_dossiers">
 		  		 <?php
             $req = $pdo->query('SELECT *, billets_mangas.id AS id_billet, DATE_FORMAT(billets_mangas.date_creation, \'%d %M %Y à %Hh %imin\') AS date_creation_fr
@@ -265,12 +311,33 @@
 				</div>
   				<?php } $req->closeCursor(); ?>
 			</div>
-
+			<nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Pages :</a>
+          </li>
+          <?php
+            // Boucle sur les pages
+              for ($i = 1; $i <= $nb_pages; $i++) {
+                if ($i == $page){
+          ?>
+          <li class="page-item">
+            <a class="page-link" href="#">
+              <?php echo $i; ?>
+            </a>
+          <?php } else { ?>
+          <li class="page-item">
+            <a class="page-link" href="<?php echo "?page=" . $i; ?>">
+              <?php echo $i;?>
+            </a>
+          </li>
+        <?php } } ?>
+        </ul>
+      </nav>
 		<?php } ?>
 		<script type="text/javascript" src="<?= $ok_page; ?>../fichiers_externes/function_redac.js"></script>
 		<script type="text/javascript" src="<?= $ok_page; ?>../fichiers_externes/script.js"></script>
 
 		<?php include('../elements/footer.php'); ?>
-	</div>
 	</body>
 </html>
