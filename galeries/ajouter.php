@@ -87,7 +87,7 @@
               $resultat = move_uploaded_file($_FILES['image_galerie']['tmp_name'], $chemin);
               $updateavatar = $pdo->prepare('INSERT INTO galerie(filename, titre, titre_image, texte, date_image, auteur) VALUES(?, ?, ?, ?, NOW(), ?)')
               ;
-              $updateavatar->execute(array($image, $_POST['titre'], $_POST['titre_image'], $_POST['contenu'], $utilisateur['username']));
+              $updateavatar->execute(array($image, $_POST['titre'], $_POST['titre_image'], $_POST['contenu'], $utilisateur['id']));
               ?>
                 <div class='alert alert-success' role='alert'>
                   Votre image a bien été ajoutée au site.

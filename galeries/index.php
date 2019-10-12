@@ -41,7 +41,7 @@
   </div>
   <div id="conteneur_galerie">
       <?php 
-      $recuperer = $pdo->prepare('SELECT g.id AS id_galerie, filename, titre, titre_image, texte, auteur, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr FROM galerie g INNER JOIN users u ON g.auteur = u.username ORDER BY date_image DESC');
+      $recuperer = $pdo->prepare('SELECT g.id AS id_galerie, filename, titre, titre_image, texte, auteur, u.username, DATE_FORMAT(date_image, \'%d/%m/%Y à %Hh%imin\') AS date_image_fr FROM galerie g INNER JOIN users u ON g.auteur = u.id ORDER BY date_image DESC');
       $recuperer->execute(array($utilisateur['id']));
       while ($afficher_galerie = $recuperer->fetch()) { 
         ?>
@@ -59,7 +59,7 @@
               <center>
                 <u><a href="commentaires.php?galerie=<?php echo sanitize($afficher_galerie['id_galerie']); ?>">Voir l'image</a></u>
               <br/>
-              Posté par <?php echo sanitize($afficher_galerie['auteur']); ?> le <?php echo sanitize($afficher_galerie['date_image_fr']); ?></small>
+              Posté par <a href="../profil/voirprofil.php?membre=<?php echo sanitize($afficher_galerie['auteur']);?>" target="_blank"><?php echo sanitize($afficher_galerie['username']); ?></a> le <?php echo sanitize($afficher_galerie['date_image_fr']); ?></small>
             </center>
           </div>
         </div>

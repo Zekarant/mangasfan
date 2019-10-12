@@ -1,4 +1,7 @@
 <?php
+
+// PAGE A REVOIR AU NIVEAU DES HEADERS 
+
 function debug($variable){
   echo '<pre>' . print_r($variable, true) . '</pre>';
 }

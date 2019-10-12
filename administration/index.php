@@ -1,4 +1,5 @@
 <?php
+/* Pensez à vérifier la validité des liens des badges, le "inscrit" n'est plus valable ! */
 session_start();
 include('../membres/base.php'); 
 if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)

@@ -137,7 +137,7 @@
 													<?php 
 													if (!empty($informations['avatar'])){
 														if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", $informations['avatar'])) { ?>
-															<img src="../membres/images/avatars/<?php echo $informations['avatar']; ?>" alt="avatar_admin" class="avatar_admin"/> <!-- via fichier -->
+															<img src="https://www.mangasfan.fr/membres/images/avatars/<?php echo $informations['avatar']; ?>" alt="avatar_admin" class="avatar_admin"/> <!-- via fichier -->
 														<?php } else {
 															?>
 															<img src="<?php echo sanitize($informations['avatar']); ?>" alt="avatar_admin" class="avatar_admin"/><br/> <!-- via site url -->

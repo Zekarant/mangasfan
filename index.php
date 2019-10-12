@@ -165,7 +165,7 @@ use Michelf\Markdown;
 		<tbody>
 			<?php while($staff = $liste_staff->fetch()){ ?>
 				<tr>
-					<td>» <a href="profil/voirprofil.php?membre=<?php echo htmlspecialchars($staff['id']); ?>&action=consulter" class="lien_staff"><?php echo htmlspecialchars($staff['username']); ?></a></td>
+					<td>» <a href="profil/voirprofil.php?membre=<?php echo htmlspecialchars($staff['id']); ?>" class="lien_staff"><?php echo htmlspecialchars($staff['username']); ?></a></td>
 					<td><?php if($staff['chef'] != 0){ echo chef(htmlspecialchars($staff['chef'])); } else { echo statut(htmlspecialchars($staff['grade'])); } ?></td>
 					<td class="tableau_mobile"><?php if($staff['manga'] == NULL){ echo "Non renseigné";} else { echo htmlspecialchars($staff['manga']); } ?></td>
 					<td class="tableau_mobile"><?php echo htmlspecialchars($staff['date_inscription']); ?></td>
