@@ -1,5 +1,4 @@
 <div class="espace_commentaire">
-		<!-- view commentary -->
 		<h3>Espace commentaires</h3>
 		<?php if ($nbr_commentary < 1){ ?>
 			<div class='alert alert-warning' style="width:90%;text-align:center;margin:auto;margin-bottom:5px;" role='alert'> Il n'y a actuellement aucun commentaire. Soyez le premier à nous en faire un pour cette page ! </div>

@@ -5,7 +5,6 @@
         	?><span class="glyphicon glyphicon-star" style="color: #40A497;padding-bottom: 10px;" title="Plumes du site"></span><?php } elseif ($member['grade'] == 4) {
         	?><span class="glyphicon glyphicon-star" style="color: #632569;padding-bottom: 10px;" title="Community Manager"></span><?php } elseif ($member['grade'] == 3) {
         	?><span class="glyphicon glyphicon-star" style="color: orange;padding-bottom: 10px;" title="Animateur du site"></span><?php } ?>
-
         	<?php if ($member['testeurs'] == 1){ ?><span class="glyphicon glyphicon-wrench" style="color: DarkSlateGray;padding-bottom: 10px;" title="Bêta-Testeur de Mangas'Fan"></span>
         	<?php } elseif ($member['testeurs'] == 2) {
         	?><span class="glyphicon glyphicon-wrench" style="color: #D35400;padding-bottom: 10px;" title="Chef des Bêta-Testeurs"></span><?php } elseif ($member['testeurs'] == 3) {

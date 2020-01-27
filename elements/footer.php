@@ -3,8 +3,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h3>Newsletter</h3>
-	        <?php 
-	        include('traitement_newsletter.php');
+	        <?php include('traitement_newsletter.php');
 	        if($newsletterexist == 0) { ?>
 	          <form method="POST">
 	            <label>Tenez-vous informés des dernières nouveautés</label><br />

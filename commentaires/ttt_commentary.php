@@ -6,7 +6,6 @@
     } else {
 		$page = 1;
 	}
-	
 	$pagination = 7;
 	// Numéro du 1er enregistrement à lire
 	$limit_start = ($page - 1) * $pagination;

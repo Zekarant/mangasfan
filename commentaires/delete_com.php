@@ -4,7 +4,6 @@
 	include('../membres/functions.php');
 	if(isset($_SESSION['auth'])){
 		$id_commentaire = $_GET['id'];
-
 		if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){ 
 	        $user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 	        $user->execute(array($_SESSION['auth']['id']));

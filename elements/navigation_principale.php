@@ -2,7 +2,7 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mx-auto">
       <li class="nav-item">
         <a class="nav-link" href="https://www.mangasfan.fr/">Accueil</a>
@@ -22,8 +22,7 @@
       <li class="nav-item">
         <a class="nav-link" href="https://www.mangasfan.fr/mentions_legales.php">CGU</a>
       </li>
-      <?php
-      if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){ 
+      <?php if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){ 
         $user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
         $user->execute(array($_SESSION['auth']['id']));
         $utilisateur = $user->fetch(); 
@@ -46,34 +45,34 @@
                 if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", $utilisateur['avatar'])) { ?>
                   <img src="https://www.mangasfan.fr/membres/images/avatars/<?php echo $utilisateur['avatar']; ?>" alt="avatar" class="avatar_menu" /> <!-- via fichier -->
                 <?php } } ?>
-            </center>
-                <a class="dropdown-item" href="https://www.mangasfan.fr/profil/messagesprives.php">Messages Privés <?php if ($mp >= 1) { ?>
-                  - <?php echo sanitize($mp); ?> nouveau(x)
-                  <?php } ?>
-                </a>
-                  <a class="dropdown-item" href="https://www.mangasfan.fr/membres/compte.php">Modifier votre profil</a>
-                  <a class="dropdown-item" href="https://www.mangasfan.fr/profil/voirprofil.php?membre=<?php echo $utilisateur['id']; ?>&action=consulter">Voir votre profil</a>
-                  <hr>
-                  <a class="dropdown-item" href="https://www.mangasfan.fr/galeries">Index des galeries</a>
-                  <a class="dropdown-item" href="https://www.mangasfan.fr/galeries/administration_galerie.php">Administrer ma galerie</a>
-                  <a class="dropdown-item" href="https://www.mangasfan.fr/galeries/voir_galerie.php">Voir ma galerie</a>
-                  <?php if($utilisateur['grade'] >= 3){ ?>
-                    <hr>
-                    <a class="dropdown-item" href="https://www.mangasfan.fr/staff_index.php">Coin Staff</a>
-                  <?php } ?>
-                  <a class="dropdown-item" href="https://www.mangasfan.fr/membres/deconnexion.php">Déconnexion</a>
-                </div>
-              </li>
-            <?php } else { ?>
-              <li class="nav-item">
-                <a class="nav-link" href="https://www.mangasfan.fr/membres/inscription.php">Inscription</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="https://www.mangasfan.fr/membres/connexion.php">Connexion</a>
-              </li>
+              </center>
+              <a class="dropdown-item" href="https://www.mangasfan.fr/profil/messagesprives.php">Messages Privés <?php if ($mp >= 1) { ?>
+                - <?php echo sanitize($mp); ?> nouveau(x)
+              <?php } ?>
+            </a>
+            <a class="dropdown-item" href="https://www.mangasfan.fr/membres/compte.php">Modifier votre profil</a>
+            <a class="dropdown-item" href="https://www.mangasfan.fr/profil/voirprofil.php?membre=<?php echo $utilisateur['id']; ?>&action=consulter">Voir votre profil</a>
+            <hr>
+            <a class="dropdown-item" href="https://www.mangasfan.fr/galeries">Index des galeries</a>
+            <a class="dropdown-item" href="https://www.mangasfan.fr/galeries/administration_galerie.php">Administrer ma galerie</a>
+            <a class="dropdown-item" href="https://www.mangasfan.fr/galeries/voir_galerie.php">Voir ma galerie</a>
+            <?php if($utilisateur['grade'] >= 3){ ?>
+              <hr>
+              <a class="dropdown-item" href="https://www.mangasfan.fr/staff_index.php">Coin Staff</a>
             <?php } ?>
-          </ul>
-        </div>
-      </nav>
+            <a class="dropdown-item" href="https://www.mangasfan.fr/membres/deconnexion.php">Déconnexion</a>
+          </div>
+        </li>
+      <?php } else { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.mangasfan.fr/membres/inscription.php">Inscription</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.mangasfan.fr/membres/connexion.php">Connexion</a>
+        </li>
+      <?php } ?>
+    </ul>
+  </div>
+</nav>
 
 

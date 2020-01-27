@@ -1,4 +1,4 @@
-	<?php
+<?php
 	session_start();
 	include('../membres/base.php');
 	if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false){ 
