@@ -1,0 +1,28 @@
+/* Page pour les news / commentaires */
+
+body {
+	background-color: white;
+	margin: auto;
+}
+section {
+	padding: 20px;
+}
+/* Navigation */
+header {
+	background-image: url('../images/banniere.webp');
+	background-size: 100%;
+    background-position: 0% 40%;
+    background-repeat: no-repeat;
+	color: white;
+	height: 350px;
+}
+.bouton {
+	text-align: right;
+	padding-top: 300px;
+}
+.slogan {
+	display: none;
+}
+.image_reseaux {
+	width: 35px;
+}

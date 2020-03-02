@@ -1,0 +1,164 @@
+/* Feuille CSS réservée à la page index.php */
+body {
+	background-color: white;
+	margin: auto;
+}
+section {
+	padding: 20px;
+}
+a {
+	color: grey;
+}
+/* Header */
+header {
+	background-image: url('../images/banniere.webp');
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	color: white;
+	height: 700px;
+}
+.logo_site {
+	width: 150px;
+}
+.slogan {
+	padding-top: 430px;
+	text-align: center;
+	font-family: 'Oswald';
+	text-shadow: 2px 2px 2px grey;
+}
+.bouton {
+	text-align: center;
+	padding-top: 50px;
+}
+/* Réseaux sociaux */
+.image_reseaux
+{
+	width: 45px;
+}
+
+/* Global */
+.titre {
+	margin-top: 20px;
+	font-size: 40px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+hr.tiret_news {
+	width: 70%;
+}
+.image_news {
+	border: 1px solid grey;
+	border-radius: 100%;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+.news {
+	text-align: center;
+	margin-bottom: 50px;
+}
+.image_news {
+	border: 1px solid grey;
+	border-radius: 100%;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+.effet_news {
+	display: inline-block;
+	position: relative;
+}
+.effet_news:hover p.text  {
+	opacity: 1;
+}
+.effet_news p.text  {
+	color: #FFF;
+	width: 200px;
+	height: 200px;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	padding-top: 85px;
+	opacity: 0;
+	display: block;
+	position: absolute;
+	-webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+}
+.titre_news, .titre_news a {
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	font-size: 17px;
+}
+.description_news, .bloc_auteur {
+	font-size: 12px;
+	text-align: justify;
+}
+.auteur_news {
+	float: left;
+}
+.date_news {
+	float: right;
+}
+/* Footer */
+.footer 
+{
+	background: #333333;
+	height: auto;
+	color: white;
+	font-size: 15px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	border-bottom: 1px solid #212121;
+	border-top: 1px solid #DDDDDD;
+}
+.footer h3 
+{
+	border-bottom: 1px solid #BAC1C8;
+	color: white;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 27px;
+	padding-top: 20px;
+	padding: 10px 0 10px;
+	text-transform: uppercase;
+}
+.footer p 
+{
+	color: white;
+}
+.footer-bottom 
+{
+	background: #212121;
+	border-top: 1px solid #212121;
+	padding-top: 10px;
+	width: auto;
+	font-size: 15px;
+	text-align: center;
+	padding-bottom: 5px;
+}
+footer-bottom p.pull-left 
+{
+	color: white;
+}
+.pull-left 
+{
+	color: white;
+}
+.lien_site li
+{
+	display: inline-block;
+}
+.lien_site a
+{
+	color: white;
+}
+.lien_site a:hover
+{
+	color: grey;
+	text-decoration: none;
+}
