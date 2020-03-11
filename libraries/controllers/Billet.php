@@ -37,7 +37,7 @@ class Billet extends Controller {
 		if (!$billet_id) {
 			echo "Error";
 		}
-		$billet = $this->model->find($billet_id);
+		$billet = $this->model->find($billet_id, 'users u', 'b.auteur = u.id');
 		$commentaires = $commentModel->findAllWithNews($billet_id);
 		$style = "../css/commentaires.css";
 		$pageTitle = $billet['titre'];

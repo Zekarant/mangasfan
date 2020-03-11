@@ -1,7 +1,5 @@
 <?php
 
-
-
 class Database {
 	/**
 * Connexion à la base de données

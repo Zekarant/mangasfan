@@ -18,7 +18,7 @@
 				<p class="titre_news">
 					<a href="commentaire.php?id=<?= $billet['id_news'] ?>"><?= $billet['titre']; ?></a>
 				</p>
-				<p class="description_news"><?= $billet['description']; ?></p>
+				<p class="description_news"><?= $billet['description_news']; ?></p>
 				<div class="bloc_auteur">
 					<span class="auteur_news"><?= $billet['username']; ?></span>
 					<span class="date_news">Le <?= date('d M Y à H:i', strtotime($billet['date_creation'])); ?></span>

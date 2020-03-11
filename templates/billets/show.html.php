@@ -1,6 +1,6 @@
 <h1><?= $billet['titre'] ?></h1>
 <small>Ecrit le <?= $billet['date_creation'] ?> par <?= $billet['username'] ?></small>
-<p><?= $billet['description'] ?></p>
+<p><?= $billet['description_news'] ?></p>
 <hr>
 <?= $billet['contenu'] ?>
 

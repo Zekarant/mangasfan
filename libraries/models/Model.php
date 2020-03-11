@@ -37,9 +37,9 @@ abstract class Model {
 	* Recherche d'un seul élément
 	* @param $id
 	*/
-	public function find($id) {
+	public function find($id, string $innertable, string $jointable) {
 		if (is_numeric($id)) {
-			$query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id");
+			$query = $this->pdo->prepare("SELECT {$this->selection} FROM {$this->table} INNER JOIN $innertable ON $jointable WHERE b.id = :id");
 			$query->execute(['id' => $id]);
 			$item = $query->fetch();
 			if (!empty($item['slug'])) {
@@ -49,12 +49,12 @@ abstract class Model {
 			}
 		} elseif ($id == str_replace("-", "_", $id)) {
 			$id =  str_replace("_", "-", $id);
-			$query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE slug = :id");
+			$query = $this->pdo->prepare("SELECT {$this->selection} FROM {$this->table} INNER JOIN $innertable ON $jointable WHERE slug = :id");
 			$query->execute(['id' => $id]);
 			$item = $query->fetch();
 			\Http::redirect($item['slug']);
 		} else {
-			$query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE slug = :id");
+			$query = $this->pdo->prepare("SELECT {$this->selection} FROM {$this->table} INNER JOIN $innertable ON $jointable WHERE slug = :id");
 			$query->execute(['id' => $id]);
 			$item = $query->fetch();
 			if ($id != $item['slug']) {
