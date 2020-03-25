@@ -39,6 +39,16 @@ header {
 	text-align: right;
 	font-style: italic;
 }
+.bloc-auteur {
+	padding: 10px;
+}
+.a-propos-auteur {
+	text-align: center;
+}
+.auteur-avatar {
+	width: 100px;
+	padding-right: 15px;
+}
 /* Footer */
 .footer 
 {
