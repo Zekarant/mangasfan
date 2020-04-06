@@ -1,22 +1,38 @@
+Options Indexes FollowSymLinks
 RewriteEngine on
 
-RewriteRule ^jeux_video/$ jeux_video/index.php
-RewriteRule ^jeux_video/p([0-9])$ jeux_video/index.php?page=$1
-RewriteRule ^jeux_video/([a-zA-Z0-9_-]+)$ jeux_video/index.php?jeux=$1
-RewriteRule ^jeux_video/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ jeux_video/index.php?jeux=$1&page=$2
+RewriteCond %{HTTP_HOST} ^mangasfan.nexgate.ch$
+RewriteRule (.*)$ http://mangasfan.fr/$1 [R=301,L]
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^.*$ https://www.%1%{REQUEST_URI} [L,NE,R=301]
+
+RewriteRule ^jeux_video/(.*)$ /jeux-video/$1 [R=301,L]
+RewriteRule ^jeux-video/$ jeux-video/index.php
+RewriteRule ^jeux-video/p([0-9])$ jeux-video/index.php?page=$1
+RewriteRule ^jeux-video/([a-zA-Z0-9_-]+)$ jeux-video/index.php?jeux=$1
+RewriteRule ^jeux-video/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ jeux-video/index.php?jeux=$1&page=$2
 
 RewriteRule ^mangas/$ mangas/index.php
 RewriteRule ^mangas/p([0-9])$ mangas/index.php?page=$1
 RewriteRule ^mangas/([a-zA-Z0-9_-]+)$ mangas/index.php?mangas=$1
 RewriteRule ^mangas/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ mangas/index.php?mangas=$1&page=$2
 
+RewriteRule ^animes/$ animes/index.php
+RewriteRule ^animes/p([0-9])$ animes/index.php?page=$1
+RewriteRule ^animes/([a-zA-Z0-9_-]+)$ animes/index.php?animes=$1
+RewriteRule ^animes/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ animes/index.php?animes=$1&page=$2
+
 RewriteRule ^redaction/$ redaction/redac.php
 RewriteRule ^redaction/modif_(jeux|mangas)/([a-zA-Z0-9_-]+)$ redaction/modif_news_jeux.php?id_news=$2&type=$1
 RewriteRule ^redaction/modif_page_(jeux|mangas)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ redaction/mod_articles.php?type=$1&elt=$2&page=$3
 
-RewriteRule ^commentaire/$ commentaire.php
-RewriteRule ^commentaire/p([0-9])$ commentaire.php?billet=$1
-RewriteRule ^commentaire/([a-zA-Z0-9_-]+)$ commentaire.php?billet=$1
+
+RewriteRule ^commentaire/([0-9a-zA-Z_-]+)$ commentaire.php?billet=$1 [L,QSA]
+RewriteRule ^galeries/([0-9a-zA-Z_-]+)$ galeries/commentaires.php?image_galeries=$1 [L,QSA]
+RewriteRule ^profil/profil-([0-9a-zA-Z_-]+)$ profil/voirprofil.php?membre=$1 [L,QSA]
+RewriteRule ^galeries/members/galerie-([0-9a-zA-Z_-]+)$ galeries/voir_galerie.php?galerie=$1 [L,QSA]
 
 
 ErrorDocument 400 /erreurs/erreur_400.php

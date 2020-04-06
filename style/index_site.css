@@ -1,63 +1,85 @@
-section
-{
+body {
+	background-color: white;
+	margin: auto;
+}
+section {
 	padding: 20px;
 }
+/* Navigation */
 header
 {
-	background-image: url('../images/ban_arrondie-min.png');
+	background-image: url('https://www.mangasfan.fr/images/banniere.png');
 	background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+	background-position: center center;
+	background-repeat: no-repeat;
 	color: white;
 	height: 700px;
 }
-a
-{
-	color: grey;
+.slogan {
+	padding-top: 430px;
+	text-align: center;
+	font-family: 'Oswald';
+	text-shadow: 2px 2px 2px grey;
 }
-.marge_page
-{
-	padding: 20px;
+.bouton {
+	text-align: center;
+	padding-top: 50px;
+}
+.btn-twitter, .btn-discord, .btn-facebook, .btn-instagram, .btn-utip {
+	color: white;
+}
+.btn-twitter {
+	background-color: #00acee;
+}
+.btn-discord {
+	background-color: #7082e1;
+}
+.btn-facebook {
+	background-color: #375798;
+}
+.btn-instagram {
+	background-color: #a03797;
+}
+.btn-utip {
+	background-color: #0076f4;
+}
+a {
+	color: grey;
 }
 .avatar_menu
 {
-	max-height: 85px; 
-	max-width: 95px;
+	max-height: 105px; 
+	max-width: 115px;
 	padding-top: 10px;
 }
-.titre_site
-{
-	text-align: center;
-	text-transform: uppercase;
-	margin-top: 210px;
-	font-size: 60px;
-}
-.slogan_site
-{
-	text-align: center;
-	font-size: 13px;
-}
-.bouton
-{
-	text-align: center;
-	margin-top: 20px;
-}
-img.image_team
-{
+img.image_team {
 	margin-top: 30px;
 	width: 100px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
-.table
-{
-	width: 80%!important;
+.titre_staff {
+	margin: auto;
+	font-family: 'Oswald';
+}
+.table {
+	width: 80%;
 	margin: auto;
 }
-
-/* Corps de page */
-
+/* News du site */
+hr.tiret_news
+{
+	width: 70%;
+}
+.titre_news
+{
+	text-align: center;
+}
+.titre_news a
+{
+	color: black;
+}
 .titre_principal_news
 {
 	margin-top: 20px;
@@ -65,9 +87,17 @@ img.image_team
 	text-align: center;
 	margin-bottom: 10px;
 }
-hr.tiret_news
+.titre_secondaire
 {
-	width: 70%;
+	font-size: 30px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.titre_petit
+{
+	font-size: 25px;
+	text-align: center;
+	margin-bottom: 10px;
 }
 .conteneur
 {
@@ -93,36 +123,35 @@ hr.tiret_news
 }
 .effet_news
 {
-    text-align: center;
-    display: inline-block;
-    position: relative;
+	text-align: center;
+	display: inline-block;
+	position: relative;
 }
 .effet_news:hover p.text 
 {
-    opacity: 1;
+	opacity: 1;
 }
 .effet_news p.text 
 {
-    color: #FFF;
-    width: 200px;
-    height: 200px;
-    border-radius: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    top: 0;
-    padding-top: 85px;
-    opacity: 0;
-    display: block;
-    position: absolute;
-    -webkit-transition: opacity .5s ease-in-out;
-    -moz-transition: opacity .5s ease-in-out;
-    -o-transition: opacity .5s ease-in-out;
-    -ms-transition: opacity .5s ease-in-out;
+	color: #FFF;
+	width: 200px;
+	height: 200px;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	padding-top: 85px;
+	opacity: 0;
+	display: block;
+	position: absolute;
+	-webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
 }
-.titre_news a
+.titre_news
 {
 	font-weight: bold;
 	font-size: 17px;
-	color: black;
 }
 .description_news, .bloc_auteur
 {
@@ -137,106 +166,59 @@ hr.tiret_news
 {
 	float: right;
 }
+.contenu_commentaire
+{
+	padding-top: 40px;
+}
+.image_tiny
+{
+	max-width: 100%;
+}
+.auteur_news_commentaire
+{
+	padding-top: 15px;
+	text-align: right; 
+}
+.sources
+{
+	padding-top: 20px;
+}
 img.image_archive
 {
 	margin: auto;
 	display: block;
 }
-
-/* Derniers jeux/mangas */
-.conteneur_dossiers
+/* MP */
+.new_mp{
+	width: 20px;
+}
+.image_enveloppe_mp
 {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	margin-bottom: 20px;
+	width: 150px;
 }
-div.gallery {
-    margin: 5px;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-div.gallery img {
-    width: 100%;
-    height: 400px;
-}
-
-div.desc {
-    padding: 15px;
-    text-align: center;
-}
-.titre
+.image_enveloppe_mp_accueil
 {
-	color: black;
-	text-align: center;
-	font-family: 'Oswald', cursive;
-	font-size: 30px;
-	padding-top: 20px;
+	width: 50px;
 }
-/* Footer */
-.footer 
+#entete_mp
 {
-	background: #333333;
-	height: auto;
-	color: white;
-	font-size: 15px;
-	padding-bottom: 20px;
-	padding-top: 10px;
-	border-bottom: 1px solid #212121;
-	border-top: 1px solid #DDDDDD;
+	padding-left: 20px;
+	font-size: 16px;
 }
-.footer h3 
+.logo_site {
+	width: 150px;
+	
+}
+#avatar_mp img
 {
-    border-bottom: 1px solid #BAC1C8;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 27px;
-    padding-top: 20px;
-    padding: 10px 0 10px;
-    text-transform: uppercase;
+	max-height: 200px;
+	margin-right: 20px;
+	max-width: 150px;
 }
-.footer p 
+.avatar_profil
 {
-    color: white;
+	width: 100%;
 }
-.footer-bottom 
-{
-	background: #212121;
-	border-top: 1px solid #212121;
-	padding-top: 10px;
-	width: auto;
-	font-size: 15px;
-	text-align: center;
-	padding-bottom: 5px;
-}
-footer-bottom p.pull-left 
-{
-	color: white;
-}
-.pull-left 
-{
-	color: white;
-}
-.lien_site li
-{
-	display: inline-block;
-}
-.lien_site a
-{
-	color: white;
-}
-.lien_site a:hover
-{
-	color: grey;
-	text-decoration: none;
-}
-/* Réseaux sociaux */
-.image_reseaux
-{
-	width: 30px;
-}
-
 /* Staff */
 .badge-warning
 {
@@ -278,21 +260,150 @@ div.red
 }
 div.green
 {
-	 background-color: #31B404;
-	 color: white;
+	background-color: #31B404;
+	color: white;
 }
 div.blue
 {
-	 background-color: #40A497;
-	 color: white;
+	background-color: #40A497;
+	color: white;
 }
 div.orange
 {
-	 background-color: orange;
-	 color: white;
+	background-color: orange;
+	color: white;
 }
 div.purple
 {
 	background-color: #632569;
 	color: white;
+}
+.navbar_staff
+{
+	border-bottom: 1px solid grey;
+}
+/* Derniers articles */
+#conteneur_dossiers
+{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+.card {
+	margin: 5px;
+	border: 1px solid #ccc;
+}
+img.card-img-top {
+	width: 100%;
+	height: 400px;
+}
+.texte-gallery {
+	text-align: center;
+}
+.titre
+{
+	color: black;
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 30px;
+	padding-top: 20px;
+}
+/* Footer */
+.footer 
+{
+	background: #333333;
+	height: auto;
+	color: white;
+	font-size: 15px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	border-bottom: 1px solid #212121;
+	border-top: 1px solid #DDDDDD;
+}
+.footer h3 
+{
+	border-bottom: 1px solid #BAC1C8;
+	color: white;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 27px;
+	padding-top: 20px;
+	padding: 10px 0 10px;
+	text-transform: uppercase;
+}
+.footer p 
+{
+	color: white;
+}
+.footer-bottom 
+{
+	background: #212121;
+	border-top: 1px solid #212121;
+	padding-top: 10px;
+	width: auto;
+	font-size: 15px;
+	text-align: center;
+	padding-bottom: 5px;
+}
+footer-bottom p.pull-left 
+{
+	color: white;
+}
+.pull-left 
+{
+	color: white;
+}
+.lien_site li
+{
+	display: inline-block;
+}
+.lien_site a
+{
+	color: white;
+}
+.lien_site a:hover
+{
+	color: grey;
+	text-decoration: none;
+}
+/* Réseaux sociaux */
+.image_reseaux
+{
+	width: 45px;
+}
+.links {
+	text-decoration: none;
+}
+@media screen and (max-width: 480px){
+	.mx-auto
+	{
+		text-align: left;
+	}
+	header {
+		height: 320px;
+	}
+	.bouton {
+		padding-top: 5px;
+	}
+	.image_reseaux {
+		width: 35px;
+	}
+	.tableau_mobile
+	{
+		display: none;
+	}
+	.image_archive
+	{
+		width: 350px;
+	}
+	.element
+	{
+		margin: auto;
+		margin-bottom: 40px;
+	}
+	.slogan {
+		padding-top: 200px;
+		font-size: 18px;
+	}
 }

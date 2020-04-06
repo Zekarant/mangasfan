@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Xwilarg/Discord-OAuth2-PHP.git",
-                "reference": "bcb75ae903e09c4dbe67e3d37210cbd4f85481cc"
+                "reference": "67d801bee5417c1a4146e710be8f4c691d672228"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Xwilarg/Discord-OAuth2-PHP/zipball/bcb75ae903e09c4dbe67e3d37210cbd4f85481cc",
-                "reference": "bcb75ae903e09c4dbe67e3d37210cbd4f85481cc",
+                "url": "https://api.github.com/repos/Xwilarg/Discord-OAuth2-PHP/zipball/67d801bee5417c1a4146e710be8f4c691d672228",
+                "reference": "67d801bee5417c1a4146e710be8f4c691d672228",
                 "shasum": ""
             },
             "type": "library",
@@ -43,7 +43,7 @@
                 "oauth2",
                 "oauth2-client"
             ],
-            "time": "2019-10-02T18:47:18+00:00"
+            "time": "2019-10-02T18:34:47+00:00"
         }
     ],
     "packages-dev": [],

@@ -74,26 +74,8 @@ input[name="new_cat"]{
 	margin-right:0;
 }
 
-span.suppr_page,span.suppr_cat{
-	color:black;
+span.suppr_page,span.suppr_cat, span.modif_cat,span.modif_page{
 	cursor:pointer;
-	transition: all ease 300ms;
-}
-
-span.suppr_page:hover,span.suppr_cat:hover{
-	transition: all ease 300ms;
-	color:red;
-}
-
-span.modif_cat,span.modif_page{
-	color:black;
-	cursor:pointer;
-	transition: all ease 300ms;
-}
-
-span.modif_cat:hover,span.modif_page:hover{
-	transition: all ease 300ms;
-	color:orange;
 }
 
 .add_cat{

@@ -8,7 +8,7 @@ $(function() {
 		var tableau = url.split('');
 		tableau.shift();
 		var elt = tableau.join('');
-		if(/^jeux_video/.test(elt)){
+		if(/^jeux-video/.test(elt)){
 			return "jeux";
 		} else if(/^mangas/.test(elt)){
 			return "mangas";

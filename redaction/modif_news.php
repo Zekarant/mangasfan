@@ -30,6 +30,8 @@ include('../membres/functions.php');
       theme: 'modern',
       language: 'fr_FR',
       plugins: ['print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help'],
+       browser_spellcheck: true,
+  contextmenu: false,
       toolbar: 'insert | undo redo |  formatselect | bold italic underline backcolor forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
       image_class_list: [
       {title: 'Image news', value: 'image_tiny'},

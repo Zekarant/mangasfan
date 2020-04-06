@@ -21,19 +21,90 @@ include('../membres/base.php');
             $num_id_onglet = $pdo->prepare("SELECT id FROM $type2 WHERE nom = ? AND billets_id = ?");
             $num_id_onglet->execute(array($categorie,$id_news));
             $num_id_onglet = $num_id_onglet->fetch();
+            $recuperer_mangas = $pdo->prepare('SELECT j.id, j.titre, jo.mangas_id FROM billets_mangas j INNER JOIN billets_mangas_pages jo ON j.id = jo.mangas_id WHERE mangas_id = ?');
+            $recuperer_mangas->execute(array($id_news));
+            $recuperation = $recuperer_mangas->fetch();
+            $recuperer_jeux = $pdo->prepare('SELECT j.id, j.titre, jo.jeux_id FROM billets_jeux j INNER JOIN billets_jeux_pages jo ON j.id = jo.jeux_id WHERE jeux_id = ?');
+            $recuperer_jeux->execute(array($id_news));
+            $recuperationj = $recuperer_jeux->fetch();
 
             if($verif_deja_exist->rowCount() == 0){
+                $url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
                 if($verif_type == "jeux"){
                     $ajoute_page = $pdo->prepare('
                         INSERT INTO billets_jeux_pages(jeux_id,num_onglet,nom,type_art,contenu,member_post,date_post,image,position) 
                         VALUES(?,?,?,?,?,?,NOW(),?,?)');
+                    $hookObject = json_encode([
+        "tts" => false,
+        "embeds" => [
+          [
+            "title" => htmlspecialchars($title_page),
+            "type" => "rich",
+            "url" => "https://www.mangasfan.fr/jeux-video/".traduire_nom($recuperationj['titre']) . "/" .traduire_nom($title_page),
+            "color" => 12211667,
+            "author" => [
+              "name" => "Mangas'Fan - Nouvel article - " . $utilisateur['username'],
+              "url" => "https://www.mangasfan.fr",
+              "icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
+            ],
+            "image" => [
+              "url" => htmlspecialchars($image)
+            ],
+          ]
+        ]
+
+      ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+      $ch = curl_init();
+
+      curl_setopt_array( $ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $hookObject,
+        CURLOPT_HTTPHEADER => ["Content-Type: application/json"]
+      ]);
+
+      $response = curl_exec( $ch );
+      curl_close( $ch );
+
                 } else {
                     $ajoute_page = $pdo->prepare('
                         INSERT INTO billets_mangas_pages(mangas_id,num_onglet,nom,type_art,contenu,member_post,date_post,image,position) 
                         VALUES(?,?,?,?,?,?,NOW(),?,?)');
+                    $hookObject = json_encode([
+        "tts" => false,
+        "embeds" => [
+          [
+            "title" => htmlspecialchars($title_page),
+            "type" => "rich",
+            "url" => "https://www.mangasfan.fr/mangas/".traduire_nom($recuperation['titre']) . "/" .traduire_nom($title_page),
+            "color" => 12211667,
+            "author" => [
+              "name" => "Mangas'Fan - Nouvel article - " . $utilisateur['username'],
+              "url" => "https://www.mangasfan.fr",
+              "icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
+            ],
+            "image" => [
+              "url" => htmlspecialchars($image)
+            ],
+          ]
+        ]
+
+      ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+      $ch = curl_init();
+
+      curl_setopt_array( $ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $hookObject,
+        CURLOPT_HTTPHEADER => ["Content-Type: application/json"]
+      ]);
+
+      $response = curl_exec( $ch );
+      curl_close( $ch );
                 }
                 $ajoute_page->execute(array($id_news,$num_id_onglet['id'],$title_page,$type_message,$text_page,$utilisateur['username'],$image,0));
-
                 header('Location: ../modif_'.$verif_type.'/'.$save_name_jeu);
             }       
         } 

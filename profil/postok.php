@@ -1,38 +1,8 @@
 <?php
 session_start();
-require_once '../inc/base.php';
-if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)
-{ 
-        $user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-        $user->execute(array($_SESSION['auth']['id']));
-        $utilisateur = $user->fetch(); 
-}
-include('../inc/functions.php'); ?>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="icon" href="../images/favicon.png"/>
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../style.css">
-</head>
-<body>
-      <header>
-	<div id="banniere_image">
-	<div id="titre_site"><span class="couleur_mangas">M</span>ANGAS'<span class="couleur_fans">F</span>AN</div>
-	<div class="slogan_site">Votre référence Mangas</div>
-        <?php include("../elements/navigation.php") ?>
-	<h2 id="actu_moment">NOTRE FORUM</h2>
-	<h5 id="slogan_actu">Pour parler de notre passion commune</h5>
-	<div class="bouton_fofo"><a href="https://mangasfan.000webhostapp.com/forum">Forum</a></div>
-   <?php include('../elements/header.php'); ?><section>
-<?php include("../elements/messages.php"); ?>
-<?php logged_only();
-
-    if(session_status() == PHP_SESSION_NONE){
+require_once '../membres/base.php';
+include('../membres/functions.php'); 
+ if(session_status() == PHP_SESSION_NONE){
         session_start();
     }
     if(!isset($_SESSION['auth'])){
@@ -79,7 +49,7 @@ switch($action)
         $query=$pdo->prepare('INSERT INTO forum_post
         (post_createur, post_texte, post_time, topic_id, post_forum_id, vu)
         VALUES (:id, :mess, :temps, :nouveautopic, :forum, 1)');
-		$query->execute(array("id" => $id, "mess" => $message, "temps" => $temps, "nouveautopic" => $nouveautopic, "forum" => $forum));
+        $query->execute(array("id" => $id, "mess" => $message, "temps" => $temps, "nouveautopic" => $nouveautopic, "forum" => $forum));
 
 
 
@@ -92,14 +62,14 @@ switch($action)
         SET topic_last_post = :nouveaupost,
         topic_first_post = :nouveaupost
         WHERE topic_id = :nouveautopic');
-		$query->execute(array("nouveaupost" => $nouveaupost, "nouveautopic" => $nouveautopic));
+        $query->execute(array("nouveaupost" => $nouveaupost, "nouveautopic" => $nouveautopic));
         $query->CloseCursor();
 
         //Enfin on met à jour les tables forum_forum et forum_membres
         $query=$pdo->prepare('UPDATE forum_forum SET forum_post = forum_post + 1 ,forum_topic = forum_topic + 1,
         forum_last_post_id = :nouveaupost
         WHERE forum_id = :forum');
-		$query->execute(array("nouveaupost" => $nouveaupost, "forum" => $forum));
+        $query->execute(array("nouveaupost" => $nouveaupost, "forum" => $forum));
         $query->CloseCursor();
 
 
@@ -108,7 +78,7 @@ switch($action)
         Cliquez <a href="./voirtopic.php?t='.$nouveautopic.'">ici</a> pour le voir</p>';
     }
     break;
-	case "delete": //Si on veut supprimer le post
+    case "delete": //Si on veut supprimer le post
     //On récupère la valeur de p
     $post = (int) $_GET['p'];
     $query=$pdo->prepare('SELECT post_createur, post_texte, forum_id, topic_id, auth_modo
@@ -120,7 +90,7 @@ switch($action)
     $data = $query->fetch();
     $topic = $data->topic_id;
     $forum = $data->forum_id;
-	$poster = $data->post_createur;
+    $poster = $data->post_createur;
 
 
     //Ensuite on vérifie que le membre a le droit d'être ici
@@ -250,7 +220,7 @@ switch($action)
 
      //Fin du else
 break;
-	case "edit": //Si on veut éditer le post
+    case "edit": //Si on veut éditer le post
     //On récupère la valeur de p
     $post = (int) $_GET['p'];
 
@@ -295,7 +265,7 @@ break;
     }
 break;
 
-	case "repondre":
+    case "repondre":
     $message = addslashes(htmlspecialchars($_POST['message']));
 
     //ici seulement, maintenant qu'on est sur qu'elle existe, on récupère la valeur de la variable t
@@ -354,7 +324,7 @@ break;
         Cliquez <a href="./voirtopic.php?t='.$topic.'&amp;page='.$page.'#p_'.$nouveaupost.'">ici</a> pour le voir</p>';
     }//Fin du else
     break;
-	case "delete_topic":
+    case "delete_topic":
     $topic = (int) $_GET['t'];
     $query=$pdo->prepare('SELECT forum_topic.forum_id, auth_modo
     FROM forum_topic
@@ -442,7 +412,7 @@ case "repondremp": //Si on veut répondre
     $query->bindValue(':tps',$temps,PDO::PARAM_INT);
     $query->execute();
     echo'<div class="alert alert-success" role="alert">Votre message a bien été envoyé !</div>';
-	echo '<script>location.href="messagesprives.php";</script>';
+    echo '<script>location.href="messagesprives.php";</script>';
 
     break;
 
@@ -487,15 +457,10 @@ case "repondremp": //Si on veut répondre
     {
         echo'<div class="alert alert-danger" role="alert"><p>Désolé ce membre n\'existe pas, veuillez vérifier et
         réessayez à nouveau.</div></p>';
-		 header('Refresh:2;url=messagesprives.php');
+         header('Location: messagesprives.php');
+         $_SESSION['flash']['danger'] = "<div class='alert alert-danger' role='alert'>Ce membre n'existe pas. Veuillez recommencer avec un membre valide !</div>";
     }
     break;
-	default;
+    default;
     echo'<div class="alert alert-danger" role="alert"><p>Cette action est imposssible !</div></p>';
-} //Fin
-?>
-</div>
-</section>
-
-</body>
-</html>
+} ?>

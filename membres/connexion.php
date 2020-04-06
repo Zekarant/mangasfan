@@ -129,17 +129,19 @@ if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
 					<div class="row">
 						<div class="col-md-6">
 							<label>Pseudo ou Mail : </label>
-							<input name="username" class="form-control" type="text" placeholder="Entrer votre pseudo" required>
+							<input name="username" class="form-control" type="text" placeholder="Entrez votre pseudo" required>
 							<br/>
 							<label>Mot de passe : </label>
-							<input type="password" name="password" placeholder="Entrer votre mot de passe" class="form-control" />
+							<input type="password" name="password" placeholder="Entrez votre mot de passe" class="form-control" />
 							<br/>
+							<div class="alert alert-info" role="alert">
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" id="connexion_maintenue" name="connexion_maintenue">
 								<label class="form-check-label" for="gridCheck1">
-									Rester connecté
+									Cocher la case pour rester connecté
 								</label>
 							</div>
+						</div>
 							<br/>
 							<input type="submit" name="" class="btn btn-info" value="Connexion">
 						</div><br/><br/>
@@ -150,11 +152,11 @@ if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
 							  	En cochant la case « Rester connecté », vous acceptez <strong>l'utilisation des cookies</strong> qui vous permettront de rester connecté au site sans avoir à retaper vos identifiants. Merci de noter que si vous ne voulez pas être connecté de façon constante au site, vous n'avez pas à cocher cette option.</p>
 							  <hr>
 							  <p>En cas de quelconque problème concernant les cookies, n'hésitez pas à envoyer un mail à l'équipe d'administration de Mangas'Fan : contact@mangasfan.fr</p>
+							  <p>En cas de perte de mot de passe : <a href="forget.php" class="btn btn-sm btn-outline-warning">Mot de passe oublié</a></p>
 							</div>
 						</div>
 					</div>
-				</form><br/>
-				<p>Vous avez oublié votre mot de passe ? N'hésitez pas à le récupérer <a href="forget.php">ici</a></p>
+				</form>
 			</section>
 			<?php include('../elements/footer.php'); ?>
 	</body>

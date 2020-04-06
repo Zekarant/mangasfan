@@ -1,0 +1,61 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("https://images3.alphacoders.com/831/thumb-1920-83127.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bg-recrutements {
+  /* The image used */
+  background-image: url("../images/ban_arrondie-min.png");
+
+  /* Full height */
+  height: 50%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.titre-principal {
+  text-align: center;
+  padding-top: 100px;
+  color: white;
+  text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+}
+.titre-principal-recrutements {
+  text-align: center;
+  padding-top: 10%;
+  color: white;
+  text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+}
+.navbar-nav {
+  margin: auto;
+}
+.tiret-news
+{
+  color: white;
+  margin-top: 50px;
+  border: 1px solid white;
+  width: 50%;
+}
+.bloc-principal {
+  width: 50%;
+  margin: auto;
+  margin-top: 5%;
+}
+.lead {
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+}

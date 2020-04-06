@@ -57,4 +57,5 @@ if(isset($_GET['deinscription'])){
    } else {
       $erreur = "<div class='alert alert-danger' role='alert'>L'id de l'inscription n'est pas présent.</div>";
    }
-} ?>
+}
+?>

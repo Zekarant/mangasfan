@@ -1,12 +1,14 @@
 <?php 
 session_start();
-include('../inc/functions.php');
-include('../inc/base.php');
-if(isset($_SESSION['auth']) AND $_SESSION['auth'] !== false)
-{ 
-  $user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-  $user->execute(array($_SESSION['auth']['id']));
-  $utilisateur = $user->fetch(); 
+include('../membres/functions.php');
+include('../membres/base.php');
+if (!isset($_SESSION['auth'])) {
+  header('Location: ../erreurs/erreur_403.php');
+  exit();
+}
+if (isset($_SESSION['auth']) && $utilisateur['grade'] != 6 && $utilisateur['grade'] <= 7) {
+  header('Location: ../erreurs/erreur_403.php');
+  exit();
 }
 include('../theme_temporaire.php');
 ?>
@@ -58,53 +60,7 @@ include('../theme_temporaire.php');
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2 d-none d-md-block bg-light sidebar" style="padding: 0px!important">
-          <nav>
-            <center>
-              <h5 style="padding-top: 15px;">Bienvenue <?php echo rang_etat(sanitize($utilisateur['grade']), sanitize($utilisateur['username']));?> !</h5>
-              <hr>
-              <?php 
-              if (!empty($utilisateur['avatar'])){
-                if (preg_match("#[0-9]+\.[png|jpg|jpeg|gif]#i", $utilisateur['avatar'])) { ?>
-                  <img src="https://www.mangasfan.fr/membres/images/avatars/<?php echo $utilisateur['avatar']; ?>" alt="avatar" class="avatar_menu" /> <!-- via fichier -->
-                  <?php } } ?><br/><br/>
-                  <p>Status : <?php echo statut(sanitize($utilisateur['grade'])); ?></p>
-                  <hr>
-                  <a href="../staff_index.php" class="btn btn-sm btn-info">Retournez à l'index staff</a>
-                </center>
-                <ul class="nav flex-column">
-                  <?php if($utilisateur['grade'] == 5){ ?>
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                      <span>Newseurs</span>
-                    </h6>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://www.mangasfan.fr/redaction/rediger_news.php">» Rédiger une news</a>
-                    </li>
-                  <?php } elseif ($utilisateur['grade'] == 6) { ?>
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                      <span>Rédacteurs</span>
-                    </h6>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://www.mangasfan.fr/redaction/ajouter_jeux.php"> » Gestion des jeux</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://www.mangasfan.fr/redaction/ajouter_mangas.php">» Gestion des mangas/animes</a>
-                    </li>
-                  <?php } elseif ($utilisateur['grade'] >= 9) {?>
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                      <span>Administration</span>
-                    </h6>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://www.mangasfan.fr/redaction/rediger_news.php">» Rédiger une news</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://www.mangasfan.fr/redaction/ajouter_jeux.php"> » Gestion des jeux</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://www.mangasfan.fr/redaction/ajouter_mangas.php">» Gestion des mangas/animes</a>
-                    </li>
-                  <?php } ?>  
-                </ul>
-              </nav>
+          <?php include('../elements/navredac_v.php'); ?>
             </div>
             <div class="col-sm-10" style="background-color: white; border-left: 2px solid grey; padding: 0px!important;">
               <?php include ('../elements/nav_redac.php'); ?>

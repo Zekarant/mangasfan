@@ -1,4 +1,5 @@
 <div class="espace_commentaire">
+		<!-- view commentary -->
 		<h3>Espace commentaires</h3>
 		<?php if ($nbr_commentary < 1){ ?>
 			<div class='alert alert-warning' style="width:90%;text-align:center;margin:auto;margin-bottom:5px;" role='alert'> Il n'y a actuellement aucun commentaire. Soyez le premier à nous en faire un pour cette page ! </div>
@@ -17,7 +18,7 @@
 							<?php if(preg_match("#http|https#",$member['avatar'])){
 								$lien_avatar = $member['avatar'];
 							} else {
-								$lien_avatar = "https://mangasfan.fr/inc/images/avatars/".$member['avatar'];
+								$lien_avatar = "https://www.mangasfan.fr/membres/images/avatars/".$member['avatar'];
 							} ?>
 
 							<div class="avatar" style="box-shadow: 0px 0px 2px 2px <?= avatar_color($member['grade']) ?>;background:url('<?= $lien_avatar; ?>');background-size:100px;background-position: center;" /></div>

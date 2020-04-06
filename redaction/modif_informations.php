@@ -6,9 +6,15 @@ include('../membres/base.php');
     		$titre = addslashes(htmlspecialchars($_POST['title_game']));
     		$image_jeu = addslashes(htmlspecialchars($_POST['picture_game']));
     		$picture_pres = addslashes(htmlspecialchars($_POST['picture_pres']));
+            if ($_GET['type'] == "mangas" || $_GET['type'] == "anime") {
+                $type_article = addslashes(htmlspecialchars($_POST['inlineRadioOptions']));
 
-    		$modif_bdd = $pdo->prepare("UPDATE $type SET titre = ?, vignette = ?, theme = ? WHERE id = ?");
-    		$modif_bdd->execute(array(stripslashes($titre),$image_jeu,$picture_pres,$id_news));
+            $modif_bdd = $pdo->prepare("UPDATE $type SET titre = ?, vignette = ?, theme = ?, type = ? WHERE id = ?");
+            $modif_bdd->execute(array(stripslashes($titre),$image_jeu,$picture_pres,$type_article,$id_news));
+            } else {
+                $modif_bdd = $pdo->prepare("UPDATE $type SET titre = ?, vignette = ?, theme = ? WHERE id = ?");
+                $modif_bdd->execute(array(stripslashes($titre),$image_jeu,$picture_pres,$id_news));
+            }
 
     		header('Location: '.traduire_nom(stripslashes($titre)));
     	}
