@@ -2,9 +2,16 @@
 
 class Color {
 	public static function rang_etat(int $rang){
-		$couleurs = ['purple', 'black', '#2E9AFE', 'orange', '#632569', '#401497', '#401497', '#31B404', '#4080BF', 'darkblue', 'red', 'red'];
-		$grade = $couleurs[$rang] ?? $couleurs[0];
+		$couleurs = ['black', '#2E9AFE', '#632569', 'orange', '#401497', '#401497', '#31B404', '#4080BF', 'red', 'red', '#1BB078'];
+		$grade = $couleurs[$rang] ?? $couleurs[1];
 		return $grade;
+	}
+
+	public static function getRang(int $rang, bool $chef = false): string {
+		$rangs = ['Banni', 'Membre', 'Community Manager', 'Animateur', 'Newseur', 'Rédacteur', 'Modérateur', 'Développeur', 'Administrateur', 'Fondateur', 'Mangas\'Bot'];
+		$rang_txt = $rangs[$rang] ?? $rangs[1];
+		if ($chef && $rangs[$rang] != $rangs[9] && $rangs[$rang] != $rangs[1]  && $rangs[$rang] != $rangs[0] && $rangs[$rang] != $rangs[10]) return 'Chef des ' . $rang_txt . "s";
+		return $rang_txt;
 	}
 
 }

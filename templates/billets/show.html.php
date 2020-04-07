@@ -52,29 +52,23 @@
         <?php foreach ($commentaires as $commentaire): ?>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-lg-3" style="border-right: 1px solid <?= Color::rang_etat($commentaire['grade']) ?>">
                         <div class="avatar-news" style="box-shadow: 0px 0px 2px 2px <?= Color::rang_etat($commentaire['grade']) ?>; background:url('https://www.mangasfan.fr/membres/images/avatars/<?= $commentaire['avatar'] ?>');background-size:100px; background-position: center;"/>
                         </div>
-                        <span class="pseudo">
-                            <span style="color: <?= Color::rang_etat($commentaire['grade']); ?>"><?= $commentaire['username']; ?></span>
-                        </span>
+                                <p class="pseudo">
+                                    <a href="#" style="color: <?= Color::rang_etat($commentaire['grade']); ?>"><?= $commentaire['username']; ?></a><br/>
+                                <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($commentaire['grade']) ?>;"><?= Color::getRang($commentaire['grade'], $commentaire['chef']) ?></span>
+                                </p>
+                                 <a href="../commentaire.php?controller=comment&task=delete&id=<?= $commentaire['id_commentaire'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)">Supprimer</a>
                     </div>
-                    <div class="col-lg-10">
-                        Partie commentaire
+                    <div class="col-lg-9">
+                        <?= $commentaire['commentaire'] ?>
+                        <div class="bottom">
+                            <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime($commentaire['date_commentaire'])) ?></small>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-            <h3>Commentaire de <?= $commentaire['username'] ?></h3>
-            <small>Le <?= $commentaire['date_commentaire'] ?></small>
-            <blockquote>
-                <em><?= $commentaire['commentaire'] ?></em>
-            </blockquote>
-            <a href="commentaire.php?controller=comment&task=delete&id=<?= $commentaire['id_commentaire'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)">Supprimer</a>
+            <hr>
         <?php endforeach ?>
         <?php endif ?>
