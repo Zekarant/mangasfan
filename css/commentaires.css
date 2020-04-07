@@ -107,3 +107,12 @@ footer-bottom p.pull-left
 	color: grey;
 	text-decoration: none;
 }
+
+/* Partie commentaire */
+.avatar-news {
+	width:100px;
+	height:100px;
+	border:3px solid white;
+	border-radius:100px;
+	margin-top:5px;
+}

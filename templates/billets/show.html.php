@@ -25,22 +25,22 @@
         </div>
     </div>
     <div class="col-lg-3">
-         <div class="col-lg-4">
-            <div class="card" style="width: 18rem;">
-              <div class="card-header">
-                A propos de la news
-            </div>
-            <div class="bloc-auteur">
-                <?php if($billet['categorie'] != "Site"){ ?>
-                    Cette news appartient à la catégorie « <a href="#"><strong><?= $billet['categorie']; ?></strong></a> ».<br/>
-                    Cliquez sur le lien ci-dessus pour accéder à ces derniers.
-                <?php } else { ?>
-                    Cette news appartient à la catégorie « <strong>Site</strong> »
-                <?php } ?>
-            </div>
+       <div class="col-lg-4">
+        <div class="card" style="width: 18rem;">
+          <div class="card-header">
+            A propos de la news
+        </div>
+        <div class="bloc-auteur">
+            <?php if($billet['categorie'] != "Site"){ ?>
+                Cette news appartient à la catégorie « <a href="#"><strong><?= $billet['categorie']; ?></strong></a> ».<br/>
+                Cliquez sur le lien ci-dessus pour accéder à ces derniers.
+            <?php } else { ?>
+                Cette news appartient à la catégorie « <strong>Site</strong> »
+            <?php } ?>
         </div>
     </div>
-    </div>
+</div>
+</div>
 </div>
 </div>
 <hr>
@@ -50,6 +50,26 @@
     <?php else: ?>
         <div class="alert alert-primary" role="alert">Il y a déjà <?= count($commentaires) ?> commentaires. </div>
         <?php foreach ($commentaires as $commentaire): ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="avatar-news" style="box-shadow: 0px 0px 2px 2px <?= Color::rang_etat($commentaire['grade']) ?>; background:url('https://www.mangasfan.fr/membres/images/avatars/<?= $commentaire['avatar'] ?>');background-size:100px; background-position: center;"/>
+                        </div>
+                        <span class="pseudo">
+                            <span style="color: <?= Color::rang_etat($commentaire['grade']); ?>"><?= $commentaire['username']; ?></span>
+                        </span>
+                    </div>
+                    <div class="col-lg-10">
+                        Partie commentaire
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
             <h3>Commentaire de <?= $commentaire['username'] ?></h3>
             <small>Le <?= $commentaire['date_commentaire'] ?></small>
             <blockquote>
