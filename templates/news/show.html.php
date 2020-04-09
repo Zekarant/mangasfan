@@ -1,7 +1,7 @@
-<h1 class="titre"><?= $billet['titre'] ?></h1>
+<h1 class="titre"><?= $news['title'] ?></h1>
 <hr>
-<?= $billet['contenu'] ?>
-<p class="auteur-news"><small>News rédigée le <?= $billet['date_creation'] ?> par <a href="#"><?= $billet['username'] ?></a></small></p>
+<?= $news['contenu'] ?>
+<p class="auteur-news"><small>News rédigée le <?= $news['create_date'] ?> par <a href="#"><?= $news['username'] ?></a></small></p>
 <hr>
 <div class="container">
     <div class="row">
@@ -13,12 +13,12 @@
             <div class="bloc-auteur">
                 <div class="row">
                     <div class="col-lg-3">
-                        <img src="https://www.mangasfan.fr/membres/images/avatars/<?= $billet['avatar']; ?>" alt="Avatar de <?= $billet['username'] ?>" class="auteur-avatar" />
+                        <img src="https://www.mangasfan.fr/membres/images/avatars/<?= $news['avatar']; ?>" alt="Avatar de <?= $news['username'] ?>" class="auteur-avatar" />
                     </div>
                     <div class="col-lg-9 a-propos-auteur">
-                        <h5><?= $billet['username']; ?></h5>
+                        <h5><?= $news['username']; ?></h5>
                         <hr>
-                        <small><i>« <?= $billet['role']; ?> »</i></small>
+                        <small><i>« <?= $news['role']; ?> »</i></small>
                     </div>
                 </div>
             </div>
@@ -31,8 +31,8 @@
             A propos de la news
         </div>
         <div class="bloc-auteur">
-            <?php if($billet['categorie'] != "Site"){ ?>
-                Cette news appartient à la catégorie « <a href="#"><strong><?= $billet['categorie']; ?></strong></a> ».<br/>
+            <?php if($news['category'] != "Site"){ ?>
+                Cette news appartient à la catégorie « <a href="#"><strong><?= $news['category']; ?></strong></a> ».<br/>
                 Cliquez sur le lien ci-dessus pour accéder à ces derniers.
             <?php } else { ?>
                 Cette news appartient à la catégorie « <strong>Site</strong> »
@@ -58,13 +58,13 @@
                                 <p class="pseudo">
                                     <a href="#" style="color: <?= Color::rang_etat($commentaire['grade']); ?>"><?= $commentaire['username']; ?></a><br/>
                                 <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($commentaire['grade']) ?>;"><?= Color::getRang($commentaire['grade'], $commentaire['chef']) ?></span>
+                                    <a href="../commentaire.php?controller=commentnews&task=delete&id=<?= $commentaire['id_commentary'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer (Non fonctionnel)</a>
                                 </p>
-                                 <a href="../commentaire.php?controller=comment&task=delete&id=<?= $commentaire['id_commentaire'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)">Supprimer</a>
                     </div>
                     <div class="col-lg-9">
-                        <?= $commentaire['commentaire'] ?>
+                        <?= $commentaire['commentary'] ?>
                         <div class="bottom">
-                            <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime($commentaire['date_commentaire'])) ?></small>
+                            <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime($commentaire['posted_date'])) ?></small>
                         </div>
                     </div>
                 </div>

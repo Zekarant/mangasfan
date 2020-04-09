@@ -2,5 +2,5 @@
 
 require_once('libraries/autoload.php');
 
-$controller = new \Controllers\Billet();
-$controller->show();
+$controller = new \Controllers\News();
+$controller->showNews();

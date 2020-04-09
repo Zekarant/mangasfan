@@ -3,7 +3,7 @@
 class Application {
 
 	public static function process() {
-		$controllerName = "Billet";
+		$controllerName = "News";
 		$task = "index";
 
 		if (!empty($_GET['controller'])) {
