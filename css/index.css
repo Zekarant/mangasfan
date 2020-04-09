@@ -162,3 +162,26 @@ footer-bottom p.pull-left
 	color: grey;
 	text-decoration: none;
 }
+
+#temporate-message{
+    position: fixed;
+    top:100px;
+    width: 90%;
+    left: 50%;
+	transform: translateX(-50%);
+    z-index: 9999;
+    color:black;
+    border: 3px solid black;
+    padding:20px;
+    border-radius: 6px;
+    text-align: center;
+    -webkit-box-align: center;
+}
+
+.success-flash{
+    background-color: rgb(19, 117, 0);
+}
+
+.error-flash{
+    background-image: url('../images/background-error.png');
+}

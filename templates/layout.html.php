@@ -11,6 +11,12 @@
 	<link rel="stylesheet" type="text/css" href="<?= $style ?>">
 </head>
 <body>
+	<?php if(isset($_SESSION['flash_message'])){ ?>
+  <div id="temporate-message" class="d-none <?= $_SESSION['flash-type']; ?>">
+    <?= $_SESSION['flash_message']; ?>
+  </div>
+  <?php unset($_SESSION['flash_message']); // je ne me souviens plus si c'est exactement ça
+} ?>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
 			<a class="navbar-brand" href="https://www.mangasfan.fr"><img src="https://www.mangasfan.fr/images/logo.png" class="logo_site" alt="Logo du site" /></a>
@@ -138,3 +144,15 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	$(function(){
+    const elt = $("#temporate-message");
+
+    if(elt !== null) {
+        elt.toggleClass("d-none");
+        setTimeout(() => {
+            elt.toggleClass("d-none");
+        }, 500000);
+    }
+});
+</script>

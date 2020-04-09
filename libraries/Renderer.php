@@ -2,11 +2,11 @@
 
 class Renderer {
 
-	public static function render(string $path, array $variables = []) : void {
+	public static function render(string $path, string $bothpath, array $variables = []) : void {
 		extract($variables);
 		ob_start();
-		require('templates/' . $path . '.html.php');
+		require($path . '.html.php');
 		$pageContent = ob_get_clean();
-		require('templates/layout.html.php');
+		require($bothpath . '/layout.html.php');
 	}
 }

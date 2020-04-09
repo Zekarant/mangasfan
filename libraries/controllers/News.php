@@ -15,8 +15,9 @@ class News extends Controller {
 		$news = $this->model->findAllNews('create_date', '0, 9');
 		$pageTitle = "L'actualité des mangas et des animes";
 		$style = "css/index.css";
-		\Renderer::render('news/index', compact('news', 'pageTitle', 'style'));
+		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style'));
 	}
+
 
 	public function delete() {
 		if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
@@ -57,6 +58,6 @@ class News extends Controller {
 		$commentaires = $commentModel->findAllComment($news['id_news']);
 		$style = "../css/commentaires.css";
 		$pageTitle = $news['title'];
-		\Renderer::render('news/show', compact('news', 'commentaires', 'style', 'pageTitle'));
+		\Renderer::render('templates/news/show', 'templates/', compact('news', 'commentaires', 'style', 'pageTitle'));
 	}
 }
