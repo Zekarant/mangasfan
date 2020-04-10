@@ -28,12 +28,14 @@ class NewsComment extends Controller {
 					$style = "../css/index.css";
 					\Renderer::render('../templates/news/edit', '../templates/', compact('commentary', 'pageTitle', 'style'));
 				} else {
+					$_SESSION['flash-type'] = "error-flash";
+					$_SESSION['flash-message'] = "Oups ! Il semblerait que nous ayons rencontré une erreur et que nous ayons dû vous rediriger !";
 					\Http::redirect('../index.php');
 				}
 			}
 		} else {
 			$_SESSION['flash-type'] = "error-flash";
-			$_SESSION['flash_message'] = "Oups ! Il semblerait que nous ayons rencontré une erreur et que nous ayons du vous rediriger !";
+			$_SESSION['flash-message'] = "Oups ! Il semblerait que nous ayons rencontré une erreur et que nous ayons dû vous rediriger !";
 			\Http::redirect('../index.php');
 		}
 	}

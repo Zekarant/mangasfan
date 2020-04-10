@@ -170,18 +170,9 @@ footer-bottom p.pull-left
     left: 50%;
 	transform: translateX(-50%);
     z-index: 9999;
-    color:black;
-    border: 3px solid black;
+    border: 1px solid grey;
     padding:20px;
     border-radius: 6px;
     text-align: center;
     -webkit-box-align: center;
-}
-
-.success-flash{
-    background-color: rgb(19, 117, 0);
-}
-
-.error-flash{
-    background-image: url('../images/background-error.png');
 }

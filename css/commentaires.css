@@ -132,3 +132,16 @@ footer-bottom p.pull-left
 	position: absolute;
 	bottom: 0;
 }
+#temporate-message{
+    position: fixed;
+    top:100px;
+    width: 90%;
+    left: 50%;
+	transform: translateX(-50%);
+    z-index: 9999;
+    border: 1px solid grey;
+    padding:20px;
+    border-radius: 6px;
+    text-align: center;
+    -webkit-box-align: center;
+}

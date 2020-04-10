@@ -9,5 +9,6 @@ abstract class Controller {
 
 	public function __construct(){
 		$this->model = new $this->modelName();
+		
 	}
 }

@@ -37,11 +37,15 @@ class News extends Controller {
 			$news_id = $_GET['id'];
 		}
 		if (!$news_id) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash_message'] = "On ne peut pas chercher une news qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
 			\Http::redirect('index.php');
 		}
 		if (is_numeric($news_id)) {
 			$news = $this->model->findNews($news_id);
 			if (!isset($news['id_news'])) {
+				$_SESSION['flash-type'] = "error-flash";
+				$_SESSION['flash_message'] = "La news que vous avez demandée n'existe pas, pour éviter les problèmes, nous vous avons redirigé !";
 				\Http::redirect('index.php');
 			} else {
 				\Http::redirect('commentaire/' . $news['slug']);
@@ -52,6 +56,8 @@ class News extends Controller {
 				$news_id =  str_replace("_", "-", $news_id);
 				\Http::redirect($news_id);
 			} elseif (!isset($news['slug'])) {
+				$_SESSION['flash-type'] = "error-flash";
+				$_SESSION['flash_message'] = "La news que vous avez demandée n'existe pas, pour éviter les problèmes, nous vous avons redirigé !";
 				\Http::redirect('../index.php');
 			}
 		}

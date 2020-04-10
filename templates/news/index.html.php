@@ -9,7 +9,9 @@
 					<p class="text">
 						<a href="commentaire/<?= $new['slug'] ?>">
 							<span class="btn btn-outline-light">Voir la news</span><br/>
-								<a href="index.php?controller=news&task=delete&id=<?= $new['id_news'] ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cet article ?!`)"><span class="btn btn-sm btn-outline-warning">Supprimer</span></a>
+							<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 6 && $utilisateur['chef'] == 1) { ?>
+								<a href="index.php?controller=news&task=delete&id=<?= $new['id_news'] ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cet article ?!`)"><span class="btn btn-sm btn-outline-danger">Supprimer</span></a>
+							<?php } ?>
 						</a>
 					</p>
 				</div>

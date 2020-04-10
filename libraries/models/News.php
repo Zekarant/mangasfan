@@ -6,10 +6,6 @@ class News extends Model {
 
 	protected $table = "news";
 
-	public function __construct(){
-		$this->pdo = \Database::getBdd();
-	}
-
 	/**
 	*
 	* Affiche toutes les news 
