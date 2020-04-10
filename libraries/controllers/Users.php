@@ -60,5 +60,12 @@ class Users extends Controller {
 		}
 	}
 
+	public function deconnexion(){
+		if (isset($_SESSION['auth'])) {
+			session_destroy();
+		}
+		\Http::redirect('../index.php');
+	}
+
 
 }

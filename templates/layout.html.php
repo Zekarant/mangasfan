@@ -51,7 +51,7 @@
 						<div class="dropleft" role="group">
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 								<a class="dropdown-item" href="#">Modifier votre profil</a>
-								<a class="dropdown-item" href="#">Déconnexion</a>
+								<a class="dropdown-item" href="/mangasfan/membres/deconnexion.php">Déconnexion</a>
 							</div>
 						</li>
 					<?php } else { ?>
