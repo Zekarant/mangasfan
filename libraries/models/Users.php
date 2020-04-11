@@ -19,4 +19,11 @@ class Users extends Model {
         $utilisateur = $user->fetch();
         return $utilisateur;
 	}
+
+	public function userCookies(string $recup_cookie_pseudo, int $recup_cookie_password){
+		$req = $this->pdo->prepare('SELECT * FROM users WHERE id_user = :id_user AND username = :username AND confirmed_at IS NOT NULL');
+        $req->execute(['username' => $recup_cookie_pseudo, 'id_user' => $recup_cookie_password]);
+        $utilisateur = $req->fetch();
+        return $utilisateur;
+	}
 }

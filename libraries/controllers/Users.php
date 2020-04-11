@@ -37,6 +37,10 @@ class Users extends Controller {
             }
 
             $_SESSION['auth'] = $users;
+    		if ($_POST['connexion_maintenue']){ 
+    			setcookie('username', $users['username'], time() + 365*24*3600, "/", "localhost", false, true);
+   				setcookie('id_user', $users['id_user'], time() + 365*24*3600, "/", "localhost", false, true);
+    		}
             \Http::redirect('../index.php');
         } 
         
@@ -54,7 +58,12 @@ class Users extends Controller {
 }
 
 	public function utilisateurConnecte(){
-		if (isset($_SESSION['auth'])) {
+		if(!isset($_SESSION['auth']) && isset($_COOKIE['username']) && isset($_COOKIE['id_user'])){
+			$utilisateur = $this->model->userCookies($_COOKIE['username'], $_COOKIE['id_user']);
+			$_SESSION['auth'] = $utilisateur;
+			return $utilisateur;
+		}
+		elseif(isset($_SESSION['auth'])) {
 			$utilisateur = $this->model->user($_SESSION['auth']['id_user']);
 			return $utilisateur;
 		}
@@ -62,6 +71,8 @@ class Users extends Controller {
 
 	public function deconnexion(){
 		if (isset($_SESSION['auth'])) {
+			setcookie('id_user', '', time() - 365*24*3600, "/", "localhost", false, true);
+    		setcookie('username', '', time() - 365*24*3600, "/", "localhost", false, true);
 			session_destroy();
 		}
 		\Http::redirect('../index.php');
