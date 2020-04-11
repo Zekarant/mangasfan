@@ -33,7 +33,7 @@
 					En cochant la case « Rester connecté », vous acceptez <strong>l'utilisation des cookies</strong> qui vous permettront de rester connecté au site sans avoir à retaper vos identifiants. Merci de noter que si vous ne voulez pas être connecté de façon constante au site, vous n'avez pas à cocher cette option.</p>
 					<hr>
 					<p>En cas de quelconque problème concernant les cookies, n'hésitez pas à envoyer un mail à l'équipe d'administration de Mangas'Fan : contact@mangasfan.fr</p>
-					<p>En cas de perte de mot de passe : <a href="#" class="btn btn-sm btn-outline-warning">J'ai oublié mon mot de passe</a></p>
+					<p>En cas de perte de mot de passe : <a href="forget.php" class="btn btn-sm btn-outline-warning">J'ai oublié mon mot de passe</a></p>
 					<p>Consulter la partie "Cookies" dans nos CGU : <a href="#" class="btn btn-sm btn-outline-info">Informations sur les cookies</a></p>
 				</div>
 			</div>

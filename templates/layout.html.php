@@ -56,7 +56,7 @@
 						</li>
 					<?php } else { ?>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Inscription</a>
+							<a class="nav-link" href="/mangasfan/membres/inscription.php">Inscription</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/mangasfan/membres/connexion.php">Connexion</a>
