@@ -42,7 +42,7 @@ header {
 .bloc-auteur {
 	padding: 10px;
 }
-.a-propos-auteur {
+.a-propos-auteur, .informations_compte {
 	text-align: center;
 }
 .auteur-avatar {
@@ -144,4 +144,14 @@ footer-bottom p.pull-left
     border-radius: 6px;
     text-align: center;
     -webkit-box-align: center;
+}
+
+/* Comptes */
+
+.avatar_site img
+{
+	
+	width: 100px;
+	display: block;
+	margin: auto;
 }

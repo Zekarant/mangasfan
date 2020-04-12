@@ -6,10 +6,10 @@ class Users extends Model {
 
 	protected $table = "users";
 
-	public function inscription(string $username, string $email, string $password, string $confirmation_token, string $avatar){
+	public function inscription(string $username, string $email, string $password, string $confirmation_token, string $description, string $avatar){
 		$password_hash = password_hash($password, PASSWORD_BCRYPT);
-		$req = $this->pdo->prepare('INSERT INTO users SET username = :username, email = :email, password = :password, confirmation_token = :confirmation_token, avatar= :avatar, grade = 1');
-		$req->execute(['username' => $username, 'email' => $email, 'password' => $password_hash, 'confirmation_token' => $confirmation_token, 'avatar' => $avatar]);
+		$req = $this->pdo->prepare('INSERT INTO users SET username = :username, email = :email, password = :password, confirmation_token = :confirmation_token, description = :description, avatar= :avatar, grade = 1');
+		$req->execute(['username' => $username, 'email' => $email, 'password' => $password_hash, 'confirmation_token' => $confirmation_token, 'description' => $description, 'avatar' => $avatar]);
 		return $req;
 	}
 
@@ -24,9 +24,9 @@ class Users extends Model {
 		return $enregistrement;
 	}
 
-	public function connexion(){
+	public function connexion(string $pseudo){
 		$req = $this->pdo->prepare('SELECT * FROM users WHERE (username = :username OR email = :username) AND confirmed_at IS NOT NULL');
-		$req->execute(['username' => $_POST['username']]);
+		$req->execute(['username' => $pseudo]);
 		$user = $req->fetch();
 		return $user;
 	}
@@ -50,6 +50,11 @@ class Users extends Model {
   		return $user;
 	}
 
+	public function modifyPassword(string $password, int $id_user){
+		 $reset = $this->pdo->prepare("UPDATE users SET password = :password WHERE id_user = :id_user");
+         $reset->execute(['password' => $password, 'id_user' => $id_user]);
+	}
+
 	public function newPasswordReset(string $password, string $reset_token, int $id_user){
 		 $reset = $this->pdo->prepare("UPDATE users SET password = :password, reset_at = NULL, reset_token = NULL WHERE reset_token = :reset_token AND id_user = :id_user");
          $reset->execute(['password' => $password, 'reset_token' => $reset_token, 'id_user' => $id_user]);
@@ -60,6 +65,19 @@ class Users extends Model {
         $user->execute(['id' => $id]);
         $utilisateur = $user->fetch();
         return $utilisateur;
+	}
+
+	public function modifierAvatar(string $avatar, string $extensionUpload){
+		$updateavatar = $this->pdo->prepare('UPDATE users SET avatar = :avatar WHERE id_user = :id');
+        $updateavatar->execute(array(
+            'avatar' => $avatar.".".$extensionUpload,
+            'id' => $avatar));
+
+	}	
+
+	public function modifierInfos(string $email, int $sexe, string $description, string $role, string $manga, string $anime, string $site, int $id_user){
+		$user = $this->pdo->prepare('UPDATE users SET email = :email, sexe = :sexe, description = :description, role = :role, manga = :manga, anime = :anime, site = :site WHERE id_user = :id_user');
+		$user->execute(['email' => $email, 'sexe' => $sexe, 'description' => $description, 'role' => $role, 'manga' => $manga, 'anime' => $anime, 'site' => $site, 'id_user' => $id_user]);
 	}
 
 	public function userCookies(string $recup_cookie_pseudo, int $recup_cookie_password){

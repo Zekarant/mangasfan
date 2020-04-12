@@ -7,9 +7,14 @@ class Color {
 		return $grade;
 	}
 
-	public static function getRang(int $rang, bool $chef = false): string {
+	public static function getRang(int $rang, int $sexe, bool $chef = false): string {
 		$rangs = ['Banni', 'Membre', 'Community Manager', 'Animateur', 'Newseur', 'Rédacteur', 'Modérateur', 'Développeur', 'Administrateur', 'Fondateur', 'Mangas\'Bot'];
-		$rang_txt = $rangs[$rang] ?? $rangs[1];
+		$rangs_femme = ['Bannie', 'Membre', 'Community Manageuse', 'Animatrice', 'Newseuse', 'Rédactrice', 'Modératrice', 'Développeuse', 'Administratrice'];
+		if ($sexe == 1) {
+			$rang_txt = $rangs_femme[$rang] ?? $rangs[1];
+		} else {
+			$rang_txt = $rangs[$rang] ?? $rangs[1];
+		}
 		if ($chef && $rang_txt != $rangs[9] && $rang_txt != $rangs[1]  && $rang_txt != $rangs[0] && $rang_txt != $rangs[10]) {
 			return "Chef des " . $rang_txt . "s";
 		}

@@ -12,7 +12,7 @@ class News extends Controller {
 	* @return void
 	*/
 	public function index() : void {
-		$news = $this->model->findAllNews('create_date', '0, 9');
+		$news = $this->model->findAllNews('create_date DESC', '0, 9');
 		$pageTitle = "L'actualité des mangas et des animes";
 		$style = "css/index.css";
 		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style'));

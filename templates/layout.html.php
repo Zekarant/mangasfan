@@ -32,25 +32,30 @@
 					<a class="nav-link" href="/mangasfan">Accueil</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Jeux</a>
+					<a class="nav-link" href="#"><s>Jeux</s></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Mangas</a>
+					<a class="nav-link" href="#"><s>Mangas</s></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Animes/Films</a>
+					<a class="nav-link" href="#"><s>Animes/Films</s></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Galeries</a>
+					<a class="nav-link" href="#"><s>Galeries</s></a>
 				</li>
-				<?php if(isset($_SESSION['auth'])){ ?>
+				<?php if ($utilisateur['grade'] >= 2) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Staff</a>
+					</li>
+				<?php }
+				if(isset($_SESSION['auth'])){ ?>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span>
 						</a>
 						<div class="dropleft" role="group">
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="#">Modifier votre profil</a>
+								<a class="dropdown-item" href="/mangasfan/membres/compte.php">Modifier votre profil</a>
 								<a class="dropdown-item" href="/mangasfan/membres/deconnexion.php">Déconnexion</a>
 							</div>
 						</li>
@@ -63,7 +68,7 @@
 						</li>
 					<?php } ?>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Contact</a>
+						<a class="nav-link" href="#"><s>Contact</s></a>
 					</li>
 				</ul>
 			</div>
@@ -85,6 +90,31 @@
 			<a href="https://utip.io/mangasfanoff" target="_blank" class="links">
 				<img src="https://www.mangasfan.fr/images/utip.png" alt="Logo uTip" class="image_reseaux" />
 			</a>
+		</div>
+		<div class="modal fade text-dark" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Bonjour <span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span>, heureux de vous revoir !</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
+						<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
+						<?php if ($utilisateur['grade'] >= 7) { ?>
+							<a href="#" class="btn btn-outline-danger">Administration</a>
+							<a href="#" class="btn btn-outline-success">Modération</a>
+							<a href="#" class="btn btn-outline-info">Rédaction</a>
+							<a href="#" class="btn btn-outline-warning">Animation</a>
+						<?php } ?>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la fenêtre</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</header>
 	<section>

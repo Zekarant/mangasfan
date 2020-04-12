@@ -50,9 +50,10 @@ class Users extends Controller {
           }
 
           if (empty($error)) {
-              $avatar_defaut = 'https://mangasfan.fr/membres/images/avatars/avatar_defaut.png';
+              $avatar_defaut = 'avatar_defaut.png';
               $token = \Users::str_random(60);
-              $validation = $this->model->inscription($_POST['username'], $_POST['email'], $_POST['password'], $token, $avatar_defaut);
+              $description = "Aucune description.";
+              $validation = $this->model->inscription($_POST['username'], $_POST['email'], $_POST['password'], $token, $description, $avatar_defaut);
               $header="MIME-Version: 1.0\r\n";
               $header.="From: Mangas'Fan <contact@mangasfan.fr>\n";
               $header.='Content-Type:text/html; charset="utf-8"'."\n";
@@ -132,7 +133,7 @@ public function indexConnexion() {
     $variables = ['pageTitle', 'style'];
 
     if (!empty($_POST)) {
-        $users = $this->model->connexion();
+        $users = $this->model->connexion($_POST['username']);
 
         if (!$users) {
             $_SESSION['flash-type'] = "error-flash";
@@ -152,7 +153,7 @@ public function indexConnexion() {
                setcookie('username', $users['username'], time() + 365*24*3600, "/", "localhost", false, true);
                setcookie('id_user', $users['id_user'], time() + 365*24*3600, "/", "localhost", false, true);
            }
-           \Http::redirect('../index.php');
+           \Http::redirect('compte.php');
        } 
 
         // t'as un redirect dans ton if d'au dessus, donc pas besoin de else ici. si tu passes pas dans ton if, tu passeras forcément ici. et il faudrait potentiellement faire la même chose que plus haut avec la logique de redirection + erreur
@@ -166,6 +167,111 @@ public function indexConnexion() {
 
     // compact peut prendre un tableau de variables en paramètres, du coup tu peux faire un seul appel à ton render en mettant les bonnes variables dans un tableau en fonction du cas où tu te trouves
    \Renderer::render('../templates/membres/connexion', '../templates/', compact($variables));
+}
+
+public function compte(){
+    if (!isset($_SESSION['auth'])) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Vous ne pouvez pas accéder à cette page en tant qu'invité, merci de vous connecter !";
+        \Http::redirect('connexion.php');
+    }
+    $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
+    $pageTitle = 'Compte de ' . $utilisateur['username'];
+    $style = '../css/commentaires.css';
+    if (isset($_POST['changer_mdp'])) {
+        Users::changerMdp();
+    }
+
+    if (isset($_POST['valider_avatar'])) {
+     Users::modifierAvatar();
+ }
+ if (isset($_POST['valider_information'])) {
+    Users::modifierInfos();
+}
+\Renderer::render('../templates/membres/compte', '../templates/', compact('utilisateur', 'pageTitle', 'style'));
+}
+
+public function changerMdp(){
+    $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
+    if (empty($_POST['oldpassword']) || empty($_POST['password']) || empty($_POST['password_confirm'])) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Vous avez oublié de renseigner un des trois champs, veuillez recommencer !";
+        \Http::redirect('compte.php');
+    }
+
+    if (!password_verify($_POST['oldpassword'], $utilisateur['password'])) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Votre mot de passe actuel ne correspond pas à celui saisi !";
+        \Http::redirect('compte.php');
+    }
+
+    if ($_POST['password'] != $_POST['password_confirm']) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Les deux mots de passe ne correspondent pas, veuillez recommencer !";
+        \Http::redirect('compte.php');
+    }
+
+    if(strlen($_POST['password']) < 8){
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Le nouveau mot de passe doit contenir au moins 8 caractères !";
+        \Http::redirect('compte.php');
+    }
+
+    if (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $_POST['password'])) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Le nouveau mot de passe doit contenir au moins un chiffre et une majuscule !";
+        \Http::redirect('compte.php');
+    }
+    $newPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $changerMdp = $this->model->modifyPassword($newPassword, $utilisateur['id_user']);
+    $_SESSION['flash-type'] = "error-flash";
+    $_SESSION['flash-message'] = "Votre mot de passe a bien été modifié !";
+    \Http::redirect('compte.php');
+
+}
+
+public function modifierAvatar(){
+    $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
+    if(isset($_FILES['avatar']) AND !empty($_FILES['avatar']['name'])) {
+      $tailleMax = 2097152;
+      $extensionsValides = array('jpg', 'jpeg', 'gif', 'png');
+      if($_FILES['avatar']['size'] > $tailleMax) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Votre avatar est trop gros, compressez-le ou veuillez en choisir un autre (2Mo max)";
+        \Http::redirect('compte.php');
+    }
+
+    $extensionUpload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'), 1));
+    if(!in_array($extensionUpload, $extensionsValides)) {
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Votre avatar doit être au format JPG, JPEG, GIF ou PNG.";
+        \Http::redirect('compte.php');
+    }
+
+    $chemin = "images/avatars/".$utilisateur['id_user'].".".$extensionUpload;
+    $resultat = move_uploaded_file($_FILES['avatar']['tmp_name'], $chemin);
+    if($resultat) {
+        $modifierAvatar = $this->model->modifierAvatar($utilisateur['id_user'], $extensionUpload);
+        $_SESSION['flash-type'] = "error-flash";
+        $_SESSION['flash-message'] = "Votre avatar a bien été modifié !";
+        \Http::redirect('compte.php');
+    }
+
+}
+}
+
+public function modifierInfos(){
+    $utilisateur = $this->model->connexion($_POST['email']);
+    $user = $this->model->user($_SESSION['auth']['id_user']);
+    if ($utilisateur['email'] === $_POST['email'] && $user['email'] != $_POST['email']) {
+       $_SESSION['flash-type'] = "error-flash";
+       $_SESSION['flash-message'] = "Ce mail est déjà utilisé ! Vous ne pouvez donc pas l'utiliser !";
+       \Http::redirect('compte.php');
+   }
+       $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $_POST['role'], $_POST['manga'], $_POST['anime'], $_POST['site'], $_SESSION['auth']['id_user']);
+       $_SESSION['flash-type'] = "error-flash";
+       $_SESSION['flash-message'] = "Vos informations ont bien été modifiées !";
+       \Http::redirect('compte.php');
 }
 
 public function forget(){
@@ -244,7 +350,6 @@ public function reset(){
             if (empty($error)) {
                 $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
                 $confirmerReset = $this->model->newPasswordReset($password, $_GET['token'], $_GET['id']);
-                $_SESSION['auth'] = $utilisateur;
                 $_SESSION['flash-type'] = "error-flash";
                 $_SESSION['flash-message'] = 'Votre mot de passe a bien été modifié ! Essayez de ne pas l\'oublier cette fois-ci !';
                 \Http::redirect('../index.php');
