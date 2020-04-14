@@ -33,7 +33,7 @@ class News extends Model {
 	* @param $id
 	*/
 	public function findNews(int $id){
-		$query = $this->pdo->prepare("SELECT * FROM {$this->table} INNER JOIN users ON author = id_user WHERE id_news = :id");
+		$query = $this->pdo->prepare("SELECT *, news.description AS description_news FROM {$this->table} INNER JOIN users ON author = id_user WHERE id_news = :id");
 		$query->execute(['id' => $id]);
 		$item = $query->fetch();
 		return $item;
@@ -45,7 +45,7 @@ class News extends Model {
 	* @param $slug
 	*/
 	public function findNewsBySlug(string $slug){
-		$query = $this->pdo->prepare("SELECT * FROM {$this->table} INNER JOIN users ON author = id_user WHERE slug = :id");
+		$query = $this->pdo->prepare("SELECT *, news.description AS description_news FROM {$this->table} INNER JOIN users ON author = id_user WHERE slug = :id");
 		$query->execute(['id' => $slug]);
 		$item = $query->fetch();
 		return $item;

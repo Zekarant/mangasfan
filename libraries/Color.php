@@ -2,7 +2,7 @@
 
 class Color {
 	public static function rang_etat(int $rang){
-		$couleurs = ['black', '#2E9AFE', '#632569', 'orange', '#401497', '#401497', '#31B404', '#4080BF', 'red', 'red', '#1BB078'];
+		$couleurs = ['black', '#2E9AFE', '#632569', 'orange', '#40A497', '#40A497', '#31B404', '#4080BF', 'red', 'red', '#1BB078'];
 		$grade = $couleurs[$rang] ?? $couleurs[1];
 		return $grade;
 	}

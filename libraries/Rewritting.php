@@ -24,7 +24,7 @@ class Rewritting {
     return preg_replace('`-{2,}`', '-', urlencode(str_replace(array(' ', '/', '\''), array('-', '-', '-'), $str)));
   }
   
-  private static function remove_accents($string) {
+  public static function remove_accents($string) {
     if ( !preg_match('/[\x80-\xff]/', $string) )
       return $string;
 

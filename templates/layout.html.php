@@ -9,6 +9,8 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="<?= $style ?>">
+	<meta name="description" content="<?= $description ?>"/>
+	<meta name="keywords" content="<?= $keywords ?>"/>
 </head>
 <body>
 	<?php if(isset($_SESSION['flash-message'])){ ?>
@@ -90,32 +92,46 @@
 			<a href="https://utip.io/mangasfanoff" target="_blank" class="links">
 				<img src="https://www.mangasfan.fr/images/utip.png" alt="Logo uTip" class="image_reseaux" />
 			</a>
+			<a href="https://www.twitch.tv/mangasfanofficiel" target="_blank" class="links">
+				<img src="https://www.mangasfan.fr/images/twitch.png" alt="Logo Twitch" class="image_reseaux" />
+			</a>
+			<a href="https://www.youtube.com/channel/UCEKb-Gz4ZyNQo5jHckWimpQ" target="_blank" class="links">
+				<img src="https://www.mangasfan.fr/images/youtube.png" alt="Logo Youtube" class="image_reseaux" />
+			</a>
 		</div>
-		<div class="modal fade text-dark" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Bonjour <span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span>, heureux de vous revoir !</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
-						<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
-						<?php if ($utilisateur['grade'] >= 7) { ?>
-							<a href="#" class="btn btn-outline-danger">Administration</a>
-							<a href="#" class="btn btn-outline-success">Modération</a>
-							<a href="#" class="btn btn-outline-info">Rédaction</a>
-							<a href="#" class="btn btn-outline-warning">Animation</a>
-						<?php } ?>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la fenêtre</button>
+		<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 2) { ?>
+			<div class="modal fade text-dark" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">Bonjour <span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span>, heureux de vous revoir !</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
+							<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
+							<?php if ($utilisateur['grade'] >= 7) { ?>
+								<a href="#" class="btn btn-outline-danger"><s>Administration</s></a>
+							<?php } if($utilisateur['grade'] >= 6){ ?>
+								<a href="#" class="btn btn-outline-success"><s>Modération</s></a>
+							<?php } if($utilisateur['grade'] >= 4){ ?>
+								<a href="/mangasfan/staff/news/index.php" class="btn btn-outline-info">News</a>
+								<a href="#" class="btn btn-outline-info"><s>Rédaction</s></a>
+							<?php } if($utilisateur['grade'] == 3 || $utilisateur['grade'] >= 6){ ?>
+								<a href="#" class="btn btn-outline-warning"><s>Animation</s></a>
+							<?php } if($utilisateur['grade'] == 2){ ?>
+								Aucun accès pour vous malheureusement...
+							<?php } ?>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la fenêtre</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		<?php } ?>
 	</header>
 	<section>
 		<?= $pageContent ?>
@@ -124,34 +140,24 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
-					<h3>Newsletter</h3>
-					<form method="POST">
-						<label>Tenez-vous informés des dernières nouveautés</label><br />
-						<input type="email" class="form-control" name="newsletter" placeholder="Entrez votre adresse mail" />
-						<input type="submit" class="btn btn-sm btn-info" name="newsletterform" value="Envoyer"/>
-					</form>
-					<div class="row">
-						<div class="col-md-12">
-							<h3>Liens utiles</h3>
-							<nav class="lien_site">
-								<ul>
-									<li><a href="https://www.mangasfan.fr/">Index</a> - </li>
-									<li><a href="https://www.mangasfan.fr/membres/liste_membres.php">Liste des membres</a> - </li>
-									<li><a href="https://www.mangasfan.fr/changelog.php">Mises à jour</a> - </li>
-									<li><a href="https://www.mangasfan.fr/partenaires.php">Partenaires</a> - </li>
-									<li><a href="https://www.mangasfan.fr/foire-aux-questions.php">F.A.Q</a> - </li>
-									<li><a href="https://www.mangasfan.fr/recrutements">Recrutements</a> - </li>
-									<li><a href="https://www.mangasfan.fr/mentions_legales.php">Mentions Légales</a></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
+					<h3>Liens utiles</h3>
+					<nav class="lien_site">
+						<ul>
+							<li><a href="https://www.mangasfan.fr/">Index</a> - </li>
+							<li><a href="https://www.mangasfan.fr/membres/liste_membres.php">Liste des membres</a> - </li>
+							<li><a href="https://www.mangasfan.fr/changelog.php">Mises à jour</a> - </li>
+							<li><a href="https://www.mangasfan.fr/partenaires.php">Partenaires</a> - </li>
+							<li><a href="https://www.mangasfan.fr/foire-aux-questions.php">F.A.Q</a> - </li>
+							<li><a href="https://www.mangasfan.fr/recrutements">Recrutements</a> - </li>
+							<li><a href="https://www.mangasfan.fr/mentions_legales.php">Mentions Légales</a></li>
+						</ul>
+					</nav>
 				</div>
 
 				<div class="col-md-6">
 					<h3>Nos partenaires</h3>
 					<a href="https://www.pokelove.fr/" target="_blank">
-						<img src="https://www.mangasfan.fr/images/pokelove.png" alt="Logo de Pokélove" width="88" height="31" />
+						<img src="https://1.bp.blogspot.com/-7Ll1bD0j16Y/XWP2tH8flcI/AAAAAAAANO8/y9Rg41CAcC0t_naVCyWNrmug4UYYyPbBwCLcBGAs/s1600/partenaire_nidoranm.png" alt="Logo de Pokélove" width="88" height="31" />
 					</a>
 					<a href="http://www.nexgate.ch" target="_blank">
 						<img style="border:0;" src="https://www.nexgate.ch/images/button8831.png" alt="Hébergement gratuit !" title="Hébergement gratuit - nexgate.ch" />
@@ -177,6 +183,13 @@
 							<a href="https://www.instagram.com/mangasfanoff/" target="_blank">
 								<img src="https://www.mangasfan.fr/images/insta.png" alt="Instagram - Mangas'Fan"  class="image_reseaux" />
 							</a>
+							
+							<a href="https://www.twitch.tv/mangasfanofficiel/" target="_blank">
+								<img src="https://www.mangasfan.fr/images/twitch.png" alt="Twitch - Mangas'Fan"  class="image_reseaux" />
+							</a>
+							<a href="https://www.youtube.com/channel/UCEKb-Gz4ZyNQo5jHckWimpQ" target="_blank">
+								<img src="https://www.mangasfan.fr/images/youtube.png" alt="Youtube - Mangas'Fan"  class="image_reseaux" />
+							</a>
 						</div>
 					</div>  
 				</div>
@@ -185,7 +198,7 @@
 	</div>
 	<div class="footer-bottom">       
 		<div class="container">           
-			<p class="pull-left">Version 6.6.0 de Mangas'Fan © 2017 - 2020. Développé par Zekarant et Nico. Design by Asami. Header by よねやままい. Tous droits réservés. Toute atteinte au droit d'auteur n'est pas désirée.<br/> Propulsé par <a href="https://www.nexgate.ch/">https://www.nexgate.ch/.</a></p>        
+			<p class="pull-left">Version 7.0.0 de Mangas'Fan © 2017 - 2020. Développé par Zekarant et Nico. Design by Asami. Tous droits réservés. Toute atteinte au droit d'auteur n'est pas désirée.<br/> Propulsé par <a href="https://www.nexgate.ch/">https://www.nexgate.ch/.</a></p>        
 		</div>    
 	</div>
 </body>

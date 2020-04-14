@@ -8,7 +8,7 @@ class Users extends Controller {
 
     public function inscription(){
         $error = '';
-        $pageTitle = 'S\'inscrire - Mangas\'Fan';
+        $pageTitle = 'S\'inscrire';
         $style = '../css/commentaires.css';
 
         if (isset($_SESSION['auth'])) {
@@ -120,7 +120,7 @@ class Users extends Controller {
 
 public function indexConnexion() {
     $error = '';
-    $pageTitle = 'Se connecter - Mangas\'Fan';
+    $pageTitle = 'Se connecter';
     $style = '../css/commentaires.css';
 
     if (isset($_SESSION['auth'])) {
@@ -275,7 +275,7 @@ public function modifierInfos(){
 }
 
 public function forget(){
-    $pageTitle = 'Demande de réinitialisation de mot de passe - Mangas\'Fan';
+    $pageTitle = 'Demande de réinitialisation de mot de passe';
     $style = '../css/commentaires.css';
     $error = "";
     if (isset($_POST['valider'])) {
@@ -323,7 +323,7 @@ public function forget(){
 
 public function reset(){
     $error = "";
-    $pageTitle = 'Réinitialiser mon mot de passe - Mangas\'Fan';
+    $pageTitle = 'Réinitialiser mon mot de passe';
     $style = '../css/commentaires.css';
 
     $variables = ['pageTitle', 'style'];

@@ -15,7 +15,9 @@ class News extends Controller {
 		$news = $this->model->findAllNews('create_date DESC', '0, 9');
 		$pageTitle = "L'actualité des mangas et des animes";
 		$style = "css/index.css";
-		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style'));
+		$description = "Toute l'actualité des animes sur Mangas'Fan ! News, mangas, animes, jeux, tout est à portée de main ! Votre communauté de fans sur Mangas'Fan.";
+		$keywords = "Mangas, Fan, Animes, Site Mangas, Produits, Adaptation, Contenu, Site, Communauté, Partenaires, Actualités, Sorties, Débats, Site de discussions mangas, Manga, Fan Manga, Mangas fans, Jeux, Jeux de mangas, Manga Fan, Mangas'Fan";
+		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords'));
 	}
 
 
@@ -38,14 +40,14 @@ class News extends Controller {
 		}
 		if (!$news_id) {
 			$_SESSION['flash-type'] = "error-flash";
-			$_SESSION['flash_message'] = "On ne peut pas chercher une news qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			$_SESSION['flash-message'] = "On ne peut pas chercher une news qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
 			\Http::redirect('index.php');
 		}
 		if (is_numeric($news_id)) {
 			$news = $this->model->findNews($news_id);
 			if (!isset($news['id_news'])) {
 				$_SESSION['flash-type'] = "error-flash";
-				$_SESSION['flash_message'] = "La news que vous avez demandée n'existe pas, pour éviter les problèmes, nous vous avons redirigé !";
+				$_SESSION['flash-message'] = "La news que vous avez demandée n'existe pas, pour éviter les problèmes, nous vous avons redirigé !";
 				\Http::redirect('index.php');
 			} else {
 				\Http::redirect('commentaire/' . $news['slug']);
@@ -57,13 +59,31 @@ class News extends Controller {
 				\Http::redirect($news_id);
 			} elseif (!isset($news['slug'])) {
 				$_SESSION['flash-type'] = "error-flash";
-				$_SESSION['flash_message'] = "La news que vous avez demandée n'existe pas, pour éviter les problèmes, nous vous avons redirigé !";
+				$_SESSION['flash-message'] = "La news que vous avez demandée n'existe pas, pour éviter les problèmes, nous vous avons redirigé !";
 				\Http::redirect('../index.php');
 			}
 		}
 		$commentaires = $commentModel->findAllComment($news['id_news']);
 		$style = "../css/commentaires.css";
 		$pageTitle = $news['title'];
-		\Renderer::render('templates/news/show', 'templates/', compact('news', 'commentaires', 'style', 'pageTitle'));
+		$description = $news['description_news'];
+		if (empty($news['keywords'])) {
+			$keywords = "mangas, animes, fans, communauté";
+		} else {
+			$keywords = $news['keywords'];
+		}
+		if (isset($_POST['envoyer_commentaire'])) {
+			if (!empty($_POST['comme'])) {
+				$commentModel->addComment($news['id_news'], $_SESSION['auth']['id_user'], $_POST['comme']);
+				$_SESSION['flash-type'] = "error-flash";
+				$_SESSION['flash-message'] = "Votre commentaire a bien été ajouté !";
+				\Http::redirect('../commentaire.php?id=' . $news['id_news']);
+			} else {
+				$_SESSION['flash-type'] = "error-flash";
+				$_SESSION['flash-message'] = "Vous n'avez pas renseigné de commentaire !";
+				\Http::redirect('../commentaire.php?id=' . $news['id_news']);
+			}
+		}
+		\Renderer::render('templates/news/show', 'templates/', compact('news', 'commentaires', 'style', 'pageTitle', 'description', 'keywords'));
 	}
 }

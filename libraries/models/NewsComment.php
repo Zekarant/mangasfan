@@ -14,12 +14,16 @@ class NewsComment extends Model {
 	}
 
 	public function findComment(int $id){
-		$query = $this->pdo->prepare("SELECT * FROM {$this->table} INNER JOIN news ON news.id_news = news_commentary.id_news WHERE news_commentary.id_commentary = :id");
+		$query = $this->pdo->prepare("SELECT *, news_commentary.author AS auteur FROM {$this->table} INNER JOIN news ON news.id_news = news_commentary.id_news WHERE news_commentary.id_commentary = :id");
 		$query->execute(['id' => $id]);
 		$resultat = $query->fetch();
 		return $resultat;
 	}
 
+	public function addComment(int $id_news, int $author, string $commentary){
+		$req = $this->pdo->prepare('INSERT INTO news_commentary(id_news, author, posted_date, commentary) VALUES(:id_news, :author, NOW(), :commentary)');
+		$req->execute(['id_news' => $id_news, 'author' => $author, 'commentary' => $commentary]);
+	}
 	public function editComment(string $commentary, int $idCommentary){
 		$query = $this->pdo->prepare("UPDATE {$this->table} SET commentary = ? WHERE id_commentary = ?");
 		$query->execute(array($commentary, $idCommentary));
