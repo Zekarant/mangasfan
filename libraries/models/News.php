@@ -54,7 +54,6 @@ class News extends Model {
 	public function deleteNews(int $id) : void {
 		$query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id_news = :id");
 		$query->execute(['id' => $id]);
-		\Http::redirect('index.php');
 	}
 	
 }

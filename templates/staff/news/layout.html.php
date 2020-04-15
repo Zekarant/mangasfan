@@ -55,7 +55,7 @@
             <a class="nav-link" href="#"><s>Galeries</s></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><s>Mon compte</s></a>
+            <a class="nav-link" href="../../membres/compte.php">Mon compte</a>
           </li>
         </ul>
       </div>

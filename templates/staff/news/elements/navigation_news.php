@@ -1,9 +1,9 @@
 <div class="col-lg-2 bg-light border-right border-bottom">
 			<div class="avatar_site">
-				<img src="/mangasfan/membres/images/avatars/<?= $utilisateur['avatar'] ?>"/>
+				<img src="/mangasfan/membres/images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>"/>
 				<center>
-					<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span><br/><br/>
-					<h3><?= $utilisateur['username'] ?></h3>
+					<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($utilisateur['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($utilisateur['grade']), \Rewritting::sanitize($utilisateur['sexe']), \Rewritting::sanitize($utilisateur['chef'])) ?></span><br/><br/>
+					<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
 				</center>
 			</div>
 			<hr>
@@ -13,14 +13,11 @@
 					<a class="nav-link lien_nav_staff" href="https://imagecompressor.com/fr/">» Compresseur d'images</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#">» Hébergeur d'images</a>
+					<a class="nav-link lien_nav_staff" href="#"><s>» Hébergeur d'images</s></a>
 				</li>
 				Rédaction :
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#">» Rédiger une news</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#">» Toutes les news postées</a>
+					<a class="nav-link lien_nav_staff" href="#"><s>» Rédiger une news</s></a>
 				</li>
 				<p>Guides (A télécharger) :</p>
 				<li class="nav-item">

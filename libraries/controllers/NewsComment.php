@@ -29,7 +29,16 @@ class NewsComment extends Controller {
 	}
 
 	public function edit(){
+		$users = new \Models\Users();
 		if (isset($_GET['id']) && !empty($_GET['id']) & is_numeric($_GET['id'])) {
+			if (!isset($_SESSION['auth'])) {
+				\Http::redirect('../commentaire.php?id=' . $_GET['news']);
+			}
+			$user = $users->user($_SESSION['auth']['id_user']);
+			$newsSearch = $this->model->findComment($_GET['id']);
+			if ($user['id_user'] != $newsSearch['auteur']) {
+				\Http::redirect('../commentaire.php?id=' . $newsSearch['id_news']);
+			}
 			if(isset($_POST['valider'])){
 				$this->model->editComment($_POST['commentaire'], $_GET['id']);
 				\Http::redirect('../commentaire.php?id=' . $_GET['news']);
@@ -37,7 +46,7 @@ class NewsComment extends Controller {
 				$commentary = $this->model->findComment($_GET['id']);
 				if (isset($commentary['id_commentary'])) {
 					$pageTitle = "Modifier mon commentaire - " . $commentary['title'];
-					$style = "../css/index.css";
+					$style = "../css/commentaires.css";
 					\Renderer::render('../templates/news/edit', '../templates/', compact('commentary', 'pageTitle', 'style'));
 				} else {
 					$_SESSION['flash-type'] = "error-flash";

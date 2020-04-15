@@ -19,8 +19,8 @@ class RedactionNews extends Model {
 	}
 
 	public function modifierNews(string $title, string $description, string $create_date, ?string $keywords, string $image, string $contenu, string $category, ?string $sources, int $visibility, string $slug, int $id_news){
-		$modification = $this->pdo->prepare('UPDATE news SET title = :title, description = :description, create_date = :create_date, keywords = :keywords, image = :image, contenu = :contenu, category = :category, sources = :sources, visibility = :visibility, slug = :new_slug WHERE id_news = :id_news');
-      	$modification->execute(['title' => $title, 'description' => $description, 'create_date' => $create_date, 'keywords' => $keywords, 'image' => $image, 'contenu' => $contenu, 'category' => $category, 'sources' => $sources, 'visibility' => $visibility, 'new_slug' => $slug, 'id_news' => $id_news]);
+		$modification = $this->pdo->prepare('UPDATE news SET title = :title, description = :description, create_date = :create_date, keywords = :keywords, image = :image, contenu = :contenu, category = :category, sources = :sources, visibility = :visibility, slug = :slug WHERE id_news = :id_news');
+      	$modification->execute(['title' => $title, 'description' => $description, 'create_date' => $create_date, 'keywords' => $keywords, 'image' => $image, 'contenu' => $contenu, 'category' => $category, 'sources' => $sources, 'visibility' => $visibility, 'slug' => $slug, 'id_news' => $id_news]);
 	}
 
 }

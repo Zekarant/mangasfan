@@ -7,6 +7,14 @@ class RedactionNews extends Controller {
 	protected $modelName = \Models\RedactionNews::class;
 
 	public function index(){
+		$users = new \Models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] <= 3) {
+			\Http::redirect('../../index.php');
+		}
 		$pageTitle = "Index de la rédaction";
 		$style = '../../css/staff.css';
 		$news = $this->model->recupererNews();
@@ -51,9 +59,9 @@ class RedactionNews extends Controller {
 		}
 		if (empty($errors)) {
 			$news = $this->model->verifierNews($_GET['id_news']);
-			$slug = \Rewritting::stringToURLString($news['title']);
-			$news_slug = \Rewritting::remove_accents($slug);
-			$this->model->modifierNews($_POST['modif_titre'], $_POST['modif_description'], $_POST['programmation_news'], $_POST['modif_keywords'], $_POST['modif_image'],$_POST['modif_contenu'], $_POST['modif_categorie'], $_POST['modif_sources'], $_POST['modif_visibilite'], $news_slug, $_GET['id_news']);
+			$slug = \Rewritting::stringToURLString($_POST['modif_titre']);
+			$this->model->modifierNews($_POST['modif_titre'], $_POST['modif_description'], $_POST['programmation_news'], $_POST['modif_keywords'], $_POST['modif_image'],$_POST['modif_contenu'], $_POST['modif_categorie'], $_POST['modif_sources'], $_POST['modif_visibilite'], $slug, $_GET['id_news']);
+			\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
 		}
 		return $errors;
 	}

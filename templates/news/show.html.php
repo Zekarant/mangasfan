@@ -1,7 +1,7 @@
-<h1 class="titre"><?= $news['title'] ?></h1>
+<h2 class="titre"><?= \Rewritting::sanitize($news['title']) ?></h2>
 <hr>
-<?= $news['contenu'] ?>
-<p class="auteur-news"><small>News rédigée le <?= $news['create_date'] ?> par <a href="#"><?= $news['username'] ?></a></small></p>
+<?= htmlspecialchars_decode(\Rewritting::sanitize($news['contenu'])) ?>
+<p class="auteur-news"><small>News rédigée le <?= \Rewritting::sanitize($news['create_date']) ?> par <a href="#"><?= \Rewritting::sanitize($news['username']) ?></a></small></p>
 <hr>
 <div class="container">
     <div class="row">
@@ -13,12 +13,12 @@
             <div class="bloc-auteur">
                 <div class="row">
                     <div class="col-lg-3">
-                        <img src="https://www.mangasfan.fr/membres/images/avatars/<?= $news['avatar']; ?>" alt="Avatar de <?= $news['username'] ?>" class="auteur-avatar" />
+                        <img src="https://www.mangasfan.fr/membres/images/avatars/<?= \Rewritting::sanitize($news['avatar']); ?>" alt="Avatar de <?= \Rewritting::sanitize($news['username']) ?>" class="auteur-avatar" />
                     </div>
                     <div class="col-lg-9 a-propos-auteur">
-                        <h5><?= $news['username']; ?></h5>
+                        <h5><?= \Rewritting::sanitize($news['username']); ?></h5>
                         <hr>
-                        <small><i>« <?= $news['role']; ?> »</i></small>
+                        <small><i>« <?= \Rewritting::sanitize($news['role']); ?> »</i></small>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
         </div>
         <div class="bloc-auteur">
             <?php if($news['category'] != "Site"){ ?>
-                Cette news appartient à la catégorie « <a href="#"><strong><?= $news['category']; ?></strong></a> ».<br/><br/>
+                Cette news appartient à la catégorie « <a href="#"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
                 Par ailleurs, nous avons une page concernée aux animes sur le site, consultez-là <a href="#">ici</a>.
             <?php } else { ?>
                 Cette news appartient à la catégorie « <strong>Site</strong> »
@@ -90,26 +90,26 @@ foreach ($commentaires as $commentaire): ?>
     <hr>
     <div class="container">
         <div class="row">
-            <div class="col-lg-3" style="border-right: 1px solid <?= Color::rang_etat($commentaire['grade']) ?>">
-                <div class="avatar-news" style="box-shadow: 0px 0px 2px 2px <?= Color::rang_etat($commentaire['grade']) ?>; background:url('https://www.mangasfan.fr/membres/images/avatars/<?= $commentaire['avatar'] ?>');background-size:100px; background-position: center;"/>
+            <div class="col-lg-3" style="border-right: 1px solid <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>">
+                <div class="avatar-news" style="box-shadow: 0px 0px 2px 2px <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>; background:url('https://www.mangasfan.fr/membres/images/avatars/<?= \Rewritting::sanitize($commentaire['avatar']) ?>');background-size:100px; background-position: center;"/>
                 </div>
                 <p class="pseudo">
-                    <a href="#" style="color: <?= Color::rang_etat($commentaire['grade']); ?>"><?= $commentaire['username']; ?></a><br/>
-                    <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($commentaire['grade']) ?>;"><?= Color::getRang($commentaire['grade'], $commentaire['sexe'], $commentaire['chef']) ?></span><br/><br/>
+                    <a href="#" style="color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])); ?>"><?= \Rewritting::sanitize($commentaire['username']); ?></a><br/>
+                    <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($commentaire['grade']), \Rewritting::sanitize($commentaire['sexe']), \Rewritting::sanitize($commentaire['chef'])) ?></span><br/><br/>
                     <?php if (isset($_SESSION['auth'])) { 
                         if ($commentaire['auteur_commentaire'] == $utilisateur['id_user']) {  ?>
-                           <a href="../news/edit_comment.php?id=<?= $commentaire['id_commentary'] ?>"class="btn btn-sm btn-outline-info">Editer</a>
-                           <a href="../news/delete_comment.php?id=<?= $commentaire['id_commentary'] ?>&news=<?= $news['id_news'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                           <a href="../news/edit_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>"class="btn btn-sm btn-outline-info">Editer</a>
+                           <a href="../news/delete_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>&news=<?= \Rewritting::sanitize($news['id_news']) ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
                        <?php } elseif ($utilisateur['grade'] >= 6 && $utilisateur['grade'] <= 10) { ?>
-                          <a href="../news/delete_comment.php?id=<?= $commentaire['id_commentary'] ?>&news=<?= $news['id_news'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                          <a href="../news/delete_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>&news=<?= $news['id_news'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
                       <?php }
                   } ?>
               </p>
           </div>
           <div class="col-lg-9">
-            <?= nl2br($commentaire['commentary']) ?>
+            <?= nl2br(\Rewritting::sanitize($commentaire['commentary'])) ?>
             <div class="bottom">
-                <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime($commentaire['posted_date'])) ?></small>
+                <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($commentaire['posted_date']))) ?></small>
             </div>
         </div>
     </div>

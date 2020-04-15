@@ -70,6 +70,10 @@
 							}
 							?></label> 
 							<input type="datetime-local" class="form-control" value="<?php echo date('Y-m-d\TH:i', strtotime($news['create_date'])); ?>" name="programmation_news"/>
+							<br/>
+						<label>Lien de la news (titre informatif) :</label>
+							<input type="text" name="slug" class="form-control" value="<?= $news['slug']; ?>" readonly>
+							<br/>
 						</div>
 					</div>
 					<br/>

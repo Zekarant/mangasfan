@@ -22,11 +22,21 @@ class News extends Controller {
 
 
 	public function delete() {
+		$users = new \Models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('commentaire.php?id=' . $_GET['id']);
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] <= 4 && $user['chef'] == 0) {
+			\Http::redirect('commentaire.php?id=' . $_GET['id']);
+		}
 		if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
 			die("L'id n'a pas été renseigné");
 		}
 		$id = $_GET['id'];
 		$news = $this->model->deleteNews($id);
+		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-message'] = "La news a bien été supprimée !";
 		\Http::redirect('index.php');
 	}
 
