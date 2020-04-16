@@ -17,7 +17,7 @@
 				</li>
 				Rédaction :
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Rédiger une news</s></a>
+					<a class="nav-link lien_nav_staff" href="rediger_news.php">» Rédiger une news</a>
 				</li>
 				<p>Guides (A télécharger) :</p>
 				<li class="nav-item">

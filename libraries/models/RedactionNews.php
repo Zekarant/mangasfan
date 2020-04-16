@@ -11,6 +11,12 @@ class RedactionNews extends Model {
 		return $news;
 	}
 
+	public function ajouterNews(string $titre, string $description, string $create_date, string $image, string $contenu, string $category, string $keywords, int $author, string $sources, string $slug, string $visibility){
+		$req = $this->pdo->prepare('INSERT INTO news SET title = :title, description = :description, create_date = :create_date, image = :image, contenu = :contenu, category = :category, keywords = :keywords, author = :author, sources = :sources, slug = :slug, visibility = :visibility, demande = 0');
+		$req->execute(['title' => $titre, 'description' => $description, 'create_date' => $create_date, 'image' => $image, 'contenu' => $contenu, 'category' => $category, 'keywords' => $keywords, 'author' => $author, 'sources' => $sources, 'slug' => $slug, 'visibility' => $visibility]);
+
+	}
+
 	public function verifierNews(int $id_news){
 		$req = $this->pdo->prepare('SELECT *, news.description AS description_news from news INNER JOIN users ON id_user = author WHERE id_news = :id_news');
 		$req->execute(['id_news' => $id_news]);

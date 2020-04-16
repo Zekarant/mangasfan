@@ -27,3 +27,26 @@
 		<?php endforeach ?>
 	</div>
 </div>
+<a href="#" class="d-flex justify-content-center"><img src="https://www.mangasfan.fr/images/test.png" /></a>
+<br/>
+<h2 class="text-center">L'équipe de Mangas'Fan</h2>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<th>Pseudo</th>
+			<th>Rang</th>
+			<th>Manga préféré</th>
+			<th>Date d'inscription</th>
+		</thead>
+		<tbody>
+			<?php foreach ($staff as $equipe): ?>
+				<tr>
+					<td><a href="#"><?= \Rewritting::sanitize($equipe['username']) ?></a></td>
+					<td><span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($equipe['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($equipe['grade']), \Rewritting::sanitize($equipe['sexe']), \Rewritting::sanitize($equipe['chef'])) ?></span></td>
+					<td><?= \Rewritting::sanitize($equipe['manga']) ?></td>
+					<td><?= date('d/m/Y', strtotime(\Rewritting::sanitize($equipe['confirmed_at']))); ?></td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>

@@ -6,6 +6,13 @@ class Users extends Model {
 
 	protected $table = "users";
 
+	public function recupererStaff(){
+		$req = $this->pdo->prepare('SELECT * FROM users WHERE grade > 2 AND id_user != 25 ORDER BY grade DESC, chef DESC');
+		$req->execute();
+		$staff = $req->fetchAll();
+		return $staff;
+	}
+
 	public function inscription(string $username, string $email, string $password, string $confirmation_token, string $description, string $avatar){
 		$password_hash = password_hash($password, PASSWORD_BCRYPT);
 		$req = $this->pdo->prepare('INSERT INTO users SET username = :username, email = :email, password = :password, confirmation_token = :confirmation_token, description = :description, avatar= :avatar, grade = 1');

@@ -73,7 +73,7 @@
 						</li>
 					<?php } ?>
 					<li class="nav-item">
-						<a class="nav-link" href="#"><s>Contact</s></a>
+						<a class="nav-link" href="/mangasfan/contact.php">Contact</a>
 					</li>
 				</ul>
 			</div>

@@ -10,7 +10,7 @@ class Color {
 	public static function getRang(int $rang, int $sexe, bool $chef = false): string {
 		$rangs = ['Banni', 'Membre', 'Community Manager', 'Animateur', 'Newseur', 'Rédacteur', 'Modérateur', 'Développeur', 'Administrateur', 'Fondateur', 'Mangas\'Bot'];
 		$rangs_femme = ['Bannie', 'Membre', 'Community Manageuse', 'Animatrice', 'Newseuse', 'Rédactrice', 'Modératrice', 'Développeuse', 'Administratrice'];
-		if ($sexe == 1) {
+		if ($sexe == 1 && $chef == 0) {
 			$rang_txt = $rangs_femme[$rang] ?? $rangs[1];
 		} else {
 			$rang_txt = $rangs[$rang] ?? $rangs[1];

@@ -14,7 +14,7 @@ class News extends Model {
 	* @return array
 	*/
 	public function findAllNews(?string $order = "", ?string $limit = "") : array {
-		$search_news = "SELECT id_news, title, news.description, create_date, image, contenu, slug, username FROM {$this->table} INNER JOIN users ON news.author = users.id_user";
+		$search_news = "SELECT id_news, title, news.description, create_date, image, contenu, slug, username FROM {$this->table} INNER JOIN users ON news.author = users.id_user WHERE visibility = 0";
 		if ($order) {
 			$search_news .= " ORDER BY " . $order;
 		}
