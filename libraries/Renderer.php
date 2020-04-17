@@ -9,6 +9,12 @@ class Renderer {
 			\Http::redirect('membres/deconnexion.php');
 			exit();
 		}
+		$controllerMaintenance = new \Models\Administration();
+		$maintenance = $controllerMaintenance->verifier("Site");
+		if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+			\Http::redirect('/mangasfan/maintenance.php');
+			exit();
+		}
 		extract($variables);
 		ob_start();
 		require($path . '.html.php');

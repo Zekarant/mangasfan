@@ -7,6 +7,14 @@ class Administration extends Controller {
 	protected $modelName = \Models\Administration::class;
 
 	public function index(){
+		$users = new \Models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] <= 6) {
+			\Http::redirect('../../index.php');
+		}
 		$pageTitle = "Index de l'administration";
 		$style = '../../css/staff.css';
 		$maintenance = Administration::Maintenance();
