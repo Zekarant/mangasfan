@@ -1,6 +1,6 @@
 <div class="container-fluid contenu">
 	<div class="row">
-		<?php include('elements/navigation_news.php'); ?>
+		<?php include('navigation_news.php'); ?>
 		<div class="col-lg-10">
 			<h2 class="titre">Pannel des news - Mangas'Fan</h2>
 			<div class="table table-responsive">

@@ -116,7 +116,7 @@
 							Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
 							<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
 							<?php if ($utilisateur['grade'] >= 7) { ?>
-								<a href="#" class="btn btn-outline-danger"><s>Administration</s></a>
+								<a href="/mangasfan/staff/administration/index.php" class="btn btn-outline-danger">Administration</a>
 							<?php } if($utilisateur['grade'] >= 6){ ?>
 								<a href="#" class="btn btn-outline-success"><s>Modération</s></a>
 							<?php } if($utilisateur['grade'] >= 4){ ?>

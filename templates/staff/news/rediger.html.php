@@ -1,6 +1,6 @@
 <div class="container-fluid contenu">
 	<div class="row">
-		<?php include('elements/navigation_news.php'); ?>
+		<?php include('navigation_news.php'); ?>
 		<div class="col-lg-10">
 			<h2 class="titre">Rédiger une news - Mangas'Fan</h2>
 			<hr>

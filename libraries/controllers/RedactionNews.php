@@ -18,7 +18,7 @@ class RedactionNews extends Controller {
 		$pageTitle = "Index de la rédaction";
 		$style = '../../css/staff.css';
 		$news = $this->model->recupererNews();
-		\Renderer::render('../../templates/staff/news/index', '../../templates/staff/news', compact('pageTitle', 'style', 'news'));
+		\Renderer::render('../../templates/staff/news/index', '../../templates/staff', compact('pageTitle', 'style', 'news'));
 	}
 
 	public function ajouterNews(){
@@ -61,7 +61,7 @@ class RedactionNews extends Controller {
 			}
 		}
 		
-		\Renderer::render('../../templates/staff/news/rediger', '../../templates/staff/news', compact($variables));
+		\Renderer::render('../../templates/staff/news/rediger', '../../templates/staff', compact($variables));
 	}
 
 	public function verifierNews(){
@@ -89,7 +89,7 @@ class RedactionNews extends Controller {
 					\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
 				}
 			}
-			\Renderer::render('../../templates/staff/news/modifier', '../../templates/staff/news', compact($variables));
+			\Renderer::render('../../templates/staff/news/modifier', '../../templates/staff', compact($variables));
 		} else {
 			\Http::redirect('index.php');
 		}
