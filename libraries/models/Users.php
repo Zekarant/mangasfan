@@ -6,6 +6,20 @@ class Users extends Model {
 
 	protected $table = "users";
 
+	public function allMembres(?int $limit = 0, ?int $autre = 10){
+		$req = $this->pdo->prepare('SELECT * FROM users ORDER BY username LIMIT ' . $limit . ',' . $autre);
+		$req->execute();
+		$membres = $req->fetchAll();
+		return $membres;
+	}
+
+	public function paginationCount(){
+		$req = $this->pdo->prepare('SELECT COUNT(*) FROM users');
+        $req->execute();
+        $pagination = $req->fetchColumn();
+        return $pagination;
+	}
+	
 	public function recupererStaff(){
 		$req = $this->pdo->prepare('SELECT * FROM users WHERE grade > 2 AND id_user != 25 ORDER BY grade DESC, chef DESC');
 		$req->execute();

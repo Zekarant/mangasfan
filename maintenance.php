@@ -31,7 +31,7 @@ session_start();
 			<div class="col-lg-9">
 				<article>
 					<h1>On revient le plus vite possible !</h1>
-					<p>Nous sommes actuellement en train de réaliser une maintenance pour le site, on n'en a pas pour longtemps, c'est seulement le temps de quelques améliorations. Si vous avez besoin d'aide, vous pouvez toujours nous contacter sur <a href="mailto:contact@mangasfan.fr">ce mail</a>. Nous nous excusons pour la gêne occasionnée !</p> <a href="../">Retournez à l'accueil</a>
+					<p>Nous sommes actuellement en train de réaliser une maintenance pour le site, on n'en a pas pour longtemps, c'est seulement le temps de quelques améliorations. Si vous avez besoin d'aide, vous pouvez toujours nous contacter sur <a href="mailto:contact@mangasfan.fr">ce mail</a>. Nous nous excusons pour la gêne occasionnée ! <a href="../">Retournez à l'accueil</a></p>
 					<p>~ L'équipe de Mangas'Fan</p>
 					<p><div class="bouton">
 						<a href="https://www.twitter.com/MangasFanOff" target="_blank" class="links">

@@ -18,7 +18,9 @@ class Administration extends Controller {
 		$pageTitle = "Index de l'administration";
 		$style = '../../css/staff.css';
 		$maintenance = Administration::Maintenance();
-		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance'));
+		$membres = Administration::members();
+		list($membres, $nb_pages, $page) = $membres;
+		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance', 'membres', 'page', 'nb_pages'));
 	}
 
 	public function Maintenance(){
@@ -27,11 +29,7 @@ class Administration extends Controller {
 		$maintenance = $this->model->maintenance();
 		if (isset($_POST['maintenance'])) {
 			$recuperer = $this->model->verifier($_POST['maintenance']);
-			if ($recuperer['active_maintenance'] == 0) {
-				$newValue = 1;
-			} else {
-				$newValue = 0;
-			}
+			$newValue = !$recuperer['active_maintenance'] ? 1 : 0;
 			if ($recuperer['maintenance_area'] === "Site") {
 				$this->model->updateAllMaintenance($newValue);
 			} else {
@@ -39,7 +37,22 @@ class Administration extends Controller {
 			}
 			\Http::redirect('index.php');
 		}
-		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance'));
+		return $maintenance;
 	}
+
+	public function members(){
+		$users = new \Models\Users();
+        if (!empty($_GET['page']) && is_numeric($_GET['page'])){
+            $page = stripslashes($_GET['page']); 
+        } else { 
+        	$page = 1;
+        }
+        $pagination = 10;
+        $limit_start = ($page - 1) * $pagination;
+        $nb_total = $users->paginationCount();
+        $nb_pages = ceil($nb_total / $pagination);
+        $membres = $users->allMembres($limit_start, $pagination);
+        return array($membres, $nb_pages, $page);
+    }
 	
 }

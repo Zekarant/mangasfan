@@ -10,16 +10,16 @@
 			<ul class="nav navbar-inner flex-column">
 				Administration :
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Maintenances</s></a>
+					<a class="nav-link lien_nav_staff" href="#maintenances">» Maintenances</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link lien_nav_staff" href="#membres">» Fiches des membres</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link lien_nav_staff" href="#"><s>» Avertissements</s></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link lien_nav_staff" href="#"><s>» Bannissements</s></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Fiches des membres</s></a>
 				</li>
 				<p>Autres outils :</p>
 				<li class="nav-item">
