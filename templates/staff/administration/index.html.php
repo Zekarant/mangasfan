@@ -88,5 +88,37 @@
 					</div>
 				</div>
 			</div>
+			<h2 class="titre">Gestion des avertissements</h2>
+			<?php if (empty($avertissements)) { ?>
+				<div class="alert alert-info">
+					Aucun membre de Mangas'Fan ne possède d'avertissement !
+				</div>
+			<?php } else { ?>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<th>Membre</th>
+							<th>Motif de l'avertissement</th>
+							<th>Nombre d'avertissements</th>
+							<th>Date/Modérateur</th>
+							<th>Action</th>
+						</thead>
+						<tbody>
+							<?php foreach ($avertissements as $avertissement) { ?>
+								<tr>
+									<td><span style="color: <?= Color::rang_etat($avertissement['grade_banni']) ?>"><?= $avertissement['username_banni'] ?></span></td>
+									<td><?= \Rewritting::sanitize($avertissement['motif']) ?></td>
+									<td><?= $avertissement['avertissements'] ?></td>
+									<td>Attribué le <?= $avertissement['add_date'] ?> par <span style="color: <?= Color::rang_etat($avertissement['grade_modo']) ?>"><?= $avertissement['username_modo'] ?></span></td>
+									<td>
+										<form method="POST" action="">
+                    						<button type="submit" class="btn btn-outline-warning" name="delete_avertissement" value="<?= $avertissement['id_avertissement'] ?>">Supprimer</button>
+                  						</form>
+									</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					</div>
+				<?php } ?>
+			</div>
 		</div>
-	</div>

@@ -19,8 +19,9 @@ class Administration extends Controller {
 		$style = '../../css/staff.css';
 		$maintenance = Administration::Maintenance();
 		$membres = Administration::members();
+		$avertissements = Administration::avertissements();
 		list($membres, $nb_pages, $page) = $membres;
-		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance', 'membres', 'page', 'nb_pages'));
+		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance', 'membres', 'page', 'nb_pages', 'avertissements'));
 	}
 
 	public function Maintenance(){
@@ -53,6 +54,11 @@ class Administration extends Controller {
         $nb_pages = ceil($nb_total / $pagination);
         $membres = $users->allMembres($limit_start, $pagination);
         return array($membres, $nb_pages, $page);
+    }
+
+    public function avertissements(){
+    	$avertissements = $this->model->avertissements();
+    	return $avertissements;
     }
 	
 }
