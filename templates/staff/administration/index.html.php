@@ -23,12 +23,12 @@
 											Maintenance en cours
 										<?php } ?>
 									</td>
-									<td><?= $maintenances['maintenance_area'] ?></td>
+									<td><?= \Rewritting::sanitize($maintenances['maintenance_area']) ?></td>
 									<td>
 										<?php if ($maintenances['active_maintenance'] == 0) { ?>
-											<button type="submit" name="maintenance" class="btn btn-outline-warning" value="<?= $maintenances['maintenance_area'] ?>">Activer la maintenance</button>
+											<button type="submit" name="maintenance" class="btn btn-outline-warning" value="<?= \Rewritting::sanitize($maintenances['maintenance_area']) ?>">Activer la maintenance</button>
 										<?php } else { ?>
-											<button type="submit" name="maintenance" class="btn btn-outline-success" value="<?= $maintenances['maintenance_area'] ?>">Désactiver la maintenance</button>
+											<button type="submit" name="maintenance" class="btn btn-outline-success" value="<?= \Rewritting::sanitize($maintenances['maintenance_area']) ?>">Désactiver la maintenance</button>
 										<?php } ?>
 									</td>
 								</tr>
@@ -88,7 +88,7 @@
 					</div>
 				</div>
 			</div>
-			<h2 class="titre">Gestion des avertissements</h2>
+			<h2 class="titre" id="avertissements">Gestion des avertissements</h2>
 			<?php if (empty($avertissements)) { ?>
 				<div class="alert alert-info">
 					Aucun membre de Mangas'Fan ne possède d'avertissement !
@@ -99,23 +99,49 @@
 						<thead>
 							<th>Membre</th>
 							<th>Motif de l'avertissement</th>
-							<th>Nombre d'avertissements</th>
 							<th>Date/Modérateur</th>
 							<th>Action</th>
 						</thead>
 						<tbody>
 							<?php foreach ($avertissements as $avertissement) { ?>
 								<tr>
-									<td><span style="color: <?= Color::rang_etat($avertissement['grade_banni']) ?>"><?= $avertissement['username_banni'] ?></span></td>
+									<td><span style="color: <?= Color::rang_etat($avertissement['grade_banni']) ?>"><?= \Rewritting::sanitize($avertissement['username_banni']) ?></span></td>
 									<td><?= \Rewritting::sanitize($avertissement['motif']) ?></td>
-									<td><?= $avertissement['avertissements'] ?></td>
-									<td>Attribué le <?= $avertissement['add_date'] ?> par <span style="color: <?= Color::rang_etat($avertissement['grade_modo']) ?>"><?= $avertissement['username_modo'] ?></span></td>
+									<td>Attribué le <?= date("d/m/Y", strtotime(\Rewritting::sanitize($avertissement['add_date']))) ?> par <span style="color: <?= Color::rang_etat($avertissement['grade_modo']) ?>"><?= \Rewritting::sanitize($avertissement['username_modo']) ?></span></td>
 									<td>
 										<form method="POST" action="">
-                    						<button type="submit" class="btn btn-outline-warning" name="delete_avertissement" value="<?= $avertissement['id_avertissement'] ?>">Supprimer</button>
+                    						<button type="submit" class="btn btn-outline-warning" name="delete_avertissement" value="<?= \Rewritting::sanitize($avertissement['id_avertissement']) ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cet avertissement ?`)">Supprimer</button>
                   						</form>
 									</tr>
 								<?php } ?>
+							</tbody>
+						</table>
+					</div>
+				<?php } ?>
+				<h2 class="titre" id="bannissements">Gestion des bannissements</h2>
+			<?php if (empty($bannissements)) { ?>
+				<div class="alert alert-info">
+					Aucun membre de Mangas'Fan n'est banni !
+				</div>
+			<?php } else { ?>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<th>Membre</th>
+							<th>Motif</th>
+							<th>Attribué par</th>
+							<th>Durée</th>
+						</thead>
+						<tbody>
+							<?php foreach ($bannissements as $bannissement) { ?>
+								<tr>
+									<td><span style="color: <?= Color::rang_etat($bannissement['grade_banni']) ?>"><?= \Rewritting::sanitize($bannissement['username_banni']) ?></span></td>
+									<td><?= \Rewritting::sanitize($bannissement['motif']) ?></td>
+									<td><span style="color: <?= Color::rang_etat($bannissement['grade_modo']) ?>"><?= \Rewritting::sanitize($bannissement['username_modo']) ?></span></td>
+									<td>Du <?= date("d/m/Y", strtotime(\Rewritting::sanitize($bannissement['begin_date']))) ?> au <?= date("d/m/Y", strtotime(\Rewritting::sanitize($bannissement['finish_date']))) ?>
+									</td>
+								</tr>
+							<?php } ?>
 							</tbody>
 						</table>
 					</div>

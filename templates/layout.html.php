@@ -56,7 +56,7 @@
 				if(isset($_SESSION['auth'])){ ?>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span>
+							<span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= \Rewritting::sanitize($utilisateur['username']) ?></span>
 						</a>
 						<div class="dropleft" role="group">
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -107,13 +107,13 @@
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalCenterTitle">Bonjour <span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span>, heureux de vous revoir !</h5>
+							<h5 class="modal-title" id="exampleModalCenterTitle">Bonjour <span style="color: <?= Color::rang_etat($utilisateur['grade']) ?>"><?= \Rewritting::sanitize($utilisateur['username']) ?></span>, heureux de vous revoir !</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-							Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
+							Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
 							<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
 							<?php if ($utilisateur['grade'] >= 7) { ?>
 								<a href="/mangasfan/staff/administration/index.php" class="btn btn-outline-danger">Administration</a>

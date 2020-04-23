@@ -16,6 +16,11 @@
 					<?php endforeach; ?></ul>
 				</div>
 			<?php endif; ?>
+			<?php if($utilisateur['stagiaire'] == 1){ ?>
+				<div class='alert alert-warning' role='alert'>
+					<strong>Attention : </strong> Etant donné que vous êtes un membre stagiaire de l'équipe, votre news ne sera pas postée directement et devra être validée par le chef de l'équipe des Newseurs.
+				</div>
+			<?php } ?>
 			<form method="POST" action="">
 				<div class="row">
 					<div class="col-lg-6">

@@ -18,6 +18,12 @@ class RedactionNews extends Controller {
 		$pageTitle = "Index de la rédaction";
 		$style = '../../css/staff.css';
 		$news = $this->model->recupererNews();
+		if (isset($_POST['suppression_news'])) {
+			RedactionNews::supprimerNews();
+		}
+		if (isset($_POST['valider_news'])) {
+			RedactionNews::validerNews();
+		}
 		\Renderer::render('../../templates/staff/news/index', '../../templates/staff', compact('pageTitle', 'style', 'news'));
 	}
 
@@ -55,13 +61,31 @@ class RedactionNews extends Controller {
 				} else {
 					$date = $_POST['programmation_news'];
 				}
+				if ($user['stagiaire'] == 1) {
+					$attenteValidation = 1;
+				} else {
+					$attenteValidation = 0;
+				}
 				$slug = \Rewritting::stringToURLString($_POST['titre']);
-				$this->model->ajouterNews($_POST['titre'], $_POST['description'], $date, $_POST['image'], $_POST['contenu_news'], $_POST['categorie'], $_POST['keywords'], $_SESSION['auth']['id_user'], $_POST['sources'], $slug, $_POST['visible']);
+				$this->model->ajouterNews($_POST['titre'], $_POST['description'], $date, $_POST['image'], $_POST['contenu_news'], $_POST['categorie'], $_POST['keywords'], $_SESSION['auth']['id_user'], $_POST['sources'], $slug, $_POST['visible'], $attenteValidation);
 				\Http::redirect('index.php');
 			}
 		}
 		
 		\Renderer::render('../../templates/staff/news/rediger', '../../templates/staff', compact($variables));
+	}
+
+	public function validerNews(){
+		$users = new \Models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['chef'] == 0 && ($user['grade'] < 6 || $user['grade'] != 4)) {
+			\Http::redirect('../../index.php');
+		}
+		$this->model->validerNews($_POST['valider_news']);
+		\Http::redirect('index.php');
 	}
 
 	public function verifierNews(){
@@ -115,5 +139,18 @@ class RedactionNews extends Controller {
 			\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
 		}
 		return $errors;
+	}
+
+	public function supprimerNews(){
+		$users = new \Models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['chef'] == 0 && ($user['grade'] < 6 || $user['grade'] != 4)) {
+			\Http::redirect('../../index.php');
+		}
+		$this->model->supprimerNews($_POST['suppression_news']);
+		\Http::redirect('index.php');
 	}
 }

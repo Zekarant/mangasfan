@@ -11,10 +11,15 @@ class RedactionNews extends Model {
 		return $news;
 	}
 
-	public function ajouterNews(string $titre, string $description, string $create_date, string $image, string $contenu, string $category, string $keywords, int $author, string $sources, string $slug, string $visibility){
-		$req = $this->pdo->prepare('INSERT INTO news SET title = :title, description = :description, create_date = :create_date, image = :image, contenu = :contenu, category = :category, keywords = :keywords, author = :author, sources = :sources, slug = :slug, visibility = :visibility, demande = 0');
-		$req->execute(['title' => $titre, 'description' => $description, 'create_date' => $create_date, 'image' => $image, 'contenu' => $contenu, 'category' => $category, 'keywords' => $keywords, 'author' => $author, 'sources' => $sources, 'slug' => $slug, 'visibility' => $visibility]);
+	public function ajouterNews(string $titre, string $description, string $create_date, string $image, string $contenu, string $category, string $keywords, int $author, string $sources, string $slug, string $visibility, ?int $attenteValidation = 0){
+		$req = $this->pdo->prepare('INSERT INTO news SET title = :title, description = :description, create_date = :create_date, image = :image, contenu = :contenu, category = :category, keywords = :keywords, author = :author, sources = :sources, slug = :slug, visibility = :visibility, demande = 0, validation = :validation');
+		$req->execute(['title' => $titre, 'description' => $description, 'create_date' => $create_date, 'image' => $image, 'contenu' => $contenu, 'category' => $category, 'keywords' => $keywords, 'author' => $author, 'sources' => $sources, 'slug' => $slug, 'visibility' => $visibility, 'validation' => $attenteValidation]);
 
+	}
+
+	public function validerNews(int $id_news){
+		$req = $this->pdo->prepare('UPDATE news SET validation = 0 WHERE id_news = :id_news');
+		$req->execute(['id_news' => $id_news]);
 	}
 
 	public function verifierNews(int $id_news){
@@ -27,6 +32,11 @@ class RedactionNews extends Model {
 	public function modifierNews(string $title, string $description, string $create_date, ?string $keywords, string $image, string $contenu, string $category, ?string $sources, int $visibility, string $slug, int $id_news){
 		$modification = $this->pdo->prepare('UPDATE news SET title = :title, description = :description, create_date = :create_date, keywords = :keywords, image = :image, contenu = :contenu, category = :category, sources = :sources, visibility = :visibility, slug = :slug WHERE id_news = :id_news');
       	$modification->execute(['title' => $title, 'description' => $description, 'create_date' => $create_date, 'keywords' => $keywords, 'image' => $image, 'contenu' => $contenu, 'category' => $category, 'sources' => $sources, 'visibility' => $visibility, 'slug' => $slug, 'id_news' => $id_news]);
+	}
+
+	public function supprimerNews(int $id_news){
+		$req = $this->pdo->prepare('DELETE FROM news WHERE id_news = :id_news');
+		$req->execute(['id_news' => $id_news]);
 	}
 
 }

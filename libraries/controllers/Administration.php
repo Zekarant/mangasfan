@@ -20,8 +20,9 @@ class Administration extends Controller {
 		$maintenance = Administration::Maintenance();
 		$membres = Administration::members();
 		$avertissements = Administration::avertissements();
+		$bannissements = Administration::bannissements();
 		list($membres, $nb_pages, $page) = $membres;
-		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance', 'membres', 'page', 'nb_pages', 'avertissements'));
+		\Renderer::render('../../templates/staff/administration/index', '../../templates/staff', compact('pageTitle', 'style', 'maintenance', 'membres', 'page', 'nb_pages', 'avertissements', 'bannissements'));
 	}
 
 	public function Maintenance(){
@@ -58,7 +59,29 @@ class Administration extends Controller {
 
     public function avertissements(){
     	$avertissements = $this->model->avertissements();
+    	if (isset($_POST['delete_avertissement'])) {
+    		Administration::deleteAvertissement();
+    	}
     	return $avertissements;
+    }
+
+    public function deleteAvertissement(){
+    	if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../../index.php');
+		}
+		$users = new \Models\Users();
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] <= 6) {
+			\Http::redirect('../../index.php');
+		}
+		$this->model->deleteAvertissement($_POST['delete_avertissement']);
+		\Http::redirect('index.php#avertissements');
+    }
+
+    public function bannissements(){
+    	$bannissements = $this->model->bannissements();
+    	$unban = $this->model->unban();
+    	return $bannissements;
     }
 	
 }

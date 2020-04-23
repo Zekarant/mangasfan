@@ -1,10 +1,10 @@
-<h2 class="titre">Profil de <span style="color: <?= \Color::rang_etat($utilisateur['grade']) ?>"><?= $utilisateur['username'] ?></span></h2>
+<h2 class="titre">Profil de <span style="color: <?= \Color::rang_etat($utilisateur['grade']) ?>"><?= \Rewritting::sanitize($utilisateur['username']) ?></span></h2>
 <hr>
 <?php if ($utilisateur['grade'] == 0) { ?>
 	<div class="alert alert-danger" role="alert">
 		<h5 class="alert-heading">Vous êtes actuellement banni du site !</h5>
 		<hr>
-		<p>Cher <?= $utilisateur['username'] ?>,</p>
+		<p>Cher <?= \Rewritting::sanitize($utilisateur['username']) ?>,</p>
 		<p>Si ce message s'affiche, c'est que votre compte a été banni des services de Mangas'Fan et qu'il comporte donc des restrictions.</p>
 		<p>Les fonctionnalités suivantes vous sont donc interdites d'accès pour le moment :
 			<ul>
@@ -60,7 +60,7 @@
 							<div class="row">
 								<label class="col-lg-4">Modifier mon adresse mail :</label>
 								<div class="col-lg-8">
-									<input type="email" name="email" class="form-control" value="<?= $utilisateur['email'] ?>" />
+									<input type="email" name="email" class="form-control" value="<?= \Rewritting::sanitize($utilisateur['email']) ?>" />
 								</div>
 							</div>
 							<br/>
@@ -88,7 +88,7 @@
 							<div class="row">
 								<label class="col-lg-4">Modifier ma description :<br/><button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button></label>
 								<div class="col-lg-8">
-									<textarea name="description" class="form-control" rows="10" cols="70"><?= $utilisateur['description'] ?></textarea>
+									<textarea name="description" class="form-control" rows="10" cols="70"><?= \Rewritting::sanitize($utilisateur['description']) ?></textarea>
 								</div>
 							</div>
 							<br/>
@@ -96,7 +96,7 @@
 								<div class="row">
 									<label class="col-lg-4">Modifier mon rôle :<br/><button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button></label>
 									<div class="col-lg-8">
-										<textarea name="role" class="form-control" rows="10" cols="30"><?= $utilisateur['role'] ?></textarea>
+										<textarea name="role" class="form-control" rows="10" cols="30"><?= \Rewritting::sanitize($utilisateur['role']) ?></textarea>
 									</div>
 								</div>
 								<br/>
@@ -104,21 +104,21 @@
 							<div class="row">
 								<label class="col-lg-4">Manga favori :</label>
 								<div class="col-lg-8">
-									<input type="text" name="manga" class="form-control" value="<?= $utilisateur['manga'] ?>" />
+									<input type="text" name="manga" class="form-control" value="<?= \Rewritting::sanitize($utilisateur['manga']) ?>" />
 								</div>
 							</div>
 							<br/>
 							<div class="row">
 								<label class="col-lg-4">Anime favori :</label>
 								<div class="col-lg-8">
-									<input type="text" name="anime" class="form-control" value="<?= $utilisateur['anime'] ?>" />
+									<input type="text" name="anime" class="form-control" value="<?= \Rewritting::sanitize($utilisateur['anime']) ?>" />
 								</div>
 							</div>
 							<br/>
 							<div class="row">
 								<label class="col-lg-4">Modifier mon site internet :</label>
 								<div class="col-lg-8">
-									<input type="url" name="site" class="form-control" value="<?= $utilisateur['site'] ?>" />
+									<input type="url" name="site" class="form-control" value="<?= \Rewritting::sanitize($utilisateur['site']) ?>" />
 								</div>
 							</div>
 							<br/>
@@ -136,31 +136,31 @@
 					</div>
 					<div class="card-body">
 						<div class="avatar_site">
-							<img src="images/avatars/<?= $utilisateur['avatar'] ?>" />
+							<img src="images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>" />
 							<div class="informations_compte">
-								<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['chef']) ?></span>
+								<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span>
 							</div>
 						</div>
 						<hr>
 						<div class="informations_compte">
-							<h3><?= $utilisateur['username'] ?></h3>
+							<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
 						</div>
 						<p>Inscrit le <?= date('d M Y à H:i', strtotime($utilisateur['confirmed_at'])); ?>.</p>
-						<p>Mon adresse mail : <em><?= $utilisateur['email']; ?></em></p>
-						<p>Mon sexe : <em><?= \Users::sexe($utilisateur['sexe']); ?></em></p>
-						<p>Manga préféré : <em><?= $utilisateur['manga']; ?></em></p>
-						<p>Anime préféré : <em><?= $utilisateur['anime']; ?></em></p>
+						<p>Mon adresse mail : <em><?= \Rewritting::sanitize($utilisateur['email']); ?></em></p>
+						<p>Mon sexe : <em><?= \Users::sexe(\Rewritting::sanitize($utilisateur['sexe'])); ?></em></p>
+						<p>Manga préféré : <em><?= \Rewritting::sanitize($utilisateur['manga']); ?></em></p>
+						<p>Anime préféré : <em><?= \Rewritting::sanitize($utilisateur['anime']); ?></em></p>
 						<p>Date d'anniversaire : <em><?php $liste_mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 						$date_anniversaire = preg_replace_callback("#([0-9]{4})-([0-9]{2})-([0-9]{2})#",function ($key) use ($liste_mois){
 							return $key[3].' '.$liste_mois[$key[2]-1].' '.$key[1]; 
 						}, $utilisateur['date_anniversaire']);
-						echo $date_anniversaire; ?></em></p>
-						<p>Description : <em>« <?= $utilisateur['description']; ?> »</em></p>
+						echo \Rewritting::sanitize($date_anniversaire); ?></em></p>
+						<p>Description : <em>« <?= \Rewritting::sanitize($utilisateur['description']); ?> »</em></p>
 						<?php if ($utilisateur['grade'] >= 2){ ?>
-							<p>Rôle : <em>« <?= $utilisateur['role']; ?> »</em></p>
+							<p>Rôle : <em>« <?= \Rewritting::sanitize($utilisateur['role']); ?> »</em></p>
 						<?php } ?>
-						<p>Site web : <em><a href="<?= $utilisateur['site']; ?>" target="_blank"><?= $utilisateur['site']; ?></a></em></p>
-						<p>Mangas'Points : <em><?= $utilisateur['points']; ?> points.</em></p>
+						<p>Site web : <em><a href="<?= \Rewritting::sanitize($utilisateur['site']); ?>" target="_blank"><?= \Rewritting::sanitize($utilisateur['site']); ?></a></em></p>
+						<p>Mangas'Points : <em><?= \Rewritting::sanitize($utilisateur['points']); ?> points.</em></p>
 					</div>
 				</div>
 			</div>

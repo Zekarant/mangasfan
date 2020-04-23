@@ -1,7 +1,7 @@
 <h2 class="titre"><?= \Rewritting::sanitize($news['title']) ?></h2>
 <hr>
 <?= htmlspecialchars_decode(\Rewritting::sanitize($news['contenu'])) ?>
-<p class="auteur-news"><small>News rédigée le <?= \Rewritting::sanitize($news['create_date']) ?> par <a href="#"><?= \Rewritting::sanitize($news['username']) ?></a></small></p>
+<p class="auteur-news"><small>News rédigée le <?= \Rewritting::sanitize($news['create_date']) ?> par <a href="#"><?= \Rewritting::sanitize($news['username']) ?></a><?php if($news['stagiaire']){ echo " (stagiaire)"; } ?></small></p>
 <hr>
 <div class="container">
     <div class="row">
