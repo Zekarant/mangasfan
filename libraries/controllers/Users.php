@@ -12,7 +12,7 @@ class Users extends Controller {
     $style = '../css/commentaires.css';
     $controllerMaintenance = new \Models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
-    if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+    if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
       \Http::redirect('/mangasfan/maintenance.php');
       exit();
     }
@@ -113,7 +113,7 @@ class Users extends Controller {
     $validation = $this->model->user($user_id);
     $controllerMaintenance = new \Models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
-    if ($validation['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+    if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
       \Http::redirect('/mangasfan/maintenance.php');
       exit();
     }
@@ -132,7 +132,7 @@ class Users extends Controller {
   public function indexConnexion() {
     $controllerMaintenance = new \Models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
-    if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+    if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
       \Http::redirect('/mangasfan/maintenance.php');
       exit();
     }
@@ -195,7 +195,7 @@ class Users extends Controller {
   $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
   $controllerMaintenance = new \Models\Administration();
   $maintenance = $controllerMaintenance->verifier("Membres");
-  if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+  if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
     \Http::redirect('/mangasfan/maintenance.php');
     exit();
   }
@@ -300,7 +300,7 @@ public function modifierInfos(){
 public function forget(){
   $controllerMaintenance = new \Models\Administration();
   $maintenance = $controllerMaintenance->verifier("Membres");
-  if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+  if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
     \Http::redirect('/mangasfan/maintenance.php');
     exit();
   }
@@ -353,7 +353,7 @@ public function forget(){
 public function reset(){
   $controllerMaintenance = new \Models\Administration();
   $maintenance = $controllerMaintenance->verifier("Membres");
-  if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+  if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
     \Http::redirect('/mangasfan/maintenance.php');
     exit();
   }

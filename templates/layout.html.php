@@ -146,13 +146,13 @@
 					<h3>Liens utiles</h3>
 					<nav class="lien_site">
 						<ul>
-							<li><a href="https://www.mangasfan.fr/">Index</a> - </li>
-							<li><a href="https://www.mangasfan.fr/membres/liste_membres.php">Liste des membres</a> - </li>
-							<li><a href="https://www.mangasfan.fr/changelog.php">Mises à jour</a> - </li>
-							<li><a href="https://www.mangasfan.fr/partenaires.php">Partenaires</a> - </li>
-							<li><a href="https://www.mangasfan.fr/foire-aux-questions.php">F.A.Q</a> - </li>
-							<li><a href="https://www.mangasfan.fr/recrutements">Recrutements</a> - </li>
-							<li><a href="https://www.mangasfan.fr/mentions_legales.php">Mentions Légales</a></li>
+							<li><a href="/mangasfan/">Index</a> - </li>
+							<li><a href="/mangasfan/membres/liste_membres.php">Liste des membres</a> - </li>
+							<li><a href="/mangasfan/changelog.php">Mises à jour</a> - </li>
+							<li><a href="/mangasfan/partenaires.php">Partenaires</a> - </li>
+							<li><a href="/mangasfan/foire-aux-questions.php">F.A.Q</a> - </li>
+							<li><a href="/mangasfan/recrutements">Recrutements</a> - </li>
+							<li><a href="/mangasfan/mentions_legales.php">Mentions Légales</a></li>
 						</ul>
 					</nav>
 				</div>

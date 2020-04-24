@@ -1,0 +1,58 @@
+<h3>Général</h3>
+<hr />
+<p><strong>Q. Mangas'Fan est-il un site payant ?</strong></p>
+<p><em>» Non, Mangas'Fan est un site totalement gratuit et entièrement tenu par des personnes bénévoles. Son accès et ses ressources sont entièrement gratuites.</em></p>
+<p><strong>Q. L'inscription sur le site est-t-elle obligatoire ?</strong></p>
+<p><em>» Non, vous n'avez pas besoin de vous inscrire pour accéder au site. Cependant, Mangas'Fan comporte des fonctionnalités qui sont réservées aux membres du site. Avoir un compte est donc conseillé.</em></p>
+<p><strong>Q. Est-ce que le site propose de regarder des animes en streaming ?</strong></p>
+<p><em>» Non. Nous ne proposons pas de streaming ici pour la simple et bonne raison que nous n'avons pas les droits pour les animes.</em></p>
+<p><strong>Q. Si vous ne proposez pas de streaming, que faites-vous ici alors ?</strong></p>
+<p><em>» Mangas'Fan a été créé dans le but de transmettre une passion et de regrouper une communauté de fans. Nous proposons des news sur l'actualité du moment, qu'elle concerne de près ou de loin les animes, ainsi que des dossiers complets sur chaque jeu, manga, anime et film dans le but de vous renseigner de la meilleure manière possible sur ces derniers.</em></p>
+<p><strong>Q. Est-ce qu'il y a des pubs sur le site ?</strong></p>
+<p><em>» Nous sommes d'un avis "anti-pubs", vous ne trouverez donc aucune pub sur Mangas'Fan. De plus, notre hébergeur nous l'interdit.</em></p>
+<h3>Inscription/Connexion</h3>
+<hr />
+<p><strong>Q. Quelles informations me sont demandées lors de l'inscription ?</strong></p>
+<p><em>» Lors que vous vous inscrivez sur notre plateforme, nous recueillons votre pseudo utilisateur, votre adresse mail et votre mot de passe. Ces données sont stockées et chiffrées dans notre base de données afin de fournir une sécurité optimale.</em></p>
+<p><strong>Q. Je n'arrive pas à m'inscrire sur le site, que faire ?</strong></p>
+<p><em>» Généralement, lorsqu'un problème survient lors de l'inscription, un message d'erreur apparaît et explique le/les problème(s) rencontré(s) lors de l'inscription.</em></p>
+<ul>
+<li><em>Votre pseudo est déjà utilisé par un autre membre.</em></li>
+<li><em>Vous avez renseigné une mauvaise adresse mail.</em></li>
+<li><em>Les mots de passe que vous avez entrés ne correspondent pas.</em></li>
+</ul>
+<p><strong>Q. Je n'ai jamais reçu le mail de confirmation, que dois-je faire si ça arrive ?</strong></p>
+<p><em>» Le mail peut mettre quelques minutes à arriver, ayez de la patience ! Dans le cas où ce dernier n’apparaît pas dans votre boîte de réception principale, pensez à vérifier dans vos spams. L'adresse mail du site est contact@mangasfan.fr.</em><br /><em>Dans le cas où vos spams ne contiendraient pas l'email, contactez le service de modération en précisant votre email, l'activation sera faite manuellement : <a href="https://www.mangasfan.fr/contact.php">Contacter le service de Mangas'Fan</a>.</em></p>
+<p><strong>Q. Je n'arrive pas à me connecter au site, comment faire ?</strong></p>
+<p><em>» Dans le cas où vous n'arriveriez pas à vous connecter au site avec votre pseudo, essayez avec votre adresse mail. Si ça ne marche toujours pas, tentez de changer votre mot de passe et suivez les instructions envoyées par mail.</em></p>
+<p><strong>Q. Je n'ai jamais reçu le mail de changement de mot de passe, mon compte est-il bloqué ?</strong></p>
+<p><em>» Nous n'avons que très peu de pouvoir sur les mots de passes pour la simple et bonne raison que ces derniers sont sécurisés dans notre base de données. Si vous n'avez pas reçu de mail, contactez le service de modération en précisant votre email, nous tenterons de vous renvoyer le mail manuellement. Pensez à attendre quelques minutes et consultez vos spams. <a href="https://www.mangasfan.fr/contact.php">Contacter le service de Mangas'Fan</a>.</em></p>
+<h3>Espace membres/Galeries</h3>
+<hr />
+<p><strong>Q. J'ai changé mon avatar sur le site, mais je vois toujours l'ancien.</strong></p>
+<p><em>» Lorsque vous changez d'avatar, pensez à vider le cache de votre navigateur pour effacer l'ancien et voir le nouveau. Pour vider le cache, il suffit de faire les touches Ctrl + F5 sur votre clavier.</em></p>
+<p><strong>Q. Mon avatar a été changé par celui par défaut, comment ça se fait ?</strong></p>
+<p><em>» Si vous avez perdu votre avatar et que celui par défaut s'affiche sur votre compte, cela signifie qu'un modérateur l'a supprimé car il n'était pas en accord avec le règlement de Mangas'Fan.</em></p>
+<p><strong>Q. Mon pseudo s'affiche en noir sur le site, que s'est-il passé ?</strong></p>
+<p><em>» Si votre pseudo apparaît de couleur noire, cela signifie que votre compte a été banni des services de Mangas'Fan. Concrètement, vous pouvez vous connecter à votre compte, mais vous avez les mêmes droits qu'un visiteur.</em></p>
+<p><strong>Q. Si je suis banni, le suis-je définitivement ?</strong></p>
+<p><em>» Pas forcément. Un bannissement peut être temporaire, cela dépend de la faute que vous avez faite. Sachez qu'un bannissement définitif peut être annulé si l'on estime que votre cas ne nécessitait pas un bannissement définitif. Dans tous les cas, un MP automatique vous est envoyé lorsque vous recevez une sanction.</em></p>
+<p><strong>Q. J'ai 2 avertissements, serai-je banni au troisième ?</strong></p>
+<p><em>» Oui. Cependant, 3 avertissements entraînent réellement un bannissement définitif de notre plateforme. Gardez quand même à l'esprit que nous pouvons supprimer vos avertissements aussi si nous estimons que l'un d'entre eux n'est pas mérité.</em></p>
+<p><strong>Q. J'ai reçu un rappel concernant une image dans ma galerie, que va-t-il se passer ?</strong></p>
+<p><em>» Si vous recevez un rappel par rapport à votre galerie, cela signifie que l'image, la description ou les mots clés sont déplacés. Lorsqu'une image possède un rappel, elle est cachée aux yeux des autres utilisateurs. Elle réapparaît lorsque vous la modifiez. Sachez qu'en cas de récidive, l'image sera supprimée et un avertissement peut vous être attribué.</em></p>
+<p><strong>Q. Pourquoi ne puis-je plus poster d'images sur ma galerie ?</strong></p>
+<p><em>» Si vous ne pouvez plus poster d'images sur votre galerie, cela ne peut signifier que deux choses : En effet, un modérateur a le pouvoir de modifier votre accès aux galeries si jamais vous abusez et que vous enfreignez trop les conditions d'utilisation. Sachez que cette suspension est majoritairement temporaire.</em></p>
+<p><strong>Q. Pourquoi certains membres ont une couleur différente de la mienne ?</strong></p>
+<p><em>» Il s'agit tout simplement du staff de la plateforme. Voici les différentes couleurs que vous pouvez retrouver sur le site :</em></p>
+<ul>
+<li><span style="color: #fc0000;">Fondateur</span></li>
+<li><span style="color: #fc0000;">Administrateur</span></li>
+<li><span style="color: #4080bf;">Développeur</span></li>
+<li><span style="color: #31b404;">Modérateur</span></li>
+<li><span style="color: #40a497;">Newseur/Rédacteur</span></li>
+<li><span style="color: #e67e23;">Animateur</span></li>
+<li><span style="color: #632569;">Community Manager</span></li>
+</ul>
+<p><strong>Q. Comment entrer dans le staff ?</strong></p>
+<p><em>» Pour entrer dans le staff, attendez qu'on annonce des recrutements ! Lorsque les recrutements sont ouverts, il suffit de remplir le formulaire que l'on pose et l'on annoncera les résultats à la fin de la période de recrutement !</em></p>

@@ -83,5 +83,35 @@ class Administration extends Controller {
     	$unban = $this->model->unban();
     	return $bannissements;
     }
+
+    public function modification_cgu(){
+    	$pageTitle = "Modifier les CGU du site";
+    	$style = '../../css/staff.css';
+    	if (isset($_POST['modifier_cgu'])) {
+    		file_put_contents('../../templates/staff/administration/fichiers-txt/cgu.txt', $_POST['texte-cgu']);
+    	}
+    	$ligne = file_get_contents('../../templates/staff/administration/fichiers-txt/cgu.txt', FILE_USE_INCLUDE_PATH);
+    	\Renderer::render('../../templates/staff/administration/modifierCGU', '../../templates/staff', compact('pageTitle', 'style', 'ligne'));
+    }
+
+    public function partenaires(){
+    	$pageTitle = "Gestion des partenaires";
+    	$style = '../../css/staff.css';
+    	if (isset($_POST['partenaires'])) {
+    		file_put_contents('../../templates/staff/administration/fichiers-txt/partenaires.txt', $_POST['texte-partenaires']);
+    	}
+    	$ligne = file_get_contents('../../templates/staff/administration/fichiers-txt/partenaires.txt', FILE_USE_INCLUDE_PATH);
+    	\Renderer::render('../../templates/staff/administration/partenaires', '../../templates/staff', compact('pageTitle', 'style', 'ligne'));
+    }
+
+    public function faq(){
+    	$pageTitle = "Gestion de la FAQ";
+    	$style = '../../css/staff.css';
+    	if (isset($_POST['modifier_faq'])) {
+    		file_put_contents('../../templates/staff/administration/fichiers-txt/faq.txt', $_POST['texte-faq']);
+    	}
+    	$ligne = file_get_contents('../../templates/staff/administration/fichiers-txt/faq.txt', FILE_USE_INCLUDE_PATH);
+    	\Renderer::render('../../templates/staff/administration/faq', '../../templates/staff', compact('pageTitle', 'style', 'ligne'));
+    }
 	
 }
