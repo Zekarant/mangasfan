@@ -11,7 +11,7 @@ class Renderer {
 		}
 		$controllerMaintenance = new \Models\Administration();
 		$maintenance = $controllerMaintenance->verifier("Site");
-		if ($utilisateur['grade'] <= 3 && $maintenance['active_maintenance'] == 1) {
+		if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
 			\Http::redirect('/mangasfan/maintenance.php');
 			exit();
 		}

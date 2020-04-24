@@ -89,34 +89,36 @@ class RedactionNews extends Controller {
 	}
 
 	public function verifierNews(){
-		if (isset($_GET['id_news']) && is_numeric($_GET['id_news'])) {
-			$pageTitle = "Modifier une news";
-			$style = '../../css/staff.css';
-			$news = $this->model->verifierNews($_GET['id_news']);
-			if (!isset($news['id_news'])) {
-				\Http::redirect('index.php');
-			}
-			$variables = ['pageTitle', 'style', 'news'];
-			if (isset($_POST['valider_news'])) {
-				$users = new \Models\Users();
-				if (!isset($_SESSION['auth'])) {
-					\Http::redirect('../../index.php');
-				}
-				$user = $users->user($_SESSION['auth']['id_user']);
-				if ($user['grade'] <= 3) {
-					\Http::redirect('../../index.php');
-				}
-				$modifierNews = RedactionNews::modifierNews();
-				$errors = $modifierNews;
-				$variables = array_merge($variables, ['news', 'modifierNews', 'errors']);
-				if (empty($errors)) {
-					\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
-				}
-			}
-			\Renderer::render('../../templates/staff/news/modifier', '../../templates/staff', compact($variables));
-		} else {
+		if (!isset($_GET['id_news']) || !is_numeric($_GET['id_news'])) {
 			\Http::redirect('index.php');
 		}
+		$pageTitle = "Modifier une news";
+		$style = '../../css/staff.css';
+		$news = $this->model->verifierNews($_GET['id_news']);
+		$variables = ['pageTitle', 'style', 'news'];
+		if (!isset($news['id_news'])) {
+			\Http::redirect('index.php');
+		}
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('index.php');
+		}
+		$users = new \Models\Users();
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] <= 3) {
+			\Http::redirect('../../index.php');
+		}
+		if ($user['stagiaire'] == 1 && $user['id_user'] != $news['author']) {
+			\Http::redirect('index.php');
+		}
+		if (isset($_POST['valider_news'])){
+			$modifierNews = RedactionNews::modifierNews();
+			$errors = $modifierNews;
+			$variables = array_merge($variables, ['news', 'modifierNews', 'errors']);
+			if (empty($errors)) {
+				\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
+			}
+		}
+		\Renderer::render('../../templates/staff/news/modifier', '../../templates/staff', compact($variables));
 	}
 
 	public function modifierNews(){

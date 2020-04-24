@@ -16,7 +16,7 @@
 							<th>Suppression</th>
 						<?php } ?>
 						<?php if ($utilisateur['chef'] == 1 && ($utilisateur['grade'] >= 6 || $utilisateur['grade'] == 4)) { ?>
-							<th>Autre</th>
+							<th>Validation</th>
 						<?php } ?>
 					</thead>
 					<tbody>
@@ -56,7 +56,7 @@
 												<button type="submit" class="btn btn-outline-success" name="valider_news" value="<?= \Rewritting::sanitize($new['id_news']) ?>" onclick="return window.confirm(`Voulez-vous valider cette news ?`)">Valider</button>
 											</form></td>
 										<?php } elseif ($new['validation'] == 0 && $utilisateur['chef'] == 1 && ($utilisateur['grade'] >= 6 || $utilisateur['grade'] == 4)) { ?>
-											<td>//</td>
+											<td></td>
 										<?php }  ?>
 									</tr>
 								<?php endforeach; ?>

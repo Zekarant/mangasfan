@@ -48,7 +48,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="#"><s>Galeries</s></a>
 				</li>
-				<?php if ($utilisateur['grade'] >= 2) { ?>
+				<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 2) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Staff</a>
 					</li>
