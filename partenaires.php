@@ -4,5 +4,5 @@ session_start();
 
 require_once('libraries/autoload.php');
 
-$controller = new \Controllers\Others();
+$controller = new \controllers\Others();
 $controller->partenaires();

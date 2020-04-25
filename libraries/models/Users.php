@@ -1,6 +1,6 @@
 <?php 
 
-namespace Models;
+namespace models;
 
 class Users extends Model {
 
@@ -43,6 +43,13 @@ class Users extends Model {
 		$enregistrement = $this->pdo->prepare('UPDATE users SET confirmation_token = NULL, confirmed_at = NOW() WHERE id_user = :id');
 	    $enregistrement->execute(['id' => $id]);
 		return $enregistrement;
+	}
+
+	public function verificationInscription(string $pseudo){
+		$req = $this->pdo->prepare('SELECT * FROM users WHERE (username = :username OR email = :username)');
+		$req->execute(['username' => $pseudo]);
+		$user = $req->fetch();
+		return $user;
 	}
 
 	public function connexion(string $pseudo){

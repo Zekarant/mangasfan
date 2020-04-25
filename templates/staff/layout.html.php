@@ -40,7 +40,7 @@
 
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/mangasfan">Accueil</a>
+            <a class="nav-link" href="/">Accueil</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#"><s>Jeux</s></a>

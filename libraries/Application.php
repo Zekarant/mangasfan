@@ -14,7 +14,7 @@ class Application {
 			$task = $_GET['task'];
 		}
 
-		$controllerName = "\Controllers\\" . $controllerName;
+		$controllerName = "controllers\\" . $controllerName;
 		$controller = new $controllerName();
 		$controller->$task();
 	}

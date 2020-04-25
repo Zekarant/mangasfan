@@ -1,14 +1,14 @@
 <?php
 
-namespace Controllers;
+namespace controllers;
 
 
 class NewsComment extends Controller {
 
-	protected $modelName = \Models\NewsComment::class;
+	protected $modelName = \models\NewsComment::class;
 
 	public function delete() {
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('../commentaire.php?id=' . $_GET['news']);
 		}
@@ -29,7 +29,7 @@ class NewsComment extends Controller {
 	}
 
 	public function edit(){
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (isset($_GET['id']) && !empty($_GET['id']) & is_numeric($_GET['id'])) {
 			if (!isset($_SESSION['auth'])) {
 				\Http::redirect('../commentaire.php?id=' . $_GET['news']);

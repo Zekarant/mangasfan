@@ -1,6 +1,6 @@
 <?php 
 
-namespace Models;
+namespace models;
 
 class RedactionNews extends Model {
 	

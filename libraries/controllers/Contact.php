@@ -1,6 +1,6 @@
 <?php 
 
-namespace Controllers;
+namespace controllers;
 
 class Contact extends Controller {
 

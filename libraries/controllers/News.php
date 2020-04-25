@@ -1,10 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace controllers;
 
 class News extends Controller {
 
-	protected $modelName = \Models\News::class;
+	protected $modelName = \models\News::class;
 
 	/**
 	*
@@ -17,14 +17,14 @@ class News extends Controller {
 		$style = "css/index.css";
 		$description = "Toute l'actualité des animes sur Mangas'Fan ! News, mangas, animes, jeux, tout est à portée de main ! Votre communauté de fans sur Mangas'Fan.";
 		$keywords = "Mangas, Fan, Animes, Site Mangas, Produits, Adaptation, Contenu, Site, Communauté, Partenaires, Actualités, Sorties, Débats, Site de discussions mangas, Manga, Fan Manga, Mangas fans, Jeux, Jeux de mangas, Manga Fan, Mangas'Fan";
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		$staff = $users->recupererStaff();
 		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'staff'));
 	}
 
 
 	public function delete() {
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('commentaire.php?id=' . $_GET['id']);
 		}
@@ -44,7 +44,7 @@ class News extends Controller {
 
 	public function showNews(){
 
-		$commentModel = new \Models\NewsComment();
+		$commentModel = new \models\NewsComment();
 
 		$news_id = NULL;
 		if (!empty($_GET['id'])) {

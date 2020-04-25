@@ -1,10 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace controllers;
 
 class Others extends Controller {
 
-	protected $modelName = \Models\Others::class;
+	protected $modelName = \models\Others::class;
 
 	public function cgu(){
 		$pageTitle = "Conditions Générales d'Utilisation";
@@ -16,7 +16,7 @@ class Others extends Controller {
 	public function partenaires(){
 		$pageTitle = "Partenaires du site";
 		$style = 'css/commentaires.css';
-		$ligne = file_get_contents('templates/staff/administration/fichiers-text/partenaires.txt', FILE_USE_INCLUDE_PATH);
+		$ligne = file_get_contents('templates/staff/administration/fichiers-txt/partenaires.txt', FILE_USE_INCLUDE_PATH);
 		\Renderer::render('templates/others/partenaires', 'templates/', compact('pageTitle', 'style', 'ligne'));
 	}
 
@@ -25,5 +25,12 @@ class Others extends Controller {
 		$style = 'css/commentaires.css';
 		$ligne = file_get_contents('templates/staff/administration/fichiers-txt/faq.txt', FILE_USE_INCLUDE_PATH);
 		\Renderer::render('templates/others/faq', 'templates/', compact('pageTitle', 'style', 'ligne'));
+	}
+
+	public function changelog(){
+		$pageTitle = "Mises à jour du site";
+		$style = "css/commentaires.css";
+		$changelog = $this->model->changelog();
+		\Renderer::render('templates/others/changelog', 'templates/', compact('pageTitle', 'style', 'changelog'));
 	}
 }

@@ -1,16 +1,16 @@
 <?php 
 
-namespace Controllers;
+namespace controllers;
 
 class Users extends Controller {
 
-	protected $modelName = \Models\Users::class;
+	protected $modelName = \models\Users::class;
 
   public function inscription(){
     $error = '';
     $pageTitle = 'S\'inscrire';
     $style = '../css/commentaires.css';
-    $controllerMaintenance = new \Models\Administration();
+    $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
     if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
       \Http::redirect('/mangasfan/maintenance.php');
@@ -29,7 +29,7 @@ class Users extends Controller {
         $error[] = "Le pseudo saisi contient des caractères incorrects. Veuillez recommencer.";
       }
 
-      $user = $this->model->connexion($_POST['username']);
+      $user = $this->model->verificationInscription($_POST['username']);
 
       if ($user['username'] === $_POST['username']){
         $error[] = "Ce pseudo est déjà utilisé, vous ne pouvez donc pas l'utiliser.";
@@ -51,9 +51,8 @@ class Users extends Controller {
         $error[] = "Le mot de passe est trop court ! (Minimum 8 caractères)";
       } 
       if (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $_POST['password'])) {
-        $error[] = "Le mot de passe doit contenir une majuscule et un chiffre !";
+        $error[] = "Le mot de passe doit contenir au moins une majuscule, une miniscule, un chiffre et 8 caractères !";
       }
-
       if (empty($error)) {
         $avatar_defaut = 'avatar_defaut.png';
         $token = \Users::str_random(60);
@@ -80,7 +79,7 @@ class Users extends Controller {
         En espérant que vous vous plairez sur le site !<br/><br/>
         À bientôt sur Mangas\'Fan !
         </p><br/>
-        <center><a href="http://localhost/mangasfan/membres/confirmation.php?id=' . $user_id = $this->model->returnId() . '&token=' . $token .'" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Confirmer mon compte</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
+        <center><a href="https://btssioslam.nexgate.ch/membres/confirmation.php?id=' . $user_id = $this->model->returnId() . '&token=' . $token .'" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Confirmer mon compte</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
         </div><br/>
         <div style="background-image: url(\'https://zupimages.net/up/20/15/80zr.png\'); padding: 5px; border-top: 3px solid #b4b4b4; text-align: center; color: black">Mangas\'Fan © 2017 - 2020. Développé par Zekarant et Nico. Tous droits réservés.
         </div>
@@ -103,25 +102,24 @@ class Users extends Controller {
   }
 
   public function confirmation(){
-    if (isset($_SESSION['auth'])) {
+    if (!isset($_GET['id']) OR !isset($_GET['token'])) {
       $_SESSION['flash-type'] = 'error-flash';
-      $_SESSION['flash-message'] = 'Vous êtes déjà connecté, donc inutile de valider votre compte !';
+      $_SESSION['flash-message'] = 'Vous n\'avez pas besoin d\'être sur cette page :c';
       \Http::redirect('../index.php');
     }
     $user_id = $_GET['id'];
     $token = $_GET['token'];
     $validation = $this->model->user($user_id);
-    $controllerMaintenance = new \Models\Administration();
+    $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
     if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
-      \Http::redirect('/mangasfan/maintenance.php');
+      \Http::redirect('/maintenance.php');
       exit();
     }
-    if ($validation && $validation['confirmation_token'] == $token) {
-      $valider = $this->model->confirmation($user_id);
-      $_SESSION['auth'] = $validation;
+    if ($validation ['id_user'] == $user_id && $validation['confirmation_token'] == $token) {
+      $this->model->confirmation($user_id);
       $_SESSION['flash-type'] = 'error-flash';
-      $_SESSION['flash-message'] = 'Votre compte a bien été activé ! Vous êtes maintenant connecté !';
+      $_SESSION['flash-message'] = 'Votre compte a bien été activé ! Vous pouvez maintenant vous connecter !';
       \Http::redirect('../index.php');
     }
     $_SESSION['flash-type'] = 'error-flash';
@@ -130,10 +128,10 @@ class Users extends Controller {
   }
 
   public function indexConnexion() {
-    $controllerMaintenance = new \Models\Administration();
+    $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
     if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
-      \Http::redirect('/mangasfan/maintenance.php');
+      \Http::redirect('/maintenance.php');
       exit();
     }
     $error = '';
@@ -193,10 +191,10 @@ class Users extends Controller {
     \Http::redirect('connexion.php');
   }
   $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
-  $controllerMaintenance = new \Models\Administration();
+  $controllerMaintenance = new \models\Administration();
   $maintenance = $controllerMaintenance->verifier("Membres");
   if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
-    \Http::redirect('/mangasfan/maintenance.php');
+    \Http::redirect('/maintenance.php');
     exit();
   }
   $pageTitle = 'Compte de ' . $utilisateur['username'];
@@ -291,14 +289,19 @@ public function modifierInfos(){
    $_SESSION['flash-message'] = "Ce mail est déjà utilisé ! Vous ne pouvez donc pas l'utiliser !";
    \Http::redirect('compte.php');
  }
- $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $_POST['role'], $_POST['manga'], $_POST['anime'], $_POST['site'], $_SESSION['auth']['id_user']);
+ if (isset($_POST['role'])) {
+   $role = $_POST['role'];
+ } else {
+  $role = "Aucun rôle";
+ }
+ $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $role, $_POST['manga'], $_POST['anime'], $_POST['site'], $utilisateur['id_user']);
  $_SESSION['flash-type'] = "error-flash";
  $_SESSION['flash-message'] = "Vos informations ont bien été modifiées !";
  \Http::redirect('compte.php');
 }
 
 public function forget(){
-  $controllerMaintenance = new \Models\Administration();
+  $controllerMaintenance = new \models\Administration();
   $maintenance = $controllerMaintenance->verifier("Membres");
   if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
     \Http::redirect('/mangasfan/maintenance.php');
@@ -332,7 +335,7 @@ public function forget(){
       En espérant que vous vous plairez sur le site !<br/><br/>
       À bientôt sur Mangas\'Fan !
       </p><br/>
-      <center><a href="localhost/mangasfan/membres/reset.php?id=' . $utilisateur['id_user'] .'&token=' . $reset_token . '" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Réinitialiser mon mot de passe</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
+      <center><a href="https://btssioslam.nexgate.ch/index.php/membres/reset.php?id=' . $utilisateur['id_user'] .'&token=' . $reset_token . '" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Réinitialiser mon mot de passe</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
       </div><br/>
       <div style="background-image: url(https://zupimages.net/up/20/15/80zr.png); padding: 5px; border-top: 3px solid #b4b4b4; text-align: center; color: black">Mangas\'Fan © 2017 - 2020. Développé par Zekarant et Nico. Tous droits réservés.
       </div>
@@ -351,7 +354,7 @@ public function forget(){
 }
 
 public function reset(){
-  $controllerMaintenance = new \Models\Administration();
+  $controllerMaintenance = new \models\Administration();
   $maintenance = $controllerMaintenance->verifier("Membres");
   if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
     \Http::redirect('/mangasfan/maintenance.php');

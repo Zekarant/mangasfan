@@ -3,13 +3,13 @@
 class Renderer {
 
 	public static function render(string $path, string $bothpath, array $variables = []) : void {
-		$controller = new \Controllers\Users();
+		$controller = new \controllers\Users();
 		$utilisateur = $controller->utilisateurConnecte();
 		if (isset($_SESSION['auth']) && $utilisateur['username'] != $_SESSION['auth']['username']) {
 			\Http::redirect('membres/deconnexion.php');
 			exit();
 		}
-		$controllerMaintenance = new \Models\Administration();
+		$controllerMaintenance = new \models\Administration();
 		$maintenance = $controllerMaintenance->verifier("Site");
 		if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
 			\Http::redirect('/mangasfan/maintenance.php');

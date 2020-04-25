@@ -34,7 +34,10 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="/mangasfan">Accueil</a>
+					<span class="nav-link"><strong>Bêta fermée</strong></span>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/">Accueil</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#"><s>Jeux</s></a>
@@ -60,16 +63,16 @@
 						</a>
 						<div class="dropleft" role="group">
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="/mangasfan/membres/compte.php">Modifier votre profil</a>
-								<a class="dropdown-item" href="/mangasfan/membres/deconnexion.php">Déconnexion</a>
+								<a class="dropdown-item" href="/membres/compte.php">Modifier votre profil</a>
+								<a class="dropdown-item" href="/membres/deconnexion.php">Déconnexion</a>
 							</div>
 						</li>
 					<?php } else { ?>
 						<li class="nav-item">
-							<a class="nav-link" href="/mangasfan/membres/inscription.php">Inscription</a>
+							<a class="nav-link" href="/membres/inscription.php">Inscription</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/mangasfan/membres/connexion.php">Connexion</a>
+							<a class="nav-link" href="/membres/connexion.php">Connexion</a>
 						</li>
 					<?php } ?>
 					<li class="nav-item">
@@ -113,14 +116,14 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							Hm...Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
+							Hm... Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
 							<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
 							<?php if ($utilisateur['grade'] >= 7) { ?>
-								<a href="/mangasfan/staff/administration/index.php" class="btn btn-outline-danger">Administration</a>
+								<a href="/staff/administration/index.php" class="btn btn-outline-danger">Administration</a>
 							<?php } if($utilisateur['grade'] >= 6){ ?>
 								<a href="#" class="btn btn-outline-success"><s>Modération</s></a>
 							<?php } if($utilisateur['grade'] >= 4){ ?>
-								<a href="/mangasfan/staff/news/index.php" class="btn btn-outline-info">News</a>
+								<a href="/staff/news/index.php" class="btn btn-outline-info">News</a>
 								<a href="#" class="btn btn-outline-info"><s>Rédaction</s></a>
 							<?php } if($utilisateur['grade'] == 3 || $utilisateur['grade'] >= 6){ ?>
 								<a href="#" class="btn btn-outline-warning"><s>Animation</s></a>
@@ -146,13 +149,13 @@
 					<h3>Liens utiles</h3>
 					<nav class="lien_site">
 						<ul>
-							<li><a href="/mangasfan/">Index</a> - </li>
-							<li><a href="/mangasfan/membres/liste_membres.php">Liste des membres</a> - </li>
-							<li><a href="/mangasfan/changelog.php">Mises à jour</a> - </li>
-							<li><a href="/mangasfan/partenaires.php">Partenaires</a> - </li>
-							<li><a href="/mangasfan/foire-aux-questions.php">F.A.Q</a> - </li>
-							<li><a href="/mangasfan/recrutements">Recrutements</a> - </li>
-							<li><a href="/mangasfan/mentions_legales.php">Mentions Légales</a></li>
+							<li><a href="/">Index</a> - </li>
+							<li><a href="/membres/liste_membres.php">Liste des membres</a> - </li>
+							<li><a href="/changelog.php">Mises à jour</a> - </li>
+							<li><a href="/partenaires.php">Partenaires</a> - </li>
+							<li><a href="/foire-aux-questions.php">F.A.Q</a> - </li>
+							<li><a href="/recrutements">Recrutements</a> - </li>
+							<li><a href="/mentions_legales.php">Mentions Légales</a></li>
 						</ul>
 					</nav>
 				</div>

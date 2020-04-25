@@ -95,7 +95,7 @@ foreach ($commentaires as $commentaire): ?>
                 </div>
                 <p class="pseudo">
                     <a href="#" style="color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])); ?>"><?= \Rewritting::sanitize($commentaire['username']); ?></a><br/>
-                    <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($commentaire['grade']), \Rewritting::sanitize($commentaire['sexe']), \Rewritting::sanitize($commentaire['chef'])) ?></span><br/><br/>
+                    <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($commentaire['grade']), \Rewritting::sanitize($commentaire['sexe']), \Rewritting::sanitize($commentaire['stagiaire']), \Rewritting::sanitize($commentaire['chef'])) ?></span><br/><br/>
                     <?php if (isset($_SESSION['auth'])) { 
                         if ($commentaire['auteur_commentaire'] == $utilisateur['id_user']) {  ?>
                            <a href="../news/edit_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>"class="btn btn-sm btn-outline-info">Editer</a>

@@ -3,14 +3,14 @@ RewriteEngine on
 
 RewriteRule ^commentaire/([0-9a-zA-Z_-]+)$ commentaire.php?id=$1 [L,QSA]
 
-ErrorDocument 400 /mangasfan/erreurs/erreur_400.php
-ErrorDocument 401 /mangasfan/erreurs/erreur_401.php
-ErrorDocument 402 /mangasfan/erreurs/erreur_402.php
-ErrorDocument 404 /mangasfan/erreurs/erreur_404.php
-ErrorDocument 405 /mangasfan/erreurs/erreur_405.php
-ErrorDocument 500 /mangasfan/erreurs/erreur_500.php
-ErrorDocument 501 /mangasfan/erreurs/erreur_501.php
-ErrorDocument 502 /mangasfan/erreurs/erreur_502.php
-ErrorDocument 503 /mangasfan/erreurs/erreur_503.php
-ErrorDocument 504 /mangasfan/erreurs/erreur_504.php
-ErrorDocument 505 /mangasfan/erreurs/erreur_505.php
+ErrorDocument 400 /erreurs/erreur_400.php
+ErrorDocument 401 /erreurs/erreur_401.php
+ErrorDocument 402 /erreurs/erreur_402.php
+ErrorDocument 404 /erreurs/erreur_404.php
+ErrorDocument 405 /erreurs/erreur_405.php
+ErrorDocument 500 /erreurs/erreur_500.php
+ErrorDocument 501 /erreurs/erreur_501.php
+ErrorDocument 502 /erreurs/erreur_502.php
+ErrorDocument 503 /erreurs/erreur_503.php
+ErrorDocument 504 /erreurs/erreur_504.php
+ErrorDocument 505 /erreurs/erreur_505.php

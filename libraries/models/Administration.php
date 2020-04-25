@@ -1,6 +1,6 @@
 <?php
 
-namespace Models;
+namespace models;
 
 class Administration extends Model {
 
@@ -55,6 +55,30 @@ class Administration extends Model {
 			SELECT id_membre FROM (SELECT * FROM bannissements GROUP BY id_membre ORDER BY finish_date DESC) as LastBanUsers WHERE NOW() NOT BETWEEN begin_date AND finish_date
 		)");
 		$unban->execute();
+	}
+
+	public function changelog(){
+		$req = $this->pdo->prepare('SELECT * FROM changelog ORDER BY id_changelog DESC');
+		$req->execute();
+		$changelogs = $req->fetchAll();
+		return $changelogs;
+	}
+
+	public function ajouterChangelog(string $titre, string $contenu){
+		$req = $this->pdo->prepare('INSERT INTO changelog(title_changelog, text_changelog, date_changelog) VALUES (:titre, :contenu, NOW())');
+		$req->execute(['titre' => $titre, 'contenu' => $contenu]);
+	}
+
+	public function searchChangelog(int $id_changelog){
+		$req = $this->pdo->prepare("SELECT * FROM changelog WHERE id_changelog = :id_changelog");
+		$req->execute(['id_changelog' => $id_changelog]);
+		$changelog = $req->fetch();
+		return $changelog;
+	}
+
+	public function modifierChangelog(string $titre, string $contenu, int $id){
+		$req = $this->pdo->prepare('UPDATE changelog SET title_changelog = :titre, text_changelog = :contenu WHERE id_changelog = :id');
+		$req->execute(['titre' => $titre, 'contenu' => $contenu, 'id' => $id]);
 	}
 	
 }

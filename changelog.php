@@ -5,4 +5,4 @@ session_start();
 require_once('libraries/autoload.php');
 
 $controller = new \controllers\Others();
-$controller->cgu();
+$controller->changelog();

@@ -1,13 +1,13 @@
 <?php 
 
-namespace Controllers;
+namespace controllers;
 
 class RedactionNews extends Controller {
 
-	protected $modelName = \Models\RedactionNews::class;
+	protected $modelName = \models\RedactionNews::class;
 
 	public function index(){
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('../../index.php');
 		}
@@ -32,7 +32,7 @@ class RedactionNews extends Controller {
 		$style = '../../css/staff.css';
 		$errors = array();
 		$variables = ['pageTitle', 'style'];
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (isset($_POST['valider'])) {
 			if (!isset($_SESSION['auth'])) {
 				\Http::redirect('../../index.php');
@@ -76,7 +76,7 @@ class RedactionNews extends Controller {
 	}
 
 	public function validerNews(){
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('../../index.php');
 		}
@@ -102,7 +102,7 @@ class RedactionNews extends Controller {
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('index.php');
 		}
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		$user = $users->user($_SESSION['auth']['id_user']);
 		if ($user['grade'] <= 3) {
 			\Http::redirect('../../index.php');
@@ -144,7 +144,7 @@ class RedactionNews extends Controller {
 	}
 
 	public function supprimerNews(){
-		$users = new \Models\Users();
+		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('../../index.php');
 		}

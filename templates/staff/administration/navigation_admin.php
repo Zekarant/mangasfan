@@ -1,6 +1,6 @@
 <div class="col-lg-2 bg-light border-right border-bottom">
 			<div class="avatar_site">
-				<img src="/mangasfan/membres/images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>"/>
+				<img src="/membres/images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>"/>
 				<center>
 					<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span><br/><br/>
 					<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
@@ -32,7 +32,7 @@
 					<a class="nav-link lien_nav_staff" href="gestion_faq.php">» Gestion de la FAQ</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Mises à jour du site</s></a>
+					<a class="nav-link lien_nav_staff" href="gestion_changelog.php">» Mises à jour du site</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link lien_nav_staff" href="#"><s>» Liste des membres</s></a>

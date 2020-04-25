@@ -1,6 +1,6 @@
 <div class="col-lg-2 bg-light border-right border-bottom">
 			<div class="avatar_site">
-				<img src="/mangasfan/membres/images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>"/>
+				<img src="/membres/images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>"/>
 				<center>
 					<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span><br/><br/>
 					<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
