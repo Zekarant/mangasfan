@@ -90,6 +90,8 @@ class Users extends Controller {
         mail($_POST['email'], 'Confirmation de votre inscription - Mangas\'Fan', $demande, $header);
         $_SESSION['flash-type'] = 'error-flash';
         $_SESSION['flash-message'] = 'Un mail de confirmation vous a été envoyé dans le but de valider votre compte ! Pensez à vérifier vos spams et attendez un peu, il peut mettre du temps à arriver !';
+        $logs = new \models\Administration();
+        $logs->insertLogs($user_id, "s'est inscrit sur le site", "Inscription");
         \Http::redirect('../index.php');
 
       }
@@ -120,6 +122,8 @@ class Users extends Controller {
       $this->model->confirmation($user_id);
       $_SESSION['flash-type'] = 'error-flash';
       $_SESSION['flash-message'] = 'Votre compte a bien été activé ! Vous pouvez maintenant vous connecter !';
+      $logs = new \models\Administration();
+      $logs->insertLogs($user_id, "a confirmé son compte sur le site", "Confirmation");
       \Http::redirect('../index.php');
     }
     $_SESSION['flash-type'] = 'error-flash';
@@ -168,6 +172,8 @@ class Users extends Controller {
          setcookie('username', $users['username'], time() + 365*24*3600, "/", "localhost", false, true);
          setcookie('id_user', $users['id_user'], time() + 365*24*3600, "/", "localhost", false, true);
        }
+      $logs = new \models\Administration();
+      $logs->insertLogs($users['id_user'], "s'est connecté sur le site", "Connexion");
        \Http::redirect('compte.php');
      } 
 
@@ -247,6 +253,8 @@ public function changerMdp(){
   $changerMdp = $this->model->modifyPassword($newPassword, $utilisateur['id_user']);
   $_SESSION['flash-type'] = "error-flash";
   $_SESSION['flash-message'] = "Votre mot de passe a bien été modifié !";
+  $logs = new \models\Administration();
+  $logs->insertLogs($utilisateur['id_user'], "a changé son mot de passe sur le site", "Reset MDP");
   \Http::redirect('compte.php');
 
 }
@@ -275,6 +283,8 @@ public function modifierAvatar(){
       $modifierAvatar = $this->model->modifierAvatar($utilisateur['id_user'], $extensionUpload);
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Votre avatar a bien été modifié !";
+      $logs = new \models\Administration();
+      $logs->insertLogs($utilisateur['id_user'], "a modifié son avatar", "Avatar");
       \Http::redirect('compte.php');
     }
 
@@ -297,6 +307,8 @@ public function modifierInfos(){
  $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $role, $_POST['manga'], $_POST['anime'], $_POST['site'], $utilisateur['id_user']);
  $_SESSION['flash-type'] = "error-flash";
  $_SESSION['flash-message'] = "Vos informations ont bien été modifiées !";
+ $logs = new \models\Administration();
+$logs->insertLogs($utilisateur['id_user'], "a modifié ses informations", "Compte");
  \Http::redirect('compte.php');
 }
 
@@ -346,6 +358,8 @@ public function forget(){
       mail($_POST['email'], 'Réinitialisation de votre mot de passe - Mangas\'Fan', $demande, $header);
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = 'Nous vous avons bien envoyé un lien pour réinitialiser votre mot de passe ! Si le mail n\'arrive pas, attendez un peu !';
+      $logs = new \models\Administration();
+      $logs->insertLogs($utilisateur['id_user'], "a demandé à réinitialiser son mot de passe", "Réinitialisation");
       \Http::redirect('connexion.php');
     }
     $error = "L'adresse mail que vous avez renseigné ne semble pas exister !";
@@ -390,6 +404,8 @@ public function reset(){
         $confirmerReset = $this->model->newPasswordReset($password, $_GET['token'], $_GET['id']);
         $_SESSION['flash-type'] = "error-flash";
         $_SESSION['flash-message'] = 'Votre mot de passe a bien été modifié ! Essayez de ne pas l\'oublier cette fois-ci !';
+        $logs = new \models\Administration();
+        $logs->insertLogs($utilisateur['id_user'], "a modifié son mot de passe", "Modification du mot de passe");
         \Http::redirect('../index.php');
       }
 
@@ -421,6 +437,14 @@ public function deconnexion(){
 
  }
  \Http::redirect('../index.php');
+}
+
+public function members(){
+  $pageTitle = "Liste des membres";
+  $style = "../css/commentaires.css";
+  $members = $this->model->allMembers();
+  \Renderer::render('../templates/membres/members', '../templates/', compact('pageTitle', 'style', 'members'));
+
 }
 
 

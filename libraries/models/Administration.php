@@ -80,5 +80,17 @@ class Administration extends Model {
 		$req = $this->pdo->prepare('UPDATE changelog SET title_changelog = :titre, text_changelog = :contenu WHERE id_changelog = :id');
 		$req->execute(['titre' => $titre, 'contenu' => $contenu, 'id' => $id]);
 	}
+
+	public function logs(){
+		$req = $this->pdo->prepare("SELECT * FROM logs INNER JOIN users WHERE members = id_user ORDER BY id_logs DESC LIMIT 0, 100");
+		$req->execute();
+		$logs = $req->fetchAll();
+		return $logs;
+	}
+
+	public function insertLogs(int $members, string $contenu, string $area){
+		$req = $this->pdo->prepare('INSERT INTO logs(members, contenu, area_website, logs_date) VALUES(:members, :contenu, :area, NOW())');
+		$req->execute(['members' => $members, 'contenu' => $contenu, 'area' => $area]);
+	}
 	
 }

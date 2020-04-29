@@ -1,3 +1,10 @@
+<?php if ($animation['visibility'] == 0) { ?>
+	<div class="alert alert-info" role="alert">
+		<h4 class="alert-heading">Dernières informations</h4>
+		<hr>
+		<p><?= htmlspecialchars_decode(\Rewritting::sanitize($animation['contenu'])) ?></p>
+	</div>
+<?php } ?>
 <h2 class="titre">Dernières actualités du site</h2>
 <hr class="tiret_news">
 <div class="container">

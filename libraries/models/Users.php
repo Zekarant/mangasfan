@@ -13,6 +13,13 @@ class Users extends Model {
 		return $membres;
 	}
 
+	public function allMembers(){
+		$req = $this->pdo->prepare('SELECT * FROM users WHERE confirmation_token IS NULL ORDER BY username ASC');
+		$req->execute();
+		$members = $req->fetchAll();
+		return $members;
+	}
+
 	public function paginationCount(){
 		$req = $this->pdo->prepare('SELECT COUNT(*) FROM users');
         $req->execute();

@@ -67,7 +67,9 @@ class RedactionNews extends Controller {
 					$attenteValidation = 0;
 				}
 				$slug = \Rewritting::stringToURLString($_POST['titre']);
-				$this->model->ajouterNews($_POST['titre'], $_POST['description'], $date, $_POST['image'], $_POST['contenu_news'], $_POST['categorie'], $_POST['keywords'], $_SESSION['auth']['id_user'], $_POST['sources'], $slug, $_POST['visible'], $attenteValidation);
+				$this->model->ajouterNews($_POST['titre'], $_POST['description'], $date, $_POST['image'], $_POST['contenu_news'], $_POST['categorie'], $_POST['keywords'], $user['id_user'], $_POST['sources'], $slug, $_POST['visible'], $attenteValidation);
+				$logs = new \models\Administration();
+      			$logs->insertLogs($user['id_user'], "a posté une news", "Pannel de rédaction");
 				\Http::redirect('index.php');
 			}
 		}
@@ -85,6 +87,8 @@ class RedactionNews extends Controller {
 			\Http::redirect('../../index.php');
 		}
 		$this->model->validerNews($_POST['valider_news']);
+		$logs = new \models\Administration();
+      	$logs->insertLogs($user['id_user'], "a validé une news", "Pannel de rédaction");
 		\Http::redirect('index.php');
 	}
 
@@ -138,6 +142,8 @@ class RedactionNews extends Controller {
 			$news = $this->model->verifierNews($_GET['id_news']);
 			$slug = \Rewritting::stringToURLString($_POST['modif_titre']);
 			$this->model->modifierNews($_POST['modif_titre'], $_POST['modif_description'], $_POST['programmation_news'], $_POST['modif_keywords'], $_POST['modif_image'],$_POST['modif_contenu'], $_POST['modif_categorie'], $_POST['modif_sources'], $_POST['modif_visibilite'], $slug, $_GET['id_news']);
+			$logs = new \models\Administration();
+      		$logs->insertLogs($_SESSION['auth']['id_user'], "a modifié une news", "Pannel de rédaction");
 			\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
 		}
 		return $errors;
@@ -153,6 +159,8 @@ class RedactionNews extends Controller {
 			\Http::redirect('../../index.php');
 		}
 		$this->model->supprimerNews($_POST['suppression_news']);
+		$logs = new \models\Administration();
+      	$logs->insertLogs($user['id_user'], "a surpprimé une news", "Pannel de rédaction");
 		\Http::redirect('index.php');
 	}
 }

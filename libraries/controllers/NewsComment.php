@@ -25,6 +25,8 @@ class NewsComment extends Controller {
 		}
 		$id = $_GET['id'];
 		$news = $this->model->deleteComment($id);
+		$logs = new \models\Administration();
+      	$logs->insertLogs($user['id_user'], "a supprimé un commentaire", "Commentaires de news");
 		\Http::redirect('../commentaire.php?id=' . $_GET['news']);
 	}
 
@@ -41,6 +43,8 @@ class NewsComment extends Controller {
 			}
 			if(isset($_POST['valider'])){
 				$this->model->editComment($_POST['commentaire'], $_GET['id']);
+				$logs = new \models\Administration();
+      			$logs->insertLogs($user['id_user'], "a edité un commentaire", "Commentaires de news");
 				\Http::redirect('../commentaire.php?id=' . $_GET['news']);
 			} else {
 				$commentary = $this->model->findComment($_GET['id']);

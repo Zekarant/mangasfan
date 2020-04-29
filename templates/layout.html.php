@@ -34,7 +34,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<span class="nav-link"><strong>Bêta fermée</strong></span>
+					<span class="nav-link"><strong>Bêta ouverte</strong></span>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/">Accueil</a>
@@ -76,7 +76,7 @@
 						</li>
 					<?php } ?>
 					<li class="nav-item">
-						<a class="nav-link" href="/mangasfan/contact.php">Contact</a>
+						<a class="nav-link" href="/contact.php">Contact</a>
 					</li>
 				</ul>
 			</div>
@@ -121,12 +121,12 @@
 							<?php if ($utilisateur['grade'] >= 7) { ?>
 								<a href="/staff/administration/index.php" class="btn btn-outline-danger">Administration</a>
 							<?php } if($utilisateur['grade'] >= 6){ ?>
-								<a href="#" class="btn btn-outline-success"><s>Modération</s></a>
+								<a href="staff/moderation/index.php" class="btn btn-outline-success">Modération</a>
 							<?php } if($utilisateur['grade'] >= 4){ ?>
 								<a href="/staff/news/index.php" class="btn btn-outline-info">News</a>
 								<a href="#" class="btn btn-outline-info"><s>Rédaction</s></a>
 							<?php } if($utilisateur['grade'] == 3 || $utilisateur['grade'] >= 6){ ?>
-								<a href="#" class="btn btn-outline-warning"><s>Animation</s></a>
+								<a href="staff/animation/index.php" class="btn btn-outline-warning">Animation</a>
 							<?php } if($utilisateur['grade'] == 2){ ?>
 								Aucun accès pour vous malheureusement...
 							<?php } ?>
@@ -150,7 +150,7 @@
 					<nav class="lien_site">
 						<ul>
 							<li><a href="/">Index</a> - </li>
-							<li><a href="/membres/liste_membres.php">Liste des membres</a> - </li>
+							<li><a href="/membres/members.php">Liste des membres</a> - </li>
 							<li><a href="/changelog.php">Mises à jour</a> - </li>
 							<li><a href="/partenaires.php">Partenaires</a> - </li>
 							<li><a href="/foire-aux-questions.php">F.A.Q</a> - </li>

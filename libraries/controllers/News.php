@@ -19,7 +19,9 @@ class News extends Controller {
 		$keywords = "Mangas, Fan, Animes, Site Mangas, Produits, Adaptation, Contenu, Site, Communauté, Partenaires, Actualités, Sorties, Débats, Site de discussions mangas, Manga, Fan Manga, Mangas fans, Jeux, Jeux de mangas, Manga Fan, Mangas'Fan";
 		$users = new \models\Users();
 		$staff = $users->recupererStaff();
-		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'staff'));
+		$animations = new \models\Animation();
+		$animation = $animations->animation();
+		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'staff', 'animation'));
 	}
 
 
@@ -39,6 +41,8 @@ class News extends Controller {
 		$news = $this->model->deleteNews($id);
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "La news a bien été supprimée !";
+		$logs = new \models\Administration();
+      	$logs->insertLogs($utilisateur['id_user'], "a supprimé une news", "Suppression de news");
 		\Http::redirect('index.php');
 	}
 
@@ -84,11 +88,15 @@ class News extends Controller {
 		} else {
 			$keywords = $news['keywords'];
 		}
+		$users = new \models\Users();
+		$user = $users->user($_SESSION['auth']['id_user']);
 		if (isset($_POST['envoyer_commentaire'])) {
 			if (!empty($_POST['comme'])) {
 				$commentModel->addComment($news['id_news'], $_SESSION['auth']['id_user'], $_POST['comme']);
 				$_SESSION['flash-type'] = "error-flash";
 				$_SESSION['flash-message'] = "Votre commentaire a bien été ajouté !";
+				$logs = new \models\Administration();
+      			$logs->insertLogs($user['id_user'], "a ajouté un commentaire", "Commentaires de news");
 				\Http::redirect('../commentaire.php?id=' . $news['id_news']);
 			} else {
 				$_SESSION['flash-type'] = "error-flash";

@@ -21,6 +21,7 @@
 				<li class="nav-item">
 					<a class="nav-link lien_nav_staff" href="index.php#bannissements">» Bannissements</a>
 				</li>
+				<?php if ($utilisateur['stagiaire'] == 0) { ?>
 				<p>Autres outils :</p>
 				<li class="nav-item">
 					<a class="nav-link lien_nav_staff" href="modification_cgu.php">» Gestion des CGU</a>
@@ -35,10 +36,11 @@
 					<a class="nav-link lien_nav_staff" href="gestion_changelog.php">» Mises à jour du site</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Liste des membres</s></a>
+					<a class="nav-link lien_nav_staff" href="../../membres/members.php">» Liste des membres</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Logs du site</s></a>
+					<a class="nav-link lien_nav_staff" href="logs.php">» Logs du site</a>
 				</li>
+			<?php } ?>
 			</ul>
 		</div>
