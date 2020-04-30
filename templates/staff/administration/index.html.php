@@ -79,7 +79,7 @@
 									<?php foreach($membres as $membre): ?>
 										<tr>
 											<td><?= \Rewritting::sanitize($membre['username']) ?></td>
-											<td><a href="#" class="btn btn-outline-info">Accéder au profil du membre</a></td>
+											<td><a href="../../membres/profil-<?= \Rewritting::sanitize($membre['id_user']) ?>" class="btn btn-outline-info">Accéder au profil du membre</a></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>

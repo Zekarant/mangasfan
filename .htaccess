@@ -2,6 +2,7 @@ Options Indexes FollowSymLinks
 RewriteEngine on
 
 RewriteRule ^commentaire/([0-9a-zA-Z_-]+)$ commentaire.php?id=$1 [L,QSA]
+RewriteRule ^membres/profil-([0-9a-zA-Z_-]+)$ membres/profil.php?id=$1 [L,QSA]
 
 ErrorDocument 400 /erreurs/erreur_400.php
 ErrorDocument 401 /erreurs/erreur_401.php

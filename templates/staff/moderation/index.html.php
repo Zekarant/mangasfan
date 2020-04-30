@@ -13,7 +13,7 @@
 								<hr>
 								<p class="card-text">
 									<?php foreach($users as $user): ?>
-										<a href="#"><?= \Rewritting::sanitize($user['username']) ?></a> s'est inscrit avec l'adresse mail : <em><?= \Rewritting::sanitize($user['email']) ?></em>.<br/>
+										<a href="../../membres/profil-<?= \Rewritting::sanitize($user['id_user']) ?>"><?= \Rewritting::sanitize($user['username']) ?></a> s'est inscrit avec l'adresse mail : <em><?= \Rewritting::sanitize($user['email']) ?></em>.<br/>
 										<?php if ($user['confirmation_token'] != NULL) { ?>
 											<small class="text-muted">
 												<strong>Note :</strong> Cet utilisateur n'a pas validé son inscription.
@@ -36,9 +36,9 @@
 								<hr>
 								<p class="card-text">
 									<?php foreach($commentaires as $commentaire): ?>
-										<p>Pseudonyme : <a href="#"><?= \Rewritting::sanitize($commentaire['username']) ?></a></p>
+										<p>Pseudonyme : <a href="../../membres/profil-<?= \Rewritting::sanitize($commentaire['id_user']) ?>"><?= \Rewritting::sanitize($commentaire['username']) ?></a></p>
 										<p>Commentaire : <em>"<?= \Rewritting::sanitize($commentaire['commentary']) ?>".</em></p>
-										<p>News concernée : <a href="#"><?= \Rewritting::sanitize($commentaire['title']) ?></a></p>
+										<p>News concernée : <a href="../../commentaire.php?id=<?= \Rewritting::sanitize($commentaire['id_news']) ?>"><?= \Rewritting::sanitize($commentaire['title']) ?></a></p>
 										<p>Commentaire posté le : <?= date('d/m/Y', strtotime(\Rewritting::sanitize($commentaire['posted_date']))); ?>.</p>
 										<hr>
 									<?php endforeach; ?>
@@ -100,7 +100,7 @@
 									<?php foreach($membres as $membre): ?>
 										<tr>
 											<td><?= \Rewritting::sanitize($membre['username']) ?></td>
-											<td><a href="#" class="btn btn-outline-info">Accéder au profil du membre</a></td>
+											<td><a href="../../membres/profil-<?= \Rewritting::sanitize($membre['id_user']) ?>" class="btn btn-outline-info">Accéder au profil du membre</a></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>

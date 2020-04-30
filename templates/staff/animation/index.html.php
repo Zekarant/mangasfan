@@ -47,7 +47,7 @@
 					<tbody>
 						<?php foreach($classements as $classement): ?>
 							<tr>
-								<td><a href="#"><?= \Rewritting::sanitize($classement['username']) ?></a></td>
+								<td><a href="../../membres/profil-<?= \Rewritting::sanitize($classement['id_user']) ?>"><?= \Rewritting::sanitize($classement['username']) ?></a></td>
 								<td><?= \Rewritting::sanitize($classement['points']) ?> points</td>
 							</tr>
 						<?php endforeach; ?>

@@ -14,13 +14,13 @@
 		<tbody>
 			<?php foreach ($members as $member): ?>
 				<tr>
-					<td><img src="/membres/images/avatars/<?= \Rewritting::sanitize($member['avatar']) ?>" alt="Avatar de <?= \Rewritting::sanitize($member['username']) ?>" style="height: 100px;" /></td>
+					<td><img src="/membres/images/avatars/<?= \Rewritting::sanitize($member['avatar']) ?>" alt="Avatar de <?= \Rewritting::sanitize($member['username']) ?>" style="width: 75px;" /></td>
 					<td><?= \Rewritting::sanitize($member['username']) ?></td>
 					<td><?= date('d/m/Y', strtotime(\Rewritting::sanitize($member['confirmed_at']))); ?></td>
 					<td><span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($member['grade']) ?>;"><?= Color::getRang($member['grade'], $member['sexe'], $member['stagiaire'], $member['chef']) ?></span></td>
 					<td><?= \Rewritting::sanitize($member['manga']) ?></td>
 					<td><?= \Rewritting::sanitize($member['anime']) ?></td>
-					<td>A venir</td>
+					<td><a href="../membres/profil-<?= \Rewritting::sanitize($member['id_user']) ?>">Consulter</a></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

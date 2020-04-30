@@ -28,7 +28,7 @@
 									} elseif ($new['visibility'] == 1) {
 										echo " - News non visible sur l'index";
 									} ?></td>
-									<td><a href="#" style="color: <?= \Color::rang_etat(\Rewritting::sanitize($new['grade'])) ?>"><?= \Rewritting::sanitize($new['username']) ?></a><?php if($new['stagiaire'] == 1){ echo " (Stagiaire)"; } ?></td>
+									<td><a href="../../membres/profil-<?= \Rewritting::sanitize($new['id_user']) ?>" style="color: <?= \Color::rang_etat(\Rewritting::sanitize($new['grade'])) ?>"><?= \Rewritting::sanitize($new['username']) ?></a><?php if($new['stagiaire'] == 1){ echo " (Stagiaire)"; } ?></td>
 									<td><?= date('d/m/Y', strtotime(\Rewritting::sanitize($new['create_date']))); ?></td>
 									<td>
 										<?php if ($utilisateur['stagiaire'] == 1 && $new['author'] != $utilisateur['id_user']) { ?>

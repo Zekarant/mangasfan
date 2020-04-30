@@ -49,7 +49,7 @@
 		<tbody>
 			<?php foreach ($staff as $equipe): ?>
 				<tr>
-					<td><a href="#"><?= \Rewritting::sanitize($equipe['username']) ?></a></td>
+					<td><a href="membres/profil-<?= \Rewritting::sanitize($equipe['id_user']) ?>"><?= \Rewritting::sanitize($equipe['username']) ?></a></td>
 					<td><span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($equipe['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($equipe['grade']), \Rewritting::sanitize($equipe['sexe']), \Rewritting::sanitize($equipe['stagiaire']), \Rewritting::sanitize($equipe['chef'])) ?></span></td>
 					<td><?= \Rewritting::sanitize($equipe['manga']) ?></td>
 					<td><?= date('d/m/Y', strtotime(\Rewritting::sanitize($equipe['confirmed_at']))); ?></td>

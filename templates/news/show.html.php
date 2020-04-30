@@ -1,7 +1,7 @@
 <h2 class="titre"><?= \Rewritting::sanitize($news['title']) ?></h2>
 <hr>
 <?= htmlspecialchars_decode(\Rewritting::sanitize($news['contenu'])) ?>
-<p class="auteur-news"><small>News rédigée le <?= \Rewritting::sanitize($news['create_date']) ?> par <a href="#"><?= \Rewritting::sanitize($news['username']) ?></a><?php if($news['stagiaire']){ echo " (stagiaire)"; } ?></small></p>
+<p class="auteur-news"><small>News rédigée le <?= \Rewritting::sanitize($news['create_date']) ?> par <a href="../membres/profil-<?= \Rewritting::sanitize($news['id_user']) ?>"><?= \Rewritting::sanitize($news['username']) ?></a><?php if($news['stagiaire']){ echo " (stagiaire)"; } ?></small></p>
 <hr>
 <div class="container">
     <div class="row">
@@ -94,7 +94,7 @@ foreach ($commentaires as $commentaire): ?>
                 <div class="avatar-news" style="box-shadow: 0px 0px 2px 2px <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>; background:url('https://www.mangasfan.fr/membres/images/avatars/<?= \Rewritting::sanitize($commentaire['avatar']) ?>');background-size:100px; background-position: center;"/>
                 </div>
                 <p class="pseudo">
-                    <a href="#" style="color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])); ?>"><?= \Rewritting::sanitize($commentaire['username']); ?></a><br/>
+                    <a href="../membres/profil-<?= \Rewritting::sanitize($commentaire['id_user']) ?>" style="color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])); ?>"><?= \Rewritting::sanitize($commentaire['username']); ?></a><br/>
                     <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($commentaire['grade']), \Rewritting::sanitize($commentaire['sexe']), \Rewritting::sanitize($commentaire['stagiaire']), \Rewritting::sanitize($commentaire['chef'])) ?></span><br/><br/>
                     <?php if (isset($_SESSION['auth'])) { 
                         if ($commentaire['auteur_commentaire'] == $utilisateur['id_user']) {  ?>

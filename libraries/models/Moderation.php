@@ -12,7 +12,7 @@ class Moderation extends Model {
 	}
 
 	public function derniersCommentaires(){
-		$req = $this->pdo->prepare('SELECT news_commentary.id_news, news_commentary.author, posted_date, commentary, username, title FROM news_commentary INNER JOIN users ON author = id_user INNER JOIN news ON news.id_news = news_commentary.id_news ORDER BY id_commentary DESC LIMIT 0, 5');
+		$req = $this->pdo->prepare('SELECT id_user, news_commentary.id_news, news_commentary.author, posted_date, commentary, username, title FROM news_commentary INNER JOIN users ON author = id_user INNER JOIN news ON news.id_news = news_commentary.id_news ORDER BY id_commentary DESC LIMIT 0, 5');
 		$req->execute();
 		$commentaires = $req->fetchAll();
 		return $commentaires;
