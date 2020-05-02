@@ -26,7 +26,7 @@ class Profil extends Model {
 	}
 
 	public function recupererBannissements(int $idMember){
-		$req = $this->pdo->prepare('SELECT id_bannissement, id_membre, us1.username as username_banni, us2.username as username_modo, us1.grade AS grade_banni, us2.grade AS grade_modo, us1.sexe, us1.chef, motif, begin_date, finish_date FROM bannissements INNER JOIN users AS us1 ON bannissements.id_membre = us1.id_user INNER JOIN users AS us2 ON bannissements.id_modo = us2.id_user WHERE id_membre = :idMember ORDER BY username_banni');
+		$req = $this->pdo->prepare('SELECT id_bannissement, id_membre, us1.username as username_banni, us2.username as username_modo, us1.grade AS grade_banni, us2.grade AS grade_modo, us1.sexe, us1.chef, motif, begin_date, finish_date FROM bannissements INNER JOIN users AS us1 ON bannissements.id_membre = us1.id_user INNER JOIN users AS us2 ON bannissements.id_modo = us2.id_user WHERE id_membre = :idMember ORDER BY id_bannissement DESC');
 		$req->execute(['idMember' => $idMember]);
 		if ($req->rowCount() != 0) {
 			$bannissement = $req->fetchAll();
@@ -47,5 +47,17 @@ class Profil extends Model {
 	public function modifierGradeChef(int $grade, int $idUser){
 		$req = $this->pdo->prepare('UPDATE users SET grade = :grade, stagiaire = 0, chef = 1 WHERE id_user = :idUser');
 		$req->execute(['grade' => $grade, 'idUser' => $idUser]);
+	}
+
+	public function attribuerAvertissement(string $contenu, int $idUser, int $idModo){
+		$req = $this->pdo->prepare('INSERT INTO avertissements(motif, id_membre, id_modo, add_date) VALUES(:contenu, :idUser, :idModo, NOW())');
+		$req->execute(['contenu' => $contenu, 'idUser' => $idUser, 'idModo' => $idModo]);
+	}
+
+	public function attribuerBannissement(string $contenu, int $idUser, int $idModo, $dateFin){
+		$req = $this->pdo->prepare('INSERT INTO bannissements(motif, id_membre, id_modo, begin_date, finish_date) VALUES(:contenu, :idUser, :idModo, NOW(), :dateFin)');
+		$req->execute(['contenu' => $contenu, 'idUser' => $idUser, 'idModo' => $idModo, 'dateFin' => $dateFin]);
+		$req2 = $this->pdo->prepare('UPDATE users SET grade = 0 WHERE id_user = :idUser');
+		$req2->execute(['idUser' => $idUser]);
 	}
 }

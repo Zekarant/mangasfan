@@ -22,7 +22,7 @@
 		<p>Ce membre possède <?= \Rewritting::sanitize($profil['points']); ?> Mangas'Points.</p>
 	</div>
 </div>
-<?php if ($utilisateur['grade'] >= 6) { ?>
+<?php if ($utilisateur['grade'] >= 6 && $utilisateur['grade'] >= $profil['grade'] && $utilisateur['id_user'] != $profil['id_user']) { ?>
 	<h3>Modération du membre</h3>
 	<hr>
 	<div class="alert alert-info" role="alert">
@@ -45,7 +45,6 @@
 								<option value="5" <?= (($profil['grade'] == 5) ? "selected" : "" ) ?>>Rédacteur</option>
 								<?php if ($utilisateur['grade'] >= 7) { ?>
 									<option value="6" <?= (($profil['grade'] == 6) ? "selected" : "" ) ?>>Modérateur</option>
-								<?php } if ($utilisateur['grade'] >= 8) { ?>
 									<option value="7" <?= (($profil['grade'] == 7) ? "selected" : "" ) ?>>Développeur</option>
 									<option value="8"<?= (($profil['grade'] == 8) ? "selected" : "" ) ?> >Administrateur</option>
 								<?php } ?>
@@ -115,6 +114,68 @@
 						</div>
 					</div>
 				</form>
+				<hr>
+				<h3>Sanctionner un membre</h3>
+				<hr>
+				<?php if($countAvertissements< 3) { ?>
+					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avertissements">
+						Attribuer un avertissement
+					</button>
+					<div class="modal fade" id="avertissements" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Attribuer un avertissement à <?= \Color::rang_etat(\Rewritting::sanitize($profil['grade']), \Rewritting::sanitize($profil['username']));?></h5>
+								</div>
+								<div class="modal-body">
+									<?php if ($countAvertissements == 1) { ?>
+										<div class='alert alert-warning' role='alert'>
+											<strong>Attention :</strong> Ce membre possède <strong>1 avertissement</strong> sur son compte.
+										</div>
+									<?php } elseif ($countAvertissements == 2) { ?>
+										<div class='alert alert-danger' role='alert'>
+											<strong>Attention :</strong> Ce membre possède déjà <strong>2 avertissements</strong> sur son compte.
+										</div>
+									<?php } ?>
+									<form method="POST" action="">
+										<label>Motif : </label>
+										<textarea class="form-control" rows="10" name="contenu_sanction" placeholder="Ecrivez ici le motif de l'avertissement"></textarea>
+										<input type="submit" name="valider_avertissement" value="Valider" class="btn btn-sm btn-info"/>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php } if ($profil['grade'] != 0) { ?>
+					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bannissements">
+						Bannir le membre
+					</button>
+					<div class="modal fade" id="bannissements" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Donner un bannissement à <?= \Color::rang_etat(\Rewritting::sanitize($profil['grade']), \Rewritting::sanitize($profil['username']));?></h5>
+								</div>
+								<div class="modal-body">
+									<form method="POST" action="">
+										<label>Date de fin du bannissement :</label>
+										<input type="date" name="date_bannissement" class="form-control">
+										<br/>
+										<label>Motif :</label>
+										<textarea class="form-control" rows="10" name="contenu_bannissement" placeholder="Ecrivez ici le motif du bannissement"></textarea>
+										<input type="submit" name="valider_bannissement" value="Valider" class="btn btn-sm btn-info"/>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
 			</div>
 			<div class="col-lg-5">
 				<div class="card">
@@ -153,7 +214,7 @@
 													<?php } ?>
 												</h5>
 												<hr>
-												<p><strong>Date d'attribution : </strong><?= \Rewritting::sanitize(date('d F Y', strtotime($bannissement['begin_date']))) ?>.</p>
+												<p><strong>Date d'attribution : </strong><?= \Rewritting::sanitize(date('d/m/Y', strtotime($bannissement['begin_date']))) ?>.</p>
 												<p><strong>Motif du bannissement : </strong><?= \Rewritting::sanitize($bannissement['motif']) ?></p>
 												<p><strong>Bannissement attribué par : </strong><span style="color: <?= Color::rang_etat($bannissement['grade_modo']) ?>"><?= \Rewritting::sanitize($bannissement['username_modo']) ?></span>.</p>
 												<hr>

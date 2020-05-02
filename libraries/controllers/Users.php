@@ -208,7 +208,9 @@ class Users extends Controller {
   if (isset($_POST['changer_mdp'])) {
     Users::changerMdp();
   }
-
+  if (isset($_POST['valider_anniv'])) {
+    Users::dateAnniv();
+  }
   if (isset($_POST['valider_avatar'])) {
    Users::modifierAvatar();
  }
@@ -289,6 +291,24 @@ public function modifierAvatar(){
     }
 
   }
+}
+
+public function dateAnniv(){
+  if (empty($_POST['date_anniv'])) {
+    $_SESSION['flash-type'] = "error-flash";
+    $_SESSION['flash-message'] = "Vous n'avez pas renseigné de date pour votre anniversaire.";
+    \Http::redirect('compte.php');
+  }
+  $user = $this->model->user($_SESSION['auth']['id_user']);
+  if ($user['date_anniversaire'] != NULL) {
+    $_SESSION['flash-type'] = "error-flash";
+    $_SESSION['flash-message'] = "Vous avez déjà renseigné une date d'anniversaire";
+    \Http::redirect('compte.php');
+  }
+  $this->model->setDateAnniv($_POST['date_anniv'], $_SESSION['auth']['id_user']);
+  $_SESSION['flash-type'] = "error-flash";
+  $_SESSION['flash-message'] = "Votre date d'anniversaire a bien été renseignée !";
+  \Http::redirect('compte.php');
 }
 
 public function modifierInfos(){

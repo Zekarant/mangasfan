@@ -121,4 +121,9 @@ class Users extends Model {
         $utilisateur = $req->fetch();
         return $utilisateur;
 	}
+
+	public function setDateAnniv($anniversaire, int $idUser){
+		$req = $this->pdo->prepare('UPDATE users SET date_anniversaire = :anniversaire WHERE id_user = :idUser');
+		$req->execute(['anniversaire' => $anniversaire, 'idUser' => $idUser]);
+	}
 }
