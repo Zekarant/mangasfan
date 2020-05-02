@@ -145,16 +145,12 @@
 						<div class="informations_compte">
 							<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
 						</div>
-						<p>Inscrit le <?= date('d M Y à H:i', strtotime($utilisateur['confirmed_at'])); ?>.</p>
+						<p>Inscrit le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($utilisateur['confirmed_at']))); ?>.</p>
 						<p>Mon adresse mail : <em><?= \Rewritting::sanitize($utilisateur['email']); ?></em></p>
 						<p>Mon sexe : <em><?= \Users::sexe(\Rewritting::sanitize($utilisateur['sexe'])); ?></em></p>
 						<p>Manga préféré : <em><?= \Rewritting::sanitize($utilisateur['manga']); ?></em></p>
 						<p>Anime préféré : <em><?= \Rewritting::sanitize($utilisateur['anime']); ?></em></p>
-						<p>Date d'anniversaire : <em><?php $liste_mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-						$date_anniversaire = preg_replace_callback("#([0-9]{4})-([0-9]{2})-([0-9]{2})#",function ($key) use ($liste_mois){
-							return $key[3].' '.$liste_mois[$key[2]-1].' '.$key[1]; 
-						}, $utilisateur['date_anniversaire']);
-						echo \Rewritting::sanitize($date_anniversaire); ?></em></p>
+						<p>Date d'anniversaire : <em><?= \Rewritting::sanitize(\Users::dateAnniversaire($utilisateur['date_anniversaire'])); ?></em></p>
 						<p>Description : <em>« <?= \Rewritting::sanitize($utilisateur['description']); ?> »</em></p>
 						<?php if ($utilisateur['grade'] >= 2){ ?>
 							<p>Rôle : <em>« <?= \Rewritting::sanitize($utilisateur['role']); ?> »</em></p>

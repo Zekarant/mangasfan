@@ -33,4 +33,19 @@ class Profil extends Model {
 			return $bannissement;
 		}
 	}
+
+	public function modifierGrade(int $grade, int $idUser){
+		$req = $this->pdo->prepare('UPDATE users SET grade = :grade, chef = 0, stagiaire = 0 WHERE id_user = :idUser');
+		$req->execute(['grade' => $grade, 'idUser' => $idUser]);
+	}
+
+	public function modifierGradeStagiaire(int $grade, int $idUser){
+		$req = $this->pdo->prepare('UPDATE users SET grade = :grade, stagiaire = 1, chef = 0 WHERE id_user = :idUser');
+		$req->execute(['grade' => $grade, 'idUser' => $idUser]);
+	}
+
+	public function modifierGradeChef(int $grade, int $idUser){
+		$req = $this->pdo->prepare('UPDATE users SET grade = :grade, stagiaire = 0, chef = 1 WHERE id_user = :idUser');
+		$req->execute(['grade' => $grade, 'idUser' => $idUser]);
+	}
 }

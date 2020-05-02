@@ -146,7 +146,7 @@ class Users extends Controller {
         // ici, essaie de garder une cohérence, t'as un index avec un tiret, l'autre avec un underscore
       $_SESSION['flash-type'] = 'error-flash';
       $_SESSION['flash-message'] = 'Vous êtes déjà connecté ' . $_SESSION['auth']['username'] . ' ! Il est donc inutile de tenter de vous connecter !';
-      \Http::redirect('../index.php');
+      \Http::redirect('compte.php');
     }
 
     $variables = ['pageTitle', 'style'];

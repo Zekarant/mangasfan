@@ -7,7 +7,6 @@ class Profil extends Controller {
 	protected $modelName = \models\Profil::class;
 
 	public function index(){
-		$message = "";
 		$idProfil = NULL;
 		if (!empty($_GET['id'])) {
 			$idProfil = $_GET['id'];
@@ -31,6 +30,33 @@ class Profil extends Controller {
 		$avertissements = $this->model->searchAvertissements($profil['id_user']);
 		$countAvertissements = $this->model->countAvertissements($profil['id_user']);
 		$recupererBannissement = $this->model->recupererBannissements($profil['id_user']);
-		\Renderer::render('../templates/membres/profil', '../templates/', compact('pageTitle', 'style', 'profil', 'message', 'avertissements', 'countAvertissements', 'recupererBannissement'));
+		if (isset($_POST['grade'])) {
+			$grade = Profil::modifierGrade();
+		}
+		\Renderer::render('../templates/membres/profil', '../templates/', compact('pageTitle', 'style', 'profil', 'avertissements', 'countAvertissements', 'recupererBannissement'));
+	}
+
+	public function modifierGrade(){
+		$profil = $this->model->findMember($_GET['id']);
+		$users = new \models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] < 6) {
+			\Http::redirect('../../index.php');
+		}
+		if ($_POST['exampleRadios'] == "stagiaire") {
+			$this->model->modifierGradeStagiaire($_POST['grades'], $profil['id_user']);
+		} elseif ($_POST['exampleRadios'] == "chef") {
+			$this->model->modifierGradeChef($_POST['grades'], $profil['id_user']);
+		} else {
+			$this->model->modifierGrade($_POST['grades'], $profil['id_user']);
+		}
+		$logs = new \models\Administration();
+      	$logs->insertLogs($user['id_user'], "a modifié le grade de " . $profil['username'], "Changement de grade");
+		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-message'] = "Le grade du membre a bien été changé !";
+		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
 	}
 }

@@ -28,15 +28,93 @@
 	<div class="alert alert-info" role="alert">
 		<strong>Avertissement :</strong> Si vous regardez cette zone, c'est que vous allez apporter des modifications au compte « <strong><i><?= \Rewritting::sanitize($profil['username']); ?></i></strong> ». Veuillez à contrôler vos modifications avant de les valider !
 	</div>
-	<?php if (isset($_POST) AND $message != "") { ?>
-		<div class="alert alert-<?= $couleur ?>" role="alert">
-			<?= $message ?>
-		</div>
-	<?php } ?>
-	<div class="container-fluid">
+	<div class="container-fluid" id="moderation">
 		<div class="row">
 			<div class="col-lg-7">
-				Outils de modération
+				<h3>Outils de modération</h3>
+				<hr>
+				<form method="POST" action="">
+					<div class="row">
+						<div class="col-lg-6">
+							<label>Sélectionner le grade du membre :</label>
+							<select name="grades" class="form-control">
+								<option value="1" <?= (($profil['grade'] == 1) ? "selected" : "" ) ?>>Membre</option>
+								<option value="2" <?= (($profil['grade'] == 2) ? "selected" : "" ) ?>>Community Manager</option>
+								<option value="3" <?= (($profil['grade'] == 3) ? "selected" : "" ) ?>>Animateur</option>
+								<option value="4" <?= (($profil['grade'] == 4) ? "selected" : "" ) ?>>Newseur</option>
+								<option value="5" <?= (($profil['grade'] == 5) ? "selected" : "" ) ?>>Rédacteur</option>
+								<?php if ($utilisateur['grade'] >= 7) { ?>
+									<option value="6" <?= (($profil['grade'] == 6) ? "selected" : "" ) ?>>Modérateur</option>
+								<?php } if ($utilisateur['grade'] >= 8) { ?>
+									<option value="7" <?= (($profil['grade'] == 7) ? "selected" : "" ) ?>>Développeur</option>
+									<option value="8"<?= (($profil['grade'] == 8) ? "selected" : "" ) ?> >Administrateur</option>
+								<?php } ?>
+							</select>
+							<input type="submit" name="grade" class="btn btn-sm btn-outline-primary" value="Modifier le grade du membre">
+						</div>
+						<div class="col-lg-6">
+							<label>Position du membre dans le groupe :</label>
+							<?php if ($profil['chef'] == 0 && $profil['stagiaire'] == 0) { ?>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="normal" checked>
+									<label class="form-check-label" for="exampleRadios1">
+										Normal
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="stagiaire">
+									<label class="form-check-label" for="exampleRadios2">
+										Stagiaire
+									</label>
+								</div>
+								<div class="form-check disabled">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="chef">
+									<label class="form-check-label" for="exampleRadios3">
+										Chef de groupe
+									</label>
+								</div>
+							<?php } elseif($profil['chef'] == 1 && $profil['stagiaire'] == 0) { ?>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="normal">
+									<label class="form-check-label" for="exampleRadios1">
+										Normal
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="stagiaire">
+									<label class="form-check-label" for="exampleRadios2">
+										Stagiaire
+									</label>
+								</div>
+								<div class="form-check disabled">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="chef" checked>
+									<label class="form-check-label" for="exampleRadios3">
+										Chef de groupe
+									</label>
+								</div>
+							<?php } else { ?>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="normal">
+									<label class="form-check-label" for="exampleRadios1">
+										Normal
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="stagiaire" checked>
+									<label class="form-check-label" for="exampleRadios2">
+										Stagiaire
+									</label>
+								</div>
+								<div class="form-check disabled">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="chef">
+									<label class="form-check-label" for="exampleRadios3">
+										Chef de groupe
+									</label>
+								</div>
+							<?php } ?>
+						</div>
+					</div>
+				</form>
 			</div>
 			<div class="col-lg-5">
 				<div class="card">
@@ -64,11 +142,22 @@
 									</div>
 									<div class="modal-body">
 										<?php if ($recupererBannissement == 0) {
-											echo "Aucun bannissement pour ce membre";
+											echo "Ce membre ne possède aucun bannissement.";
 										} else {
-											foreach ($recupererBannissement as $bannissement) {
-												echo "Motif " . $bannissement['motif'];
-											}
+											foreach ($recupererBannissement as $bannissement) { ?>
+												<h5>
+													Bannissement n°<?= \Rewritting::sanitize($bannissement['id_bannissement']) ?> -		<?php if(date("Y-m-d") >= $bannissement['finish_date']) {
+														echo "Bannissement expiré.";
+													} else { ?>
+														Expire le <?= date('d/m/Y', strtotime(\Rewritting::sanitize($bannissement['finish_date']))) ?>.
+													<?php } ?>
+												</h5>
+												<hr>
+												<p><strong>Date d'attribution : </strong><?= \Rewritting::sanitize(date('d F Y', strtotime($bannissement['begin_date']))) ?>.</p>
+												<p><strong>Motif du bannissement : </strong><?= \Rewritting::sanitize($bannissement['motif']) ?></p>
+												<p><strong>Bannissement attribué par : </strong><span style="color: <?= Color::rang_etat($bannissement['grade_modo']) ?>"><?= \Rewritting::sanitize($bannissement['username_modo']) ?></span>.</p>
+												<hr>
+											<?php } 
 										} ?>
 									</div>
 									<div class="modal-footer">
@@ -86,6 +175,72 @@
 						Informations du membre
 					</div>
 					<div class="card-body">
+						<p>Adresse email : <?= \Rewritting::sanitize($profil['email']) ?><br/>
+							<?php if ($profil['confirmation_token'] == NULL) { ?>
+								<em>> Ce compte est confirmé.</em>
+							<?php } else { ?>
+								<em>> Ce compte n'a pas encore été confirmé.</em>
+							<?php } ?>
+						</p>
+						<p>Date d'anniversaire : <?= \Rewritting::sanitize(\Users::dateAnniversaire($profil['date_anniversaire'])) ?>.</p>
+						<p>Description : 
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal1">
+								Description du membre
+							</button>
+							<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Description</h5>
+										</div>
+										<div class="modal-body">
+											<?= \Rewritting::sanitize($profil['description']) ?>
+											<hr>
+											<h5>Modifier la description</h5>
+											<form method="POST" action="">
+												<textarea class="form-control" name="description_membre" rows="5"><?= \Rewritting::sanitize($profil['description']); ?></textarea>
+												<input type="submit" name="description" class="btn btn-primary">
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</p>
+						<p>Sexe : <?= \Rewritting::sanitize(\Users::sexe($profil['sexe'])) ?></p>
+						<p>Grade : <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($profil['grade']) ?>;"><?= Color::getRang($profil['grade'], $profil['sexe'], $profil['stagiaire'], $profil['chef']) ?></span></p>
+						<p>Manga favori : <?= \Rewritting::sanitize($profil['manga']) ?></p>
+						<p>Anime favori : <?= \Rewritting::sanitize($profil['anime']) ?></p>
+						<p>Rôle : 
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2">
+								Rôle du membre
+							</button>
+							<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Rôle du membre</h5>
+										</div>
+										<div class="modal-body">
+											<?= \Rewritting::sanitize($profil['role']); ?>
+											<hr>
+											<h5>Modifier le rôle</h5>
+											<form method="POST" action="">
+												<textarea class="form-control" name="role_membre" rows="5"><?= \Rewritting::sanitize($profil['role']); ?></textarea>
+												<input type="submit" name="role" class="btn btn-primary">
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</p>
+						<p>Site : <a href="<?= \Rewritting::sanitize($profil['site']) ?>" target="_blank"><?= \Rewritting::sanitize($profil['site']) ?></a></p>
+						<p>Mangas'Points : <?= \Rewritting::sanitize($profil['points']) ?></p>
 					</div>
 				</div>
 			</div>
