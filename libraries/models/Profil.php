@@ -102,4 +102,14 @@ class Profil extends Model {
 		$req = $this->pdo->prepare('DELETE FROM users WHERE id_user = :idUser');
 		$req->execute(['idUser' => $idUser]);
 	}
+
+	public function modifierDescription(string $description, int $idUser){
+		$req = $this->pdo->prepare('UPDATE users SET description = :description WHERE id_user = :idUser');
+		$req->execute(['description' => $description, 'idUser' => $idUser]);
+	}
+
+	public function modifierRole(string $role, int $idUser){
+		$req = $this->pdo->prepare('UPDATE users SET role = :role WHERE id_user = :idUser');
+		$req->execute(['role' => $role, 'idUser' => $idUser]);
+	}
 }

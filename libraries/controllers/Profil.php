@@ -13,7 +13,7 @@ class Profil extends Controller {
 		}
 		if (!$idProfil) {
 			$_SESSION['flash-type'] = "error-flash";
-			$_SESSION['flash-message'] = "On ne peut pas chercher une news qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			$_SESSION['flash-message'] = "On ne peut pas chercher un profil qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
 			\Http::redirect('index.php');
 		}
 		$profil = $this->model->findMember($idProfil);
@@ -60,6 +60,12 @@ class Profil extends Controller {
 		}
 		if (isset($_POST['suppression'])) {
 			Profil::suppressionCompte();
+		}
+		if (isset($_POST['description'])) {
+			Profil::modifierDescription();
+		}
+		if (isset($_POST['role'])) {
+			Profil::modifierRole();
 		}
 		\Renderer::render('../templates/membres/profil', '../templates/', compact('pageTitle', 'style', 'profil', 'avertissements', 'countAvertissements', 'recupererBannissement', 'avertissement'));
 	}
@@ -382,7 +388,7 @@ class Profil extends Controller {
 		$logs = new \models\Administration();
       	$logs->insertLogs($user['id_user'], "a réinitialisé l'avatar de " . $profil['username'], "Réinitialisation de l'avatar");
 		$_SESSION['flash-type'] = "error-flash";
-		$_SESSION['flash-message'] = "L'avatar du membre a bien été réinitialisé' !";
+		$_SESSION['flash-message'] = "L'avatar du membre a bien été réinitialisé !";
 		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
 	}
 
@@ -398,7 +404,7 @@ class Profil extends Controller {
 		}
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
-			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier les informations de quelqu'un de plus haut gradé que vous.";
+			$_SESSION['flash-message'] = "Vous ne pouvez pas supprimer le compte de quelqu'un de plus haut gradé que vous.";
 			\Http::redirect('profil-' . $profil['id_user']);
 		}
 		$logs = new \models\Administration();
@@ -408,4 +414,50 @@ class Profil extends Controller {
 		$_SESSION['flash-message'] = "Le compte du membre a bien été supprimé !";
 		\Http::redirect('../index.php');
 	}
+
+	public function modifierDescription(){
+		$profil = $this->model->findMember($_GET['id']);
+		$users = new \models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] < 8) {
+			\Http::redirect('../index.php');
+		}
+		if ($profil['grade'] > $user['grade']) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier la description de quelqu'un de plus haut gradé que vous.";
+			\Http::redirect('profil-' . $profil['id_user']);
+		}
+		$this->model->modifierDescription($_POST['description_membre'], $profil['id_user']);
+		$logs = new \models\Administration();
+      	$logs->insertLogs($user['id_user'], "a modifié la description de " . $profil['username'], "Modification de la description");
+		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-message'] = "La description du membre a bien été modifiée !";
+		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+	} 
+
+	public function modifierRole(){
+		$profil = $this->model->findMember($_GET['id']);
+		$users = new \models\Users();
+		if (!isset($_SESSION['auth'])) {
+			\Http::redirect('../index.php');
+		}
+		$user = $users->user($_SESSION['auth']['id_user']);
+		if ($user['grade'] < 8) {
+			\Http::redirect('../index.php');
+		}
+		if ($profil['grade'] > $user['grade']) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier le rôle de quelqu'un de plus haut gradé que vous.";
+			\Http::redirect('profil-' . $profil['id_user']);
+		}
+		$this->model->modifierRole($_POST['role_membre'], $profil['id_user']);
+		$logs = new \models\Administration();
+      	$logs->insertLogs($user['id_user'], "a modifié le rôle de " . $profil['username'], "Modification du rôle");
+		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-message'] = "Le rôle du membre a bien été modifiée !";
+		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+	} 
 }

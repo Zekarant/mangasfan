@@ -49,7 +49,7 @@
 					<a class="nav-link" href="#"><s>Animes/Films</s></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><s>Galeries</s></a>
+					<a class="nav-link" href="/galeries">Galeries</a>
 				</li>
 				<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 2) { ?>
 					<li class="nav-item">
