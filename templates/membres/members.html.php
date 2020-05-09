@@ -1,5 +1,23 @@
 <h2 class="titre">Liste des membres</h2>
 <hr>
+<nav>
+	<ul class="pagination justify-content-center">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1">Pages :</a>
+		</li>
+		<?php for ($i = 1; $i < $nb_pages; $i++) {
+			if ($i == $page) { ?>
+				<li class="page-item">
+					<a class="page-link" href="#"><?= $i; ?></a>
+				</li>
+			<?php } else { ?>
+				<li class="page-item">
+					<a class="page-link" href="<?= "?page=" . $i; ?>#membres"><?= $i?></a>
+				</li>
+			<?php }
+		} ?>
+	</ul>
+</nav>
 <div class="table-responsive">
 	<table class="table">
 		<thead>

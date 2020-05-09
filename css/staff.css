@@ -83,3 +83,12 @@ footer-bottom p.pull-left
 	text-align: center;
 	margin-bottom: 10px;
 }
+
+.spoiler {
+  border: 1px solid #ff0000;
+  background-color: blue;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline;
+}

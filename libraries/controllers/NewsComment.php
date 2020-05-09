@@ -42,6 +42,11 @@ class NewsComment extends Controller {
 				\Http::redirect('../commentaire.php?id=' . $newsSearch['id_news']);
 			}
 			if(isset($_POST['valider'])){
+				if (empty($_POST['commentaire'])) {
+					$_SESSION['flash-type'] = "error-flash";
+					$_SESSION['flash-message'] = "Le commentaire ne peut pas être vide !";
+					\Http::redirect('../index.php');
+				}
 				$this->model->editComment($_POST['commentaire'], $_GET['id']);
 				$logs = new \models\Administration();
       			$logs->insertLogs($user['id_user'], "a edité un commentaire", "Commentaires de news");

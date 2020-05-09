@@ -1,5 +1,12 @@
 <h2 class="titre">Galeries du site</h2>
 <hr>
+<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] != 0) { ?>
+	<div class="row justify-content-center">
+		<a href="#" class="btn btn-outline-info">Voir ma galerie</a>
+		<a href="ajouter.php" class="btn btn-outline-success">Ajouter un article</a>
+	</div>
+	<hr>
+<?php } ?>
 <div class='alert alert-info' role='alert'>
 	Bienvenue sur l'accueil des galeries de Mangas'Fan ! Vous retrouverez sur cette page toutes les dernières créations des membres du site, leurs dessins, leurs fanarts ou leurs images qu'ils ont créés eux-mêmes.
 	<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] <= 7 && $utilisateur['nsfw'] == 0) {

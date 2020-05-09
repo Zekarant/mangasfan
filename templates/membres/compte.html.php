@@ -165,6 +165,34 @@
 					<p>Mangas'Points : <em><?= \Rewritting::sanitize($utilisateur['points']); ?> points.</em></p>
 				</div>
 			</div>
+			<?php if ($utilisateur['grade'] >= 2 && $utilisateur['grade'] <= 9) { ?>
+				<br/>
+				<div class="card">
+					<div class="card-header">
+						Démission de mon rôle - Mangas'Fan
+					</div>
+					<div class="card-body">
+						<small>Attention : En cliquant, puis en confirmant que vous souhaitez quitter votre poste, ce dernier sera immédiatement retiré. Soyez sûr de votre coup !</small>
+						<hr>
+						<form method="POST" action="">
+							<input type="submit" name="demission" value="Démissioner de mon poste" onclick="return window.confirm(`Êtes vous sur de vouloir démissioner ?`)" class="btn btn-sm btn-outline-warning">
+						</form>
+					</div>
+				</div>
+			<?php } ?>
+			<br/>
+			<div class="card">
+				<div class="card-header">
+					Supprimer mon compte - Mangas'Fan
+				</div>
+				<div class="card-body">
+					<small>Attention : En cliquant, puis en confirmant que vous souhaitez quitter supprimer votre compte, ce dernier sera immédiatement supprimé. Soyez sûr de votre coup !</small>
+					<hr>
+					<form method="POST" action="">
+						<input type="submit" name="supprimer_compte" value="Supprimer mon compte" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer votre compte ?`)" class="btn btn-sm btn-outline-danger">
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

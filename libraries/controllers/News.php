@@ -49,7 +49,6 @@ class News extends Controller {
 	public function showNews(){
 
 		$commentModel = new \models\NewsComment();
-
 		$news_id = NULL;
 		if (!empty($_GET['id'])) {
 			$news_id = $_GET['id'];
@@ -89,7 +88,10 @@ class News extends Controller {
 			$keywords = $news['keywords'];
 		}
 		$users = new \models\Users();
-		$user = $users->user($_SESSION['auth']['id_user']);
+		$user = NULL;
+		if (isset($_SESSION['auth'])) {
+			$user = $users->user($_SESSION['auth']['id_user']);
+		}
 		if (isset($_POST['envoyer_commentaire'])) {
 			if (!empty($_POST['comme'])) {
 				$commentModel->addComment($news['id_news'], $_SESSION['auth']['id_user'], $_POST['comme']);
