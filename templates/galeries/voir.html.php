@@ -2,9 +2,9 @@
 <hr>
 <?php if(isset($_SESSION['auth']) AND $utilisateur['id_user'] == $galerie['auteur_image']){ ?>
 	<div class="d-flex justify-content-center">
-		<a href="#" class="btn btn-primary btn-sm"><s>Modifier la description de l'image ou le contenu</s></a>
-		<form method="POST" action="">
-			<input type="submit" name="supprimer_image" onclick="return window.confirm(`Voulez-vous supprimer cette image ?`)" class="btn btn-danger btn-sm" value="Supprimer l'image">
+		<a href="modifier.php?galerie=<?= \Rewritting::sanitize($galerie['id_image']) ?>" class="btn btn-primary btn-sm">Modifier la description de l'image ou le contenu</a>
+		<form method="POST" action="supprimer.php?galerie=<?= \Rewritting::sanitize($galerie['id_image']); ?>">
+			<input type="submit" name="supprimer_image" onclick="return window.confirm(`Voulez-vous supprimer cette image ?`)" class="btn btn-outline-danger btn-sm" value="Supprimer l'image">
 		</form>
 	</div>
 	<hr>

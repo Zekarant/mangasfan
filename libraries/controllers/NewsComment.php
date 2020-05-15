@@ -32,7 +32,7 @@ class NewsComment extends Controller {
 
 	public function edit(){
 		$users = new \models\Users();
-		if (isset($_GET['id']) && !empty($_GET['id']) & is_numeric($_GET['id'])) {
+		if (isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id'])) {
 			if (!isset($_SESSION['auth'])) {
 				\Http::redirect('../commentaire.php?id=' . $_GET['news']);
 			}

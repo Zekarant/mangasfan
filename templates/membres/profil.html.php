@@ -13,9 +13,10 @@
 		<?php if($profil['grade'] >= 2){ ?>
 			<h5 class="mt-0">Rôle dans le staff</h5>
 			<p><em><?= \Rewritting::sanitize($profil['role']) ?></em></p>
-		<?php } ?>
+		<?php } if($countGalerie != 0){ ?>
 		<h5 class="mt-0">Galerie</h5>
-		<p>Les galeries n'étant pas encore implantée sur le site, l'accès à cette partie n'est actuellement pas disponible.</p>
+		<p><a href="/galeries/voirgalerie.php?id=<?= \Rewritting::sanitize($profil['id_user']) ?>">Accéder à la galerie de ce membre</a></p>
+		<?php } ?>
 		<h5 class="mt-0">Site Internet</h5>
 		<p><a href="<?= \Rewritting::sanitize($profil['site']) ?>">Consulter le site Internet</a></p>
 		<h5 class="mt-0">Mangas'Points</h5>
@@ -361,7 +362,12 @@
 							</div>
 						</div>
 					</div></p>
-					<p>Galerie du membre : <em>En cours.</em><br/>
+					<p>Galerie du membre : 
+						<?php if($countGalerie != 0){ ?>
+							<a href="/galeries/voirgalerie.php?id=<?= \Rewritting::sanitize($profil['id_user']) ?>">Accéder à la galerie de ce membre</a>.
+						<?php } else {
+							echo "Pas d'images sur la galerie.";
+						} ?><br/>
 						<?php if ($profil['galerie'] == 0) {
 							echo "Autorisé à poster sur sa galerie.";
 						} else {

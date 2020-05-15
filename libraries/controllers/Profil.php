@@ -67,7 +67,9 @@ class Profil extends Controller {
 		if (isset($_POST['role'])) {
 			Profil::modifierRole();
 		}
-		\Renderer::render('../templates/membres/profil', '../templates/', compact('pageTitle', 'style', 'profil', 'avertissements', 'countAvertissements', 'recupererBannissement', 'avertissement'));
+		$galeries = new \models\Galeries();
+		$countGalerie = $galeries->countGaleries($profil['id_user']);
+		\Renderer::render('../templates/membres/profil', '../templates/', compact('pageTitle', 'style', 'profil', 'avertissements', 'countAvertissements', 'recupererBannissement', 'avertissement', 'countGalerie'));
 	}
 
 	public function modifierGrade(){

@@ -20,11 +20,12 @@ class Moderation extends Controller {
 		$style = '../../css/staff.css';
 		$users = $this->model->derniersInscrits();
 		$commentaires = $this->model->derniersCommentaires();
+		$galeries = $this->model->derniersCommentairesGaleries();
 		$membres = Moderation::members();
 		$avertissements = $administration->avertissements();
 		$bannissements = $administration->bannissements();
 		list($membres, $nb_pages, $page) = $membres;
-		\Renderer::render('../../templates/staff/moderation/index', '../../templates/staff', compact('pageTitle', 'style', 'users', 'commentaires', 'membres', 'nb_pages', 'page', 'avertissements', 'bannissements'));
+		\Renderer::render('../../templates/staff/moderation/index', '../../templates/staff', compact('pageTitle', 'style', 'users', 'commentaires', 'membres', 'nb_pages', 'page', 'avertissements', 'bannissements', 'galeries'));
 	}
 
 	public function members(){

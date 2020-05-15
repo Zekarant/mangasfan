@@ -51,7 +51,13 @@
 								<h5 class="card-title">Derniers commentaires postés sur les galeries</h5>
 								<hr>
 								<p class="card-text">
-									Les galeries n'étant pas encore implantée sur la version 7.0, cette fonctionnalité n'est donc pas disponible.
+									<?php foreach($galeries as $commentaireGalerie): ?>
+										<p>Pseudonyme : <a href="../../membres/profil-<?= \Rewritting::sanitize($commentaireGalerie['id_user']) ?>"><?= \Rewritting::sanitize($commentaireGalerie['username']) ?></a></p>
+										<p>Commentaire : <em>"<?= \Rewritting::sanitize($commentaireGalerie['galery_commentary']) ?>".</em></p>
+										<p>Galerie concernée : <a href="../../commentaire.php?id=<?= \Rewritting::sanitize($commentaireGalerie['id_image']) ?>"><?= \Rewritting::sanitize($commentaireGalerie['title_image']) ?></a></p>
+										<p>Commentaire posté le : <?= date('d/m/Y', strtotime(\Rewritting::sanitize($commentaireGalerie['date_commentaire']))); ?>.</p>
+										<hr>
+									<?php endforeach; ?>
 								</p>
 							</div>
 						</div>

@@ -32,4 +32,11 @@ class Moderation extends Model {
 		return $membres;
 	}
 
+	public function derniersCommentairesGaleries(){
+		$req = $this->pdo->prepare('SELECT * FROM galeries_commentary INNER JOIN users ON author_commentary = id_user INNER JOIN galeries ON galeries_commentary.id_image = galeries.id_image ORDER BY id_commentary_galery DESC LIMIT 0, 5');
+		$req->execute();
+		$commentaires = $req->fetchAll();
+		return $commentaires;
+	}
+
 }

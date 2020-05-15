@@ -34,7 +34,7 @@ class Galeries extends Model {
 	}
 
 	public function galeriesComments(int $idImage){
-		$req = $this->pdo->prepare('SELECT * FROM galeries INNER JOIN galeries_commentary ON galeries_commentary.id_image = galeries.id_image INNER JOIN users ON author_commentary = id_user WHERE galeries.id_image = :idImage ORDER BY date_commentaire DESC');
+		$req = $this->pdo->prepare('SELECT * FROM galeries INNER JOIN galeries_commentary ON galeries_commentary.id_image = galeries.id_image INNER JOIN users ON author_commentary = id_user WHERE (galeries.id_image = :idImage OR users.id_user = :idImage) ORDER BY date_commentaire DESC');
 		$req->execute(['idImage' => $idImage]);
 		$commentaires = $req->fetchAll();
 		return $commentaires;
@@ -75,5 +75,29 @@ class Galeries extends Model {
 	public function supprimerImage(int $idImage){
 		$req = $this->pdo->prepare('DELETE FROM galeries WHERE id_image = :idImage');
 		$req->execute(['idImage' => $idImage]);
+	}
+
+	public function countGaleries(int $idMember){
+		$req = $this->pdo->prepare('SELECT count(*) FROM galeries WHERE auteur_image = :idMember');
+		$req->execute(['idMember' => $idMember]);
+		$countGalerie = $req->fetchColumn();
+		return $countGalerie;
+	}
+
+	public function modifierImage(string $titre, string $keywords, string $contenu, string $slug, int $idImage){
+		$req = $this->pdo->prepare('UPDATE galeries SET title_image = :titre, keywords_image = :keywords, contenu_image = :contenu, slug = :slug WHERE id_image = :idImage');
+		$req->execute(['titre' => $titre, 'keywords' => $keywords, 'contenu' => $contenu, 'slug' => $slug, 'idImage' => $idImage]);
+	}
+
+	public function memberGalerie(int $idUser, ?string $nsfw = ""){
+		$req = "SELECT * FROM galeries INNER JOIN users ON id_user = auteur_image WHERE id_user = :idUser AND rappel_image = 0 ";
+		if ($nsfw) {
+			$req .= $nsfw;
+		}
+		$req .= " ORDER BY id_image DESC";
+		$req = $this->pdo->prepare($req);
+		$req->execute(['idUser' => $idUser]);
+		$galeriesMembers = $req->fetchAll();
+		return $galeriesMembers;
 	}
 }

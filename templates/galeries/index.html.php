@@ -2,7 +2,8 @@
 <hr>
 <?php if (isset($_SESSION['auth']) && $utilisateur['grade'] != 0) { ?>
 	<div class="row justify-content-center">
-		<a href="#" class="btn btn-outline-info">Voir ma galerie</a>
+		<a href="voirgalerie.php" class="btn btn-outline-info">Voir ma galerie</a>
+		<a href="administration.php" class="btn btn-outline-info">Administration de ma galerie</a>
 		<a href="ajouter.php" class="btn btn-outline-success">Ajouter un article</a>
 	</div>
 	<hr>

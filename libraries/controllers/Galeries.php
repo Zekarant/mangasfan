@@ -141,9 +141,6 @@ class Galeries extends Controller {
 		if (isset($_POST['valider_rappel'])) {
 			Galeries::ajouterRappel($utilisateur, $galerie);
 		}
-		if (isset($_POST['supprimer_image'])) {
-			Galeries::supprimerImage($utilisateur, $galerie);
-		}
 		\Renderer::render('../templates/galeries/voir', '../templates/', compact($variables));
 	}
 
@@ -314,20 +311,147 @@ class Galeries extends Controller {
          }
 	}
 
-	public function supprimerImage($utilisateur, $galerie){
+	public function supprimerImage(){
 		if (!isset($_SESSION['auth'])) {
 			\Http::redirect('index.php');
 		}
+		$users = new \models\Users();
+		$utilisateur = $users->user($_SESSION['auth']['id_user']);
+		$galerie = $this->model->findGalerie($_GET['galerie']);
+		echo $galerie['auteur_image'];
 		if ($utilisateur['id_user'] != $galerie['auteur_image']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas supprimer une image qui ne vous appartient pas !";
-			\Http::redirect('index.php');
+			\Http::redirect('administration.php');
 		}
 		$this->model->supprimerImage($galerie['id_image']);
 		$logs = new \models\Administration();
 		$logs->insertLogs($utilisateur['id_user'], "a supprimé une image de sa galerie", "Galeries");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "L'image a bien été supprimée !";
-		\Http::redirect('index.php');
+		\Http::redirect('administration.php');
+	}
+
+
+	public function administration(){
+		if (!isset($_SESSION['auth'])) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous devez être connecté pour accéder aux galeries.";
+			\Http::redirect('index.php');
+		}
+		$pageTitle = "Administration de ma galerie";
+		$style = "../css/commentaires.css";
+		$users = new \models\Users();
+		$utilisateur = $users->user($_SESSION['auth']['id_user']);
+		$controllerMaintenance = new \models\Administration();
+		$maintenance = $controllerMaintenance->verifier("Galeries");
+		if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
+			\Http::redirect('/maintenance.php');
+			exit();
+		}
+		$countGalerie = $this->model->countGaleries($utilisateur['id_user']);
+		$galerie = $this->model->galeries("auteur_image = " . $utilisateur['id_user']);
+		\Renderer::render('../templates/galeries/administration', '../templates/', compact('pageTitle', 'style', 'countGalerie', 'galerie'));
+	}
+
+	public function modifier(){
+		if (!isset($_SESSION['auth'])) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous devez être connecté pour accéder aux galeries.";
+			\Http::redirect('index.php');
+		}
+		if (!empty($_GET['galerie']) || is_numeric($_GET['galerie'])) {
+			$idGalerie = $_GET['galerie'];
+		}
+		if (!$idGalerie) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "On ne peut pas chercher une galerie qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			\Http::redirect('index.php');
+		}
+		$users = new \models\Users();
+		$user = $users->user($_SESSION['auth']['id_user']);
+		$galerie = $this->model->findGalerie($idGalerie);
+		$controllerMaintenance = new \models\Administration();
+		$maintenance = $controllerMaintenance->verifier("Galeries");
+		if ((!isset($_SESSION['auth']) OR $user['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
+			\Http::redirect('/maintenance.php');
+			exit();
+		}
+		if (!isset($galerie['id_image'])) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Cette image n'existe pas.";
+			\Http::redirect('index.php');
+		}
+		if ($user['id_user'] != $galerie['auteur_image']) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier une image qui ne vous appartient pas !";
+			\Http::redirect('index.php');
+		}
+		if (isset($_POST['modifier_image'])) {
+			Galeries::modifierImage($user, $galerie);
+		}
+		$pageTitle = 'Modifier l\'image "' . $galerie['title_image'] . '"';
+		$style = "../css/commentaires.css";
+		\Renderer::render('../templates/galeries/modifier', '../templates/', compact('pageTitle', 'style', 'galerie'));
+	}
+
+	public function modifierImage($user, $galerie){
+		if ($user['id_user'] != $galerie['auteur_image']) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier une image qui ne vous appartient pas !";
+			\Http::redirect('index.php');
+		}
+		if (empty($_POST['titre']) || (strlen($_POST['titre']) < 3 || strlen($_POST['titre']) > 50)) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de titre ou alors ce dernier ne contient pas entre 3 et 50 caractères.";
+		}
+		if (empty($_POST['contenu']) || strlen($_POST['contenu']) < 20) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de contenu ou alors ce dernier fait moins de 20 caractères.";
+		}
+		$slug = \Rewritting::stringToURLString($_POST['titre']);
+		$this->model->modifierImage($_POST['titre'], $_POST['keywords'], $_POST['texte'], $slug, $galerie['id_image']);
+		$logs = new \models\Administration();
+		$logs->insertLogs($user['id_user'], "a modifié une image de sa galerie", "Galeries");
+		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-message'] = "L'image a bien été modifiée !";
+		\Http::redirect('modifier.php?galerie=' . $galerie['id_image']);
+	}
+
+	public function voirgalerie(){
+		if (!empty($_GET['id']) || is_numeric($_GET['id'])) {
+			$idMember = $_GET['id'];
+		}
+		if (!$idMember) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "On ne peut pas chercher une galerie qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			\Http::redirect('index.php');
+		}
+		$users = new \models\Users();
+		$user = NULL;
+		$galerie = $this->model->memberGalerie($idMember, "AND nsfw_image = 0");
+		if (isset($_SESSION['auth'])) {
+			$user = $users->user($_SESSION['auth']['id_user']);
+			$galerie = $this->model->memberGalerie($idMember);
+		}
+		$userGalerie = $users->user($idMember);
+		$controllerMaintenance = new \models\Administration();
+		$maintenance = $controllerMaintenance->verifier("Galeries");
+		if ((!isset($_SESSION['auth']) OR $user['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
+			\Http::redirect('/maintenance.php');
+			exit();
+		}
+		$countgaleries = $this->model->countGaleries($idMember);
+		if ($countgaleries == 0) {
+			$_SESSION['flash-type'] = "error-flash";
+			$_SESSION['flash-message'] = "La galerie de cet utilisateur n'existe pas.";
+			\Http::redirect('index.php');
+		}
+		if(strpos($_SERVER['REQUEST_URI'],'/galeries/voirgalerie.php') !== FALSE){
+			\Http::redirect('membres/' . $userGalerie['id_user'] . "-galerie");
+		}
+		$pageTitle = "Galerie de " . \Rewritting::sanitize($userGalerie['username']);
+		$style = "../../css/commentaires.css";
+		\Renderer::render('../templates/galeries/voirgalerie', '../templates/', compact('pageTitle', 'style', 'galerie', 'user', 'userGalerie'));
 	}
 }
