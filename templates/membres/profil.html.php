@@ -4,7 +4,11 @@
 	<img src="images/avatars/<?= \Rewritting::sanitize($profil['avatar']); ?>" class="align-self-center mr-3" alt="avatar" style="max-height: 285px; max-width: 205px;" title="Avatar de <?= \Rewritting::sanitize($profil['username']); ?>"/>
 	<div class="media-body">
 		<h5 class="mt-0">Description du membre</h5>
-		<p><em><?= \Rewritting::sanitize($profil['description']) ?></em></p>
+		<?php if ($profil['description'] == NULL) { ?>
+			<p>Aucune description</p>
+		<?php } else { ?>
+			<p><em><?= \Rewritting::sanitize($profil['description']) ?></em></p>
+		<?php } ?>
 		<h5 class="mt-0">Rang du membre</h5>
 		<p><span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($profil['grade']) ?>;"><?= Color::getRang($profil['grade'], $profil['sexe'], $profil['stagiaire'], $profil['chef']) ?></span></p>
 		<h5 class="mt-0">Manga & anime favori</h5>
@@ -14,8 +18,8 @@
 			<h5 class="mt-0">Rôle dans le staff</h5>
 			<p><em><?= \Rewritting::sanitize($profil['role']) ?></em></p>
 		<?php } if($countGalerie != 0){ ?>
-		<h5 class="mt-0">Galerie</h5>
-		<p><a href="/galeries/voirgalerie.php?id=<?= \Rewritting::sanitize($profil['id_user']) ?>">Accéder à la galerie de ce membre</a></p>
+			<h5 class="mt-0">Galerie</h5>
+			<p><a href="/galeries/voirgalerie.php?id=<?= \Rewritting::sanitize($profil['id_user']) ?>">Accéder à la galerie de ce membre</a></p>
 		<?php } ?>
 		<h5 class="mt-0">Site Internet</h5>
 		<p><a href="<?= \Rewritting::sanitize($profil['site']) ?>">Consulter le site Internet</a></p>
@@ -401,56 +405,64 @@
 										<h5 class="modal-title" id="exampleModalLabel">Description</h5>
 									</div>
 									<div class="modal-body">
-										<?= \Rewritting::sanitize($profil['description']) ?>
+										<?php if ($profil['description'] == NULL) {
+											echo "Aucune description";
+										} else { ?>
+											<p><em><?= \Rewritting::sanitize($profil['description']) ?></em></p>
+										<?php } ?>
 										<hr>
 										<h5>Modifier la description</h5>
 										<form method="POST" action="">
-											<textarea class="form-control" name="description_membre" rows="5"><?= \Rewritting::sanitize($profil['description']); ?></textarea>
-											<input type="submit" name="description" class="btn btn-primary">
-										</form>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</p>
-					<p>Sexe : <?= \Rewritting::sanitize(\Users::sexe($profil['sexe'])) ?></p>
-					<p>Grade : <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($profil['grade']) ?>;"><?= Color::getRang($profil['grade'], $profil['sexe'], $profil['stagiaire'], $profil['chef']) ?></span></p>
-					<p>Manga favori : <?= \Rewritting::sanitize($profil['manga']) ?></p>
-					<p>Anime favori : <?= \Rewritting::sanitize($profil['anime']) ?></p>
-					<p>Rôle : 
-						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2">
-							Rôle du membre
-						</button>
-						<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Rôle du membre</h5>
-									</div>
-									<div class="modal-body">
-										<?= \Rewritting::sanitize($profil['role']); ?>
-										<hr>
-										<h5>Modifier le rôle</h5>
-										<form method="POST" action="">
-											<textarea class="form-control" name="role_membre" rows="5"><?= \Rewritting::sanitize($profil['role']); ?></textarea>
-											<input type="submit" name="role" class="btn btn-primary">
-										</form>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+											<textarea class="form-control" name="description_membre" rows="5"><?php if ($profil['description'] == NULL) {
+												echo "Aucune description";
+											} else { ?>
+												<p><em><?= \Rewritting::sanitize($profil['description']) ?></em></p>
+												<?php } ?></textarea>
+												<input type="submit" name="description" class="btn btn-primary">
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</p>
-					<p>Site : <a href="<?= \Rewritting::sanitize($profil['site']) ?>" target="_blank"><?= \Rewritting::sanitize($profil['site']) ?></a></p>
-					<p>Mangas'Points : <?= \Rewritting::sanitize($profil['points']) ?></p>
+						</p>
+						<p>Sexe : <?= \Rewritting::sanitize(\Users::sexe($profil['sexe'])) ?></p>
+						<p>Grade : <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($profil['grade']) ?>;"><?= Color::getRang($profil['grade'], $profil['sexe'], $profil['stagiaire'], $profil['chef']) ?></span></p>
+						<p>Manga favori : <?= \Rewritting::sanitize($profil['manga']) ?></p>
+						<p>Anime favori : <?= \Rewritting::sanitize($profil['anime']) ?></p>
+						<p>Rôle : 
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2">
+								Rôle du membre
+							</button>
+							<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Rôle du membre</h5>
+										</div>
+										<div class="modal-body">
+											<?= \Rewritting::sanitize($profil['role']); ?>
+											<hr>
+											<h5>Modifier le rôle</h5>
+											<form method="POST" action="">
+												<textarea class="form-control" name="role_membre" rows="5"><?= \Rewritting::sanitize($profil['role']); ?></textarea>
+												<input type="submit" name="role" class="btn btn-primary">
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</p>
+						<p>Site : <a href="<?= \Rewritting::sanitize($profil['site']) ?>" target="_blank"><?= \Rewritting::sanitize($profil['site']) ?></a></p>
+						<p>Mangas'Points : <?= \Rewritting::sanitize($profil['points']) ?></p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 <?php } ?>

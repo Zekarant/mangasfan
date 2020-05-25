@@ -22,4 +22,16 @@ class Users {
 
 	}
 
+	public static function syst_not($nbr){
+		if($nbr < 2){
+			return "red";
+		} else if($nbr >= 2 && $nbr < 3){
+			return "orange";
+		} else if($nbr >= 3 && $nbr < 4){
+			return "green";
+		} else {
+			return "darkgreen";
+		}
+	}
+
 }

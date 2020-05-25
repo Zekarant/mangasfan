@@ -176,3 +176,22 @@ footer-bottom p.pull-left
     text-align: center;
     -webkit-box-align: center;
 }
+
+@media screen and (max-width: 480px){
+	header {
+		background-image: url('../images/banniere.webp');
+		background-size: cover;
+		background-position: 51.5% center;
+		background-repeat: no-repeat;
+		color: white;
+		height: 500px;
+	}
+	.slogan {
+		padding-top: 300px;
+		font-size: 19px;
+	}
+
+	.image_archives {
+		width: 100%;
+	}
+}

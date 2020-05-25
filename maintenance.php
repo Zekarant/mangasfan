@@ -14,7 +14,7 @@ session_start();
 </head>
 <body>
 	<style>
-		body { background-image: url('https://zupimages.net/up/20/15/80zr.png'); text-align: center; padding: 100px; }
+		body { background-image: url('images/background.jpg'); text-align: center; padding: 100px; }
 		h1 { font-size: 50px; }
 		body { font: 20px Helvetica, sans-serif; color: #333; }
 		article { display: block; text-align: left; width: 650px; margin: 0 auto; }

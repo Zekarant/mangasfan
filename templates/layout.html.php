@@ -4,20 +4,45 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= $pageTitle ?> - Mangas'Fan</title>
-	<link rel="icon" href="/mangasfan/images/favicon.png"/>
+	<link rel="icon" href="/images/favicon.png"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Stint+Ultra+Condensed" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Oswald" rel="stylesheet">
+	<meta name=”twitter:card” content="summary_large_image" />
+	<meta name="twitter:site" content="@Mangas_Fans" />
+	<meta name="twitter:creator" content="@Mangas_Fans" />
+	<meta property="og:site_name" content="mangasfan.fr"/>
+	<meta property="og:url" content="https://www.mangasfan.fr" />
+	<meta property="og:title" content="<?= $pageTitle ?> - Mangas'Fan" />
+	<meta name="twitter:title" content="<?= $pageTitle ?> - Mangas'Fan">
 	<link rel="stylesheet" type="text/css" href="<?= $style ?>">
 	<?php if (isset($description)) { ?>
 		<meta name="description" content="<?= $description ?>"/>
+		<meta property="og:description" content="<?= $description ?>" />
+		<meta name="twitter:description" content="<?= $description ?>">
 	<?php } if (isset($keywords)) { ?>
 		<meta name="keywords" content="<?= $keywords ?>"/>
+	<?php } if(isset($image)){ ?>
+		<meta property="og:image" content="<?= $image ?>" />
+		<meta name="twitter:image" content="<?= $image ?>">
 	<?php } ?>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129397962-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-129397962-1');
+	</script>
 </head>
 <body>
 	<?php if(isset($_SESSION['flash-message'])){ ?>
-		<div id="temporate-message" class="alert alert-warning alert-dismissible fade show d-none <?= $_SESSION['flash-type']; ?>">
+		<div id="temporate-message" class="alert alert-<?= $_SESSION['flash-color'] ?> alert-dismissible fade show d-none <?= $_SESSION['flash-type']; ?>">
 			<?= $_SESSION['flash-message']; ?>
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -34,19 +59,16 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<span class="nav-link"><strong>Bêta ouverte</strong></span>
-				</li>
-				<li class="nav-item">
 					<a class="nav-link" href="/">Accueil</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><s>Jeux</s></a>
+					<a class="nav-link" href="/jeux-video">Jeux</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><s>Mangas</s></a>
+					<a class="nav-link" href="/mangas">Mangas</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><s>Animes/Films</s></a>
+					<a class="nav-link" href="/animes">Animes/Films</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/galeries">Galeries</a>
@@ -119,12 +141,12 @@
 							Hm... Nous voyons que vous êtes actuellement <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span> sur Mangas'Fan !<br/><br/>
 							<p>Au vu de votre rôle sur le site, nous pouvons vous proposer les accès suivants :</p>
 							<?php if ($utilisateur['grade'] >= 7) { ?>
-								<a href="/staff/administration/index.php" class="btn btn-outline-danger">Administration</a>
+								<a href="/../staff/administration/index.php" class="btn btn-outline-danger">Administration</a>
 							<?php } if($utilisateur['grade'] >= 6){ ?>
-								<a href="staff/moderation/index.php" class="btn btn-outline-success">Modération</a>
+								<a href="/../staff/moderation/index.php" class="btn btn-outline-success">Modération</a>
 							<?php } if($utilisateur['grade'] >= 4){ ?>
-								<a href="/staff/news/index.php" class="btn btn-outline-info">News</a>
-								<a href="#" class="btn btn-outline-info"><s>Rédaction</s></a>
+								<a href="/../staff/news/index.php" class="btn btn-outline-info">News</a>
+								<a href="/../staff/redaction/index.php" class="btn btn-outline-info">Rédaction</a>
 							<?php } if($utilisateur['grade'] == 3 || $utilisateur['grade'] >= 6){ ?>
 								<a href="staff/animation/index.php" class="btn btn-outline-warning">Animation</a>
 							<?php } if($utilisateur['grade'] == 2){ ?>

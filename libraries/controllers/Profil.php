@@ -14,12 +14,14 @@ class Profil extends Controller {
 		if (!$idProfil) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "On ne peut pas chercher un profil qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		$profil = $this->model->findMember($idProfil);
 		if (!isset($profil['id_user'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "L'identifiant de ce compte n'existe pas";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('../index.php');
 		}
 		if(strpos($_SERVER['REQUEST_URI'],'/membres/profil.php')){
@@ -91,12 +93,14 @@ class Profil extends Controller {
 		if ($profil['id_user'] == $user['id_user']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas changer votre grade vous-même !";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas changer le grade de quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "danger";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if ($_POST['exampleRadios'] == "stagiaire") {
 			$this->model->modifierGradeStagiaire($_POST['grades'], $profil['id_user']);
@@ -109,7 +113,8 @@ class Profil extends Controller {
       	$logs->insertLogs($user['id_user'], "a modifié le grade de " . $profil['username'], "Changement de grade");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le grade du membre a bien été changé !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function attribuerAvertissement(){
@@ -117,7 +122,8 @@ class Profil extends Controller {
 		if (empty($_POST['contenu_sanction'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de motif pour l'avertissement, veuillez recommencer.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
@@ -132,7 +138,8 @@ class Profil extends Controller {
       	$logs->insertLogs($user['id_user'], "a attribué un avertissement à " . $profil['username'], "Avertissement");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "L'avertissement a bien été attribué !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function attribuerBannissement(){
@@ -140,12 +147,14 @@ class Profil extends Controller {
 		if (empty($_POST['contenu_bannissement'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de motif pour le bannissement, veuillez recommencer.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if (empty($_POST['date_bannissement'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de date de fin pour le bannissement, veuillez recommencer.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
@@ -158,24 +167,28 @@ class Profil extends Controller {
 		if ($_POST['date_bannissement'] < date('Y-m-d')) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous avez renseigné de fin de bannissement plus petite que la date actuelle.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if ($profil['id_user'] == $user['id_user']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas vous bannir vous-même !";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas bannir quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "danger";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->attribuerBannissement($_POST['contenu_bannissement'], $profil['id_user'], $user['id_user'], $_POST['date_bannissement']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a banni " . $profil['username'], "Bannissement");
+      	$logs->insertLogs($user['id_user'], "a banni " . \Rewritting::sanitize($profil['username']), "Bannissement");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le bannissement a bien été attribué !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function sanctionGalerie(){
@@ -191,19 +204,22 @@ class Profil extends Controller {
 		if ($profil['id_user'] == $user['id_user']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas vous sanctionner vous-même !";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas sanctionner quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->nonGalerie($profil['id_user']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a empêché " . $profil['username'] . " de poster sur sa galerie", "Sanction sur les galeries");
+      	$logs->insertLogs($user['id_user'], "a empêché " . \Rewritting::sanitize($profil['username']) . " de poster sur sa galerie", "Sanction sur les galeries");
 		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-color'] = "warning";
 		$_SESSION['flash-message'] = "Le membre ne peut plus poster sur sa galerie !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function autoriserGalerie(){
@@ -219,19 +235,22 @@ class Profil extends Controller {
 		if ($profil['id_user'] == $user['id_user']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas vous enlever la sanction à vous-même !";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas enlever la sanction à quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->autoriserGalerie($profil['id_user']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a autorisé " . $profil['username'] . " à poster sur sa galerie", "Sanction sur les galeries");
+      	$logs->insertLogs($user['id_user'], "a autorisé " . \Rewritting::sanitize($profil['username']) . " à poster sur sa galerie", "Sanction sur les galeries");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le membre peut poster sur sa galerie !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "warning";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function modifierInformation(){
@@ -247,24 +266,28 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier les informations de quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		if (empty($_POST['pseudo']) || empty($_POST['email'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Le pseudo ou l'adresse mail ne peut pas être vide !";
-			\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 		}
 		if ($_POST['date_anniv'] >= date('Y-m-d')) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez avoir une date de naissance qui dépasse la date d'aujourd'hui...";
-			\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 		}
 		$this->model->modifierInformations($_POST['pseudo'], $_POST['email'], $_POST['date_anniv'], $_POST['manga'], $_POST['anime'], $_POST['site'], $profil['id_user']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a modifié les informations de " . $profil['username'], "[Modération] Modification d'informations");
+      	$logs->insertLogs($user['id_user'], "a modifié les informations de " . \Rewritting::sanitize($profil['username']), "[Modération] Modification d'informations");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Les informations du membre ont bien été modifiées !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function desactiverCompte(){
@@ -280,7 +303,8 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas désactiver votre propre compte !";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$token = \Users::str_random(60);
 		$this->model->desactiverCompte($token, $profil['id_user']);
@@ -304,7 +328,7 @@ class Profil extends Controller {
         En espérant que vous vous plairez sur le site !<br/><br/>
         À bientôt sur Mangas\'Fan !
         </p><br/>
-        <center><a href="https://btssioslam.nexgate.ch/membres/confirmation.php?id=' . $profil['id_user'] . '&token=' . $token .'" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Confirmer mon compte</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
+        <center><a href="https://btssioslam.nexgate.ch/membres/confirmation.php?id=' . \Rewritting::sanitize($profil['id_user']) . '&token=' . \Rewritting::sanitize($token) .'" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Confirmer mon compte</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
         </div><br/>
         <div style="background-image: url(\'https://zupimages.net/up/20/15/80zr.png\'); padding: 5px; border-top: 3px solid #b4b4b4; text-align: center; color: black">Mangas\'Fan © 2017 - 2020. Développé par Zekarant et Nico. Tous droits réservés.
         </div>
@@ -317,7 +341,8 @@ class Profil extends Controller {
       	$logs->insertLogs($user['id_user'], "a désactivé le compte de " . $profil['username'], "Désactivation de compte");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le compte du membre a bien été désactivé !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function activerCompte(){
@@ -333,7 +358,8 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas activer votre propre compte !";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->activerCompte($profil['id_user']);
 		$header="MIME-Version: 1.0\r\n";
@@ -349,7 +375,7 @@ class Profil extends Controller {
         <p><img src="https://www.mangasfan.fr/images/logo.png" style="width: 40%;  vertical-align: middle;"><a href="#" style="text-decoration: none; float: right; color: #fff; background-color: #17a2b8; border-color: #17a2b8; font-weight: 400; border: 1px solid transparent; padding: .375rem .75rem; font-size: 15px; line-height: 1.5; border-radius: .25rem; margin-top: 15px;">Accéder au site</a></p>
         </div>
         <div style="padding: 10px;">
-        <p>Cher ' . $profil['username'] . ',<br/><br/>
+        <p>Cher ' . \Rewritting::sanitize($profil['username']) . ',<br/><br/>
         Nous venons d\'activer votre compte manuellement sur Mangas\'Fan.</p>
         <p>Nous restons à votre disposition en cas d\'interrogations supplémentaires !<br/>
         En espérant que vous vous plairez sur le site !<br/><br/>
@@ -365,10 +391,11 @@ class Profil extends Controller {
         </html>';
         mail($profil['email'], 'Votre compte a été activé - Mangas\'Fan', $demande, $header);
         $logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a activé le compte de " . $profil['username'], "Activation de compte");
+      	$logs->insertLogs($user['id_user'], "a activé le compte de " . \Rewritting::sanitize($profil['username']), "Activation de compte");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le compte du membre a bien été activé !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function reinitialiserAvatar(){
@@ -384,14 +411,16 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier les informations de quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->reinitialiserAvatar($profil['id_user']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a réinitialisé l'avatar de " . $profil['username'], "Réinitialisation de l'avatar");
+      	$logs->insertLogs($user['id_user'], "a réinitialisé l'avatar de " . \Rewritting::sanitize($profil['username']), "Réinitialisation de l'avatar");
 		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-color'] = "warning";
 		$_SESSION['flash-message'] = "L'avatar du membre a bien été réinitialisé !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	}
 
 	public function suppressionCompte(){
@@ -407,13 +436,15 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas supprimer le compte de quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a supprimé le compte de " . $profil['username'], "Suppression de compte");
+      	$logs->insertLogs($user['id_user'], "a supprimé le compte de " . \Rewritting::sanitize($profil['username']), "Suppression de compte");
       	$this->model->suppressionCompte($profil['id_user']);
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le compte du membre a bien été supprimé !";
+		$_SESSION['flash-color'] = "warning";
 		\Http::redirect('../index.php');
 	}
 
@@ -430,14 +461,16 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier la description de quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->modifierDescription($_POST['description_membre'], $profil['id_user']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a modifié la description de " . $profil['username'], "Modification de la description");
+      	$logs->insertLogs($user['id_user'], "a modifié la description de " . \Rewritting::sanitize($profil['username']), "Modification de la description");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "La description du membre a bien été modifiée !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	} 
 
 	public function modifierRole(){
@@ -453,13 +486,15 @@ class Profil extends Controller {
 		if ($profil['grade'] > $user['grade']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier le rôle de quelqu'un de plus haut gradé que vous.";
-			\Http::redirect('profil-' . $profil['id_user']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']));
 		}
 		$this->model->modifierRole($_POST['role_membre'], $profil['id_user']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a modifié le rôle de " . $profil['username'], "Modification du rôle");
+      	$logs->insertLogs($user['id_user'], "a modifié le rôle de " . \Rewritting::sanitize($profil['username']), "Modification du rôle");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le rôle du membre a bien été modifiée !";
-		\Http::redirect('profil-' . $profil['id_user'] . "#moderation");
+		$_SESSION['flash-color'] = "success";
+		\Http::redirect('profil-' . \Rewritting::sanitize($profil['id_user']) . "#moderation");
 	} 
 }

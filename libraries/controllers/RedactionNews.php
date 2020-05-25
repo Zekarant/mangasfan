@@ -55,11 +55,10 @@ class RedactionNews extends Controller {
 			}
 			$variables = array_merge($variables, ['errors']);
 			if(empty($errors)){
-				$url = "https://discordapp.com/api/webhooks/662479994714456065/RLQZ82-lXO4-QRxq5FVn2VDVHT4AW5Vwr_y_ik5CoXwCJDQp5PClrBfVTMnWtQpgIAd2";
 				if (empty($_POST['programmation_news'])) {
 					$date = date("Y-m-d H:i:s");
 				} else {
-					$date = $_POST['programmation_news'];
+					$date = \Rewritting::sanitize($_POST['programmation_news']);
 				}
 				if ($user['stagiaire'] == 1) {
 					$attenteValidation = 1;
@@ -69,11 +68,80 @@ class RedactionNews extends Controller {
 				$slug = \Rewritting::stringToURLString($_POST['titre']);
 				$this->model->ajouterNews($_POST['titre'], $_POST['description'], $date, $_POST['image'], $_POST['contenu_news'], $_POST['categorie'], $_POST['keywords'], $user['id_user'], $_POST['sources'], $slug, $_POST['visible'], $attenteValidation);
 				$logs = new \models\Administration();
-      			$logs->insertLogs($user['id_user'], "a posté une news", "Pannel de rédaction");
+				$logs->insertLogs($user['id_user'], "a posté une news", "Pannel de rédaction");
+				if ($_POST['visible'] == 0) {
+					$url2 = "https://discordapp.com/api/webhooks/662479994714456065/RLQZ82-lXO4-QRxq5FVn2VDVHT4AW5Vwr_y_ik5CoXwCJDQp5PClrBfVTMnWtQpgIAd2";
+					$hookObject2 = json_encode([
+						"tts" => false,
+						"embeds" => [
+							[
+								"title" => htmlspecialchars($_POST['titre']),
+								"type" => "rich",
+								"description" => htmlspecialchars($_POST['description']),
+								"url" => "https://www.mangasfan.fr/commentaire/". $_POST['slug'],
+								"color" => 12211667,
+								"author" => [
+									"name" => "Mangas'Fan - Nouvelle news !",
+									"url" => "https://www.mangasfan.fr",
+									"icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
+								],
+								"image" => [
+									"url" => htmlspecialchars($_POST['image'])
+								],
+							]
+						]
+
+					], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+					$ch2 = curl_init();
+
+					curl_setopt_array( $ch2, [
+						CURLOPT_URL => $url2,
+						CURLOPT_POST => true,
+						CURLOPT_POSTFIELDS => $hookObject2,
+						CURLOPT_HTTPHEADER => ["Content-Type: application/json"]
+					]);
+
+					$response = curl_exec( $ch2 );
+					curl_close( $ch2 );
+				}
+				$url = "https://discordapp.com/api/webhooks/714474466461089845/soH9sQmLVQZs64Ry_TzNy_q29i3a1bjPE2AiwIHsrBU52ppFzRFjErCC5IUV2VvkmxsE";
+				$hookObject = json_encode([
+					"tts" => false,
+					"embeds" => [
+						[
+							"title" => htmlspecialchars($_POST['titre']),
+							"type" => "rich",
+							"description" => htmlspecialchars($_POST['description']),
+							"url" => "https://www.mangasfan.fr/commentaire/". $_POST['slug'],
+							"color" => 12211667,
+							"author" => [
+								"name" => "Mangas'Fan - Nouvelle news !",
+								"url" => "https://www.mangasfan.fr",
+								"icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
+							],
+							"image" => [
+								"url" => htmlspecialchars($_POST['image'])
+							],
+						]
+					]
+
+				], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+				$ch = curl_init();
+
+				curl_setopt_array( $ch, [
+					CURLOPT_URL => $url,
+					CURLOPT_POST => true,
+					CURLOPT_POSTFIELDS => $hookObject,
+					CURLOPT_HTTPHEADER => ["Content-Type: application/json"]
+				]);
+
+				$response = curl_exec( $ch );
+				curl_close( $ch );
 				\Http::redirect('index.php');
 			}
 		}
-		
 		\Renderer::render('../../templates/staff/news/rediger', '../../templates/staff', compact($variables));
 	}
 
@@ -88,7 +156,7 @@ class RedactionNews extends Controller {
 		}
 		$this->model->validerNews($_POST['valider_news']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a validé une news", "Pannel de rédaction");
+		$logs->insertLogs($user['id_user'], "a validé une news", "Pannel de rédaction");
 		\Http::redirect('index.php');
 	}
 
@@ -119,7 +187,7 @@ class RedactionNews extends Controller {
 			$errors = $modifierNews;
 			$variables = array_merge($variables, ['news', 'modifierNews', 'errors']);
 			if (empty($errors)) {
-				\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
+				\Http::redirect('modifier_news.php?id_news=' . \Rewritting::sanitize($news['id_news']));
 			}
 		}
 		\Renderer::render('../../templates/staff/news/modifier', '../../templates/staff', compact($variables));
@@ -143,8 +211,8 @@ class RedactionNews extends Controller {
 			$slug = \Rewritting::stringToURLString($_POST['modif_titre']);
 			$this->model->modifierNews($_POST['modif_titre'], $_POST['modif_description'], $_POST['programmation_news'], $_POST['modif_keywords'], $_POST['modif_image'],$_POST['modif_contenu'], $_POST['modif_categorie'], $_POST['modif_sources'], $_POST['modif_visibilite'], $slug, $_GET['id_news']);
 			$logs = new \models\Administration();
-      		$logs->insertLogs($_SESSION['auth']['id_user'], "a modifié une news", "Pannel de rédaction");
-			\Http::redirect('modifier_news.php?id_news=' . $news['id_news']);
+			$logs->insertLogs($_SESSION['auth']['id_user'], "a modifié une news", "Pannel de rédaction");
+			\Http::redirect('modifier_news.php?id_news=' . \Rewritting::sanitize($news['id_news']));
 		}
 		return $errors;
 	}
@@ -160,7 +228,7 @@ class RedactionNews extends Controller {
 		}
 		$this->model->supprimerNews($_POST['suppression_news']);
 		$logs = new \models\Administration();
-      	$logs->insertLogs($user['id_user'], "a surpprimé une news", "Pannel de rédaction");
+		$logs->insertLogs($user['id_user'], "a surpprimé une news", "Pannel de rédaction");
 		\Http::redirect('index.php');
 	}
 }

@@ -25,6 +25,10 @@ class Moderation extends Controller {
 		$avertissements = $administration->avertissements();
 		$bannissements = $administration->bannissements();
 		list($membres, $nb_pages, $page) = $membres;
+		if (isset($_POST['searchMember'])) {
+      $searchMembre = $this->model->redirigerMembre($_POST['username']);
+      \Http::redirect('../../membres/profil-' . \Rewritting::sanitize($searchMembre['id_user']));
+    }
 		\Renderer::render('../../templates/staff/moderation/index', '../../templates/staff', compact('pageTitle', 'style', 'users', 'commentaires', 'membres', 'nb_pages', 'page', 'avertissements', 'bannissements', 'galeries'));
 	}
 

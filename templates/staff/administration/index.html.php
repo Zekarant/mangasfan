@@ -15,7 +15,7 @@
 						<?php foreach ($maintenance as $maintenances) {
 							$couleur = !$maintenances['active_maintenance'] ? 'success' : 'warning'; ?>
 							<form method="POST" action="">
-								<tr class="table-<?= $couleur ?>">
+								<tr class="table-<?= \Rewritting::sanitize($couleur) ?>">
 									<td>
 										<?php if($maintenances['active_maintenance'] == 0){ ?>
 											Pas de maintenance
@@ -45,7 +45,7 @@
 							<strong>Information :</strong> En tapant le pseudo du membre ci-dessous, vous serez automatiquement redirigé sur la page de son profil afin de pouvoir modérer ce dernier.
 						</div>
 						<form method="POST" action="">
-							<label>Pseudo du membre : <strong>Non fonctionnel</strong></label>
+							<label>Pseudo du membre :</label>
 							<input type="text" name="username" class="form-control" placeholder="Saisir le pseudo du membre">
 							<input type="submit" name="searchMember" class="btn btn-sm btn-outline-info" value="Rechercher le membre">
 						</form>
@@ -59,11 +59,11 @@
 								<?php for ($i = 1; $i <= $nb_pages; $i++) {
 									if ($i == $page) { ?>
 										<li class="page-item">
-											<a class="page-link" href="#"><?= $i; ?></a>
+											<a class="page-link" href="#"><?= \Rewritting::sanitize($i); ?></a>
 										</li>
 									<?php } else { ?>
 										<li class="page-item">
-											<a class="page-link" href="<?= "?page=" . $i; ?>#membres"><?= $i?></a>
+											<a class="page-link" href="<?= "?page=" . $i; ?>#membres"><?= \Rewritting::sanitize($i) ?></a>
 										</li>
 									<?php }
 								} ?>

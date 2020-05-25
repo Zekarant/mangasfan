@@ -46,11 +46,13 @@ class Galeries extends Controller {
 		if ($user['grade'] < 1 && $user['grade'] > 9) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = 'A cause de votre grade, vous ne pouvez pas activer le NSFW.';
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		if ($user['date_anniversaire'] == NULL) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné votre date de naissance.";
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('index.php');
 		}
 		$date = date_create($user['date_anniversaire']);
@@ -59,6 +61,7 @@ class Galeries extends Controller {
 		if ($interval->format('%y') < 18) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = "Vous n'avez pas l'âge requis pour activer le NSFW !";
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('index.php');
 		}
 		$this->model->activerNSFW($user['id_user']);
@@ -66,6 +69,7 @@ class Galeries extends Controller {
 		$logs->insertLogs($user['id_user'], "a activé son NSFW", "Activation du NSFW");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Vous avez bien activé votre NSFW !";
+		$_SESSION['flash-color'] = "success";
 		\Http::redirect('index.php');
 	}
 
@@ -76,11 +80,13 @@ class Galeries extends Controller {
 		if ($user['grade'] < 1 && $user['grade'] > 9) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = 'A cause de votre grade, vous ne pouvez pas activer le NSFW.';
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('index.php');
 		}
 		if ($user['date_anniversaire'] == NULL) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné votre date de naissance.";
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('index.php');
 		}
 		$this->model->desactiverNSFW($user['id_user']);
@@ -88,6 +94,7 @@ class Galeries extends Controller {
 		$logs->insertLogs($user['id_user'], "a désactivé son NSFW", "Désactivation du NSFW");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Vous avez bien désactivé votre NSFW !";
+		$_SESSION['flash-color'] = "success";
 		\Http::redirect('index.php');
 	}
 
@@ -104,6 +111,7 @@ class Galeries extends Controller {
 		if (!$idGalerie) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "On ne peut pas chercher une galerie qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		$galerie = $this->model->findGalerie($idGalerie);
@@ -111,20 +119,23 @@ class Galeries extends Controller {
 		if (!isset($galerie['id_image'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "L'identifiant de cette image n'existe pas";
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('index.php');
 		}
 		if(strpos($_SERVER['REQUEST_URI'],'/galeries/voir.php') !== FALSE){
-			\Http::redirect($galerie['slug']);
+			\Http::redirect(\Rewritting::sanitize($galerie['slug']));
 		}
 		if ($galerie['nsfw_image'] == 1) {
 			if (!isset($_SESSION['auth'])) {
 				$_SESSION['flash-type'] = "error-flash";
 				$_SESSION['flash-message'] = "Vous ne pouvez pas accéder à ce type d'images sans être connecté !";
+				$_SESSION['flash-color'] = "danger";
 				\Http::redirect('index.php');
 			}
 			if ($utilisateur['grade'] <= 7 || $utilisateur['nsfw'] = 0) {
 				$_SESSION['flash-type'] = "error-flash";
 				$_SESSION['flash-message'] = "Vous ne pouvez pas accéder à cette image !";
+				$_SESSION['flash-color'] = "danger";
 				\Http::redirect('index.php');
 			}
 		}
@@ -152,13 +163,15 @@ class Galeries extends Controller {
 			$this->model->ajouterCommentaire($_POST['comme'], $utilisateur['id_user'], $galerie['id_image']);
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Votre commentaire a bien été ajouté !";
+			$_SESSION['flash-color'] = "success";
 			$logs = new \models\Administration();
 			$logs->insertLogs($utilisateur['id_user'], "a ajouté un commentaire", "Commentaires de galeries");
 			\Http::redirect('voir.php?id=' . $galerie['id_image']);
 		} else {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de commentaire !";
-			\Http::redirect('voir.php?id=' . $galerie['id_image']);
+			$_SESSION['flash-color'] = "danger";
+			\Http::redirect('voir.php?id=' . \Rewritting::sanitize($galerie['id_image']));
 		}
 	}
 
@@ -166,38 +179,41 @@ class Galeries extends Controller {
 		$users = new \models\Users();
 		if (isset($_GET['id']) && !empty($_GET['id']) & is_numeric($_GET['id'])) {
 			if (!isset($_SESSION['auth'])) {
-				\Http::redirect('voir.php?id=' . $galerie['id_image']);
+				\Http::redirect('voir.php?id=' . \Rewritting::sanitize($galerie['id_image']));
 			}
 			$user = $users->user($_SESSION['auth']['id_user']);
 			$galerie = $this->model->findComment($_GET['id']);
 			if ($user['id_user'] != $galerie['author_commentary']) {
-				\Http::redirect('voir.php?id=' . $galerie['id_image'] . "#commentaires");
+				\Http::redirect('voir.php?id=' . \Rewritting::sanitize($galerie['id_image']) . "#commentaires");
 			}
 			if(isset($_POST['valider'])){
 				if (empty($_POST['commentaire'])) {
 					$_SESSION['flash-type'] = "error-flash";
 					$_SESSION['flash-message'] = "Le commentaire ne peut pas être vide !";
+					$_SESSION['flash-color'] = "warning";
 					\Http::redirect('../index.php');
 				}
 				$this->model->editComment($_POST['commentaire'], $_GET['id']);
 				$logs = new \models\Administration();
 				$logs->insertLogs($user['id_user'], "a edité un commentaire", "Commentaires de galeries");
-				\Http::redirect('voir.php?id=' . $galerie['id_image'] . "#commentaires");
+				\Http::redirect('voir.php?id=' . \Rewritting::sanitize($galerie['id_image']) . "#commentaires");
 			} else {
 				$commentary = $this->model->findComment($_GET['id']);
 				if (isset($commentary['id_commentary_galery'])) {
-					$pageTitle = "Modifier mon commentaire - " . $commentary['title_image'];
+					$pageTitle = "Modifier mon commentaire - " . \Rewritting::sanitize($commentary['title_image']);
 					$style = "../css/commentaires.css";
 					\Renderer::render('../templates/galeries/edit', '../templates/', compact('commentary', 'pageTitle', 'style'));
 				} else {
 					$_SESSION['flash-type'] = "error-flash";
 					$_SESSION['flash-message'] = "Oups ! Il semblerait que nous ayons rencontré une erreur et que nous ayons dû vous rediriger !";
+					$_SESSION['flash-color'] = "danger";
 					\Http::redirect('../index.php');
 				}
 			}
 		} else {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Oups ! Il semblerait que nous ayons rencontré une erreur et que nous ayons dû vous rediriger !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('../index.php');
 		}
 	}
@@ -205,14 +221,15 @@ class Galeries extends Controller {
 	public function delete(){
 		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {
-			\Http::redirect('voir.php?id=' . $_GET['id']);
+			\Http::redirect('voir.php?id=' . \Rewritting::sanitize($_GET['id']));
 		}
 		$user = $users->user($_SESSION['auth']['id_user']);
 		$searchCommentary = $this->model->findComment($_GET['id']);
 		if ($user['id_user'] != $searchCommentary['author_commentary'] && $user['grade'] < 6) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas le droit de supprimer ce commentaire !";
-			\Http::redirect('voir.php?id=' . $searchCommentary['id_image']);
+			$_SESSION['flash-color'] = "danger";
+			\Http::redirect('voir.php?id=' . \Rewritting::sanitize($searchCommentary['id_image']));
 		}
 		if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
 			die("L'id n'a pas été renseigné");
@@ -220,15 +237,17 @@ class Galeries extends Controller {
 		if ($_GET['id'] != $searchCommentary['id_commentary_galery']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "L'identifiant n'existe pas !";
-			\Http::redirect('voir.php?id=' . $searchCommentary['id_image']);
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('voir.php?id=' . \Rewritting::sanitize($searchCommentary['id_image']));
 		}
 		$id = $_GET['id'];
 		$news = $this->model->deleteComment($id);
 		$logs = new \models\Administration();
 		$logs->insertLogs($user['id_user'], "a supprimé un commentaire", "Commentaires de galeries");
 		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-color'] = "success";
 		$_SESSION['flash-message'] = "Le commentaire a bien été supprimé !";
-		\Http::redirect('voir.php?id=' . $searchCommentary['id_image']);
+		\Http::redirect('voir.php?id=' . \Rewritting::sanitize($searchCommentary['id_image']));
 	}
 
 	public function ajouterRappel($utilisateur, $galerie){
@@ -240,9 +259,10 @@ class Galeries extends Controller {
 		}
 		$this->model->ajouterRappel($galerie['id_image']);
 		$logs = new \models\Administration();
-		$logs->insertLogs($utilisateur['id_user'], "a ajouté un rappel sur l'image " . $galerie['title_image'], "Galeries");
+		$logs->insertLogs($utilisateur['id_user'], "a ajouté un rappel sur l'image " . \Rewritting::sanitize($galerie['title_image']), "Galeries");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "Le rappel a bien été attribué !";
+		$_SESSION['flash-color'] = "success";
 		\Http::redirect('index.php');
 	}
 
@@ -255,6 +275,7 @@ class Galeries extends Controller {
 		if ($utilisateur['grade'] == 0 || $utilisateur['galerie'] == 1) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas ajouter d'images sur votre galerie car vous possédez une restriction ou car vous êtes actuellement banni du site.";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		if (isset($_POST['valider'])) {
@@ -272,20 +293,24 @@ class Galeries extends Controller {
 		if ($utilisateur['grade'] == 0 || $utilisateur['galerie'] == 1) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas ajouter d'images sur votre galerie car vous possédez une restriction ou car vous êtes actuellement banni du site.";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		if (empty($_POST['titre']) || (strlen($_POST['titre']) < 3 || strlen($_POST['titre']) > 50)) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de titre ou alors ce dernier ne contient pas minimum 3 caractères et maximum 50 caractères.";
+			$_SESSION['flash-color'] = "warning";
 		}
 		if (empty($_FILES['image_galerie']['name'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné d'image.";
+			$_SESSION['flash-color'] = "warning";
 		}
 
 		if (empty($_POST['contenu']) || strlen($_POST['contenu']) < 20) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de contenu ou alors ce dernier fait moins de 20 caractères.";
+			$_SESSION['flash-color'] = "warning";
 		}
 		if (isset($_POST['nsfw'])) {
 			$nsfw = 1;
@@ -306,6 +331,7 @@ class Galeries extends Controller {
 				$logs->insertLogs($utilisateur['id_user'], "a ajouté une image sur sa galerie", "Galeries");
 				$_SESSION['flash-type'] = "error-flash";
 				$_SESSION['flash-message'] = "L'image a bien été ajoutée !";
+				$_SESSION['flash-color'] = "success";
 				\Http::redirect('index.php');
           	}
          }
@@ -322,6 +348,7 @@ class Galeries extends Controller {
 		if ($utilisateur['id_user'] != $galerie['auteur_image']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas supprimer une image qui ne vous appartient pas !";
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('administration.php');
 		}
 		$this->model->supprimerImage($galerie['id_image']);
@@ -329,6 +356,7 @@ class Galeries extends Controller {
 		$logs->insertLogs($utilisateur['id_user'], "a supprimé une image de sa galerie", "Galeries");
 		$_SESSION['flash-type'] = "error-flash";
 		$_SESSION['flash-message'] = "L'image a bien été supprimée !";
+		$_SESSION['flash-color'] = "success";
 		\Http::redirect('administration.php');
 	}
 
@@ -337,6 +365,7 @@ class Galeries extends Controller {
 		if (!isset($_SESSION['auth'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous devez être connecté pour accéder aux galeries.";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		$pageTitle = "Administration de ma galerie";
@@ -366,6 +395,7 @@ class Galeries extends Controller {
 		if (!$idGalerie) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "On ne peut pas chercher une galerie qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		$users = new \models\Users();
@@ -380,17 +410,19 @@ class Galeries extends Controller {
 		if (!isset($galerie['id_image'])) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Cette image n'existe pas.";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		if ($user['id_user'] != $galerie['auteur_image']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier une image qui ne vous appartient pas !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		if (isset($_POST['modifier_image'])) {
 			Galeries::modifierImage($user, $galerie);
 		}
-		$pageTitle = 'Modifier l\'image "' . $galerie['title_image'] . '"';
+		$pageTitle = 'Modifier l\'image "' . \Rewritting::sanitize($galerie['title_image']) . '"';
 		$style = "../css/commentaires.css";
 		\Renderer::render('../templates/galeries/modifier', '../templates/', compact('pageTitle', 'style', 'galerie'));
 	}
@@ -399,23 +431,27 @@ class Galeries extends Controller {
 		if ($user['id_user'] != $galerie['auteur_image']) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous ne pouvez pas modifier une image qui ne vous appartient pas !";
+			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('index.php');
 		}
 		if (empty($_POST['titre']) || (strlen($_POST['titre']) < 3 || strlen($_POST['titre']) > 50)) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de titre ou alors ce dernier ne contient pas entre 3 et 50 caractères.";
+			$_SESSION['flash-color'] = "warning";
 		}
 		if (empty($_POST['contenu']) || strlen($_POST['contenu']) < 20) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "Vous n'avez pas renseigné de contenu ou alors ce dernier fait moins de 20 caractères.";
+			$_SESSION['flash-color'] = "warning";
 		}
 		$slug = \Rewritting::stringToURLString($_POST['titre']);
 		$this->model->modifierImage($_POST['titre'], $_POST['keywords'], $_POST['texte'], $slug, $galerie['id_image']);
 		$logs = new \models\Administration();
 		$logs->insertLogs($user['id_user'], "a modifié une image de sa galerie", "Galeries");
 		$_SESSION['flash-type'] = "error-flash";
+		$_SESSION['flash-color'] = "success";
 		$_SESSION['flash-message'] = "L'image a bien été modifiée !";
-		\Http::redirect('modifier.php?galerie=' . $galerie['id_image']);
+		\Http::redirect('modifier.php?galerie=' . \Rewritting::sanitize($galerie['id_image']));
 	}
 
 	public function voirgalerie(){
@@ -425,6 +461,7 @@ class Galeries extends Controller {
 		if (!$idMember) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "On ne peut pas chercher une galerie qui ne contient pas d'identifiants, nous vous avons redirigé :c !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		$users = new \models\Users();
@@ -445,10 +482,11 @@ class Galeries extends Controller {
 		if ($countgaleries == 0) {
 			$_SESSION['flash-type'] = "error-flash";
 			$_SESSION['flash-message'] = "La galerie de cet utilisateur n'existe pas.";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 		if(strpos($_SERVER['REQUEST_URI'],'/galeries/voirgalerie.php') !== FALSE){
-			\Http::redirect('membres/' . $userGalerie['id_user'] . "-galerie");
+			\Http::redirect('membres/' . \Rewritting::sanitize($userGalerie['id_user']) . "-galerie");
 		}
 		$pageTitle = "Galerie de " . \Rewritting::sanitize($userGalerie['username']);
 		$style = "../../css/commentaires.css";

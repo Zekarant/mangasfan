@@ -92,5 +92,12 @@ class Administration extends Model {
 		$req = $this->pdo->prepare('INSERT INTO logs(members, contenu, area_website, logs_date) VALUES(:members, :contenu, :area, NOW())');
 		$req->execute(['members' => $members, 'contenu' => $contenu, 'area' => $area]);
 	}
+
+	public function redirigerMembre(string $username){
+		$req = $this->pdo->prepare('SELECT * FROM users WHERE username = :username');
+		$req->execute(['username' => $username]);
+		$membre = $req->fetch();
+		return $membre;
+	}
 	
 }

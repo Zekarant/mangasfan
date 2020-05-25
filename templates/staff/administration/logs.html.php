@@ -10,7 +10,7 @@
 				</div>
 				<ul class="list-group list-group-flush">
 					<?php foreach($logs as $log): ?>
-						<li class="list-group-item"><strong><?= \Rewritting::sanitize($log['area_website']) ?></strong> : <?= \Rewritting::sanitize($log['username']) ?> <?= \Rewritting::sanitize($log['contenu']) ?> le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($log['logs_date']))); ?></li>
+						<li class="list-group-item"><strong><?= \Rewritting::sanitize($log['area_website']) ?></strong> : <?= \Rewritting::sanitize($log['username']) ?> <?= htmlspecialchars_decode(\Rewritting::sanitize($log['contenu'])) ?> le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($log['logs_date']))); ?></li>
 					<?php endforeach; ?>	
 				</ul>
 			</div>

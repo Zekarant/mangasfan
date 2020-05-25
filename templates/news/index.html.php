@@ -17,7 +17,7 @@
 						<a href="commentaire/<?= \Rewritting::sanitize($new['slug']) ?>">
 							<span class="btn btn-outline-light">Voir la news</span><br/>
 							<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 6 && $utilisateur['chef'] == 1) { ?>
-								<a href="index.php?controller=news&task=delete&id=<?= $new['id_news'] ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cet article ?!`)"><span class="btn btn-sm btn-outline-danger">Supprimer</span></a>
+								<a href="index.php?controller=news&task=delete&id=<?= \Rewritting::sanitize($new['id_news']) ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cet article ?!`)"><span class="btn btn-sm btn-outline-danger">Supprimer</span></a>
 							<?php } ?>
 						</a>
 					</p>
@@ -34,7 +34,7 @@
 		<?php endforeach ?>
 	</div>
 </div>
-<a href="#" class="d-flex justify-content-center"><img src="https://www.mangasfan.fr/images/test.png" /></a>
+<a href="archives_news.php" class="d-flex justify-content-center"><img src="https://www.mangasfan.fr/images/test.png" class="image_archives" alt="Image archives" /></a>
 <br/>
 <h2 class="text-center">L'équipe de Mangas'Fan</h2>
 <hr>

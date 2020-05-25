@@ -30,14 +30,23 @@
             A propos de la news
         </div>
         <div class="bloc-auteur">
-            <?php if($news['category'] != "Site"){ ?>
-                Cette news appartient à la catégorie « <a href="#"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
-                Par ailleurs, nous avons une page concernée aux animes sur le site, consultez-là <a href="#">ici</a>.
-            <?php } else { ?>
-                Cette news appartient à la catégorie « <strong>Site</strong> »
-            <?php } ?>
-        </div>
+            <?php if($news['category'] != "Site"){ 
+                if($news['category'] == "Anime"){ ?>
+                    Cette news appartient à la catégorie « <a href="../categories.php?id=animes"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
+                    Par ailleurs, nous avons une page concernée aux animes sur le site, consultez-là <a href="/animes">ici</a>.
+                <?php } elseif($news['category'] == "Mangas"){ ?>
+                   Cette news appartient à la catégorie « <a href="../categories.php?id=mangas"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
+                   Par ailleurs, nous avons une page concernée aux mangas sur le site, consultez-là <a href="/mangas">ici</a>.
+               <?php } else { ?>
+                    Cette news appartient à la catégorie « <a href="../categories.php?id=jv"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
+                    Par ailleurs, nous avons une page concernée aux jeux vidéo sur le site, consultez-là <a href="/jeux-video">ici</a>.
+               <?php }
+           }
+           else { ?>
+            Cette news appartient à la catégorie « <a href="../categories.php?id=site"><strong>Site</strong></a> »
+        <?php } ?>
     </div>
+</div>
 </div>
 </div>
 </div>
@@ -87,7 +96,6 @@ if (isset($_SESSION['auth']) && $utilisateur['grade'] == 0) { ?>
     </div>
 <?php }
 foreach ($commentaires as $commentaire): ?>
-    <hr>
     <div class="container">
         <div class="row">
             <div class="col-lg-3" style="border-right: 1px solid <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>">
@@ -98,21 +106,21 @@ foreach ($commentaires as $commentaire): ?>
                     <span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($commentaire['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($commentaire['grade']), \Rewritting::sanitize($commentaire['sexe']), \Rewritting::sanitize($commentaire['stagiaire']), \Rewritting::sanitize($commentaire['chef'])) ?></span><br/><br/>
                     <?php if (isset($_SESSION['auth'])) { 
                         if ($commentaire['auteur_commentaire'] == $utilisateur['id_user']) {  ?>
-                           <a href="../news/edit_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>"class="btn btn-sm btn-outline-info">Editer</a>
-                           <a href="../news/delete_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>&news=<?= \Rewritting::sanitize($news['id_news']) ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
-                       <?php } elseif ($utilisateur['grade'] >= 6 && $utilisateur['grade'] <= 10) { ?>
-                          <a href="../news/delete_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>&news=<?= $news['id_news'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
-                      <?php }
-                  } ?>
-              </p>
-          </div>
-          <div class="col-lg-9">
-            <?= nl2br(\Rewritting::sanitize($commentaire['commentary'])) ?>
-            <div class="bottom">
-                <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($commentaire['posted_date']))) ?></small>
-            </div>
+                         <a href="../news/edit_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>"class="btn btn-sm btn-outline-info">Editer</a>
+                         <a href="../news/delete_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>&news=<?= \Rewritting::sanitize($news['id_news']) ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                     <?php } elseif ($utilisateur['grade'] >= 6 && $utilisateur['grade'] <= 10) { ?>
+                      <a href="../news/delete_comment.php?id=<?= \Rewritting::sanitize($commentaire['id_commentary']) ?>&news=<?= $news['id_news'] ?>" onclick="return window.confirm(`Êtes vous sûr de vouloir supprimer ce commentaire ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                  <?php }
+              } ?>
+          </p>
+      </div>
+      <div class="col-lg-9">
+        <?= nl2br(\Rewritting::sanitize($commentaire['commentary'])) ?>
+        <div class="bottom">
+            <small>Commentaire posté le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($commentaire['posted_date']))) ?></small>
         </div>
     </div>
+</div>
 </div>
 <hr>
 <?php endforeach ?>

@@ -19,7 +19,7 @@
 					<div class="form-check">
 						<input type="checkbox" class="form-check-input" id="connexion_maintenue" name="connexion_maintenue">
 						<label class="form-check-label" for="gridCheck1">
-							Cocher la case pour rester connecté
+							Rester connecté
 						</label>
 					</div>
 				</div>

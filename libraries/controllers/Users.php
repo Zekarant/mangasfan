@@ -16,12 +16,13 @@ class Users extends Controller {
     $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
     if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
-      \Http::redirect('/mangasfan/maintenance.php');
+      \Http::redirect('/maintenance.php');
       exit();
     }
     if (isset($_SESSION['auth'])) {
       $_SESSION['flash-type'] = 'error-flash';
       $_SESSION['flash-message'] = 'Vous êtes déjà connecté ' . $_SESSION['auth']['username'] . ' ! Il est donc inutile de tenter de vous connecter !';
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('../index.php');
     }
     $variables = ['pageTitle', 'style'];
@@ -90,9 +91,10 @@ class Users extends Controller {
         </div>
         </body>
         </html>';
-        mail($_POST['email'], 'Confirmation de votre inscription - Mangas\'Fan', $demande, $header);
+        mail(\Rewritting::sanitize($_POST['email']), 'Confirmation de votre inscription - Mangas\'Fan', $demande, $header);
         $_SESSION['flash-type'] = 'error-flash';
         $_SESSION['flash-message'] = 'Un mail de confirmation vous a été envoyé dans le but de valider votre compte ! Pensez à vérifier vos spams et attendez un peu, il peut mettre du temps à arriver !';
+        $_SESSION['flash-color'] = "success";
         $logs = new \models\Administration();
         $logs->insertLogs($user_id, "s'est inscrit sur le site", "Inscription");
         \Http::redirect('../index.php');
@@ -113,10 +115,11 @@ class Users extends Controller {
     if (!isset($_GET['id']) OR !isset($_GET['token'])) {
       $_SESSION['flash-type'] = 'error-flash';
       $_SESSION['flash-message'] = 'Vous n\'avez pas besoin d\'être sur cette page :c';
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('../index.php');
     }
-    $user_id = $_GET['id'];
-    $token = $_GET['token'];
+    $user_id = \Rewritting::sanitize($_GET['id']);
+    $token = \Rewritting::sanitize($_GET['token']);
     $validation = $this->model->user($user_id);
     $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
@@ -134,6 +137,7 @@ class Users extends Controller {
     }
     $_SESSION['flash-type'] = 'error-flash';
     $_SESSION['flash-message'] = 'Nous avons eu un problème avec votre lien, veuillez contacter l\'équipe du site !';
+    $_SESSION['flash-color'] = "warning";
     \Http::redirect('../index.php');
   }
 
@@ -152,7 +156,8 @@ class Users extends Controller {
     $style = '../css/commentaires.css';
     if (isset($_SESSION['auth'])) {
       $_SESSION['flash-type'] = 'error-flash';
-      $_SESSION['flash-message'] = 'Vous êtes déjà connecté ' . $_SESSION['auth']['username'] . ' ! Il est donc inutile de tenter de vous connecter !';
+      $_SESSION['flash-message'] = 'Vous êtes déjà connecté ' . \Rewritting::sanitize($_SESSION['auth']['username']) . ' ! Il est donc inutile de tenter de vous connecter !';
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
     $variables = ['pageTitle', 'style'];
@@ -161,6 +166,7 @@ class Users extends Controller {
       if (!$users) {
         $_SESSION['flash-type'] = "error-flash";
         $_SESSION['flash-message'] = "Il semble que le pseudo que vous avez renseigné soit incorrect !";
+        $_SESSION['flash-color'] = "warning";
         \Http::redirect('connexion.php');
       }
       if (password_verify($_POST['password'], $users['password'])) {
@@ -169,8 +175,8 @@ class Users extends Controller {
         }
         $_SESSION['auth'] = $users;
         if ($_POST['connexion_maintenue']){ 
-          setcookie('username', $users['username'], time() + 365*24*3600, "/", "localhost", false, true);
-          setcookie('id_user', $users['id_user'], time() + 365*24*3600, "/", "localhost", false, true);
+          setcookie('username', $users['username'], time() + 365*24*3600, "/", "www.mangasfan.fr", false, true);
+          setcookie('id_user', $users['id_user'], time() + 365*24*3600, "/", "www.mangasfan.fr", false, true);
         }
         $logs = new \models\Administration();
         $logs->insertLogs($users['id_user'], "s'est connecté sur le site", "Connexion");
@@ -179,6 +185,7 @@ class Users extends Controller {
 
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Le mot de passe de passe renseigné est incorrect !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('connexion.php');
 
       $variables = array_merge($variables, ['error', 'users']);
@@ -194,6 +201,7 @@ class Users extends Controller {
     if (!isset($_SESSION['auth'])) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Vous ne pouvez pas accéder à cette page en tant qu'invité, merci de vous connecter !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('connexion.php');
     }
     $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
@@ -203,7 +211,7 @@ class Users extends Controller {
       \Http::redirect('/maintenance.php');
       exit();
     }
-    $pageTitle = 'Compte de ' . $utilisateur['username'];
+    $pageTitle = 'Compte de ' . \Rewritting::sanitize($utilisateur['username']);
     $style = '../css/commentaires.css';
     if (isset($_POST['changer_mdp'])) {
       Users::changerMdp($utilisateur);
@@ -234,36 +242,42 @@ class Users extends Controller {
     if (empty($_POST['oldpassword']) || empty($_POST['password']) || empty($_POST['password_confirm'])) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Vous avez oublié de renseigner un des trois champs, veuillez recommencer !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
 
     if (!password_verify($_POST['oldpassword'], $utilisateur['password'])) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Votre mot de passe actuel ne correspond pas à celui saisi !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
 
     if ($_POST['password'] != $_POST['password_confirm']) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Les deux mots de passe ne correspondent pas, veuillez recommencer !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
 
     if(strlen($_POST['password']) < 8){
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Le nouveau mot de passe doit contenir au moins 8 caractères !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
 
     if (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $_POST['password'])) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Le nouveau mot de passe doit contenir au moins un chiffre et une majuscule !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
     $newPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $changerMdp = $this->model->modifyPassword($newPassword, $utilisateur['id_user']);
     $_SESSION['flash-type'] = "error-flash";
     $_SESSION['flash-message'] = "Votre mot de passe a bien été modifié !";
+    $_SESSION['flash-color'] = "success";
     $logs = new \models\Administration();
     $logs->insertLogs($utilisateur['id_user'], "a changé son mot de passe sur le site", "Reset MDP");
     \Http::redirect('compte.php');
@@ -281,6 +295,7 @@ class Users extends Controller {
       if($_FILES['avatar']['size'] > $tailleMax) {
         $_SESSION['flash-type'] = "error-flash";
         $_SESSION['flash-message'] = "Votre avatar est trop gros, compressez-le ou veuillez en choisir un autre (2Mo max)";
+        $_SESSION['flash-color'] = "warning";
         \Http::redirect('compte.php');
       }
 
@@ -288,6 +303,7 @@ class Users extends Controller {
       if(!in_array($extensionUpload, $extensionsValides)) {
         $_SESSION['flash-type'] = "error-flash";
         $_SESSION['flash-message'] = "Votre avatar doit être au format JPG, JPEG, GIF ou PNG.";
+        $_SESSION['flash-color'] = "warning";
         \Http::redirect('compte.php');
       }
 
@@ -297,6 +313,7 @@ class Users extends Controller {
         $modifierAvatar = $this->model->modifierAvatar($utilisateur['id_user'], $extensionUpload);
         $_SESSION['flash-type'] = "error-flash";
         $_SESSION['flash-message'] = "Votre avatar a bien été modifié !";
+        $_SESSION['flash-color'] = "success";
         $logs = new \models\Administration();
         $logs->insertLogs($utilisateur['id_user'], "a modifié son avatar", "Avatar");
         \Http::redirect('compte.php');
@@ -313,16 +330,19 @@ class Users extends Controller {
     if (empty($_POST['date_anniv'])) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Vous n'avez pas renseigné de date pour votre anniversaire.";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
     if ($utilisateur['date_anniversaire'] != NULL) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Vous avez déjà renseigné une date d'anniversaire";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
     $this->model->setDateAnniv($_POST['date_anniv'], $_SESSION['auth']['id_user']);
     $_SESSION['flash-type'] = "error-flash";
     $_SESSION['flash-message'] = "Votre date d'anniversaire a bien été renseignée !";
+    $_SESSION['flash-color'] = "warning";
     \Http::redirect('compte.php');
   }
 
@@ -336,6 +356,7 @@ class Users extends Controller {
     if ($users['email'] === $_POST['email'] && $utilisateur['email'] != $_POST['email']) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Ce mail est déjà utilisé ! Vous ne pouvez donc pas l'utiliser !";
+      $_SESSION['flash-color'] = "warning";
       \Http::redirect('compte.php');
     }
     if (isset($_POST['role'])) {
@@ -346,6 +367,7 @@ class Users extends Controller {
     $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $role, $_POST['manga'], $_POST['anime'], $_POST['site'], $users['id_user']);
     $_SESSION['flash-type'] = "error-flash";
     $_SESSION['flash-message'] = "Vos informations ont bien été modifiées !";
+    $_SESSION['flash-color'] = "success";
     $logs = new \models\Administration();
     $logs->insertLogs($utilisateur['id_user'], "a modifié ses informations", "Compte");
     \Http::redirect('compte.php');
@@ -400,6 +422,7 @@ class Users extends Controller {
         mail($_POST['email'], 'Réinitialisation de votre mot de passe - Mangas\'Fan', $demande, $header);
         $_SESSION['flash-type'] = "error-flash";
         $_SESSION['flash-message'] = 'Nous vous avons bien envoyé un lien pour réinitialiser votre mot de passe ! Si le mail n\'arrive pas, attendez un peu !';
+        $_SESSION['flash-color'] = "success";
         $logs = new \models\Administration();
         $logs->insertLogs($utilisateur['id_user'], "a demandé à réinitialiser son mot de passe", "Réinitialisation");
         \Http::redirect('connexion.php');
@@ -449,6 +472,7 @@ class Users extends Controller {
           $confirmerReset = $this->model->newPasswordReset($password, $_GET['token'], $_GET['id']);
           $_SESSION['flash-type'] = "error-flash";
           $_SESSION['flash-message'] = 'Votre mot de passe a bien été modifié ! Essayez de ne pas l\'oublier cette fois-ci !';
+          $_SESSION['flash-color'] = "success";
           $logs = new \models\Administration();
           $logs->insertLogs($utilisateur['id_user'], "a modifié son mot de passe", "Modification du mot de passe");
           \Http::redirect('../index.php');
@@ -481,8 +505,8 @@ class Users extends Controller {
   */
   public function deconnexion(){
     if (isset($_SESSION['auth'])) {
-      setcookie('id_user', '', time() - 365*24*3600, "/", "localhost", false, true);
-      setcookie('username', '', time() - 365*24*3600, "/", "localhost", false, true);
+      setcookie('id_user', '', time() - 365*24*3600, "/", "www.mangasfan.fr", false, true);
+      setcookie('username', '', time() - 365*24*3600, "/", "www.mangasfan.fr", false, true);
       session_destroy();
     }
     \Http::redirect('../index.php');

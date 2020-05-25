@@ -39,4 +39,11 @@ class Moderation extends Model {
 		return $commentaires;
 	}
 
+	public function redirigerMembre(string $username){
+		$req = $this->pdo->prepare('SELECT * FROM users WHERE username = :username');
+		$req->execute(['username' => $username]);
+		$membre = $req->fetch();
+		return $membre;
+	}
+
 }

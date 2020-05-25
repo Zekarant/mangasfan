@@ -10,18 +10,14 @@
 			<ul class="nav navbar-inner flex-column">
 				Outils indispensables :
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="https://imagecompressor.com/fr/">» Compresseur d'images</a>
+					<a class="nav-link lien_nav_staff" href="https://imagecompressor.com/fr/" target="_blank">» Compresseur d'images</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link lien_nav_staff" href="#"><s>» Hébergeur d'images</s></a>
+					<a class="nav-link lien_nav_staff" href="/hebergeur" target="_blank">» Hébergeur d'images</a>
 				</li>
 				Rédaction :
 				<li class="nav-item">
 					<a class="nav-link lien_nav_staff" href="rediger_news.php">» Rédiger une news</a>
-				</li>
-				<p>Guides (A télécharger) :</p>
-				<li class="nav-item">
-					<a class="btn btn-sm btn-outline-info" href="#">Guide du Newseur</a>
 				</li>
 			</ul>
 		</div>

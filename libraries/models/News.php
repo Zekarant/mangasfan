@@ -27,6 +27,13 @@ class News extends Model {
 		return $news;
 	}
 
+	public function archives(){
+		$req = $this->pdo->prepare('SELECT *, news.description AS description_news FROM news INNER JOIN users ON id_user = author ORDER BY id_news DESC LIMIT 51');
+		$req->execute();
+		$archives = $req->fetchAll();
+		return $archives;
+	}
+
 	/**
 	*
 	* Affiche une news spécifique en fonction de l'ID
@@ -54,6 +61,13 @@ class News extends Model {
 	public function deleteNews(int $id) : void {
 		$query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id_news = :id");
 		$query->execute(['id' => $id]);
+	}
+
+	public function newsCategories($categories){
+		$req = $this->pdo->prepare('SELECT *, news.description AS description_news FROM news INNER JOIN users ON id_user = author WHERE category = :categories ORDER BY id_news DESC LIMIT 20');
+		$req->execute(['categories' => $categories]);
+		$news = $req->fetchAll();
+		return $news;
 	}
 	
 }

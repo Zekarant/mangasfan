@@ -11,8 +11,8 @@ section {
 header {
 	background-image: url('../images/banniere.webp');
 	background-size: 100%;
-    background-position: 0% 40%;
-    background-repeat: no-repeat;
+	background-position: 0% 40%;
+	background-repeat: no-repeat;
 	color: white;
 	height: 350px;
 }
@@ -39,6 +39,56 @@ header {
 	text-align: right;
 	font-style: italic;
 }
+.news {
+	text-align: center;
+	margin-bottom: 50px;
+}
+.image_news {
+	border: 1px solid grey;
+	border-radius: 100%;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+.effet_news {
+	display: inline-block;
+	position: relative;
+}
+.effet_news:hover p.text  {
+	opacity: 1;
+}
+.effet_news p.text  {
+	color: #FFF;
+	width: 200px;
+	height: 200px;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	padding-top: 85px;
+	opacity: 0;
+	display: block;
+	position: absolute;
+	-webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+}
+.titre_news, .titre_news a {
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	font-size: 17px;
+}
+.description_news, .bloc_auteur {
+	font-size: 12px;
+	text-align: justify;
+}
+.auteur_news {
+	float: left;
+}
+.date_news {
+	float: right;
+}
 .bloc-auteur {
 	padding: 10px;
 }
@@ -48,6 +98,21 @@ header {
 .auteur-avatar {
 	width: 100px;
 	padding-right: 15px;
+}
+.bg-redacteur {
+	color: white;
+	background-color: #40A497;
+}
+.bg-community-manager {
+	color: white;
+	background-color: #632569;
+}
+.admin {
+	color: white;
+	background-color: darkblue;
+}
+.card-recrutements {
+	margin-left: 30px;
 }
 /* Footer */
 .footer 
@@ -133,17 +198,17 @@ footer-bottom p.pull-left
 	bottom: 0;
 }
 #temporate-message{
-    position: fixed;
-    top:100px;
-    width: 90%;
-    left: 50%;
+	position: fixed;
+	top:100px;
+	width: 90%;
+	left: 50%;
 	transform: translateX(-50%);
-    z-index: 9999;
-    border: 1px solid grey;
-    padding:20px;
-    border-radius: 6px;
-    text-align: center;
-    -webkit-box-align: center;
+	z-index: 9999;
+	border: 1px solid grey;
+	padding:20px;
+	border-radius: 6px;
+	text-align: center;
+	-webkit-box-align: center;
 }
 
 /* Comptes */
@@ -166,4 +231,170 @@ footer-bottom p.pull-left
 	margin: auto;
 	padding-top: 10px;
 	max-width: 35%;
+}
+
+/* Jeux */
+
+.card-jeux {
+	margin-bottom: 20px;
+}
+h2.jv_index::first-letter {
+	color: red;
+}
+
+input[name="etoile1"], input[name="etoile2"], input[name="etoile3"], input[name="etoile4"], input[name="etoile5"]{
+	display: inline-block;
+	background: none;
+	width: 25px;
+	height: 25px;
+	border: none;
+	padding: none;
+	margin: none;
+}
+.color_yes{
+	color: green;
+}
+
+.color_no{
+	color: black;
+}
+
+.title_jeu {
+	font-family: 'Stint Ultra Condensed', cursive;
+	font-size: 32px;
+	margin-left: 20px;
+	margin-right: 20px;
+	color: #328EC0;
+	border-bottom: 1px dashed #328EC0;
+}
+.onglet {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-family: 'Marvel', serif;
+	padding: 5px 10px 5px 10px;
+	border-radius: 3px;
+	background-color: #8CC4E1;
+	color: white;
+	font-weight: bold;
+	object-fit: cover;
+}
+.title_last_art{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family: 'Marvel', serif;
+	font-size: 25px;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+}
+
+#onglet .cat_active{
+	display:block;
+	margin:auto;
+	width: 100%;
+	margin-bottom:5px;
+	text-align:center;
+	font-weight:bold;
+	color:#C89DE7;
+	border: 1px solid #C89DE7;
+	border-radius:2px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+}
+#onglet .name_cat{
+	display:block;
+	margin:auto;
+	width: 100%;
+	margin-bottom:5px;
+	text-align:center;
+	font-weight:bold;
+	color: #8CC4E1;
+	border: 1px solid #8CC4E1;
+	border-radius:2px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+}
+
+#onglet .name_cat:hover{
+	color:red;
+	border-color:red;
+	transition: all ease 300ms;
+	cursor: pointer;
+}
+
+div.pit_mess{
+	border-left:3px solid #AE77F9;
+}
+
+div.bloc_page{
+	position:relative;
+	margin-bottom:15px;
+	min-height:50px;
+	width: 100%;
+	padding-left:5px;
+	padding-right:2px;
+	padding-bottom:20px;
+	-moz-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	-webkit-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	-o-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	box-shadow: 2px 2px 5px 0px #cfcfcf;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+}
+
+.titre_pit_mess{
+	font-family: 'Quicksand', sans-serif;
+	color:#AE77F9;
+	font-size:18px;
+	word-wrap: break-word;
+}
+
+#titre
+{
+	color: black;
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 30px;
+	padding-top: 20px;
+}
+
+.date_time_post_page{
+	position:absolute;
+	bottom:2;
+	right: 0;
+	padding-right: 10px;
+	text-align: right;
+	font-style:italic;
+	font-family:'Marvel', serif;
+}
+
+.dernier_articles {
+	border-right: 1px solid grey;
+}
+.col-sm-2 {
+    min-width: 200px;
+}
+.image_tiny
+{
+	max-width: 100%;
+}
+@media screen and (max-width: 480px){
+	.dernier_articles {
+		border-right: none;
+	}
+	.bouton {
+		padding-top: 200px;
+	}
+	.titre {
+		margin-top: 0px;
+	}
+	header {
+		height: 275px;
+	}
+	.bottom {
+		display: none;
+	}
 }

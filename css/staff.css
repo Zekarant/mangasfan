@@ -73,7 +73,7 @@ footer-bottom p.pull-left
 .avatar_site img
 {
 	padding-top: 15px;
-	width: 70px;
+	width: 100px;
 	display: block;
 	margin: auto;
 }
@@ -91,4 +91,42 @@ footer-bottom p.pull-left
   margin-top: 5px;
   margin-bottom: 5px;
   display: inline;
+}
+
+/* Rédaction */
+
+div#navigation span{
+	display:inline-block;
+	margin:auto;
+	width:15%;
+	border:1px solid #C89DE7;
+	color:#C89DE7;
+	border-radius:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	margin-bottom:15px;
+	text-align:center;
+	transition: all ease 300ms;
+	word-wrap: break-word;
+}
+
+div#navigation span:hover{
+	border:1px solid #A840D5;
+	color:#A840D5;
+
+}
+
+span.modif_cat,span.modif_page{
+	cursor:pointer;
+	transition: all ease 300ms;
+}
+
+span.modif_cat:hover,span.modif_page:hover{
+	transition: all ease 300ms;
+}
+
+span.clique_onglet{
+	background-color:#C67EE5!important;
+	color:white!important;
+	border-color:#C67EE5!important;
 }

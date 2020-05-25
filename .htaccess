@@ -3,8 +3,29 @@ RewriteEngine on
 
 RewriteRule ^commentaire/([0-9a-zA-Z_-]+)$ commentaire.php?id=$1 [L,QSA]
 RewriteRule ^membres/profil-([0-9a-zA-Z_-]+)$ membres/profil.php?id=$1 [L,QSA]
+
 RewriteRule ^galeries/([0-9a-zA-Z_-]+)$ galeries/voir.php?id=$1 [L,QSA]
 RewriteRule ^galeries/membres/([0-9a-zA-Z_-]+)-galerie$ galeries/voirgalerie.php?id=$1 [L,QSA]
+
+RewriteRule ^jeux-video/([a-zA-Z0-9_-]+)$ jeux-video/jeux.php?id=$1 [L,QSA]
+RewriteRule ^jeux-video/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ jeux-video/article.php?jeu=$1&article=$2 [L,QSA]
+
+RewriteRule ^mangas/([a-zA-Z0-9_-]+)$ mangas/mangas.php?id=$1 [L,QSA]
+RewriteRule ^mangas/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ mangas/article.php?manga=$1&article=$2 [L,QSA]
+
+RewriteRule ^animes/([a-zA-Z0-9_-]+)$ animes/animes.php?id=$1 [L,QSA]
+RewriteRule ^animes/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ animes/article.php?anime=$1&article=$2 [L,QSA]
+
+RewriteRule ^staff/redaction/modification-jeux/([a-zA-Z0-9_-]+)$ staff/redaction/modifier_jeux.php?id=$1 [L,QSA]
+RewriteRule ^staff/redaction/modification-jeu/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ staff/redaction/modifierArticleJeu.php?jeux=$1&id=$2 [L,QSA]
+
+RewriteRule ^staff/redaction/modification-mangas/([a-zA-Z0-9_-]+)$ staff/redaction/modifier_mangas.php?id=$1 [L,QSA]
+RewriteRule ^staff/redaction/modification-mangas/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ staff/redaction/modifierArticleMangas.php?manga=$1&id=$2 [L,QSA]
+
+RewriteRule ^staff/redaction/modification-animes/([a-zA-Z0-9_-]+)$ staff/redaction/modifier_animes.php?id=$1 [L,QSA]
+RewriteRule ^staff/redaction/modification-animes/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ staff/redaction/modifierArticleAnimes.php?anime=$1&id=$2 [L,QSA]
+
+RewriteRule ^categories/([0-9a-zA-Z_-]+)$ categories.php?id=$1 [L,QSA]
 
 ErrorDocument 400 /erreurs/erreur_400.php
 ErrorDocument 401 /erreurs/erreur_401.php
@@ -17,3 +38,7 @@ ErrorDocument 502 /erreurs/erreur_502.php
 ErrorDocument 503 /erreurs/erreur_503.php
 ErrorDocument 504 /erreurs/erreur_504.php
 ErrorDocument 505 /erreurs/erreur_505.php
+
+ 
+
+
