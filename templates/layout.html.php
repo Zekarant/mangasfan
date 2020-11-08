@@ -56,7 +56,7 @@
 		<?php unset($_SESSION['flash-message']);
 	} ?>
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-white fixed-top bg-white">
+		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
 			<a class="navbar-brand" href="https://www.mangasfan.fr"><img src="https://www.mangasfan.fr/images/logo.png" class="logo_site" alt="Logo du site" /></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
