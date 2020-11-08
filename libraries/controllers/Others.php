@@ -58,8 +58,8 @@ class Others extends Controller {
 		$url = "";
 		if (isset($_FILES['fichier'])) {
 			echo $_FILES['fichier']['type'];
-			if ($_FILES['fichier']['type'] != 'image/png'&& $_FILES['fichier']['type'] != 'image/jpeg' && $_FILES['fichier']['type'] != 'image/jpg' && $_FILES['fichier']['type'] != 'image/gif' ){ 
-				$erreur = "Le format du fichier est valide, votre fichier doit être au format PNG, JPG, JPEG ou GIF. Veuillez recommencer.";
+			if ($_FILES['fichier']['type'] != 'image/png' && $_FILES['fichier']['type'] != 'image/jpeg' && $_FILES['fichier']['type'] != 'image/jpg' && $_FILES['fichier']['type'] != 'image/gif' && $_FILES['fichier']['type'] != 'image/webp'){ 
+				$erreur = "Le format du fichier est valide, votre fichier doit être au format PNG, JPG, JPEG ou GIF. Veuillez recommencer." . $_FILES['fichier']['type'];
 			} elseif ($_FILES['fichier']['size'] > $poids_max){
 				$erreur = "La taille du fichier est envoyée est trop volumineuse, veuillez prendre une image plus légère.";
 			} elseif (!file_exists($repertoire)){ 
@@ -112,5 +112,15 @@ class Others extends Controller {
 			\Http::redirect('gestion_hebergeur.php');
 		}
 		\Renderer::render('../templates/others/gererImages', '../templates/', compact('pageTitle', 'style', 'utilisateur'));
+	}
+
+	public function equipeSite(){
+		$pageTitle = "L'équipe du site";
+		$style = "css/commentaires.css";
+		$administrateurs = $this->model->listeAdmins();
+		$developpeurs = $this->model->listeDevs();
+		$moderateurs = $this->model->listeModos();
+		$redacteurs = $this->model->listeRedacs();
+		\Renderer::render('templates/others/equipeSite', 'templates/', compact('pageTitle', 'style', 'administrateurs', 'developpeurs', 'moderateurs', 'redacteurs'));
 	}
 }

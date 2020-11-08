@@ -1,0 +1,992 @@
+/* Page pour les news / commentaires */
+@font-face {
+	font-family: "Eater";
+	src: url("../temp/Eater-Regular.ttf") format("truetype");
+}
+body {
+	background-color: #a69b92;
+	margin: auto;
+}
+a {
+	color: orange;
+}
+section {
+	padding: 20px;
+}
+/* Navigation */
+header {
+	background-image: url('https://www.mangasfan.fr/temp/halloween.jpg');
+	background-size: 100%;
+	background-position: 0% 30%;
+	background-repeat: no-repeat;
+	color: white;
+	height: 350px;
+}
+.logo_site {
+	width: 150px;
+}
+.bouton {
+	text-align: right;
+	padding-top: 300px;
+}
+.slogan {
+	display: none;
+}
+.image_reseaux {
+	width: 35px;
+}
+.titre {
+	margin-top: 20px;
+	font-size: 40px;
+	font-family: 'Eater', cursive;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.auteur-news {
+	text-align: right;
+	font-style: italic;
+}
+.news {
+	text-align: center;
+	margin-bottom: 50px;
+}
+.image_news {
+	border: 1px solid grey;
+	border-radius: 100%;
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+.effet_news {
+	display: inline-block;
+	position: relative;
+}
+.effet_news:hover p.text  {
+	opacity: 1;
+}
+.effet_news p.text  {
+	color: #FFF;
+	width: 200px;
+	height: 200px;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	padding-top: 85px;
+	opacity: 0;
+	display: block;
+	position: absolute;
+	-webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+}
+.titre_news, .titre_news a {
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	font-size: 17px;
+}
+.description_news, .bloc_auteur {
+	font-size: 12px;
+	text-align: justify;
+}
+.auteur_news {
+	float: left;
+}
+.date_news {
+	float: right;
+}
+.bloc-auteur {
+	padding: 10px;
+}
+.a-propos-auteur, .informations_compte {
+	text-align: center;
+}
+.auteur-avatar {
+	width: 100px;
+	padding-right: 15px;
+}
+.bg-redacteur {
+	color: white;
+	background-color: #40A497;
+}
+.bg-community-manager {
+	color: white;
+	background-color: #632569;
+}
+.bg-modo {
+	background-color: #31B404;
+}
+.bg-dev {
+	background-color: #4080BF;
+}
+.admin {
+	color: white;
+	background-color: darkblue;
+}
+.card-recrutements {
+	margin-left: 30px;
+}
+/* Footer */
+.footer 
+{
+	background: #333333;
+	height: auto;
+	color: white;
+	font-size: 15px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+	border-bottom: 1px solid #212121;
+	border-top: 1px solid orange;
+}
+.footer h3 
+{
+	border-bottom: 1px solid orange;
+	color: white;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 27px;
+	padding-top: 20px;
+	padding: 10px 0 10px;
+	text-transform: uppercase;
+}
+.footer p 
+{
+	color: white;
+}
+.footer-bottom 
+{
+	background: #212121;
+	border-top: 1px solid #212121;
+	padding-top: 10px;
+	width: auto;
+	font-size: 15px;
+	text-align: center;
+	padding-bottom: 5px;
+}
+footer-bottom p.pull-left 
+{
+	color: white;
+}
+.pull-left 
+{
+	color: white;
+}
+.lien_site li
+{
+	display: inline-block;
+}
+.lien_site a
+{
+	color: white;
+}
+.lien_site a:hover
+{
+	color: grey;
+	text-decoration: none;
+}
+
+/* Partie commentaire */
+.bloc-avatar-news {
+	border-right: 3px solid grey;
+}
+.avatar-news {
+	width:100px;
+	height:100px;
+	border:3px solid white;
+	border-radius:100px;
+	margin-top:5px;
+	display: block;
+	margin: auto;
+}
+.pseudo {
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-top: 10px;
+}
+.bottom {
+	right: 0;
+	position: absolute;
+	bottom: 0;
+}
+#temporate-message{
+	position: fixed;
+	top:100px;
+	width: 90%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 9999;
+	border: 1px solid grey;
+	padding:20px;
+	border-radius: 6px;
+	text-align: center;
+	-webkit-box-align: center;
+}
+
+/* Comptes */
+
+.avatar_site img
+{
+	width: 100px;
+	display: block;
+	margin: auto;
+}
+
+/* Galeries */
+.card-galeries {
+	margin-bottom: 15px;
+	margin-right: 15px;
+}
+.image_galeries
+{
+	display: block;
+	margin: auto;
+	padding-top: 10px;
+	max-width: 35%;
+}
+
+/* Jeux */
+
+.card-jeux {
+	margin-bottom: 20px;
+}
+h2.jv_index::first-letter {
+	color: red;
+}
+
+h2.jv_index{
+	font-family: 'Bangers', cursive;
+}
+
+input[name="etoile1"], input[name="etoile2"], input[name="etoile3"], input[name="etoile4"], input[name="etoile5"]{
+	display: inline-block;
+	background: none;
+	width: 25px;
+	height: 25px;
+	border: none;
+	padding: none;
+	margin: none;
+}
+.color_yes{
+	color: green;
+}
+
+.color_no{
+	color: black;
+}
+
+.title_jeu {
+	font-family: 'Stint Ultra Condensed', cursive;
+	font-size: 32px;
+	margin-left: 20px;
+	margin-right: 20px;
+	color: #328EC0;
+	border-bottom: 1px dashed #328EC0;
+}
+.onglet {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-family: 'Marvel', serif;
+	padding: 5px 10px 5px 10px;
+	border-radius: 3px;
+	background-color: #8CC4E1;
+	color: white;
+	font-weight: bold;
+	object-fit: cover;
+}
+.title_last_art{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: url('https://zupimages.net/up/18/26/c5wf.png');
+	font-family: 'Marvel', serif;
+	font-size: 25px;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+}
+
+#onglet .cat_active{
+	display:block;
+	margin:auto;
+	width: 100%;
+	margin-bottom:5px;
+	text-align:center;
+	font-weight:bold;
+	color:orange;
+	border: 1px solid orange;
+	border-radius:2px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+}
+#onglet .name_cat{
+	display:block;
+	margin:auto;
+	width: 100%;
+	margin-bottom:5px;
+	text-align:center;
+	font-weight:bold;
+	color: brown;
+	border: 1px solid brown;
+	border-radius:2px;
+	padding:2px 5px 2px 5px;
+	transition: all ease 300ms;
+}
+
+#onglet .name_cat:hover{
+	color:red;
+	border-color:red;
+	transition: all ease 300ms;
+	cursor: pointer;
+}
+
+div.pit_mess{
+	border-left:3px solid orange;
+}
+
+div.bloc_page{
+	position:relative;
+	margin-bottom:15px;
+	min-height:50px;
+	width: 100%;
+	padding-left:5px;
+	padding-right:2px;
+	padding-bottom:20px;
+	-moz-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	-webkit-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	-o-box-shadow: 2px 2px 5px 0px #cfcfcf;
+	box-shadow: 2px 2px 5px 0px #cfcfcf;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=5);
+}
+
+.titre_pit_mess{
+	font-family: 'Quicksand', sans-serif;
+	color:orange;
+	font-size:18px;
+	word-wrap: break-word;
+}
+
+#titre
+{
+	color: black;
+	text-align: center;
+	font-family: 'Oswald', cursive;
+	font-size: 30px;
+	padding-top: 20px;
+}
+
+.date_time_post_page{
+	position:absolute;
+	bottom:2;
+	right: 0;
+	padding-right: 10px;
+	text-align: right;
+	font-style:italic;
+	font-family:'Marvel', serif;
+}
+
+.dernier_articles {
+	border-right: 1px solid grey;
+}
+.col-sm-2 {
+    min-width: 200px;
+}
+
+.image_tiny
+{
+	max-width: 100%;
+	object-fit: contain;
+}
+@media screen and (max-width: 480px){
+	.dernier_articles {
+		border-right: none;
+	}
+	.bouton {
+		padding-top: 200px;
+	}
+	.titre {
+		margin-top: 0px;
+	}
+	header {
+		height: 275px;
+	}
+	.bottom {
+		display: none;
+	}
+	iframe {
+		width: 100%;
+	}
+}
+/* Halloween */
+/* line 17, ../sass/test.scss */
+[class*="spider"] {
+	position: absolute;
+	height: 40px;
+	width: 50px;
+	z-index: 2;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	margin: 40px 0 0 0;
+	background: #110D04;
+}
+
+/* line 25, ../sass/test.scss */
+[class*="spider"] *, [class*="spider"]:before, [class*="spider"]:after, [class*="spider"] :after, [class*="spider"] :before {
+	position: absolute;
+	content: "";
+}
+
+/* line 30, ../sass/test.scss */
+[class*="spider"]:before {
+	width: 1px;
+	background: #AAAAAA;
+	left: 50%;
+	top: -320px;
+	height: 320px;
+}
+
+/* line 38, ../sass/test.scss */
+[class*="spider"] .eye {
+	top: 16px;
+	height: 14px;
+	width: 12px;
+	background: #FFFFFF;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+
+/* line 45, ../sass/test.scss */
+[class*="spider"] .eye:after {
+	top: 6px;
+	height: 5px;
+	width: 5px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background: black;
+}
+
+/* line 53, ../sass/test.scss */
+[class*="spider"] .eye.left {
+	left: 14px;
+}
+
+/* line 56, ../sass/test.scss */
+[class*="spider"] .eye.left:after {
+	right: 3px;
+}
+
+/* line 61, ../sass/test.scss */
+[class*="spider"] .eye.right {
+	right: 14px;
+}
+
+/* line 64, ../sass/test.scss */
+[class*="spider"] .eye.right:after {
+	left: 3px;
+}
+/* line 70, ../sass/test.scss */
+[class*="spider"] .leg {
+	top: 6px;
+	height: 12px;
+	width: 14px;
+	position: absolute;
+	border-top: 2px solid #110D04;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	z-index: -1;
+}
+
+/* line 80, ../sass/test.scss */
+[class*="spider"] .leg.left {
+	left: -8px;
+	-moz-transform-origin: top right;
+	-ms-transform-origin: top right;
+	-webkit-transform-origin: top right;
+	transform-origin: top right;
+	-moz-transform: rotate(36deg) skewX(-20deg);
+	-ms-transform: rotate(36deg) skewX(-20deg);
+	-webkit-transform: rotate(36deg) skewX(-20deg);
+	transform: rotate(36deg) skewX(-20deg);
+	border-left: 2px solid #110D04;
+	-moz-border-radius: 60% 0 0 0;
+	-webkit-border-radius: 60%;
+	border-radius: 60% 0 0 0;
+	-moz-animation: legs-wriggle-left 1s 0s infinite;
+	-webkit-animation: legs-wriggle-left 1s 0s infinite;
+	animation: legs-wriggle-left 1s 0s infinite;
+}
+
+/* line 89, ../sass/test.scss */
+[class*="spider"] .leg.right {
+	right: -8px;
+	-moz-transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform-origin: top left;
+	transform-origin: top left;
+	-moz-transform: rotate(-36deg) skewX(20deg);
+	-ms-transform: rotate(-36deg) skewX(20deg);
+	-webkit-transform: rotate(-36deg) skewX(20deg);
+	transform: rotate(-36deg) skewX(20deg);
+	border-right: 2px solid #110D04;
+	-moz-border-radius: 0 60% 0 0;
+	-webkit-border-radius: 0;
+	border-radius: 0 60% 0 0;
+	-moz-animation: legs-wriggle-right 1s 0.2s infinite;
+	-webkit-animation: legs-wriggle-right 1s 0.2s infinite;
+	animation: legs-wriggle-right 1s 0.2s infinite;
+}
+
+/* line 98, ../sass/test.scss */
+[class*="spider"] .leg:nth-of-type(2) {
+	top: 14px;
+	left: -11px;
+	-moz-animation: legs-wriggle-left 1s 0.8s infinite;
+	-webkit-animation: legs-wriggle-left 1s 0.8s infinite;
+	animation: legs-wriggle-left 1s 0.8s infinite;
+}
+
+/* line 104, ../sass/test.scss */
+[class*="spider"] .leg:nth-of-type(3) {
+	top: 22px;
+	left: -12px;
+	-moz-animation: legs-wriggle-left 1s 0.2s infinite;
+	-webkit-animation: legs-wriggle-left 1s 0.2s infinite;
+	animation: legs-wriggle-left 1s 0.2s infinite;
+}
+
+/* line 110, ../sass/test.scss */
+[class*="spider"] .leg:nth-of-type(4) {
+	top: 31px;
+	left: -10px;
+	-moz-animation: legs-wriggle-left 1s 0.4s infinite;
+	-webkit-animation: legs-wriggle-left 1s 0.4s infinite;
+	animation: legs-wriggle-left 1s 0.4s infinite;
+}
+
+/* line 116, ../sass/test.scss */
+[class*="spider"] .leg:nth-of-type(6) {
+	top: 14px;
+	right: -11px;
+	-moz-animation: legs-wriggle-right 1s 0.4s infinite;
+	-webkit-animation: legs-wriggle-right 1s 0.4s infinite;
+	animation: legs-wriggle-right 1s 0.4s infinite;
+}
+
+/* line 122, ../sass/test.scss */
+[class*="spider"] .leg:nth-of-type(7) {
+	top: 22px;
+	right: -12px;
+	-moz-animation: legs-wriggle-right 1s 0.7s infinite;
+	-webkit-animation: legs-wriggle-right 1s 0.7s infinite;
+	animation: legs-wriggle-right 1s 0.7s infinite;
+}
+
+/* line 128, ../sass/test.scss */
+[class*="spider"] .leg:nth-of-type(8) {
+	top: 31px;
+	right: -10px;
+	-moz-animation: legs-wriggle-right 1s 0.3s infinite;
+	-webkit-animation: legs-wriggle-right 1s 0.3s infinite;
+	animation: legs-wriggle-right 1s 0.3s infinite;
+}
+
+/* line 136, ../sass/test.scss */
+.spider_0 {
+	left: 5%;
+	-moz-animation: spider-move-0 5s infinite;
+	-webkit-animation: spider-move-0 5s infinite;
+	animation: spider-move-0 5s infinite;
+}
+
+/* line 141, ../sass/test.scss */
+.spider_1 {
+	left: 20%;
+	-moz-animation: spider-move-1 5s infinite;
+	-webkit-animation: spider-move-1 5s infinite;
+	animation: spider-move-1 5s infinite;
+}
+
+/* line 146, ../sass/test.scss */
+.spider_2 {
+	left: 35%;
+	-moz-animation: spider-move-2 5s infinite;
+	-webkit-animation: spider-move-2 5s infinite;
+	animation: spider-move-2 5s infinite;
+}
+
+/* line 151, ../sass/test.scss */
+.spider_3 {
+	right: 35%;
+	margin-top: 160px;
+	-moz-animation: spider-move-3 5s infinite;
+	-webkit-animation: spider-move-3 5s infinite;
+	animation: spider-move-3 5s infinite;
+}
+
+/* line 157, ../sass/test.scss */
+.spider_4 {
+	right: 20%;
+	margin-top: 50px;
+	-moz-animation: spider-move-4 5s infinite;
+	-webkit-animation: spider-move-4 5s infinite;
+	animation: spider-move-4 5s infinite;
+}
+
+/* line 163, ../sass/test.scss */
+.spider_5 {
+	right: 5%;
+	margin-top: 210px;
+	-moz-animation: spider-move-5 5s infinite;
+	-webkit-animation: spider-move-5 5s infinite;
+	animation: spider-move-5 5s infinite;
+}
+
+/* line 179, ../sass/test.scss */
+.web-right {
+	position: absolute;
+	height: 200px;
+	width: auto;
+	right: 0px;
+	top: -10px;
+	z-index: 1;
+	opacity: 1
+}
+
+/* line 189, ../sass/test.scss */
+.web-left {
+	position: absolute;
+	left: -10px;
+	top: -10px;
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+	z-index: 1;
+	opacity: 1;
+}
+
+@-moz-keyframes flicker {
+	0%, 6%, 12% {
+		text-shadow: none;
+		color: #111111;
+	}
+	3%, 9% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6);
+		color: #fa6701;
+	}
+	60% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6), 0 0 16px rgba(250, 103, 1, 0.4), 0 0 20px rgba(255, 0, 84, 0.2), 0 0 22px rgba(255, 0, 84, 0.1);
+		color: #fa6701;
+	}
+	100% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6), 0 0 16px rgba(250, 103, 1, 0.4), 0 0 20px rgba(255, 0, 84, 0.2), 0 0 22px rgba(255, 0, 84, 0.1);
+		color: #fa6701;
+	}
+}
+@-webkit-keyframes flicker {
+	0%, 6%, 12% {
+		text-shadow: none;
+		color: #111111;
+	}
+	3%, 9% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6);
+		color: #fa6701;
+	}
+	60% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6), 0 0 16px rgba(250, 103, 1, 0.4), 0 0 20px rgba(255, 0, 84, 0.2), 0 0 22px rgba(255, 0, 84, 0.1);
+		color: #fa6701;
+	}
+	100% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6), 0 0 16px rgba(250, 103, 1, 0.4), 0 0 20px rgba(255, 0, 84, 0.2), 0 0 22px rgba(255, 0, 84, 0.1);
+		color: #fa6701;
+	}
+}
+@keyframes flicker {
+	0%, 6%, 12% {
+		text-shadow: none;
+		color: #111111;
+	}
+	3%, 9% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6);
+		color: #fa6701;
+	}
+	60% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6), 0 0 16px rgba(250, 103, 1, 0.4), 0 0 20px rgba(255, 0, 84, 0.2), 0 0 22px rgba(255, 0, 84, 0.1);
+		color: #fa6701;
+	}
+	100% {
+		text-shadow: 0 0 8px rgba(250, 103, 1, 0.6), 0 0 16px rgba(250, 103, 1, 0.4), 0 0 20px rgba(255, 0, 84, 0.2), 0 0 22px rgba(255, 0, 84, 0.1);
+		color: #fa6701;
+	}
+}
+@-moz-keyframes legs-wriggle-left {
+	0%, 100% {
+		-moz-transform: rotate(36deg) skewX(-20deg);
+		transform: rotate(36deg) skewX(-20deg);
+	}
+	25%, 75% {
+		-moz-transform: rotate(15deg) skewX(-20deg);
+		transform: rotate(15deg) skewX(-20deg);
+	}
+	50% {
+		-moz-transform: rotate(45deg) skewX(-20deg);
+		transform: rotate(45deg) skewX(-20deg);
+	}
+}
+@-webkit-keyframes legs-wriggle-left {
+	0%, 100% {
+		-webkit-transform: rotate(36deg) skewX(-20deg);
+		transform: rotate(36deg) skewX(-20deg);
+	}
+	25%, 75% {
+		-webkit-transform: rotate(15deg) skewX(-20deg);
+		transform: rotate(15deg) skewX(-20deg);
+	}
+	50% {
+		-webkit-transform: rotate(45deg) skewX(-20deg);
+		transform: rotate(45deg) skewX(-20deg);
+	}
+}
+@keyframes legs-wriggle-left {
+	0%, 100% {
+		-moz-transform: rotate(36deg) skewX(-20deg);
+		-ms-transform: rotate(36deg) skewX(-20deg);
+		-webkit-transform: rotate(36deg) skewX(-20deg);
+		transform: rotate(36deg) skewX(-20deg);
+	}
+	25%, 75% {
+		-moz-transform: rotate(15deg) skewX(-20deg);
+		-ms-transform: rotate(15deg) skewX(-20deg);
+		-webkit-transform: rotate(15deg) skewX(-20deg);
+		transform: rotate(15deg) skewX(-20deg);
+	}
+	50% {
+		-moz-transform: rotate(45deg) skewX(-20deg);
+		-ms-transform: rotate(45deg) skewX(-20deg);
+		-webkit-transform: rotate(45deg) skewX(-20deg);
+		transform: rotate(45deg) skewX(-20deg);
+	}
+}
+@-moz-keyframes legs-wriggle-right {
+	0%, 100% {
+		-moz-transform: rotate(-36deg) skewX(20deg);
+		transform: rotate(-36deg) skewX(20deg);
+	}
+	25%, 75% {
+		-moz-transform: rotate(-15deg) skewX(20deg);
+		transform: rotate(-15deg) skewX(20deg);
+	}
+	50% {
+		-moz-transform: rotate(-45deg) skewX(20deg);
+		transform: rotate(-45deg) skewX(20deg);
+	}
+}
+@-webkit-keyframes legs-wriggle-right {
+	0%, 100% {
+		-webkit-transform: rotate(-36deg) skewX(20deg);
+		transform: rotate(-36deg) skewX(20deg);
+	}
+	25%, 75% {
+		-webkit-transform: rotate(-15deg) skewX(20deg);
+		transform: rotate(-15deg) skewX(20deg);
+	}
+	50% {
+		-webkit-transform: rotate(-45deg) skewX(20deg);
+		transform: rotate(-45deg) skewX(20deg);
+	}
+}
+@keyframes legs-wriggle-right {
+	0%, 100% {
+		-moz-transform: rotate(-36deg) skewX(20deg);
+		-ms-transform: rotate(-36deg) skewX(20deg);
+		-webkit-transform: rotate(-36deg) skewX(20deg);
+		transform: rotate(-36deg) skewX(20deg);
+	}
+	25%, 75% {
+		-moz-transform: rotate(-15deg) skewX(20deg);
+		-ms-transform: rotate(-15deg) skewX(20deg);
+		-webkit-transform: rotate(-15deg) skewX(20deg);
+		transform: rotate(-15deg) skewX(20deg);
+	}
+	50% {
+		-moz-transform: rotate(-45deg) skewX(20deg);
+		-ms-transform: rotate(-45deg) skewX(20deg);
+		-webkit-transform: rotate(-45deg) skewX(20deg);
+		transform: rotate(-45deg) skewX(20deg);
+	}
+}
+@-moz-keyframes spider-move-0 {
+	0%, 100% {
+		margin-top: 88px;
+	}
+	49% {
+		margin-top: calc(88px + 33px);
+	}
+}
+@-webkit-keyframes spider-move-0 {
+	0%, 100% {
+		margin-top: 88px;
+	}
+	49% {
+		margin-top: calc(88px + 33px);
+	}
+}
+@keyframes spider-move-0 {
+	0%, 100% {
+		margin-top: 88px;
+	}
+	49% {
+		margin-top: calc(88px + 33px);
+	}
+}
+@-moz-keyframes spider-move-1 {
+	0%, 100% {
+		margin-top: 49px;
+	}
+	52% {
+		margin-top: calc(49px + 36px);
+	}
+}
+@-webkit-keyframes spider-move-1 {
+	0%, 100% {
+		margin-top: 49px;
+	}
+	52% {
+		margin-top: calc(49px + 36px);
+	}
+}
+@keyframes spider-move-1 {
+	0%, 100% {
+		margin-top: 49px;
+	}
+	52% {
+		margin-top: calc(49px + 36px);
+	}
+}
+@-moz-keyframes spider-move-2 {
+	0%, 100% {
+		margin-top: 155px;
+	}
+	59% {
+		margin-top: calc(155px + 110px);
+	}
+}
+@-webkit-keyframes spider-move-2 {
+	0%, 100% {
+		margin-top: 155px;
+	}
+	59% {
+		margin-top: calc(155px + 110px);
+	}
+}
+@keyframes spider-move-2 {
+	0%, 100% {
+		margin-top: 155px;
+	}
+	59% {
+		margin-top: calc(155px + 110px);
+	}
+}
+@-moz-keyframes spider-move-3 {
+	0%, 100% {
+		margin-top: 139px;
+	}
+	58% {
+		margin-top: calc(139px + 113px);
+	}
+}
+@-webkit-keyframes spider-move-3 {
+	0%, 100% {
+		margin-top: 139px;
+	}
+	58% {
+		margin-top: calc(139px + 113px);
+	}
+}
+@keyframes spider-move-3 {
+	0%, 100% {
+		margin-top: 139px;
+	}
+	58% {
+		margin-top: calc(139px + 113px);
+	}
+}
+@-moz-keyframes spider-move-4 {
+	0%, 100% {
+		margin-top: 88px;
+	}
+	38% {
+		margin-top: calc(88px + 51px);
+	}
+}
+@-webkit-keyframes spider-move-4 {
+	0%, 100% {
+		margin-top: 88px;
+	}
+	38% {
+		margin-top: calc(88px + 51px);
+	}
+}
+@keyframes spider-move-4 {
+	0%, 100% {
+		margin-top: 88px;
+	}
+	38% {
+		margin-top: calc(88px + 51px);
+	}
+}
+@-moz-keyframes spider-move-5 {
+	0%, 100% {
+		margin-top: 166px;
+	}
+	35% {
+		margin-top: calc(166px + 114px);
+	}
+}
+@-webkit-keyframes spider-move-5 {
+	0%, 100% {
+		margin-top: 166px;
+	}
+	35% {
+		margin-top: calc(166px + 114px);
+	}
+}
+@keyframes spider-move-5 {
+	0%, 100% {
+		margin-top: 166px;
+	}
+	35% {
+		margin-top: calc(166px + 114px);
+	}
+}
+.loader{
+	background: url('https://www.emuca.es/.resources/emuca/webresources/assets/img/loading.gif') 50% 50% no-repeat rgba(255, 255, 255, 0.8);
+	cursor: wait;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+.loader h1{
+	background: none;
+	border: none;
+	color: #CD8F31;
+	font-size: 40px;
+	font-family: "Oswald";
+	font-variant: small-caps;
+	font-weight: 700;
+	height: 700px;
+	line-height: 700px;
+	margin-top: 150px;
+	padding: 0;
+	text-align: center;
+}

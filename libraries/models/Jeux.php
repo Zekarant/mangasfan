@@ -64,15 +64,27 @@ class Jeux extends Model {
 		return $verif_jeu_exist;
 	}
 
-	public function pagesJeux(int $idJeu){
-		$liste_pages = $this->pdo->prepare("SELECT * FROM jeux_articles INNER JOIN categories_jeux ON id_onglet = id_category WHERE id_jeux = :idJeu ORDER BY id_article DESC");
-		$liste_pages->execute(['idJeu' => $idJeu]);
+	public function pagesJeux(int $idJeu, int $isAdmin){
+		$liste_pages = $this->pdo->prepare("SELECT * FROM jeux_articles 
+            INNER JOIN categories_jeux 
+                ON id_onglet = id_category 
+            WHERE id_jeux = :idJeu AND (:isAdmin || visible = 0)
+            ORDER BY id_article DESC");
+		$liste_pages->execute(['idJeu' => $idJeu, 'isAdmin' => $isAdmin]);
 		$donnees_pages = $liste_pages->fetchAll();
 		return $donnees_pages;
 	}
 
 	public function lastArticle($idJeu, $idPage){
-		$liste_pages = $this->pdo->prepare("SELECT * FROM jeux_articles INNER JOIN categories_jeux ON id_jeux = id_jeu INNER JOIN jeux ON jeux.id_jeux = jeux_articles.id_jeux WHERE (jeux_articles.id_jeux = :idJeu OR slug_article = :idJeu) AND (jeux.id_jeux = :idPage OR jeux.slug = :idPage) ORDER BY id_article DESC LIMIT 1");
+		$liste_pages = $this->pdo->prepare("SELECT * FROM jeux_articles
+            INNER JOIN categories_jeux
+                ON id_jeux = id_jeu
+            INNER JOIN jeux
+                ON jeux.id_jeux = jeux_articles.id_jeux
+            WHERE (jeux_articles.id_jeux = :idJeu OR slug_article = :idJeu)
+                AND (jeux.id_jeux = :idPage OR jeux.slug = :idPage)
+            ORDER BY id_article DESC
+            LIMIT 1");
 		$liste_pages->execute(['idJeu' => $idJeu, 'idPage' => $idPage]);
 		$donnees_pages = $liste_pages->fetch();
 		return $donnees_pages;
@@ -98,9 +110,19 @@ class Jeux extends Model {
 		return $donnees_pages;
 	}
 
-	public function categoryExist(string $category, int $idJeu){
-		$cat_exist = $this->pdo->prepare("SELECT *, O.name_category AS name_onglet FROM jeux_articles P INNER JOIN categories_jeux O ON P.id_onglet = O.id_category INNER JOIN jeux j ON j.id_jeux = P.id_jeux LEFT JOIN users u ON u.id_user = P.id_member WHERE O.name_category = :category AND P.id_jeux = :idJeu AND visible = 0 LIMIT 10");
-		$cat_exist->execute(['category' => $category, 'idJeu' => $idJeu]);
+	public function categoryExist(string $category, int $idJeu, int $isAdmin){
+		$cat_exist = $this->pdo->prepare("SELECT *, O.name_category AS name_onglet FROM jeux_articles P
+            INNER JOIN categories_jeux O
+                ON P.id_onglet = O.id_category
+            INNER JOIN jeux j
+                ON j.id_jeux = P.id_jeux
+            LEFT JOIN users u
+                ON u.id_user = P.id_member
+            WHERE O.name_category = :category
+                AND P.id_jeux = :idJeu
+                AND (:isAdmin || visible = 0)
+            LIMIT 10");
+		$cat_exist->execute(['category' => $category, 'idJeu' => $idJeu, 'isAdmin' => $isAdmin]);
 		return $cat_exist;
 	}
 }

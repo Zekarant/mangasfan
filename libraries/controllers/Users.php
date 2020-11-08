@@ -83,7 +83,7 @@ class Users extends Controller {
         En espérant que vous vous plairez sur le site !<br/><br/>
         À bientôt sur Mangas\'Fan !
         </p><br/>
-        <center><a href="https://btssioslam.nexgate.ch/membres/confirmation.php?id=' . $user_id = $this->model->returnId() . '&token=' . \Rewritting::sanitize($token) .'" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Confirmer mon compte</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
+        <center><a href="https://mangasfan.fr/membres/confirmation.php?id=' . $user_id = $this->model->returnId() . '&token=' . \Rewritting::sanitize($token) .'" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Confirmer mon compte</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
         </div><br/>
         <div style="background-image: url(\'https://zupimages.net/up/20/15/80zr.png\'); padding: 5px; border-top: 3px solid #b4b4b4; text-align: center; color: black">Mangas\'Fan © 2017 - 2020. Développé par Zekarant et Nico. Tous droits réservés.
         </div>
@@ -364,7 +364,7 @@ class Users extends Controller {
     } else {
       $role = "Aucun rôle";
     }
-    $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $role, $_POST['manga'], $_POST['anime'], $_POST['site'], $users['id_user']);
+    $modifierInformations = $this->model->modifierInfos($_POST['email'], $_POST['sexe'], $_POST['description'], $role, $_POST['manga'], $_POST['anime'], $_POST['site'], $utilisateur['id_user']);
     $_SESSION['flash-type'] = "error-flash";
     $_SESSION['flash-message'] = "Vos informations ont bien été modifiées !";
     $_SESSION['flash-color'] = "success";
@@ -411,7 +411,7 @@ class Users extends Controller {
         En espérant que vous vous plairez sur le site !<br/><br/>
         À bientôt sur Mangas\'Fan !
         </p><br/>
-        <center><a href="https://btssioslam.nexgate.ch/index.php/membres/reset.php?id=' . \Rewritting::sanitize($utilisateur['id_user']) .'&token=' . \Rewritting::sanitize($reset_token) . '" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Réinitialiser mon mot de passe</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
+        <center><a href="https://mangasfan.fr/membres/reset.php?id=' . \Rewritting::sanitize($utilisateur['id_user']) .'&token=' . \Rewritting::sanitize($reset_token) . '" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Réinitialiser mon mot de passe</a> <a href="mailto:contact@mangasfan.fr" style="text-decoration: none; color: #17a2b8; background-color: transparent; border-color: #17a2b8; font-weight: 400; border: 1px solid #17a2b8; padding: .375rem .75rem; font-size: 13px; line-height: 1.5; border-radius: .25rem; margin-top: 10px;">Contacter l\'équipe du site</a></center>
         </div><br/>
         <div style="background-image: url(https://zupimages.net/up/20/15/80zr.png); padding: 5px; border-top: 3px solid #b4b4b4; text-align: center; color: black">Mangas\'Fan © 2017 - 2020. Développé par Zekarant et Nico. Tous droits réservés.
         </div>
@@ -439,7 +439,7 @@ class Users extends Controller {
     $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
     if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
-      \Http::redirect('/mangasfan/maintenance.php');
+      \Http::redirect('/maintenance.php');
       exit();
     }
     $error = "";

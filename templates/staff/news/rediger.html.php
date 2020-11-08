@@ -21,6 +21,9 @@
 					<strong>Attention : </strong> Etant donné que vous êtes un membre stagiaire de l'équipe, votre news ne sera pas postée directement et devra être validée par le chef de l'équipe des Newseurs.
 				</div>
 			<?php } ?>
+			<div class='alert alert-primary' role='alert'>
+				<strong>Information : </strong> Si vous souhaitez prévisualiser la news, il est conseillé d'ouvrir la fenêtre dans un nouvel onglet (Ctrl -> Clique gauche). Sinon, une fois sur la page, faites retour arrière.
+			</div>
 			<form method="POST" action="">
 				<div class="row">
 					<div class="col-lg-6">
@@ -68,7 +71,9 @@
 				<br/>
 				<label>Contenu de la new :</label>
 					<textarea name="contenu_news"><?php if(isset($_POST['contenu_news'])){ echo \Rewritting::sanitize($_POST['contenu_news']); } ?></textarea>
-					<input type="submit" class="btn btn-sm btn-info" name="valider"/>
+					<hr>
+					<input type="submit" class="btn btn-sm btn-outline-info" name="valider" value="Poster la news"/>
+					<input type="submit" class="btn btn-sm btn-outline-primary" name="preview" value="Prévisualiser la news"/>
 			</form>
 		</div>
 	</div>

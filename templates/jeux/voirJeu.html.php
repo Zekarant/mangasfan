@@ -1,10 +1,9 @@
-<a href="../jeux-video" class="btn btn-sm btn-outline-info">Retourner sur l'index des jeux</a>
+<a href="../jeux-video" class="btn btn-sm btn-outline-info">Voir les autres jeux</a>
 <?php if ($utilisateur['grade'] >= 5) { ?>
 	<a href="../staff/redaction/modification-jeux/<?= \Rewritting::sanitize($jeu['slug']) ?>" target="_blank" class="btn btn-sm btn-outline-info">Accéder à la rédaction de ce jeu</a>
 <?php } ?>
 <hr>
 <h2 class="titre jv_index"><?= \Rewritting::sanitize($jeu['name_jeu']); ?></h2>
-<hr>
 <div class="d-flex justify-content-center">
 	<div class="card card-jeux" style="width: 70rem;">
 		<img src="<?= \Rewritting::sanitize($jeu['cover_jeu']) ?>" class="card-img-top" style="object-fit: cover; height: 15rem;">
@@ -28,7 +27,13 @@
 			<input type="submit" name="etoile5" value="★" class="color_no etoile" />
 		</form>
 	</div>
-<?php } if(!empty($jeu['description_jeu'])){ ?>
+	<hr>
+	<?php if ($jeu['publicAverti'] == 1) { ?>
+		<div class="alert alert-danger" role="alert">
+			<strong>Attention : </strong>Ce jeu peut contenir des éléments violents, sexuels ou autres pouvant heurter un certain public. Nous préférons prévenir nos jeunes utilisateurs de faire attention s'ils souhaitent poursuivre leur lecture.
+		</div>
+	<?php }
+} if(!empty($jeu['description_jeu'])){ ?>
 	<h4 class="title_jeu">Présentation</h4>
 	<p><?= htmlspecialchars_decode(\Rewritting::sanitize($jeu['description_jeu'])); ?></p>
 <?php } ?>
@@ -93,13 +98,13 @@
 							<span class="entete_liste_page"><b>Pages de :</b> <span class="titre_name_cat"><?= \Rewritting::sanitize($jeux['name_category']) ?></span></span>
 							<hr>
 							<div id="liste_articles"></div>
-						<p><i>Limitation à 10 articles</i></p>
+							<p><i>Limitation à 10 articles</i></p>
 						<?php } ?>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 <script type="text/javascript">
 	$(function() {

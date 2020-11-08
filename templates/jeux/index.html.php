@@ -42,7 +42,10 @@
 						<img src="<?= \Rewritting::sanitize($jeux['banniere_jeu']) ?>" class="card-img-top" style="object-fit: cover; height: 27rem;">
 					</a>
 					<div class="card-body">
-						<h5 class="card-title text-center"><?= \Rewritting::sanitize($jeux['name_jeu']) ?></h5>
+						<h5 class="card-title text-center"><?= \Rewritting::sanitize($jeux['name_jeu']) ?>
+						<?php if ($jeux['publicAverti'] == 1) { ?>
+							 - <span class="badge badge-pill badge-danger">Public averti</span>
+						<?php } ?></h5>
 					</div>
 				</div>
 			</div>

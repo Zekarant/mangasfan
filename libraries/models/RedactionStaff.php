@@ -53,9 +53,9 @@ class RedactionStaff extends Model {
 		return $jeuConcerne;
 	}
 
-	public function modifierEntete(string $title, string $imagePresentation, string $imageCover, string $slug, int $idJeu){
-		$req = $this->pdo->prepare('UPDATE jeux SET name_jeu = :title, banniere_jeu = :imagePresentation, cover_jeu = :imageCover, slug = :slug WHERE id_jeux = :idJeu');
-		$req->execute(['title' => $title, 'imagePresentation' => $imagePresentation, 'imageCover' => $imageCover, 'slug' => $slug, 'idJeu' => $idJeu]);
+	public function modifierEntete(string $title, string $imagePresentation, string $imageCover, string $slug, int $idJeu, int $avertissement){
+		$req = $this->pdo->prepare('UPDATE jeux SET name_jeu = :title, banniere_jeu = :imagePresentation, cover_jeu = :imageCover, slug = :slug, publicAverti = :avertissement WHERE id_jeux = :idJeu');
+		$req->execute(['title' => $title, 'imagePresentation' => $imagePresentation, 'imageCover' => $imageCover, 'slug' => $slug, 'idJeu' => $idJeu, 'avertissement' => $avertissement]);
 	}
 
 	public function modifierDescription(string $description, int $idJeu){

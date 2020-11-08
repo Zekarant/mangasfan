@@ -1,6 +1,7 @@
-<?php 
+<?php
 
 namespace controllers;
+
 
 class RedactionNews extends Controller {
 
@@ -42,7 +43,7 @@ class RedactionNews extends Controller {
 				\Http::redirect('../../index.php');
 			}
 			if(strlen($_POST['titre']) < 4 || strlen($_POST['titre']) > 80){
-				$errors[] = "Le titre de votre article est trop court.";
+				$errors[] = "Le titre de votre article est trop court ou trop long. Votre titre faisait : " . strlen($_POST['titre']) . " caractères.";
 			}
 			if(strlen($_POST['description']) < 20 || strlen($_POST['description']) > 200){
 				$errors[] = "Votre description doit faire entre 20 et 200 caractères. Votre description faisait : " . strlen($_POST['description']) . " caractères.";
@@ -78,7 +79,7 @@ class RedactionNews extends Controller {
 								"title" => htmlspecialchars($_POST['titre']),
 								"type" => "rich",
 								"description" => htmlspecialchars($_POST['description']),
-								"url" => "https://www.mangasfan.fr/commentaire/". $_POST['slug'],
+								"url" => "https://www.mangasfan.fr/commentaire/". $slug,
 								"color" => 12211667,
 								"author" => [
 									"name" => "Mangas'Fan - Nouvelle news !",
@@ -113,7 +114,7 @@ class RedactionNews extends Controller {
 							"title" => htmlspecialchars($_POST['titre']),
 							"type" => "rich",
 							"description" => htmlspecialchars($_POST['description']),
-							"url" => "https://www.mangasfan.fr/commentaire/". $_POST['slug'],
+							"url" => "https://www.mangasfan.fr/commentaire/". $slug,
 							"color" => 12211667,
 							"author" => [
 								"name" => "Mangas'Fan - Nouvelle news !",
@@ -141,10 +142,31 @@ class RedactionNews extends Controller {
 				curl_close( $ch );
 				\Http::redirect('index.php');
 			}
+		} elseif (isset($_POST['preview'])) {
+			RedactionNews::preview($_POST['titre'], $_POST['sources'], $_POST['auteur'], $_POST['contenu_news'], $_POST['categorie']);
+			die();
 		}
 		\Renderer::render('../../templates/staff/news/rediger', '../../templates/staff', compact($variables));
 	}
 
+	public function preview($titre, $sources, $auteur, $contenu, $categorie){
+		$pageTitle = "Preview de la news";
+		$style = '../../css/commentaires.css';
+		$users = new \models\Users();
+			if (!isset($_SESSION['auth'])) {
+				\Http::redirect('../../index.php');
+			}
+			$user = $users->user($_SESSION['auth']['id_user']);
+			if ($user['grade'] <= 3) {
+				\Http::redirect('../../index.php');
+			}
+			$titre = (empty($titre)) ? 'Aucun titre renseigné' : $titre;
+			$sources = (empty($sources)) ? 'Aucune source renseignée' : $sources;
+			$contenu = (empty($contenu)) ? 'Aucun contenu renseigné.' : $contenu;
+			$categorie = (empty($categorie)) ? 'Aucune categorie renseignée.' : $categorie;
+			\Renderer::render('../../templates/staff/news/preview', '../../templates/', compact('pageTitle', 'style', 'titre', 'sources', 'contenu', 'categorie'));
+	}
+	
 	public function validerNews(){
 		$users = new \models\Users();
 		if (!isset($_SESSION['auth'])) {

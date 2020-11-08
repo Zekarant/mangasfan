@@ -5,6 +5,12 @@ namespace controllers;
 class Jeux extends Controller {
 
 	protected $modelName = \models\Jeux::class;
+    private $isAdmin;
+
+    public function __construct() {
+        parent::__construct();
+        $this->isAdmin = isset($_SESSION['auth']) ? $_SESSION['auth']['grade'] >= 4 : false;
+    }
 
 	public function index(){
 		$users = new \models\Users();
@@ -129,18 +135,18 @@ class Jeux extends Controller {
 				}
 			}
 		}
-		$articlesJeux = $this->model->pagesJeux($jeu['id_jeux']);
+		$articlesJeux = $this->model->pagesJeux($jeu['id_jeux'], $this->isAdmin);
 		$lastArticle = $this->model->lastArticle($jeu['id_jeux'], $_GET['id']);
 		$category = $this->model->category($jeu['id_jeux']);
 		list($recup_all_category, $parcours_category) = $category;
 		$jeux = $this->model->oneGame($jeu['id_jeux']);
 		$verifierCategory = $this->model->verifierCategory($jeux['name_category'], $jeu['id_jeux']);
-		$catExist = $this->model->categoryExist($jeux['name_category'], $jeu['id_jeux']);
+		$catExist = $this->model->categoryExist($jeux['name_category'], $jeu['id_jeux'], $this->isAdmin);
 		\Renderer::render('../templates/jeux/voirJeu', '../templates/', compact('pageTitle', 'style', 'jeu', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesJeux', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'jeux', 'description', 'image'));
 	}
 
 	public function categories(){
-		$category = $this->model->categoryExist($_GET['name_cat'], $_GET['id_elt']);
+		$category = $this->model->categoryExist($_GET['name_cat'], $_GET['id_elt'], $this->isAdmin);
 		$categories = $category->fetchAll();
 		return $categories;
 	}
@@ -159,12 +165,13 @@ class Jeux extends Controller {
 		}
 
 		$article = $this->model->lastArticle($_GET['article'], $_GET['jeu']);
-		if (!isset($article['slug_article'])) {
+		if (!isset($article['slug_article']) || ($article['visible'] && $_SESSION['auth']['grade'] < 4)) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = 'Cet article n\'existe pas !';
 			$_SESSION['flash-color'] = "danger";
 			\Http::redirect('../');
 		}
+
 		$pageTitle = $article['name_article'] . " - " . \Rewritting::sanitize($article['name_jeu']);
 		$style = "../../css/commentaires.css";
 		$image = $article['cover_image_article'];

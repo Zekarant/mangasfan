@@ -1,10 +1,9 @@
-<a href="../animes" class="btn btn-sm btn-outline-info">Retourner sur l'index des animes</a>
+<a href="../animes" class="btn btn-sm btn-outline-info">Voir les autres animés</a>
 <?php if ($utilisateur['grade'] >= 5) { ?>
 	<a href="../staff/redaction/modification-animes/<?= \Rewritting::sanitize($anime['slug']) ?>" target="_blank" class="btn btn-sm btn-outline-info">Accéder à la rédaction de cet anime</a>
 <?php } ?>
 <hr>
 <h2 class="titre jv_index"><?= \Rewritting::sanitize($anime['titre']); ?></h2>
-<hr>
 <div class="d-flex justify-content-center">
 	<div class="card card-Animes" style="width: 70rem;">
 		<img src="<?= \Rewritting::sanitize($anime['cover']) ?>" class="card-img-top" style="object-fit: cover; height: 15rem;">
@@ -28,7 +27,13 @@
 			<input type="submit" name="etoile5" value="★" class="color_no etoile" />
 		</form>
 	</div>
-<?php } if(!empty($anime['presentation'])){ ?>
+	<hr>
+	<?php if ($anime['publicAverti'] == 1) { ?>
+		<div class="alert alert-danger" role="alert">
+			<strong>Attention : </strong>Cet anime peut contenir des éléments violents, sexuels ou autres pouvant heurter un certain public. Nous préférons prévenir nos jeunes utilisateurs de faire attention s'ils souhaitent poursuivre leur lecture.
+		</div>
+	<?php }
+} if(!empty($anime['presentation'])){ ?>
 	<h4 class="title_jeu">Présentation</h4>
 	<p><?= htmlspecialchars_decode(\Rewritting::sanitize($anime['presentation'])); ?></p>
 <?php } ?>
@@ -92,13 +97,13 @@
 							<span class="entete_liste_page"><b>Pages de :</b> <span class="titre_name_cat"><?= \Rewritting::sanitize($animes['name_category']) ?></span></span>
 							<hr>
 							<div id="liste_articles"></div>
-						<p><i>Limitation à 10 articles</i></p>
+							<p><i>Limitation à 10 articles</i></p>
 						<?php } ?>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 <script type="text/javascript">
 	$(function() {

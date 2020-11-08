@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="94201341-9867-43de-b217-b3d4a2845d2c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/css/commentaires.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/commentaires.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Animation.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Animation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Animes.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Animes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Contact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Galeries.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Galeries.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Jeux.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Jeux.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Mangas.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Mangas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/News.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Others.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Others.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/RedactionAnimes.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/RedactionAnimes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/RedactionMangas.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/RedactionMangas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/RedactionNews.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/RedactionNews.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/RedactionStaff.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/RedactionStaff.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/controllers/Users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/Animes.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/Animes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/Jeux.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/Jeux.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/Mangas.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/Mangas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/News.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/Others.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/Others.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/RedactionAnimes.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/RedactionAnimes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/RedactionMangas.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/RedactionMangas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/models/RedactionStaff.php" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/models/RedactionStaff.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/LICENSE.TXT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/changelog.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/jquery.tinymce.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/langs/fr_FR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/langs/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/license.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/Readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/advlist/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/anchor/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/autolink/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/autoresize/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/autosave/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/bbcode/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/charmap/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/code/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/codesample/css/prism.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/codesample/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/colorpicker/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/contextmenu/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/directionality/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-cool.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-cry.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-embarassed.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-frown.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-innocent.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-kiss.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-laughing.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-money-mouth.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-sealed.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-smile.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-surprised.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-tongue-out.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-undecided.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-wink.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/img/smiley-yell.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/emoticons/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/fullpage/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/fullscreen/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/help/img/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/help/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/hr/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/image/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/imagetools/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/importcss/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/insertdatetime/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/legacyoutput/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/link/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/lists/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/media/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/nonbreaking/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/noneditable/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/pagebreak/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/paste/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/preview/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/print/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/save/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/searchreplace/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spellchecker/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/LGPL.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/css/spoiler.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/img/eye-blocked.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/img/eye-plus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/img/spoiler_icons.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/license.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/spoiler/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/tabfocus/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/table/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/template/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/textcolor/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/textpattern/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/toc/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/visualblocks/css/visualblocks.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/visualblocks/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/visualchars/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/plugins/wordcount/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/content.mobile.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-mobile.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce-small.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/fonts/tinymce.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/img/anchor.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/img/loader.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/img/object.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/img/trans.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/skins/lightgray/skin.mobile.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/themes/inlite/theme.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/themes/mobile/theme.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/themes/modern/theme.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/tinymce/js/tinymce/tinymce.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/membres/images/avatars/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/membres/images/avatars/1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/animes/index.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/animes/index.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/animes/voirAnime.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/animes/voirAnime.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/animes/voirArticle.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/animes/voirArticle.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/galeries/voir.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/galeries/voir.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/jeux/index.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/jeux/index.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/jeux/voirJeu.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/jeux/voirJeu.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mangas/index.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mangas/index.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mangas/voirManga.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mangas/voirManga.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/news/index.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/news/index.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/news/show.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/news/show.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/staff/layout.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/staff/layout.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/staff/news/rediger.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/staff/news/rediger.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/staff/redaction/modifierAnimes.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/staff/redaction/modifierAnimes.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/staff/redaction/modifierJeu.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/staff/redaction/modifierJeu.html.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/staff/redaction/modifierMangas.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates/staff/redaction/modifierMangas.html.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/twitteroauth-main/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="composer.json" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1gSJrEhNQyOHmfkzIvneQROY3XC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../apprentissage-symfony" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.web.browsers" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="94201341-9867-43de-b217-b3d4a2845d2c" name="Default Changelist" comment="" />
+      <created>1598102257657</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598102257657</updated>
+      <workItem from="1598102259198" duration="175000" />
+      <workItem from="1598525961611" duration="294000" />
+      <workItem from="1598786656690" duration="39000" />
+      <workItem from="1598786735745" duration="1733000" />
+      <workItem from="1599310043280" duration="70000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="667" y="163" key="#PHP" timestamp="1598102345562">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="667" y="163" key="#PHP/0.0.1920.1040@0.0.1920.1040" timestamp="1598102345562" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598102371042">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1598102371042" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1599310112262">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1599310112262" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1598786978557">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1598786978557" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1598102377557">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1598102377557" />
+  </component>
+</project>

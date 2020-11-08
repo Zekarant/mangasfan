@@ -28,7 +28,13 @@
 			<input type="submit" name="etoile5" value="★" class="color_no etoile" />
 		</form>
 	</div>
-<?php } if(!empty($manga['presentation'])){ ?>
+	<hr>
+	<?php if ($manga['publicAverti'] == 1) { ?>
+		<div class="alert alert-danger" role="alert">
+			<strong>Attention : </strong>Ce manga peut contenir des éléments violents, sexuels ou autres pouvant heurter un certain public. Nous préférons prévenir nos jeunes utilisateurs de faire attention s'ils souhaitent poursuivre leur lecture.
+		</div>
+	<?php } 
+} if(!empty($manga['presentation'])){ ?>
 	<h4 class="title_jeu">Présentation</h4>
 	<p><?= htmlspecialchars_decode(\Rewritting::sanitize($manga['presentation'])); ?></p>
 <?php } ?>
@@ -93,13 +99,13 @@
 							<span class="entete_liste_page"><b>Pages de :</b> <span class="titre_name_cat"><?= \Rewritting::sanitize($mangas['name_category']) ?></span></span>
 							<hr>
 							<div id="liste_articles"></div>
-						<p><i>Limitation à 10 articles</i></p>
+							<p><i>Limitation à 10 articles</i></p>
 						<?php } ?>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 <script type="text/javascript">
 	$(function() {

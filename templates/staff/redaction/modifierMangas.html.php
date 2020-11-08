@@ -75,6 +75,21 @@
 							?>
 						</div>
 					</div>
+					<br/>
+					<div class="row">
+						<div class="col-lg-3">
+							<label>Réservé à un public averti : <strong></strong></label>
+						</div>
+						<div class="col-lg-9">
+							<?php if ($manga['publicAverti'] == 0) { ?>
+								<input type="checkbox" name="avertissement" id="publicAverti">
+							 	<label class="form-check-label" for="exampleCheck1">Cocher si réservé à un public averti</label>
+							<?php } else { ?>
+								<input type="checkbox" name="avertissement" id="publicAverti" checked>
+								<label class="form-check-label" for="exampleCheck1">Cocher si réservé à un public averti</label>
+							<?php } ?>
+						</div>
+					</div>
 					<hr>
 					<input type="hidden" id="id_news" class="<?= $manga['id'];?>">
 					<input type="submit" class="btn btn-sm btn-outline-info" name="valid_entete" value="Modifier les informations" />
@@ -136,6 +151,9 @@
 				<br/>
 			</div>
 			<div id="rediger" class="bloc_contenu">
+				<div class='alert alert-primary' role='alert'>
+					<strong>Information : </strong> Veuillez cliquez directement sur le bouton "Prévisualiser" pour voir votre article, <strong>N'OUVREZ PAS LE PREVISUALISER DANS UN NOUVEL ONGLET</strong>. Utilisez les flèches retour de votre navigateur pour revenir à la page d'avant. <strong>Rien ne sera perdu de votre article</strong> mais vous devrez "réactiver" les différents champs juste en cliquant dessus. Ce système n'est qu'une première version, une version meilleure sera proposée en V8 et certaines améliorations pourront être apportées en V7.
+				</div>
 				<form method="POST" action="">
 					<label for="titre_article_redac">Titre de l'article :<span class="message1"></span></label>
 					<input type="text" class="form-control" id="titre_article_redac" name="title_page" placeholder="Titre compris entre 1 et 30 caractères." />
@@ -157,7 +175,9 @@
 					<br/>
 					<label for="text_redac">Texte : <span class="message4"></span></label>
 					<textarea name="text_pres" class="form-control" id="text_redac" rows="10" cols="70" placeholder="Rédiger votre page ici." ></textarea>
+					<hr>
 					<input type="submit" class="btn btn-outline-info" name="valid_nouvelle_page" value="Publier cet article" />
+					<input type="submit" class="btn btn-outline-primary" name="preview" value="Prévisualiser l'article"/>
 				</form>
 				<br/>
 			</div>

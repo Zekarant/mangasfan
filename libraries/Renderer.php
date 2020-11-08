@@ -9,6 +9,11 @@ class Renderer {
 			\Http::redirect('membres/deconnexion.php');
 			exit();
 		}
+		if(isset($_COOKIE['accept_cookie'])) {
+			$showcookie = false;
+		} else {
+			$showcookie = true;
+		}
 		$controllerMaintenance = new \models\Administration();
 		$maintenance = $controllerMaintenance->verifier("Site");
 		if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {

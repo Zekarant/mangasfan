@@ -26,7 +26,7 @@
 		A propos de l'auteur
 	</div>
 	<div class="card-body">
-		<h5 class="card-title">Cette image a été postée par <strong><a href="../profil/profil-<?= \Rewritting::sanitize($galerie['auteur_image']); ?>"><?= \Rewritting::sanitize($galerie['username']); ?></a></strong>.</h5>
+		<h5 class="card-title">Cette image a été postée par <strong><a href="../membres/profil-<?= \Rewritting::sanitize($galerie['auteur_image']); ?>"><?= \Rewritting::sanitize($galerie['username']); ?></a></strong>.</h5>
 		<p class="card-text">Elle appartient à son auteur. Toute reproduction sans son accord peut entrainer des sanctions. © <?= \Rewritting::sanitize($galerie['username']); ?></p>
 	</div>
 	<div class="card-footer text-muted">

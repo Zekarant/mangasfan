@@ -18,11 +18,11 @@ class News extends Controller {
 		$description = "Toute l'actualité des animes sur Mangas'Fan ! News, mangas, animes, jeux, tout est à portée de main ! Votre communauté de fans sur Mangas'Fan.";
 		$keywords = "Mangas, Fan, Animes, Site Mangas, Produits, Adaptation, Contenu, Site, Communauté, Partenaires, Actualités, Sorties, Débats, Site de discussions mangas, Manga, Fan Manga, Mangas fans, Jeux, Jeux de mangas, Manga Fan, Mangas'Fan";
 		$image = "https://www.pixenli.com/image/J6FtHnhW";
-		$users = new \models\Users();
-		$staff = $users->recupererStaff();
 		$animations = new \models\Animation();
 		$animation = $animations->animation();
-		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'staff', 'animation', 'image'));
+		$mangas = $this->model->recentsMangas();
+		$animes = $this->model->recentsAnimes();
+		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'animation', 'image', 'mangas', 'animes'));
 	}
 
 	public function newsArchives(){

@@ -18,6 +18,31 @@ header {
 	color: white;
 	height: 700px;
 }
+.loader{
+	background: url('https://www.emuca.es/.resources/emuca/webresources/assets/img/loading.gif') 50% 50% no-repeat rgba(255, 255, 255, 0.8);
+	cursor: wait;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+.loader h1{
+	background: none;
+	border: none;
+	color: #CD8F31;
+	font-size: 40px;
+	font-family: "Oswald";
+	font-variant: small-caps;
+	font-weight: 700;
+	height: 700px;
+	line-height: 700px;
+	margin-top: 150px;
+	padding: 0;
+	text-align: center;
+}
+
 .logo_site {
 	width: 150px;
 }
@@ -104,6 +129,34 @@ hr.tiret_news {
 .date_news {
 	float: right;
 }
+.cookie-alert {
+	position: fixed;
+	bottom: 20px;
+	right: 1%;
+	border-radius: 10px;
+	background: white;
+	color: black;
+	padding:10px 15px;
+	width:15%;
+	z-index:100;
+	border: 1px solid purple;
+}
+.cookie-alert a { 
+	display:block;
+	text-align: center;
+	padding:5px 10px;
+	margin:8px auto 0 auto;
+	border-radius: 10px;
+	background:transparent;
+	border: 2px solid purple;
+	color: purple;
+	transition: all .3s ease;
+}
+.cookie-alert a:hover {
+	background: #46A2D9;
+	color:#2f2f2f;
+}
+
 /* Footer */
 .footer 
 {
@@ -164,17 +217,17 @@ footer-bottom p.pull-left
 }
 
 #temporate-message{
-    position: fixed;
-    top:100px;
-    width: 90%;
-    left: 50%;
+	position: fixed;
+	top:100px;
+	width: 90%;
+	left: 50%;
 	transform: translateX(-50%);
-    z-index: 9999;
-    border: 1px solid grey;
-    padding:20px;
-    border-radius: 6px;
-    text-align: center;
-    -webkit-box-align: center;
+	z-index: 9999;
+	border: 1px solid grey;
+	padding:20px;
+	border-radius: 6px;
+	text-align: center;
+	-webkit-box-align: center;
 }
 
 @media screen and (max-width: 480px){
@@ -194,4 +247,11 @@ footer-bottom p.pull-left
 	.image_archives {
 		width: 100%;
 	}
+	.cookie-alert {
+      text-align: center;
+      left: 0; right: 0;
+        margin: 0 auto;
+      max-width:90%;
+      padding:10px 30px;
+   }
 }

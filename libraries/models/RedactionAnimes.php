@@ -11,9 +11,9 @@ class RedactionAnimes extends Model {
 		return $manga;
 	}
 
-	public function modifierEntete(string $title, string $imagePresentation, string $imageCover, string $type, string $slug, int $idAnime){
-		$req = $this->pdo->prepare('UPDATE mangas_animes SET titre = :title, banniere = :imagePresentation, cover = :imageCover, type = :type, slug = :slug WHERE id = :idAnime');
-		$req->execute(['title' => $title, 'imagePresentation' => $imagePresentation, 'imageCover' => $imageCover, 'type' => $type, 'slug' => $slug, 'idAnime' => $idAnime]);
+	public function modifierEntete(string $title, string $imagePresentation, string $imageCover, string $type, string $slug, int $idAnime, int $avertissement){
+		$req = $this->pdo->prepare('UPDATE mangas_animes SET titre = :title, banniere = :imagePresentation, cover = :imageCover, type = :type, slug = :slug, publicAverti = :avertissement WHERE id = :idAnime');
+		$req->execute(['title' => $title, 'imagePresentation' => $imagePresentation, 'imageCover' => $imageCover, 'type' => $type, 'slug' => $slug, 'idAnime' => $idAnime, 'avertissement' => $avertissement]);
 	}
 
 	public function modifierDescription(string $description, int $idAnime){

@@ -16,6 +16,9 @@ header {
 	color: white;
 	height: 350px;
 }
+a {
+	color: grey;
+}
 .logo_site {
 	width: 150px;
 }
@@ -106,6 +109,12 @@ header {
 .bg-community-manager {
 	color: white;
 	background-color: #632569;
+}
+.bg-modo {
+	background-color: #31B404;
+}
+.bg-dev {
+	background-color: #4080BF;
 }
 .admin {
 	color: white;
@@ -232,6 +241,33 @@ footer-bottom p.pull-left
 	padding-top: 10px;
 	max-width: 35%;
 }
+.cookie-alert {
+	position: fixed;
+	bottom: 20px;
+	right: 1%;
+	border-radius: 10px;
+	background: white;
+	color: black;
+	padding:10px 15px;
+	width:15%;
+	z-index:100;
+	border: 1px solid purple;
+}
+.cookie-alert a { 
+	display:block;
+	text-align: center;
+	padding:5px 10px;
+	margin:8px auto 0 auto;
+	border-radius: 10px;
+	background:transparent;
+	border: 2px solid purple;
+	color: purple;
+	transition: all .3s ease;
+}
+.cookie-alert a:hover {
+	background: #46A2D9;
+	color:#2f2f2f;
+}
 
 /* Jeux */
 
@@ -240,6 +276,10 @@ footer-bottom p.pull-left
 }
 h2.jv_index::first-letter {
 	color: red;
+}
+
+h2.jv_index{
+	font-family: 'Bangers', cursive;
 }
 
 input[name="etoile1"], input[name="etoile2"], input[name="etoile3"], input[name="etoile4"], input[name="etoile5"]{
@@ -377,9 +417,11 @@ div.bloc_page{
 .col-sm-2 {
     min-width: 200px;
 }
+
 .image_tiny
 {
 	max-width: 100%;
+	object-fit: contain;
 }
 @media screen and (max-width: 480px){
 	.dernier_articles {
@@ -397,4 +439,14 @@ div.bloc_page{
 	.bottom {
 		display: none;
 	}
+	iframe {
+		width: 100%;
+	}
+	.cookie-alert {
+      text-align: center;
+      left: 0; right: 0;
+        margin: 0 auto;
+      max-width:90%;
+      padding:10px 30px;
+   }
 }

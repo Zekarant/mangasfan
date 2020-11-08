@@ -28,7 +28,12 @@ class RedactionMangas extends Controller {
 		$pageTitle = "Modification de " . \Rewritting::sanitize($manga['titre']);
 		$style = "../../../css/staff.css";
 		if (isset($_POST['valid_entete'])) {
-			RedactionMangas::modifierEntete($_POST['title_game'], $_POST['picture_game'], $_POST['picture_pres'], $_POST['inlineRadioOptions'], $utilisateur, $manga);
+			if (isset($_POST['avertissement'])) {
+				$avertissement = 1;
+			} else {
+				$avertissement = 0;
+			}
+			RedactionMangas::modifierEntete($_POST['title_game'], $_POST['picture_game'], $_POST['picture_pres'], $_POST['inlineRadioOptions'], $utilisateur, $manga, $avertissement);
 		}
 		if (isset($_POST['valid_presentation'])) {
 			$this->model->modifierDescription($_POST['text_pres'], $manga['id']);
@@ -47,16 +52,35 @@ class RedactionMangas extends Controller {
 		$recupererArticles = $this->model->articles($manga['id']);
 		if (isset($_POST['valid_nouvelle_page'])) {
 			RedactionMangas::ajouterArticle($utilisateur, $manga);
+		} elseif (isset($_POST['preview'])) {
+			RedactionMangas::preview($_POST['title_page'], $_POST['text_pres']);
+			die();
 		}
 		\Renderer::render('../../templates/staff/redaction/modifierMangas', '../../templates/staff', compact('pageTitle', 'style', 'utilisateur', 'manga', 'countOnglets', 'recupererOnglets', 'recupererArticles'));
 	}
 
-	public function modifierEntete($title, $picture, $cover, $type, $utilisateur, $manga){
+	public function preview($titre, $contenu){
+		$pageTitle = "Preview de l'article";
+		$style = '../../../css/commentaires.css';
+		$users = new \models\Users();
+			if (!isset($_SESSION['auth'])) {
+				\Http::redirect('../../index.php');
+			}
+			$user = $users->user($_SESSION['auth']['id_user']);
+			if ($user['grade'] <= 3) {
+				\Http::redirect('../../index.php');
+			}
+			$titre = (empty($titre)) ? 'Aucun titre renseigné' : $titre;
+			$contenu = (empty($contenu)) ? 'Aucun contenu renseigné.' : $contenu;
+			\Renderer::render('../../templates/staff/redaction/preview', '../../templates/', compact('pageTitle', 'style', 'titre', 'contenu'));
+	}
+
+	public function modifierEntete($title, $picture, $cover, $type, $utilisateur, $manga, $avertissement){
 		if (empty($title) || empty($picture) || empty($cover)) {
           	\Http::redirect(\Rewritting::sanitize($manga['slug']));
 		}
 		$slug = \Rewritting::stringToURLString($title);
-		$this->model->modifierEntete($title, $picture, $cover, $type, $slug, $manga['id']);
+		$this->model->modifierEntete($title, $picture, $cover, $type, $slug, $manga['id'], $avertissement);
 		$logs = new \models\Administration();
        	$logs->insertLogs($utilisateur['id_user'], "a modifié l'entête de <strong>" . \Rewritting::sanitize($manga['titre']) . "</strong> (Mangas)", "Rédaction");
 		\Http::redirect(\Rewritting::sanitize($slug));
@@ -99,24 +123,23 @@ class RedactionMangas extends Controller {
         	$slug = \Rewritting::stringToURLString($_POST['title_page']);
         	$idOnglet = $this->model->searchIdOnglet($manga['id'], $categorie);
         	$this->model->ajouterArticle($manga['id'], $idOnglet['id_category'], $_POST['title_page'], $_POST['text_pres'], $utilisateur['id_user'], $_POST['picture_game'], $slug, $_POST['visibilite']);
-        	$logs = new \models\Administration();
-       		$logs->insertLogs($utilisateur['id_user'], "a ajouté l'article <strong>" . \Rewritting::sanitize($_POST['title_page']) . "</strong> dans " . \Rewritting::sanitize($manga['titre']), "Rédaction");
-       		$url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
+        	$url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
 			$hookObject = json_encode([
-				"tts" => false,
 				"embeds" => [
 					[
-						"title" => "[Manga] " . $mangas['titre'] . " - " . htmlspecialchars($_POST['title_page']),
+						"title" => "[Manga] " . $manga['titre'] . " - " . $_POST['title_page'],
 						"type" => "rich",
-						"url" => "https://www.mangasfan.fr/mangas/". \Rewritting::sanitize($mangas['slug']) . "/" .\Rewritting::sanitize($_POST['title_page']),
+						"url" => "https://www.mangasfan.fr/mangas/" . $manga['slug'] . "/" . $slug,
 						"color" => 12211667,
+						"image" => [
+							"url" => $_POST['picture_game']
+						],
+						"thumbnail" => [
+							"url" => $_POST['picture_game']
+						],
 						"author" => [
 							"name" => "Mangas'Fan - Nouvel article - Posté par " . $utilisateur['username'],
-							"url" => "https://www.mangasfan.fr",
-							"icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
-						],
-						"image" => [
-							"url" => htmlspecialchars($_POST['picture_game'])
+							"url" => "https://mangasfan.fr"
 						],
 					]
 				]
@@ -129,11 +152,16 @@ class RedactionMangas extends Controller {
 				CURLOPT_URL => $url,
 				CURLOPT_POST => true,
 				CURLOPT_POSTFIELDS => $hookObject,
-				CURLOPT_HTTPHEADER => ["Content-Type: application/json"]
+				CURLOPT_HTTPHEADER => [
+					"Length" => strlen( $hookObject ),
+					"Content-Type" => "application/json"
+				]
 			]);
-
+			curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
 			$response = curl_exec( $ch );
 			curl_close( $ch );
+        	$logs = new \models\Administration();
+       		$logs->insertLogs($utilisateur['id_user'], "a ajouté l'article <strong>" . \Rewritting::sanitize($_POST['title_page']) . "</strong> dans " . \Rewritting::sanitize($manga['titre']), "Rédaction");
         	\Http::redirect(\Rewritting::sanitize($manga['slug']));
         }
 	}
@@ -161,7 +189,7 @@ class RedactionMangas extends Controller {
 			if (empty($_POST['titre_page']) && strlen($_POST['titre_page']) < 1 AND strlen($_POST['titre_page']) > 50){
 				\Http::redirect(\Rewritting::sanitize($manga['slug_article']));
 			}
-			if (empty($_POST['image_page'] OR $_POST['liste_onglets']) OR $_POST['modif_visibilite']) {
+			if (empty($_POST['image_page'] OR $_POST['liste_onglets'])) {
 				\Http::redirect(\Rewritting::sanitize($manga['slug_article']));
 			}
 			$slug = \Rewritting::stringToURLString($_POST['titre_page']);

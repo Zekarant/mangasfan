@@ -1,6 +1,10 @@
 <h2 class="titre"><?= \Rewritting::sanitize($news['title']) ?></h2>
 <hr>
 <?= htmlspecialchars_decode(\Rewritting::sanitize($news['contenu'])) ?>
+<hr>
+<p class="small"><?php if($news['sources'] != ""){
+    echo "Sources : " . \Rewritting::sanitize($news['sources']); 
+} ?></p>
 <p class="auteur-news"><small>News rédigée le <?= \Rewritting::sanitize($news['create_date']) ?> par <a href="../membres/profil-<?= \Rewritting::sanitize($news['id_user']) ?>"><?= \Rewritting::sanitize($news['username']) ?></a><?php if($news['stagiaire']){ echo " (stagiaire)"; } ?></small></p>
 <hr>
 <div class="container">

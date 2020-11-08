@@ -5,6 +5,12 @@ namespace controllers;
 class Animes extends Controller {
 
 	protected $modelName = \models\Animes::class;
+    private $isAdmin;
+
+    public function __construct() {
+        parent::__construct();
+        $this->isAdmin = isset($_SESSION['auth']) ? $_SESSION['auth']['grade'] >= 4 : false;
+    }
 
 	public function index(){
 		$users = new \models\Users();
@@ -129,18 +135,18 @@ class Animes extends Controller {
 				}
 			}
 		}
-		$articlesAnimes = $this->model->pagesAnimes($anime['id']);
+		$articlesAnimes = $this->model->pagesAnimes($anime['id'], $this->isAdmin);
 		$lastArticle = $this->model->lastArticle($anime['id'], $_GET['id']);
 		$category = $this->model->category($anime['id']);
 		list($recup_all_category, $parcours_category) = $category;
 		$animes = $this->model->oneAnime($anime['id']);
 		$verifierCategory = $this->model->verifierCategory($animes['name_category'], $anime['id']);
-		$catExist = $this->model->categoryExist($animes['name_category'], $anime['id']);
+		$catExist = $this->model->categoryExist($animes['name_category'], $anime['id'], $this->isAdmin);
 		\Renderer::render('../templates/animes/voirAnime', '../templates/', compact('pageTitle', 'style', 'anime', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesAnimes', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'animes', 'description', 'image'));
 	}
 
 	public function categories(){
-		$category = $this->model->categoryExist($_GET['name_cat'], $_GET['id_elt']);
+		$category = $this->model->categoryExist($_GET['name_cat'], $_GET['id_elt'], $this->isAdmin);
 		$categories = $category->fetchAll();
 		return $categories;
 	}
@@ -159,12 +165,13 @@ class Animes extends Controller {
 		}
 
 		$article = $this->model->lastArticle($_GET['article'], $_GET['anime']);
-		if (!isset($article['slug_article'])) {
-			$_SESSION['flash-type'] = 'error-flash';
-			$_SESSION['flash-message'] = 'Cet article n\'existe pas !';
-			$_SESSION['flash-color'] = "warning";
-			\Http::redirect('../');
-		}
+        if (!isset($article['slug_article']) || ($article['visible'] && $_SESSION['auth']['grade'] < 4)) {
+            $_SESSION['flash-type'] = 'error-flash';
+            $_SESSION['flash-message'] = 'Cet article n\'existe pas !';
+            $_SESSION['flash-color'] = "warning";
+            \Http::redirect('../');
+        }
+
 		$pageTitle = $article['name_article'] . " - " . $article['titre'];
 		$style = "../../css/commentaires.css";
 		$image = $article['cover_image_article'];

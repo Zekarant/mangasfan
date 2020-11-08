@@ -9,8 +9,8 @@
  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
- <script type="text/javascript" src="https://mangasfan.fr/libraries/tinymce/js/tinymce/tinymce.min.js"></script>
- <script type="text/javascript" src="https://mangasfan.fr/libraries/tinymce/js/tinymce/tinymce.js"></script>
+ <script type="text/javascript" src="https://www.mangasfan.fr/templates/staff/tinymce/js/tinymce/tinymce.min.js"></script>
+ <script type="text/javascript" src="https://www.mangasfan.fr/templates/staff/tinymce/js/tinymce/tinymce.js"></script>
  <script>
   tinymce.init({
     selector: 'textarea',
@@ -59,9 +59,9 @@
             <a class="nav-link" href="/membres/compte.php">Mon compte</a>
           </li>
           <?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 2) { ?>
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Staff</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Staff</a>
+            </li>
           <?php } ?>
         </ul>
       </div>

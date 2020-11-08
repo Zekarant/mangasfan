@@ -5,6 +5,12 @@ namespace controllers;
 class Mangas extends Controller {
 
 	protected $modelName = \models\Mangas::class;
+    private $isAdmin;
+
+    public function __construct() {
+        parent::__construct();
+        $this->isAdmin = isset($_SESSION['auth']) ? $_SESSION['auth']['grade'] >= 4 : false;
+    }
 
 	public function index(){
 		$users = new \models\Users();
@@ -129,18 +135,18 @@ class Mangas extends Controller {
 				}
 			}
 		}
-		$articlesMangas = $this->model->pagesMangas($manga['id']);
+		$articlesMangas = $this->model->pagesMangas($manga['id'], $this->isAdmin);
 		$lastArticle = $this->model->lastArticle($manga['id'], $_GET['id']);
 		$category = $this->model->category($manga['id']);
 		list($recup_all_category, $parcours_category) = $category;
 		$mangas = $this->model->oneManga($manga['id']);
 		$verifierCategory = $this->model->verifierCategory($mangas['name_category'], $manga['id']);
-		$catExist = $this->model->categoryExist($mangas['name_category'], $manga['id']);
+		$catExist = $this->model->categoryExist($mangas['name_category'], $manga['id'], $this->isAdmin);
 		\Renderer::render('../templates/mangas/voirManga', '../templates/', compact('pageTitle', 'style', 'manga', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesMangas', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'mangas', 'description', 'image'));
 	}
 
 	public function categories(){
-		$category = $this->model->categoryExist($_GET['name_cat'], $_GET['id_elt']);
+		$category = $this->model->categoryExist($_GET['name_cat'], $_GET['id_elt'], $this->isAdmin);
 		$categories = $category->fetchAll();
 		return $categories;
 	}
@@ -159,12 +165,13 @@ class Mangas extends Controller {
 		}
 
 		$article = $this->model->lastArticle($_GET['article'], $_GET['manga']);
-		if (!isset($article['slug_article'])) {
+		if (!isset($article['slug_article']) || ($article['visible'] && $_SESSION['auth']['grade'] < 4)) {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = 'Cet article n\'existe pas !';
 			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('../');
 		}
+
 		$pageTitle = $article['name_article'] . " - " . \Rewritting::sanitize($article['titre']);
 		$style = "../../css/commentaires.css";
 		$image = $article['cover_image_article'];

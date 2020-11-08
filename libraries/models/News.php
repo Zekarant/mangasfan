@@ -27,6 +27,20 @@ class News extends Model {
 		return $news;
 	}
 
+	public function recentsMangas(){
+		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE type = "manga" ORDER BY id DESC LIMIT 3');
+		$req->execute();
+		$mangas = $req->fetchAll();
+		return $mangas;
+	}
+
+	public function recentsAnimes(){
+		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE type = "anime" ORDER BY id DESC LIMIT 3');
+		$req->execute();
+		$animes = $req->fetchAll();
+		return $animes;
+	}
+
 	public function archives(){
 		$req = $this->pdo->prepare('SELECT *, news.description AS description_news FROM news INNER JOIN users ON id_user = author ORDER BY id_news DESC LIMIT 51');
 		$req->execute();

@@ -13,7 +13,7 @@ class Animation extends Controller {
 			\Http::redirect('../../index.php');
 		}
 		$user = $users->user($_SESSION['auth']['id_user']);
-		if ($user['grade'] <= 2 || $user['grade'] == 5 || $user['grade'] == 4) {
+		if ($user['grade'] < 3 || $user['grade'] == 5 || $user['grade'] == 4) {
 			\Http::redirect('../../index.php');
 		}
 		$pageTitle = "Index de l'animation";

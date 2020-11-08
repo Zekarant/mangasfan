@@ -36,25 +36,51 @@
 </div>
 <a href="archives_news.php" class="d-flex justify-content-center"><img src="https://www.mangasfan.fr/images/test.png" class="image_archives" alt="Image archives" /></a>
 <br/>
-<h2 class="text-center">L'équipe de Mangas'Fan</h2>
-<hr>
-<div class="table-responsive">
-	<table class="table">
-		<thead>
-			<th>Pseudo</th>
-			<th>Rang</th>
-			<th>Manga préféré</th>
-			<th>Date d'inscription</th>
-		</thead>
-		<tbody>
-			<?php foreach ($staff as $equipe): ?>
-				<tr>
-					<td><a href="membres/profil-<?= \Rewritting::sanitize($equipe['id_user']) ?>"><?= \Rewritting::sanitize($equipe['username']) ?></a></td>
-					<td><span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($equipe['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($equipe['grade']), \Rewritting::sanitize($equipe['sexe']), \Rewritting::sanitize($equipe['stagiaire']), \Rewritting::sanitize($equipe['chef'])) ?></span></td>
-					<td><?= \Rewritting::sanitize($equipe['manga']) ?></td>
-					<td><?= date('d/m/Y', strtotime(\Rewritting::sanitize($equipe['confirmed_at']))); ?></td>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-6">
+			<h3 class="text-center">Dernier mangas ajoutés</h3>
+            <br/>
+			<div class="row">
+			<?php foreach ($mangas as $manga) { ?>
+				<div class="col-sm-4">
+				<div class="card card-jeux" style="width: 100%; margin-bottom: 20px;">
+					<a href="/mangas/<?= \Rewritting::sanitize($manga['slug']) ?>">
+						<img src="<?= \Rewritting::sanitize($manga['banniere']) ?>" class="card-img-top" style="object-fit: cover; height: 27rem;">
+					</a>
+					<div class="card-body">
+						<h5 class="card-title text-center"><?= \Rewritting::sanitize($manga['titre']) ?>
+							<?php if ($manga['publicAverti'] == 1) { ?>
+							 - <span class="badge badge-pill badge-danger">Public averti</span>
+						<?php } ?>
+						</h5>
+					</div>
+				</div>
+			</div>
+			<?php } ?>
+		</div>
+		</div>
+		<div class="col-lg-6">
+			<h3 class="text-center">Dernier animes ajoutés</h3>
+            <br>
+			<div class="row">
+			<?php foreach ($animes as $anime) { ?>
+				<div class="col-sm-4">
+				<div class="card card-jeux" style="width: 100%; margin-bottom: 20px;">
+					<a href="/animes/<?= \Rewritting::sanitize($anime['slug']) ?>">
+						<img src="<?= \Rewritting::sanitize($anime['banniere']) ?>" class="card-img-top" style="object-fit: cover; height: 27rem;">
+					</a>
+					<div class="card-body">
+						<h5 class="card-title text-center"><?= \Rewritting::sanitize($anime['titre']) ?>
+							<?php if ($anime['publicAverti'] == 1) { ?>
+							 - <span class="badge badge-pill badge-danger">Public averti</span>
+						<?php } ?>
+						</h5>
+					</div>
+				</div>
+			</div>
+			<?php } ?>
+		</div>
+		</div>
+	</div>
 </div>

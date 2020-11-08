@@ -55,7 +55,12 @@ class RedactionStaff extends Controller {
 		$pageTitle = "Modification de " . \Rewritting::sanitize($jeu['name_jeu']);
 		$style = "../../../css/staff.css";
 		if (isset($_POST['valid_entete'])) {
-			RedactionStaff::modifierEntete($_POST['title_game'], $_POST['picture_game'], $_POST['picture_pres'], $utilisateur, $jeu);
+			if (isset($_POST['avertissement'])) {
+				$avertissement = 1;
+			} else {
+				$avertissement = 0;
+			}
+			RedactionStaff::modifierEntete($_POST['title_game'], $_POST['picture_game'], $_POST['picture_pres'], $utilisateur, $jeu, $avertissement);
 		}
 		if (isset($_POST['valid_presentation'])) {
 			$this->model->modifierDescription($_POST['text_pres'], $jeu['id_jeux']);
@@ -75,16 +80,35 @@ class RedactionStaff extends Controller {
 		$recupererArticles = $this->model->articles($jeu['id_jeux']);
 		if (isset($_POST['valid_nouvelle_page'])) {
 			RedactionStaff::ajouterArticle($utilisateur, $jeu);
+		} elseif (isset($_POST['preview'])) {
+			RedactionStaff::preview($_POST['title_page'], $_POST['text_pres']);
+			die();
 		}
 		\Renderer::render('../../templates/staff/redaction/modifierJeu', '../../templates/staff', compact('pageTitle', 'style', 'utilisateur', 'jeu', 'countOnglets', 'recupererOnglets', 'recupererArticles'));
 	}
 
-	public function modifierEntete($title, $picture, $cover, $utilisateur, $jeu){
+	public function preview($titre, $contenu){
+		$pageTitle = "Preview de l'article";
+		$style = '../../../css/commentaires.css';
+		$users = new \models\Users();
+			if (!isset($_SESSION['auth'])) {
+				\Http::redirect('../../index.php');
+			}
+			$user = $users->user($_SESSION['auth']['id_user']);
+			if ($user['grade'] <= 3) {
+				\Http::redirect('../../index.php');
+			}
+			$titre = (empty($titre)) ? 'Aucun titre renseigné' : $titre;
+			$contenu = (empty($contenu)) ? 'Aucun contenu renseigné.' : $contenu;
+			\Renderer::render('../../templates/staff/redaction/preview', '../../templates/', compact('pageTitle', 'style', 'titre', 'contenu'));
+	}
+
+	public function modifierEntete($title, $picture, $cover, $utilisateur, $jeu, $avertissement){
 		if (empty($title) || empty($picture) || empty($cover)) {
           	\Http::redirect($jeu['slug']);
 		}
 		$slug = \Rewritting::stringToURLString($title);
-		$this->model->modifierEntete($title, $picture, $cover, $slug, $jeu['id_jeux']);
+		$this->model->modifierEntete($title, $picture, $cover, $slug, $jeu['id_jeux'], $avertissement);
 		$logs = new \models\Administration();
        	$logs->insertLogs($utilisateur['id_user'], "a modifié l'entête de <strong>" . \Rewritting::sanitize($jeu['name_jeu']) . "</strong> (Jeux vidéo)", "Rédaction");
 		\Http::redirect(\Rewritting::sanitize($slug));
@@ -107,24 +131,23 @@ class RedactionStaff extends Controller {
         	$slug = \Rewritting::stringToURLString($_POST['title_page']);
         	$idOnglet = $this->model->searchIdOnglet($jeu['id_jeux'], $categorie);
         	$this->model->ajouterArticle($jeu['id_jeux'], $idOnglet['id_category'], $_POST['title_page'], $_POST['text_pres'], $utilisateur['id_user'], $_POST['picture_game'], $slug, $_POST['visibilite']);
-        	$logs = new \models\Administration();
-       		$logs->insertLogs($utilisateur['id_user'], "a ajouté l'article <strong>" . \Rewritting::sanitize($_POST['title_page']) . "</strong> dans " . \Rewritting::sanitize($jeu['name_jeu']), "Rédaction");
-       		$url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
+        	$url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
 			$hookObject = json_encode([
-				"tts" => false,
 				"embeds" => [
 					[
-						"title" => "[Jeu vidéo] " . $jeu['name_jeu'] . " - " . htmlspecialchars($_POST['title_page']),
+						"title" => "[Jeu] " . $jeu['name_jeu'] . " - " . $_POST['title_page'],
 						"type" => "rich",
-						"url" => "https://www.mangasfan.fr/jeux-video/". \Rewritting::sanitize($jeu['slug']) . "/" .\Rewritting::sanitize($_POST['title_page']),
+						"url" => "https://www.mangasfan.fr/jeux-video/" . $jeu['slug'] . "/" . $slug,
 						"color" => 12211667,
+						"image" => [
+							"url" => $_POST['picture_game']
+						],
+						"thumbnail" => [
+							"url" => $_POST['picture_game']
+						],
 						"author" => [
 							"name" => "Mangas'Fan - Nouvel article - Posté par " . $utilisateur['username'],
-							"url" => "https://www.mangasfan.fr",
-							"icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
-						],
-						"image" => [
-							"url" => htmlspecialchars($_POST['picture_game'])
+							"url" => "https://mangasfan.fr"
 						],
 					]
 				]
@@ -137,11 +160,16 @@ class RedactionStaff extends Controller {
 				CURLOPT_URL => $url,
 				CURLOPT_POST => true,
 				CURLOPT_POSTFIELDS => $hookObject,
-				CURLOPT_HTTPHEADER => ["Content-Type: application/json"]
+				CURLOPT_HTTPHEADER => [
+					"Length" => strlen( $hookObject ),
+					"Content-Type" => "application/json"
+				]
 			]);
-
+			curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
 			$response = curl_exec( $ch );
 			curl_close( $ch );
+        	$logs = new \models\Administration();
+       		$logs->insertLogs($utilisateur['id_user'], "a ajouté l'article <strong>" . \Rewritting::sanitize($_POST['title_page']) . "</strong> dans " . \Rewritting::sanitize($jeu['name_jeu']), "Rédaction");
         	\Http::redirect(\Rewritting::sanitize($jeu['slug']));
         }
 	}
@@ -191,7 +219,7 @@ class RedactionStaff extends Controller {
 			if (empty($_POST['titre_page']) && strlen($_POST['titre_page']) < 1 AND strlen($_POST['titre_page']) > 50){
 				\Http::redirect(\Rewritting::sanitize($jeu['slug_article']));
 			}
-			if (empty($_POST['image_page'] OR $_POST['liste_onglets']) OR $_POST['modif_visibilite']) {
+			if (empty($_POST['image_page'] OR $_POST['liste_onglets'])) {
 				\Http::redirect(\Rewritting::sanitize($jeu['slug_article']));
 			}
 			$slug = \Rewritting::stringToURLString($_POST['titre_page']);

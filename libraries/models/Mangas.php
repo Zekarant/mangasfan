@@ -39,15 +39,27 @@ class Mangas extends Model {
 		return $verif_jeu_exist;
 	}
 
-	public function pagesMangas(int $idManga){
-		$liste_pages = $this->pdo->prepare("SELECT * FROM mangas_animes_articles INNER JOIN categories_mangas_animes ON id_onglet = id_category WHERE mangas_animes_articles.id_anime_mangas = :idManga ORDER BY id DESC");
-		$liste_pages->execute(['idManga' => $idManga]);
+	public function pagesMangas(int $idManga, int $isAdmin){
+		$liste_pages = $this->pdo->prepare("SELECT * FROM mangas_animes_articles 
+            INNER JOIN categories_mangas_animes 
+                ON id_onglet = id_category 
+            WHERE mangas_animes_articles.id_anime_mangas = :idManga  AND (:isAdmin || visible = 0)
+            ORDER BY id DESC");
+		$liste_pages->execute(['idManga' => $idManga, 'isAdmin' => $isAdmin]);
 		$donnees_pages = $liste_pages->fetchAll();
 		return $donnees_pages;
 	}
 
 	public function lastArticle($idManga, $idPage){
-		$liste_pages = $this->pdo->prepare("SELECT * FROM mangas_animes_articles INNER JOIN categories_mangas_animes ON mangas_animes_articles.id_anime_mangas = categories_mangas_animes.id_anime_mangas INNER JOIN mangas_animes ON mangas_animes.id = mangas_animes_articles.id_anime_mangas WHERE (mangas_animes_articles.id_anime_mangas = :idManga OR slug_article = :idManga) AND (mangas_animes_articles.id_anime_mangas = :idPage OR slug = :idPage) ORDER BY mangas_animes_articles.id DESC LIMIT 1");
+		$liste_pages = $this->pdo->prepare("SELECT * FROM mangas_animes_articles 
+            INNER JOIN categories_mangas_animes 
+                ON mangas_animes_articles.id_anime_mangas = categories_mangas_animes.id_anime_mangas 
+            INNER JOIN mangas_animes 
+                ON mangas_animes.id = mangas_animes_articles.id_anime_mangas 
+            WHERE (mangas_animes_articles.id_anime_mangas = :idManga OR slug_article = :idManga) 
+            AND (mangas_animes_articles.id_anime_mangas = :idPage OR slug = :idPage)
+            ORDER BY mangas_animes_articles.id DESC 
+            LIMIT 1");
 		$liste_pages->execute(['idManga' => $idManga, 'idPage' => $idPage]);
 		$donnees_pages = $liste_pages->fetch();
 		return $donnees_pages;
@@ -73,9 +85,14 @@ class Mangas extends Model {
 		return $verif_cat;
 	}
 
-	public function categoryExist(string $category, int $idJeu){
-		$cat_exist = $this->pdo->prepare("SELECT *, O.name_category AS name_onglet FROM mangas_animes_articles P INNER JOIN categories_mangas_animes O ON P.id_onglet = O.id_category INNER JOIN mangas_animes j ON j.id = P.id_anime_mangas LEFT JOIN users u ON u.id_user = P.id_member WHERE O.name_category = :category AND P.id_anime_mangas = :idJeu AND visible = 0 LIMIT 10");
-		$cat_exist->execute(['category' => $category, 'idJeu' => $idJeu]);
+	public function categoryExist(string $category, int $idJeu, int $is_admin){
+		$cat_exist = $this->pdo->prepare("SELECT *, O.name_category AS name_onglet
+        FROM mangas_animes_articles P
+        INNER JOIN categories_mangas_animes O ON P.id_onglet = O.id_category
+        INNER JOIN mangas_animes j ON j.id = P.id_anime_mangas LEFT JOIN users u ON u.id_user = P.id_member
+        WHERE O.name_category = :category AND P.id_anime_mangas = :idJeu AND (:isAdmin || visible = 0) LIMIT 10"
+        );
+		$cat_exist->execute(['category' => $category, 'idJeu' => $idJeu, 'isAdmin' => $is_admin]);
 		return $cat_exist;
 	}
 

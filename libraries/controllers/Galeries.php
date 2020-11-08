@@ -318,23 +318,61 @@ class Galeries extends Controller {
 			$nsfw = 0;
 		}
 		$tailleMax = 2097152;
-       	$image = $_FILES['image_galerie']['name'];
-       	$extensionsValides = array('jpg', 'jpeg', 'gif', 'png');
-       	if($_FILES['image_galerie']['size'] <= $tailleMax) {
-        	$extensionUpload = strtolower(substr(strrchr($image, '.'), 1));
-        	if(in_array($extensionUpload, $extensionsValides)) {
-          		$chemin = "images/".$image;
-          		$resultat = move_uploaded_file($_FILES['image_galerie']['tmp_name'], $chemin);
-          		$slug = \Rewritting::stringToURLString($_POST['titre']);
-          		$this->model->ajouterImage($image, $_POST['titre'], $_POST['titre_image'], $_POST['contenu'], $utilisateur['id_user'], $nsfw, $slug);
-          		$logs = new \models\Administration();
+		$image = $_FILES['image_galerie']['name'];
+		$extensionsValides = array('jpg', 'jpeg', 'gif', 'png');
+		if($_FILES['image_galerie']['size'] <= $tailleMax) {
+			$extensionUpload = strtolower(substr(strrchr($image, '.'), 1));
+			if(in_array($extensionUpload, $extensionsValides)) {
+				$chemin = "images/".$image;
+				$resultat = move_uploaded_file($_FILES['image_galerie']['tmp_name'], $chemin);
+				$slug = \Rewritting::stringToURLString($_POST['titre']);
+				$titre = $_POST['titre'];
+				$this->model->ajouterImage($image, $_POST['titre'], $_POST['titre_image'], $_POST['contenu'], $utilisateur['id_user'], $nsfw, $slug);
+				$url = "https://discordapp.com/api/webhooks/719864711683768391/3VUaNC1u60sZfBhHPhDnPJEGXbkgSHd8TPx-6Y-oT0KeFhHlSY8nFD2ASBBnpinOF5KX";
+				$hookObject = json_encode([
+					"embeds" => [
+						[
+							"title" => $_POST['titre'],
+							"type" => "rich",
+							"url" => "https://www.mangasfan.fr/galeries/" . $slug,
+							"color" => 12211667,
+							"image" => [
+								"url" => "https://www.mangasfan.fr/galeries/images/" . $image
+							],
+							"thumbnail" => [
+								"url" => "https://www.mangasfan.fr/galeries/images/" . $image
+							],
+							"author" => [
+								"name" => "Mangas'Fan - Nouvelle image de l'artiste " . $utilisateur['username'],
+								"url" => "https://mangasfan.fr"
+							],
+						]
+					]
+
+				], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+				$ch = curl_init();
+
+				curl_setopt_array( $ch, [
+					CURLOPT_URL => $url,
+					CURLOPT_POST => true,
+					CURLOPT_POSTFIELDS => $hookObject,
+					CURLOPT_HTTPHEADER => [
+						"Length" => strlen( $hookObject ),
+						"Content-Type" => "application/json"
+					]
+				]);
+				curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
+				$response = curl_exec( $ch );
+				curl_close( $ch );
+				$logs = new \models\Administration();
 				$logs->insertLogs($utilisateur['id_user'], "a ajouté une image sur sa galerie", "Galeries");
 				$_SESSION['flash-type'] = "error-flash";
 				$_SESSION['flash-message'] = "L'image a bien été ajoutée !";
 				$_SESSION['flash-color'] = "success";
 				\Http::redirect('index.php');
-          	}
-         }
+			}
+		}
 	}
 
 	public function supprimerImage(){
