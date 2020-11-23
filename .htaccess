@@ -27,6 +27,10 @@ RewriteRule ^staff/redaction/modification-animes/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]
 
 RewriteRule ^categories/([0-9a-zA-Z_-]+)$ categories.php?id=$1 [L,QSA]
 
+RewriteRule ^forum/([0-9a-zA-Z_-]+)$ forum/voir_topic.php?id_topic=$1 [L,QSA]
+RewriteRule ^forum/([0-9a-zA-Z_-]+)/([a-zA-Z0-9_-]+)$ forum/voir_soustopics.php?id=$1&id_sous=$2 [L,QSA]
+RewriteRule ^forum/([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]+)$ forum/voir_messages.php?id_category=$1&souscategory=$2&id_message=$3 [L,QSA]
+
 ErrorDocument 400 /erreurs/erreur_400.php
 ErrorDocument 401 /erreurs/erreur_401.php
 ErrorDocument 402 /erreurs/erreur_402.php
