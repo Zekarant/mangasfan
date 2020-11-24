@@ -35,9 +35,15 @@
 				<a href="voir_messages.php?id_category=<?= \Rewritting::sanitize($categorie['id']); ?>&souscategory=<?= \Rewritting::sanitize($categorie['id']); ?>&id_message=<?= \Rewritting::sanitize($topic['id_topic']); ?>"><?= \Rewritting::sanitize($topic['titre']); ?></a>
 				<p><em><?= \Rewritting::sanitize(substr($topic['contenu'] , 0, 100)); ?>...</em></p>
 			</td>
-			<td>5 messages</td>
-			<td><a href="#">Admin</a> - Le XX/XX/XXXX</td>
-			<td><a href="#">Admin</a></td>
+			<td><?php if ($compter == 0) {
+				echo "Aucune réponse";
+			} elseif ($compter == 1) {
+				echo "1 réponse";
+			} else {
+				echo $compter . " réponses";
+			} ?></td>
+			<td>Par <a href="../membres/profil-<?= $dernierMembre['id_user'] ?>"><?= $dernierMembre['username'] ?></a> - Le <?= $dernierMembre['date_created'] ?></td>
+			<td><a href="#"><?= \Rewritting::sanitize($topic['username']) ?></a></td>
 		</tr>
 	<?php endforeach;
 	} ?>

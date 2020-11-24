@@ -117,8 +117,9 @@ class Forum extends Controller {
 		$pageTitle = \Rewritting::sanitize($categorie['name']);
 		$sousCategories = $this->model->listerSousCategories($categorie['id']);
 		$topics = $this->model->listerTopics($categorie['id']);
-		
-		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'sousCategories', 'topics', 'categorie'));
+		$compter = $this->model->compterMessages($categorie['id']);
+		$dernierMembre = $this->model->dernierMessage($categorie['id']);
+		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'sousCategories', 'topics', 'categorie', 'compter', 'dernierMembre'));
 	}
 
 	public function listerSousTopic(){
@@ -161,12 +162,12 @@ class Forum extends Controller {
 				if ($_GET['id_category'] === $_GET['souscategory']) {
 					$categorie = $this->model->recupererCategorie($_GET['id_category']);
 					$topic = $this->model->recupererTopicBySlugInt($categorie['slug'], $_GET['id_message']);
-					\Http::redirect(\Rewritting::sanitize($categorie['slug']) . "/messages/" . \Rewritting::sanitize($topic['titre']));
+					\Http::redirect(\Rewritting::sanitize($categorie['slug']) . "/messages/" . \Rewritting::sanitize($topic['slug_topic']));
 				} else {
 					$categorie = $this->model->recupererCategorie($_GET['id_category']);
 					$sousCategorie = $this->model->recupererCategorie($_GET['souscategory']);
 					$topic = $this->model->recupererTopicBySlugInt($sousCategorie['slug'], $_GET['id_message']);
-					\Http::redirect(\Rewritting::sanitize($categorie['slug'] . "/" . $sousCategorie['slug']) . "/" . \Rewritting::sanitize($topic['titre']));
+					\Http::redirect(\Rewritting::sanitize($categorie['slug'] . "/" . $sousCategorie['slug']) . "/" . \Rewritting::sanitize($topic['slug']));
 
 				}
 			} else {

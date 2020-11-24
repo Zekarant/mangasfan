@@ -56,8 +56,21 @@ class Forum extends Model {
 		return $sousCategories;
 	}
 
+	public function compterMessages(int $categorie){
+		$req = $this->pdo->prepare('SELECT * FROM f_messages INNER JOIN f_topics ON f_topics.id_topic = f_messages.id_topic WHERE f_topics.id_category = :categorie');
+		$req->execute(['categorie' => $categorie]);
+		return $req->rowCount();
+	}
+
+	public function dernierMessage(int $categorie){
+		$req = $this->pdo->prepare('SELECT * FROM f_messages INNER JOIN f_topics ON f_topics.id_topic = f_messages.id_topic INNER JOIN users ON users.id_user = f_messages.id_user WHERE f_topics.id_category = :categorie ORDER BY id_message DESC');
+		$req->execute(['categorie' => $categorie]);
+		$user = $req->fetch();
+		return $user;
+	}
+
 	public function listerTopics(int $id){
-		$req = $this->pdo->prepare('SELECT * FROM f_topics INNER JOIN forum_categories ON id = id_category WHERE id = :id');
+		$req = $this->pdo->prepare('SELECT * FROM f_topics INNER JOIN forum_categories ON id = id_category INNER JOIN users ON id_user = id_createur  WHERE id = :id');
 		$req->execute(['id' => $id]);
 		$topics = $req->fetchAll();
 		return $topics;
@@ -72,14 +85,14 @@ class Forum extends Model {
 
 	public function recupererTopicBySlug(string $idCategory, string $idTopic){
 		$req = $this->pdo->prepare('
-			SELECT * 
+			SELECT *
 			FROM f_topics 
 			INNER JOIN users 
 			ON users.id_user = f_topics.id_createur
 			INNER JOIN 
 			forum_categories
 			ON forum_categories.id = f_topics.id_category
-			WHERE forum_categories.slug = :idCategory AND f_topics.slug = :idTopic');
+			WHERE forum_categories.slug = :idCategory AND f_topics.slug_topic = :idTopic');
 		$req->execute(['idCategory' => $idCategory, 'idTopic' => $idTopic]);
 		$topic = $req->fetch();
 		return $topic;
