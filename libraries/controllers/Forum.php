@@ -17,7 +17,11 @@ class Forum extends Controller {
 		if (isset($_POST['categorieSubmit'])) {
 			Forum::ajouterCategorie($_POST['titreCategorie'], $_POST['categoriesAdd']);
 		}
-		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'categories', 'recupererCategoriesPrincipales'));
+		if (isset($_POST['sousCategorieSubmit'])) {
+			Forum::ajouterCategorie($_POST['titreSousCategorie'], $_POST['sousCategoriesAdd']);
+		}
+		$recupererSousCategoriesPrincipales = $this->model->sousCategories();
+		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'categories', 'recupererCategoriesPrincipales', 'recupererSousCategoriesPrincipales'));
 	}
 
 	public function ajouterSection(string $nameSection){
@@ -44,6 +48,29 @@ class Forum extends Controller {
 	}
 
 	public function ajouterCategorie(string $nameCategorie, int $parent){
+		if (!empty($nameCategorie)) {
+			if (strlen($nameCategorie) > 5) {
+				$slug = \Rewritting::stringToURLString($nameCategorie);
+				$this->model->ajouterCategorie($nameCategorie, $parent, $slug);
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "La catégorie a bien été créée dans la section demandée";
+				$_SESSION['flash-color'] = "success";
+				\Http::redirect('index.php');
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Le titre de la catégorie est trop court, il doit avoir 6 caractères minimum.";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous ne pouvez pas ajouter une catégorie qui ne possède pas de titre !";
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function ajouterSousCategorie(string $nameCategorie, int $parent){
 		if (!empty($nameCategorie)) {
 			if (strlen($nameCategorie) > 5) {
 				$slug = \Rewritting::stringToURLString($nameCategorie);

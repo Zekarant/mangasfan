@@ -14,6 +14,15 @@ class Forum extends Model {
 		return $categories;
 	}
 
+
+	public function sousCategories(){
+		$req = $this->pdo->prepare('SELECT base.id, base.name FROM forum_categories base LEFT OUTER JOIN forum_categories parents ON parents.id = base.parents WHERE parents.parents = 0 GROUP BY base.id');
+		$req->execute();
+		$sousCategories = $req->fetchAll();
+		return $sousCategories;
+	}
+
+
 	/* FONCTION QUI PERMET D'AJOUTER UN TOPIC
 	* @param string $titre
 	* @param string $contenu

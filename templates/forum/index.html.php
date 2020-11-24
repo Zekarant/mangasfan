@@ -68,17 +68,17 @@
 					<br/>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
-						<input type="submit" name="categorieSubmit" class="btn btn-outline-primary" value="Poster le catégorie" />
+						<input type="submit" name="categorieSubmit" class="btn btn-outline-primary" value="Poster la catégorie" />
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalLong">
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addsousCategorie">
 	Ajouter une nouvelle sous-catégorie
 </button>
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="addsousCategorie" tabindex="-1" role="dialog" aria-labelledby="addsousCategorieTitle" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -88,55 +88,32 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form method="POST" action="ajouter_topic.php">
+				<form method="POST" action="">
 					<div class="row">
 						<div class="col-lg-3">
-							Sujet :
+							Titre de la sous-catégorie :
 						</div>
 						<div class="col-lg-9">
-							<input type="text" name="tsujet" class="form-control" placeholder="Saisir le titre de votre sujet" />
+							<input type="text" name="titreSousCategorie" class="form-control" placeholder="Saisir le titre de votre sous-catégorie" />
 						</div>
 					</div>
 					<br/>
 					<div class="row">
 						<div class="col-lg-3">
-							Catégorie :
+							Catégorie concernée :
 						</div>
 						<div class="col-lg-9">
-							<select class="form-control">
-								<option>Catégorie 1</option>
-								<option>Catégorie 2</option>
-								<option>Catégorie 3</option>
-								<option>Catégorie 1</option>
+							<select class="form-control" name="sousCategoriesAdd">
+								<?php foreach ($recupererSousCategoriesPrincipales as $sousCategorie): ?>
+									<option value="<?= \Rewritting::sanitize($sousCategorie['id']) ?>"><?= \Rewritting::sanitize($sousCategorie['name']) ?></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
 					<br/>
-					<div class="row">
-						<div class="col-lg-3">
-							Sous-catégorie :
-						</div>
-						<div class="col-lg-9">
-							<select class="form-control">
-								<option>Catégorie 1</option>
-								<option>Catégorie 2</option>
-								<option>Catégorie 3</option>
-								<option>Catégorie 1</option>
-							</select>
-						</div>
-					</div>
-					<br/>
-					<div class="row">
-						<div class="col-lg-3">
-							Message :
-						</div>
-						<div class="col-lg-9">
-							<textarea class="form-control" name="tcontenu" placeholder="Saisir votre message ici"></textarea>
-						</div>
-					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
-						<input type="submit" name="tsubmit" class="btn btn-outline-primary" value="Poster le topic" />
+						<input type="submit" name="sousCategorieSubmit" class="btn btn-outline-primary" value="Poster la sous-catégorie" />
 					</div>
 				</form>
 			</div>
