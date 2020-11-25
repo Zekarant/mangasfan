@@ -62,6 +62,33 @@ class Forum extends Model {
 		return $req->rowCount();
 	}
 
+	public function compterTopicsAccueil(int $idCategory) {
+   		$nbr = $this->pdo->prepare('SELECT * FROM forum_categories INNER JOIN f_topics ON f_topics.id_category = forum_categories.id WHERE forum_categories.id = :idCategory OR forum_categories.parents = :idCategory');
+   		$nbr->execute(['idCategory' => $idCategory]);
+   		return $nbr->rowCount();
+	}
+
+	public function chercherDernierMember(int $idCategory) {
+		$req = $this->pdo->prepare('SELECT * FROM f_messages INNER JOIN users ON users.id_user = f_messages.id_user INNER JOIN f_topics ON f_topics.id_topic = f_messages.id_topic INNER JOIN forum_categories ON forum_categories.id = f_topics.id_category WHERE f_topics.id_category = :idCategory OR forum_categories.parents = :idCategory ORDER BY f_messages.date_created DESC');
+   		$req->execute(['idCategory' => $idCategory]);
+   		$dernierMembre = $req->fetch();
+   		return $dernierMembre;
+	}
+
+
+
+	public function compterMessagesAccueil(int $categorie){
+		$req = $this->pdo->prepare('SELECT * FROM f_messages INNER JOIN f_topics ON f_topics.id_topic = f_messages.id_topic WHERE f_topics.id_category = :categorie AND forum_categories.parents = :categorie');
+		$req->execute(['categorie' => $categorie]);
+		return $req->rowCount();
+	}
+
+	public function nombreTopics(int $idCategory){
+		$nbr = $this->pdo->prepare('SELECT * FROM f_topics INNER JOIN forum_categories ON forum_categories.id = f_topics.id_category WHERE forum_categories.id = :idCategory');
+   		$nbr->execute(['idCategory' => $idCategory]);
+   		return $nbr->rowCount();
+	}
+
 	public function dernierMessage(int $categorie){
 		$req = $this->pdo->prepare('SELECT * FROM f_messages INNER JOIN f_topics ON f_topics.id_topic = f_messages.id_topic INNER JOIN users ON users.id_user = f_messages.id_user WHERE f_topics.id_category = :categorie ORDER BY id_message DESC');
 		$req->execute(['categorie' => $categorie]);

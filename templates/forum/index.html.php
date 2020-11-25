@@ -128,7 +128,7 @@
 		if ($titleCategory['parents'] == 0): ?>
 			<tr class="table-info">
 				<th><?= \Rewritting::sanitize($titleCategory['name']) ?></th>
-				<th>Messages</th>
+				<th>Topics</th>
 				<th>Dernier message</th>
 			</tr>
 			<?php
@@ -146,8 +146,27 @@
 							$sousCategorie = substr($sousCategorie, 0, -3); ?>
 							<?= $sousCategorie; ?>
 						</td>
-						<td>5 messages</td>
-						<td>Posté par <a href="#">Admin</a></td>
+						<td><?php
+						$controller = new \models\Forum;
+						$compter = $controller->compterTopicsAccueil($category['id']); 
+						if ($compter == 0) {
+							echo "Aucun topic";
+						} elseif ($compter == 1) {
+							echo "1 topic";
+						} else {
+							echo $compter . " topics";
+						}
+						?></td>
+						<td>
+							<?php $dernierPerso = $controller->chercherDernierMember($category['id']); 
+							var_dump($dernierPerso);
+							if (isset($dernierPerso) AND $dernierPerso != NULL){ ?>
+								<a href="#"><?= $dernierPerso['titre'] ?></a> | 
+								Posté par <a href="../membres/profil-<?= $dernierPerso['id_user'] ?>"><?= $dernierPerso['username'] ?></a>
+							<?php } else {
+								echo "Aucun message";
+							} ?>
+							</td>
 					</tr>
 				<?php endif;
 			endforeach;

@@ -167,7 +167,7 @@ class Forum extends Controller {
 					$categorie = $this->model->recupererCategorie($_GET['id_category']);
 					$sousCategorie = $this->model->recupererCategorie($_GET['souscategory']);
 					$topic = $this->model->recupererTopicBySlugInt($sousCategorie['slug'], $_GET['id_message']);
-					\Http::redirect(\Rewritting::sanitize($categorie['slug'] . "/" . $sousCategorie['slug']) . "/" . \Rewritting::sanitize($topic['slug']));
+					\Http::redirect(\Rewritting::sanitize($categorie['slug'] . "/" . $sousCategorie['slug']) . "/" . \Rewritting::sanitize($topic['slug_topic']));
 
 				}
 			} else {

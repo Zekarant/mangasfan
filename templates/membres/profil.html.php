@@ -27,7 +27,7 @@
 		<p>Ce membre possède <?= \Rewritting::sanitize($profil['points']); ?> Mangas'Points.</p>
 	</div>
 </div>
-<?php if ($utilisateur['grade'] >= 6 && $utilisateur['grade'] >= $profil['grade'] && $utilisateur['id_user'] != $profil['id_user']) { ?>
+<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 6 && $utilisateur['grade'] >= $profil['grade'] && $utilisateur['id_user'] != $profil['id_user']) { ?>
 	<h3>Modération du membre</h3>
 	<hr>
 	<div class="alert alert-info" role="alert">
