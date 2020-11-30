@@ -1,72 +1,32 @@
-<?php if ($sousCategories != ""): ?>
-	<table class="table">
-		<tr class="table-info">
-			<th>Autres catégories de "<?= \Rewritting::sanitize($categorie['name']); ?>"</th>
-			<th>Topics</th>
-			<th>Dernier message</th>
-		</tr>
-		<?php foreach ($sousCategories as $sousCategorie): ?>
-			<tr>
-				<td>
-					<h5><a href="<?= \Rewritting::sanitize($categorie['slug']) . "/" . \Rewritting::sanitize($sousCategorie['slug']); ?>"><?= \Rewritting::sanitize($sousCategorie['name']); ?></a></h5>
-				</td>
-				<td><?php
-						$controller = new \models\Forum;
-						$compter = $controller->nombreTopics($sousCategorie['id']);
-						if ($compter == 0) {
-							echo "Aucun topic";
-						} elseif ($compter == 1) {
-							echo "1 topic";
-						} else {
-							echo $compter . " topics";
-						}
-						?></td>
-				<td><?php $dernierPerso = $controller->chercherDernierMember($sousCategorie['id']); 
-				if (isset($dernierPerso) AND $dernierPerso != NULL){ ?>
-								<a href="#"><?= $dernierPerso['titre'] ?></a> | 
-								Posté par <a href="../membres/profil-<?= $dernierPerso['id_user'] ?>"><?= $dernierPerso['username'] ?></a>
-							<?php } else {
-								echo "Aucun message";
-							} ?></td>
-			</tr>
-		<?php endforeach; ?>
-	</table>
-	<hr>
-<?php endif; ?>
-<h2><?= \Rewritting::sanitize($categorie['name']); ?></h2>
+<p><em>Votre localisation : <a href="../forum">Accueil du forum</a> -> <a href="voirforum.php?f=<?= $topic['id_forum'] ?>"><?= $topic['forum_name'] ?></a> -> <?= $topic['topic_titre'] ?></em></p>
 <hr>
-<table class="table">
-	<tr class="table-info">
-		<th>Messages du topic "<?= \Rewritting::sanitize($categorie['name']); ?>"</th>
-		<th>Réponses</th>
-		<th>Dernière réponse</th>
-		<th>Crée par</th>
-	</tr>
-	<?php if ($topics == NULL) { ?>
-		<td>Aucun message</td>
-	<?php } else {
-	foreach ($topics as $topic): ?>
-		<tr>
-			<td>
-				<a href="voir_messages.php?id_category=<?= \Rewritting::sanitize($categorie['id']); ?>&souscategory=<?= \Rewritting::sanitize($categorie['id']); ?>&id_message=<?= \Rewritting::sanitize($topic['id_topic']); ?>"><?= \Rewritting::sanitize($topic['titre']); ?></a>
-				<p><em><?= \Rewritting::sanitize(substr($topic['contenu'] , 0, 100)); ?>...</em></p>
-			</td>
-			<td><?php if ($compter == 0) {
-				echo "Aucune réponse";
-			} elseif ($compter == 1) {
-				echo "1 réponse";
-			} else {
-				echo $compter . " réponses";
-			} ?></td>
-			<td>
-				<?php if ($dernierMembre != NULL) { ?>
-					Par <a href="../membres/profil-<?= $dernierMembre['id_user'] ?>"><?= $dernierMembre['username'] ?></a> - Le <?= $dernierMembre['date_created'] ?>
-				<?php } else {
-					echo "Aucun message";
-				} ?>
-				</td>
-			<td><a href="#"><?= \Rewritting::sanitize($topic['username']) ?></a></td>
-		</tr>
-	<?php endforeach;
-	} ?>
-</table>
+<h2 class="titre"><?= \Rewritting::sanitize($topic['topic_titre']) ?></h2>
+<hr>
+<a href="#" class="btn btn-outline-info">Répondre</a>
+<br/><br/>
+<?php foreach ($messages as $message): ?>
+	<div class="card">
+	<div class="card-header">
+		<?= \Rewritting::sanitize($topic['topic_titre']) ?> - Posté le <?= \Rewritting::sanitize($message['date_created']); ?>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-lg-2 text-center" style="border-right: 1px solid <?= Color::rang_etat(\Rewritting::sanitize($message['grade'])) ?>">
+				<img src="../membres/images/avatars/<?= $message['avatar']; ?>" width="160"/><br/>
+				<h4><a href="../membres/profil-<?= \Rewritting::sanitize($message['id_utilisateur']) ?>"><?= \Rewritting::sanitize($message['username']); ?></a></h4>
+				<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat(\Rewritting::sanitize($message['grade'])) ?>;"><?= Color::getRang(\Rewritting::sanitize($message['grade']), \Rewritting::sanitize($message['sexe']), \Rewritting::sanitize($message['stagiaire']), \Rewritting::sanitize($message['chef'])) ?></span>
+				<hr>
+				<p class="small">
+					Manga préféré : <?= \Rewritting::sanitize($message['manga']); ?><br/>
+					Anime préféré : <?= \Rewritting::sanitize($message['anime']); ?><br/>
+					Points : <?= \Rewritting::sanitize($message['points']); ?> points
+				</p>
+			</div>
+			<div class="col-lg-10">
+				<?= htmlspecialchars_decode(\Rewritting::sanitize($message['contenu'])) ?>
+			</div>
+		</div>
+	</div>
+</div>
+<br/>
+<?php endforeach; ?>

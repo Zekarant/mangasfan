@@ -27,7 +27,7 @@
 <?php foreach ($messages as $message): ?>
 	<div class="card">
 		<div class="card-header">
-			Re : <?= \Rewritting::sanitize($message['titre']) ?> - Posté le <?= \Rewritting::sanitize($message['date_creation']); ?>
+			Re : <?= \Rewritting::sanitize($message['titre']) ?> - Posté le <?= \Rewritting::sanitize($message['date_created']); ?>
 		</div>
 		<div class="card-body">
 			<div class="row">

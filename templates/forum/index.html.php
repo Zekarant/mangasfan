@@ -124,53 +124,36 @@
 <h1 class="titre">Index du forum</h1>
 <hr>
 <table class="table">
-	<?php foreach($categories AS $titleCategory):
-		if ($titleCategory['parents'] == 0): ?>
+	<?php
+	$categorie = 0;
+	foreach ($categories as $category):
+		if ($categorie != $category['id']) {
+			$categorie = $category['id']; ?>
 			<tr class="table-info">
-				<th><?= \Rewritting::sanitize($titleCategory['name']) ?></th>
-				<th>Topics</th>
-				<th>Dernier message</th>
+				<th></th>
+				<th><?= \Rewritting::sanitize($category['name']); ?></th>             
+				<th>Sujets</th>       
+				<th>Messages</th>       
+				<th>Dernier message</th>   
 			</tr>
-			<?php
-			foreach($categories AS $category): 
-				if($titleCategory['id'] == $category['parents']): ?>
-					<tr>
-						<td>
-							<h4><a href="<?= \Rewritting::sanitize($category['slug']) ?>"><?= \Rewritting::sanitize($category['name']); ?></a></h4>
-							<?php $sousCategorie = "";
-							foreach($categories as $cats):
-								if($category['id'] == $cats['parents']):
-									$sousCategorie .=  "<a href='". \Rewritting::sanitize($category['slug']) . "/" . \Rewritting::sanitize($cats['slug']) ."'>" . \Rewritting::sanitize($cats['name']) . "</a> - ";
-								endif;
-							endforeach; 
-							$sousCategorie = substr($sousCategorie, 0, -3); ?>
-							<?= $sousCategorie; ?>
-						</td>
-						<td><?php
-						$controller = new \models\Forum;
-						$compter = $controller->compterTopicsAccueil($category['id']); 
-						if ($compter == 0) {
-							echo "Aucun topic";
-						} elseif ($compter == 1) {
-							echo "1 topic";
-						} else {
-							echo $compter . " topics";
-						}
-						?></td>
-						<td>
-							<?php $dernierPerso = $controller->chercherDernierMember($category['id']); 
-							var_dump($dernierPerso);
-							if (isset($dernierPerso) AND $dernierPerso != NULL){ ?>
-								<a href="#"><?= $dernierPerso['titre'] ?></a> | 
-								Posté par <a href="../membres/profil-<?= $dernierPerso['id_user'] ?>"><?= $dernierPerso['username'] ?></a>
-							<?php } else {
-								echo "Aucun message";
-							} ?>
-							</td>
-					</tr>
-				<?php endif;
-			endforeach;
-		endif;
-	endforeach; ?>
+		<?php } ?>
+		<tr>
+			<td></td>
+			<td>
+				<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= \Rewritting::sanitize($category['forum_name']) ?></a><br/>
+				<em><?= \Rewritting::sanitize($category['forum_description']) ?></em>
+			</td>
+			<td><?= \Rewritting::sanitize($category['nb_topic']) ?></td>
+			<td><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
+			<td><?php if (!empty($category['forum_post'])){ ?>
+					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?><br/>
+					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>"><?= $category['username'] ?></a> - 
+					<a href="#">Accéder au message</a>
+			<?php } else { ?>
+				Pas de message
+			<?php } ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
 </table>
 

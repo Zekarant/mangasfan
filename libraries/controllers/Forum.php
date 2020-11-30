@@ -9,20 +9,49 @@ class Forum extends Controller {
 	public function index(){
 		$pageTitle = "Index du forum";
 		$style = '../css/commentaires.css';
-		$categories = $this->model->recupererCategories();
-		if (isset($_POST['sectionSubmit'])) {
-			Forum::ajouterSection($_POST['sectionName']);
-		}
-		$recupererCategoriesPrincipales = $this->model->listerSousCategories(0);
-		if (isset($_POST['categorieSubmit'])) {
-			Forum::ajouterCategorie($_POST['titreCategorie'], $_POST['categoriesAdd']);
-		}
-		if (isset($_POST['sousCategorieSubmit'])) {
-			Forum::ajouterCategorie($_POST['titreSousCategorie'], $_POST['sousCategoriesAdd']);
-		}
-		$recupererSousCategoriesPrincipales = $this->model->sousCategories();
-		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'categories', 'recupererCategoriesPrincipales', 'recupererSousCategoriesPrincipales'));
+		$categories = $this->model->allForums();
+		// if (isset($_POST['sectionSubmit'])) {
+		// 	Forum::ajouterSection($_POST['sectionName']);
+		// }
+		// $recupererCategoriesPrincipales = $this->model->listerSousCategories(0);
+		// if (isset($_POST['categorieSubmit'])) {
+		// 	Forum::ajouterCategorie($_POST['titreCategorie'], $_POST['categoriesAdd']);
+		// }
+		// if (isset($_POST['sousCategorieSubmit'])) {
+		// 	Forum::ajouterCategorie($_POST['titreSousCategorie'], $_POST['sousCategoriesAdd']);
+		// }
+		// $recupererSousCategoriesPrincipales = $this->model->sousCategories();
+		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'categories'));
 	}
+
+	public function voirforum(int $idForum){
+		$sousForum = $this->model->allSousForums($idForum);
+		$pageTitle = $sousForum['forum_name'];
+		$style = "../css/commentaires.css";
+		$sujets = $this->model->allSujetsAnnonces($idForum);
+		$sujetsNormaux = $this->model->allSujets($idForum);
+		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux'));
+	}
+
+	public function listerTopic(int $idTopic){
+		$topic = $this->model->topic($idTopic);
+		$pageTitle = $topic['topic_titre'];
+		$style = "../css/commentaires.css";
+		$messages = $this->model->allMessages($idTopic);
+		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages'));
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function ajouterSection(string $nameSection){
 		if (!empty($nameSection)) {
@@ -93,34 +122,34 @@ class Forum extends Controller {
 		}
 	}
 
-	public function listerTopic(){
-		$style = '../css/commentaires.css';
-		if(is_numeric($_GET['id_topic'])){
-			$categorie = $this->model->recupererCategorie($_GET['id_topic']);
-			\Http::redirect($categorie['slug']);
-		} else {
-			$slugCategory = \Rewritting::stringToURLString($_GET['id_topic']); 
-			$categorie = $this->model->recupererCategorieBySlug($slugCategory);
-		}
-		if ($categorie == NULL) {
-			$_SESSION['flash-type'] = 'error-flash';
-			$_SESSION['flash-message'] = "Cette catégorie n'existe pas !";
-			$_SESSION['flash-color'] = "warning";
-			\Http::redirect('index.php');
-		}
-		if ($categorie['parents'] > 2) {
-			$_SESSION['flash-type'] = 'error-flash';
-			$_SESSION['flash-message'] = "Erreur : Ce n'est pas une catégorie mais une sous catégorie !";
-			$_SESSION['flash-color'] = "warning";
-			\Http::redirect('index.php');
-		}
-		$pageTitle = \Rewritting::sanitize($categorie['name']);
-		$sousCategories = $this->model->listerSousCategories($categorie['id']);
-		$topics = $this->model->listerTopics($categorie['id']);
-		$compter = $this->model->compterMessages($categorie['id']);
-		$dernierMembre = $this->model->dernierMessage($categorie['id']);
-		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'sousCategories', 'topics', 'categorie', 'compter', 'dernierMembre'));
-	}
+	// public function listerTopic(){
+	// 	$style = '../css/commentaires.css';
+	// 	if(is_numeric($_GET['id_topic'])){
+	// 		$categorie = $this->model->recupererCategorie($_GET['id_topic']);
+	// 		\Http::redirect($categorie['slug']);
+	// 	} else {
+	// 		$slugCategory = \Rewritting::stringToURLString($_GET['id_topic']); 
+	// 		$categorie = $this->model->recupererCategorieBySlug($slugCategory);
+	// 	}
+	// 	if ($categorie == NULL) {
+	// 		$_SESSION['flash-type'] = 'error-flash';
+	// 		$_SESSION['flash-message'] = "Cette catégorie n'existe pas !";
+	// 		$_SESSION['flash-color'] = "warning";
+	// 		\Http::redirect('index.php');
+	// 	}
+	// 	if ($categorie['parents'] > 2) {
+	// 		$_SESSION['flash-type'] = 'error-flash';
+	// 		$_SESSION['flash-message'] = "Erreur : Ce n'est pas une catégorie mais une sous catégorie !";
+	// 		$_SESSION['flash-color'] = "warning";
+	// 		\Http::redirect('index.php');
+	// 	}
+	// 	$pageTitle = \Rewritting::sanitize($categorie['name']);
+	// 	$sousCategories = $this->model->listerSousCategories($categorie['id']);
+	// 	$topics = $this->model->listerTopics($categorie['id']);
+	// 	$compter = $this->model->compterMessages($categorie['id']);
+	// 	$dernierMembre = $this->model->dernierMessage($categorie['id']);
+	// 	\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'sousCategories', 'topics', 'categorie', 'compter', 'dernierMembre'));
+	// }
 
 	public function listerSousTopic(){
 		$style = '../../css/commentaires.css';
