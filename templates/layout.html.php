@@ -40,6 +40,25 @@
 
 		gtag('config', 'UA-129397962-1');
 	</script>
+	<script type="text/javascript" src="https://www.mangasfan.fr/templates/staff/tinymce/js/tinymce/tinymce.min.js"></script>
+	<script type="text/javascript" src="https://www.mangasfan.fr/templates/staff/tinymce/js/tinymce/tinymce.js"></script>
+ <script>
+  tinymce.init({
+    selector: 'textarea',
+    height: 300,
+    language: 'fr_FR',
+    force_br_newlines : true,
+    force_p_newlines : false,
+    entity_encoding : "raw",
+    browser_spellcheck: true,
+    contextmenu: false,
+    plugins: ['autolink visualblocks visualchars image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern autosave'],
+    toolbar: 'undo redo |  formatselect | tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | bold italic underline forecolor | alignleft aligncenter alignright alignjustify | bullist numlist | removeformat | restoredraft',
+    image_class_list: [
+    {title: 'Image news', value: 'image_tiny'},
+    ]
+  });
+</script>
 </head>
 <body>
 	<div class="loader">

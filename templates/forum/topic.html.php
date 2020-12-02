@@ -5,9 +5,15 @@
 <a href="#" class="btn btn-outline-info">Répondre</a>
 <br/><br/>
 <?php foreach ($messages as $message): ?>
-	<div class="card">
+	<div class="card" id="<?= $message['id_message'] ?>">
 	<div class="card-header">
 		<?= \Rewritting::sanitize($topic['topic_titre']) ?> - Posté le <?= \Rewritting::sanitize($message['date_created']); ?>
+		<?php if ($user != NULL && $user['id_user'] == $message['id_utilisateur_message']) { ?>
+			<br/>
+			<hr>
+			<a href="#" class="btn btn-sm btn-outline-info">Modifier</a>
+			<a href="#" class="btn btn-sm btn-outline-danger">Supprimer</a>
+		<?php } ?>
 	</div>
 	<div class="card-body">
 		<div class="row">
@@ -19,6 +25,7 @@
 				<p class="small">
 					Manga préféré : <?= \Rewritting::sanitize($message['manga']); ?><br/>
 					Anime préféré : <?= \Rewritting::sanitize($message['anime']); ?><br/>
+					Nombre de messages : <?= \Rewritting::sanitize($message['nb_messages']); ?><br/>
 					Points : <?= \Rewritting::sanitize($message['points']); ?> points
 				</p>
 			</div>
@@ -30,3 +37,10 @@
 </div>
 <br/>
 <?php endforeach; ?>
+<?php if ($user != NULL && $user['grade'] != 1): ?>
+	<form method="POST" action="">
+		<label>Contenu du message :</label>
+		<textarea name="contenuMessage" class="form-control" placeholder="Saisir ici votre réponse au topic."></textarea>
+		<input type="submit" name="validerMessage" class="btn btn-outline-info" value="Poster mon message">
+	</form>
+<?php endif; ?>

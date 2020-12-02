@@ -2,7 +2,7 @@
 <hr>
 <div class="card">
 	<div class="card-header">
-		<?= \Rewritting::sanitize($topic['titre']) ?> - Posté le <?= \Rewritting::sanitize($topic['date_creation']); ?>
+		<?= \Rewritting::sanitize($topic['titre']) ?> - Posté le <?= \Rewritting::sanitize($topic['date_creation']); ?> - ID Message : <?= $topic['id_message'] ?>
 	</div>
 	<div class="card-body">
 		<div class="row">
@@ -27,7 +27,7 @@
 <?php foreach ($messages as $message): ?>
 	<div class="card">
 		<div class="card-header">
-			Re : <?= \Rewritting::sanitize($message['titre']) ?> - Posté le <?= \Rewritting::sanitize($message['date_created']); ?>
+			Re : <?= \Rewritting::sanitize($message['titre']) ?> - Posté le <?= \Rewritting::sanitize($message['date_created']); ?> - ID Message : <?= $topic['id_message'] ?>
 		</div>
 		<div class="card-body">
 			<div class="row">

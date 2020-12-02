@@ -2,7 +2,57 @@
 <hr>
 <h2 class="titre"><?= \Rewritting::sanitize($sousForum['forum_name']) ?></h2>
 <hr>
-<a href="#" class="btn btn-outline-info">Poster un nouveau sujet</a>
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajoutSection">
+	Ajouter une nouvelle section
+</button>
+<div class="modal" id="ajoutSection" tabindex="-1" role="dialog" aria-labelledby="ajoutSectionTitle" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Ajout d'un nouveau topic</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<form method="POST" action="">
+						<div class="row">
+							<div class="col-lg-4">
+								Titre du topic :
+							</div>
+							<div class="col-lg-8">
+								<input type="text" name="titleTopic" class="form-control" placeholder="Saisir le titre de votre topic" />
+								<br/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								Type de topic :
+							</div>
+							<div class="col-lg-8">
+								<select name="typeTopic" class="form-control">
+									<option value="normal">Normal</option>
+									<option value="annonce">Annonce</option>
+								</select>
+								<br/>
+							</div>
+						</div>
+						<div class="row">
+							<label>Message :</label>
+							<textarea class="form-control" name="messageTopic"></textarea>
+							<br/>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
+							<input type="submit" name="topicValider" class="btn btn-outline-primary" value="Poster le topic et mon message" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <br/><br/>
 <?php if ($sujets != NULL) { ?>
 	<table class="table">
@@ -73,4 +123,4 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-<?php } ?>
+	<?php } ?>

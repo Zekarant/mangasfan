@@ -7,12 +7,13 @@ class Forum extends Model {
 
 	public function allForums(){
 		$req = $this->pdo->prepare('SELECT id, name,
-			f_forums.forum_id, forum_name, forum_description, forum_post, nb_topic, forum_topic, f_topics.id_topic, f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, username, users.id_user AS id_utilisateur
+			f_forums.forum_id, forum_name, forum_description, forum_post, forum_topic, f_topics.id_topic, f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade
 			FROM forum_categories
-			LEFT JOIN f_forums ON forum_categories.id = f_forums.category_id
+			INNER JOIN f_forums ON forum_categories.id = f_forums.category_id
 			LEFT JOIN f_messages ON f_messages.id_message = f_forums.forum_last_post_id
 			LEFT JOIN f_topics ON f_topics.id_topic = f_messages.id_topic
 			LEFT JOIN users ON users.id_user = f_messages.id_user
+
 			ORDER BY id, forum_id');
 		$req->execute();
 		$categories = $req->fetchAll();
@@ -74,30 +75,66 @@ class Forum extends Model {
 		return $messages;
 	}
 
+	public function ajouterMessage($idTopic, $utilisateur, $message, $forum){
+		//On récupère l'id du forum
+        $req = $this->pdo->prepare('SELECT id_forum, topic_post FROM f_topics WHERE id_topic = :idTopic');
+        $req->execute(['idTopic' => $idTopic]);
+        $data = $req->fetch();
+        $forum = $data['id_forum'];
+
+        //Puis on entre le message
+        $req = $this->pdo->prepare('INSERT INTO f_messages
+        (id_topic, id_user, contenu, date_created, date_edition)
+        VALUES(:idTopic, :utilisateur, :contenu, NOW(), NOW())');
+        $req->execute(['idTopic' => $idTopic, 'utilisateur' => $utilisateur, 'contenu' => $message]);
+        $nouveaupost = $this->pdo->lastInsertId();
+
+        //On change un peu la table forum_topic
+        $req = $this->pdo->prepare('UPDATE f_topics SET topic_post = topic_post + 1, topic_last_post = :nouveaupost WHERE id_topic = :idTopic');
+        $req->execute(['nouveaupost' => $nouveaupost, 'idTopic' => $idTopic]);
+
+        //Puis même combat sur les 2 autres tables
+        $req = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post + 1 , forum_last_post_id = :nouveaupost WHERE forum_id = :forum');
+        $req->execute(['nouveaupost' => $nouveaupost, 'forum' => $forum]);
+
+        $req = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages + 1 WHERE id_user = :utilisateur'); 
+        $req->execute(['utilisateur' => $utilisateur]);
+
+	}
+
+	public function ajouterTopic($title, $type, $idForum, $idUser, $message){
+		 $req = $this->pdo->prepare('INSERT INTO f_topics
+        (id_forum, topic_titre, topic_createur, topic_vu, topic_posted, topic_last_post, topic_genre, topic_post)
+        VALUES(:idForum, :title, :idUser, 1, NOW(), 0, :type, 0)');
+        $req->execute(['idForum' => $idForum, 'title' => $title, 'idUser' => $idUser, 'type' => $type]);
+        $nouveautopic = $this->pdo->lastInsertId();
+
+        $req = $this->pdo->prepare('INSERT INTO f_messages
+        (id_topic, id_user, contenu, date_created, date_edition)
+        VALUES (:idTopic, :idUser, :message, NOW(), NOW())');
+        $req->execute(['idTopic' => $nouveautopic, 'idUser' => $idUser, 'message' => $message]);
+        $nouveaupost = $this->pdo->lastInsertId();
 
 
+        $req = $this->pdo->prepare('UPDATE f_topics
+        SET topic_last_post = :nouveaupost, topic_post = 1
+        WHERE id_topic = :nouveautopic');
+        $req->execute(['nouveaupost' => $nouveaupost, 'nouveautopic' => $nouveautopic]);
 
+        //Enfin on met à jour les tables forum_forum et forum_membres
+        $req = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post + 1, forum_topic = forum_topic + 1, 
+        forum_last_post_id = :nouveaupost
+        WHERE forum_id = :forum');
+        $req->execute(['nouveaupost' => $nouveaupost, 'forum' => $idForum]);
+    
+        $req = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages + 1 WHERE id_user = :id');    
+        $req->execute(['id' => $idUser]);
+	}
 
-
-
-
-	/** FONCTION QUI RÉCUPERE LES CATÉGEORIES DU FORUM
-	* @return array
-	*/
-// 	public function recupererCategories(){
-// 		$req = $this->pdo->prepare('SELECT * FROM forum_categories');
-// 		$req->execute();
-// 		$categories = $req->fetchAll();
-// 		return $categories;
-// 	}
-
-
-// 	public function sousCategories(){
-// 		$req = $this->pdo->prepare('SELECT base.id, base.name FROM forum_categories base LEFT OUTER JOIN forum_categories parents ON parents.id = base.parents WHERE parents.parents = 0 GROUP BY base.id');
-// 		$req->execute();
-// 		$sousCategories = $req->fetchAll();
-// 		return $sousCategories;
-// 	}
+	public function ajouterSection(string $titleSection){
+		$req = $this->pdo->prepare('INSERT INTO forum_categories(name, parents) VALUES(:titleSection, 0)');
+		$req->execute(['titleSection' => $titleSection]);
+	}
 
 
 // 	/* FONCTION QUI PERMET D'AJOUTER UN TOPIC
@@ -235,11 +272,6 @@ class Forum extends Model {
 // 		$req->execute(['idTopic' => $idTopic]);
 // 		$messages = $req->fetchAll();
 // 		return $messages;
-// 	}
-
-// 	public function ajouterSection(string $titleSection, string $slug){
-// 		$req = $this->pdo->prepare('INSERT INTO forum_categories(name, parents, slug) VALUES(:titleSection, 0, :slug)');
-// 		$req->execute(['titleSection' => $titleSection, 'slug' => $slug]);
 // 	}
 
 // 	public function ajouterCategorie(string $titleCategorie, int $parent, string $slug){

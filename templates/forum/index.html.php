@@ -140,15 +140,15 @@
 		<tr>
 			<td></td>
 			<td>
-				<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= \Rewritting::sanitize($category['forum_name']) ?></a><br/>
-				<em><?= \Rewritting::sanitize($category['forum_description']) ?></em>
+				<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
+				<em><?= $category['forum_description'] ?></em>
 			</td>
-			<td><?= \Rewritting::sanitize($category['nb_topic']) ?></td>
+			<td><?= \Rewritting::sanitize($category['forum_post']) ?></td>
 			<td><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
 			<td><?php if (!empty($category['forum_post'])){ ?>
-					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?><br/>
-					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>"><?= $category['username'] ?></a> - 
-					<a href="#">Accéder au message</a>
+					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?> dans <a href="voirtopic.php?t=<?= $category['id_topic'] ?>"><?= $category['topic_titre'] ?></a>	<br/>
+					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>" style="color: <?= \Color::rang_etat($category['grade']) ?>"><?= $category['username'] ?></a> - 
+					<a href="voirtopic.php?t=<?= $category['id_topic'] ?>#<?= $category['id_message'] ?>">Accéder au message</a>
 			<?php } else { ?>
 				Pas de message
 			<?php } ?>

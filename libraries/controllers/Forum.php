@@ -10,17 +10,15 @@ class Forum extends Controller {
 		$pageTitle = "Index du forum";
 		$style = '../css/commentaires.css';
 		$categories = $this->model->allForums();
-		// if (isset($_POST['sectionSubmit'])) {
-		// 	Forum::ajouterSection($_POST['sectionName']);
-		// }
-		// $recupererCategoriesPrincipales = $this->model->listerSousCategories(0);
-		// if (isset($_POST['categorieSubmit'])) {
-		// 	Forum::ajouterCategorie($_POST['titreCategorie'], $_POST['categoriesAdd']);
-		// }
-		// if (isset($_POST['sousCategorieSubmit'])) {
-		// 	Forum::ajouterCategorie($_POST['titreSousCategorie'], $_POST['sousCategoriesAdd']);
-		// }
-		// $recupererSousCategoriesPrincipales = $this->model->sousCategories();
+		$users = new \models\Users();
+		if (isset($_SESSION['auth'])) {
+			$user = $users->user($_SESSION['auth']['id_user']);
+		} else {
+			$user = NULL;
+		}
+		if (isset($_POST['sectionSubmit'])) {
+			Forum::ajouterSection($_POST['sectionName'], $user);
+		}
 		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'categories'));
 	}
 
@@ -30,6 +28,15 @@ class Forum extends Controller {
 		$style = "../css/commentaires.css";
 		$sujets = $this->model->allSujetsAnnonces($idForum);
 		$sujetsNormaux = $this->model->allSujets($idForum);
+		$users = new \models\Users();
+		if (isset($_SESSION['auth'])) {
+			$user = $users->user($_SESSION['auth']['id_user']);
+		} else {
+			$user = NULL;
+		}
+		if (isset($_POST['topicValider'])) {
+			Forum::ajouterTopic($_POST['titleTopic'], $_POST['typeTopic'], $idForum, $user['id_user'], $_POST['messageTopic']);
+		}
 		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux'));
 	}
 
@@ -38,39 +45,82 @@ class Forum extends Controller {
 		$pageTitle = $topic['topic_titre'];
 		$style = "../css/commentaires.css";
 		$messages = $this->model->allMessages($idTopic);
-		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages'));
+		$users = new \models\Users();
+		if (isset($_SESSION['auth'])) {
+			$user = $users->user($_SESSION['auth']['id_user']);
+		} else {
+			$user = NULL;
+		}
+		if (isset($_POST['validerMessage'])) {
+			Forum::posterMessage($idTopic, $user['id_user'], $_POST['contenuMessage'], $topic['id_forum']);
+		}
+		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user'));
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-	public function ajouterSection(string $nameSection){
-		if (!empty($nameSection)) {
-			if (strlen($nameSection) > 5) {
-				$slug = \Rewritting::stringToURLString($nameSection);
-				$this->model->ajouterSection($nameSection, $slug);
+	public function posterMessage($idTopic, $utilisateur, $message, $forum){
+		if (!empty($message)) {
+			if (isset($utilisateur)) {
+				$this->model->ajouterMessage($idTopic, $utilisateur, $message, $forum);
 				$_SESSION['flash-type'] = 'error-flash';
-				$_SESSION['flash-message'] = "La section a bien été créée sur la page d'index du forum !";
+				$_SESSION['flash-message'] = "Votre message a bien été posté !";
 				$_SESSION['flash-color'] = "success";
-				\Http::redirect('index.php');
+				\Http::redirect($_SERVER['HTTP_REFERER']);
 			} else {
 				$_SESSION['flash-type'] = 'error-flash';
-				$_SESSION['flash-message'] = "Le titre de la section est trop court, il doit avoir 6 caractères minimum.";
+				$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir poster un message.";
 				$_SESSION['flash-color'] = "warning";
 				\Http::redirect('index.php');
 			}
 		} else {
 			$_SESSION['flash-type'] = 'error-flash';
-			$_SESSION['flash-message'] = "Vous ne pouvez pas ajouter une section qui ne possède pas de titre !";
+			$_SESSION['flash-message'] = "Vous ne pouvez pas poster un message vide !";
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function ajouterTopic($title, $type, $idForum, $user, $message){
+		if (!empty($message)) {
+			if ($user != NULL) {
+				$this->model->ajouterTopic($title, $type, $idForum, $user, $message);
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir poster un message.";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous ne pouvez pas poster un message vide !";
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function ajouterSection(string $nameSection, $idUser){
+		if ($idUser['grade'] > 6) {
+			if (!empty($nameSection)) {
+				if (strlen($nameSection) > 5) {
+					$this->model->ajouterSection($nameSection);
+					$_SESSION['flash-type'] = 'error-flash';
+					$_SESSION['flash-message'] = "La section a bien été créée sur la page d'index du forum !";
+					$_SESSION['flash-color'] = "success";
+					\Http::redirect('index.php');
+				} else {
+					$_SESSION['flash-type'] = 'error-flash';
+					$_SESSION['flash-message'] = "Le titre de la section est trop court, il doit avoir 6 caractères minimum.";
+					$_SESSION['flash-color'] = "warning";
+					\Http::redirect('index.php');
+				}
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Vous ne pouvez pas ajouter une section qui ne possède pas de titre !";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous n'avez pas les droits d'ajouter une section !";
 			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
