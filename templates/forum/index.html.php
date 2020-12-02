@@ -30,14 +30,14 @@
 		</div>
 	</div>
 </div>
-<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajoutCatego">
-	Ajouter une nouvelle catégorie
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajouterForum">
+	Ajouter un nouveau forum
 </button>
-<div class="modal fade" id="ajoutCatego" tabindex="-1" role="dialog" aria-labelledby="ajoutCategoTitle" aria-hidden="true">
+<div class="modal fade" id="ajouterForum" tabindex="-1" role="dialog" aria-labelledby="ajouterForumTitle" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Ajout d'une nouvelle catégorie</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Ajout d'un nouveau forum</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -46,55 +46,19 @@
 				<form method="POST" action="">
 					<div class="row">
 						<div class="col-lg-3">
-							Titre de la catégorie :
+							Titre du forum :
 						</div>
 						<div class="col-lg-9">
-							<input type="text" name="titreCategorie" class="form-control" placeholder="Saisir le titre de votre catégorie" />
+							<input type="text" name="titreForum" class="form-control" placeholder="Saisir le titre de votre forum" />
 						</div>
 					</div>
 					<br/>
 					<div class="row">
 						<div class="col-lg-3">
-							Section concernée :
+							Description du forum :
 						</div>
 						<div class="col-lg-9">
-							<select class="form-control" name="categoriesAdd">
-								<?php foreach ($recupererCategoriesPrincipales as $categoriesPrincipales): ?>
-									<option value="<?= \Rewritting::sanitize($categoriesPrincipales['id']) ?>"><?= \Rewritting::sanitize($categoriesPrincipales['name']) ?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
-					</div>
-					<br/>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
-						<input type="submit" name="categorieSubmit" class="btn btn-outline-primary" value="Poster la catégorie" />
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addsousCategorie">
-	Ajouter une nouvelle sous-catégorie
-</button>
-<div class="modal fade" id="addsousCategorie" tabindex="-1" role="dialog" aria-labelledby="addsousCategorieTitle" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Ajout d'une nouvelle sous-catégorie</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form method="POST" action="">
-					<div class="row">
-						<div class="col-lg-3">
-							Titre de la sous-catégorie :
-						</div>
-						<div class="col-lg-9">
-							<input type="text" name="titreSousCategorie" class="form-control" placeholder="Saisir le titre de votre sous-catégorie" />
+							<input type="text" name="descriptionForum" class="form-control" placeholder="Saisir la description de votre forum !" />
 						</div>
 					</div>
 					<br/>
@@ -103,17 +67,35 @@
 							Catégorie concernée :
 						</div>
 						<div class="col-lg-9">
-							<select class="form-control" name="sousCategoriesAdd">
-								<?php foreach ($recupererSousCategoriesPrincipales as $sousCategorie): ?>
-									<option value="<?= \Rewritting::sanitize($sousCategorie['id']) ?>"><?= \Rewritting::sanitize($sousCategorie['name']) ?></option>
+							<select class="form-control" name="addCategorie">
+								<?php foreach ($categories as $categorie): ?>
+									<option value="<?= \Rewritting::sanitize($categorie['id']) ?>"><?= \Rewritting::sanitize($categorie['name']) ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
 					<br/>
+					<div class="row">
+						<div class="col-lg-3">
+							Permission pour voir le forum :
+						</div>
+						<div class="col-lg-9">
+							<select class="form-control" name="addPermission">
+								<option value="0">Tout le monde</option>
+								<option value="1">Membre</option>
+								<option value="2">Community Manager</option>
+								<option value="3">Animateur</option>
+								<option value="4">Newseur</option>
+								<option value="5">Rédacteur</option>
+								<option value="6">Modérateur</option>
+								<option value="7">Développeur</option>
+								<option value="8">Administrateur</option>
+							</select>
+						</div>
+					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
-						<input type="submit" name="sousCategorieSubmit" class="btn btn-outline-primary" value="Poster la sous-catégorie" />
+						<input type="submit" name="addForum" class="btn btn-outline-primary" value="Poster le forum" />
 					</div>
 				</form>
 			</div>
@@ -126,34 +108,36 @@
 <table class="table">
 	<?php
 	$categorie = 0;
-	foreach ($categories as $category):
-		if ($categorie != $category['id']) {
-			$categorie = $category['id']; ?>
-			<tr class="table-info">
-				<th></th>
-				<th><?= \Rewritting::sanitize($category['name']); ?></th>             
-				<th>Sujets</th>       
-				<th>Messages</th>       
-				<th>Dernier message</th>   
-			</tr>
-		<?php } ?>
-		<tr>
-			<td></td>
-			<td>
-				<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
-				<em><?= $category['forum_description'] ?></em>
-			</td>
-			<td><?= \Rewritting::sanitize($category['forum_post']) ?></td>
-			<td><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
-			<td><?php if (!empty($category['forum_post'])){ ?>
+	foreach ($forums as $category):
+		if ($user['grade'] == $category['permission'] || ($user == NULL AND $category['permission'] == 0) || $user['grade'] > 7) {
+			if ($categorie != $category['id']) {
+				$categorie = $category['id']; ?>
+				<tr class="table-info">
+					<th></th>
+					<th><?= \Rewritting::sanitize($category['name']); ?></th>             
+					<th>Sujets</th>       
+					<th>Messages</th>       
+					<th>Dernier message</th>   
+				</tr>
+			<?php } ?>
+			<tr>
+				<td><?= $ico_mess ?></td>
+				<td>
+					<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
+					<em><?= $category['forum_description'] ?></em>
+				</td>
+				<td><?= \Rewritting::sanitize($category['forum_post']) ?></td>
+				<td><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
+				<td><?php if (!empty($category['forum_post'])){ ?>
 					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?> dans <a href="voirtopic.php?t=<?= $category['id_topic'] ?>"><?= $category['topic_titre'] ?></a>	<br/>
 					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>" style="color: <?= \Color::rang_etat($category['grade']) ?>"><?= $category['username'] ?></a> - 
 					<a href="voirtopic.php?t=<?= $category['id_topic'] ?>#<?= $category['id_message'] ?>">Accéder au message</a>
-			<?php } else { ?>
-				Pas de message
-			<?php } ?>
+				<?php } else { ?>
+					Pas de message
+				<?php } ?>
 			</td>
 		</tr>
-	<?php endforeach; ?>
+	<?php } 
+endforeach; ?>
 </table>
 

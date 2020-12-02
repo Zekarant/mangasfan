@@ -65,12 +65,48 @@
 			<th><strong>Dernier message</strong></th>
 		</thead>
 		<tbody>
-			<?php foreach ($sujets as $sujet): ?>
+			<?php foreach ($sujets as $sujet): 
+				if (!empty($id)) // Si le membre est connecté
+		{
+    if ($sujet['tv_id'] == $id) //S'il a lu le topic
+    {
+        if ($sujet['tv_poste'] == '0') // S'il n'a pas posté
+        {
+            if ($sujet['tv_post_id'] == $sujet['topic_last_post']) //S'il n'y a pas de nouveau message
+            {
+            	$ico_mess = 'message.gif';
+            }
+            else
+            {
+                $ico_mess = 'messagec_non_lus.gif'; //S'il y a un nouveau message
+            }
+        }
+        else // S'il a  posté
+        {
+            if ($sujet['tv_post_id'] == $sujet['topic_last_post']) //S'il n'y a pas de nouveau message
+            {
+            	$ico_mess = 'messagep_lu.gif';
+            }
+            else //S'il y a un nouveau message
+            {
+            	$ico_mess = 'messagep_non_lu.gif';
+            }
+        }
+    }
+    else //S'il n'a pas lu le topic
+    {
+    	$ico_mess = 'message_non_lu.gif';
+    }
+} //S'il n'est pas connecté
+else
+{
+	$ico_mess = 'message.gif';
+}?>
 				<tr>
-					<td></td>
+					<td><?= $ico_mess ?></td>
 					<td>
 						<a href="./voirtopic.php?t=<?= $sujet['id_topic'] ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
-							<?= stripslashes(htmlspecialchars($sujet['topic_titre'])) ?>
+							[Annonce] <?= stripslashes(htmlspecialchars($sujet['topic_titre'])) ?>
 						</a>
 					</td>
 					<td class="nombremessages"><?= $sujet['topic_post'] ?></td>
@@ -78,7 +114,7 @@
 					<td>
 						<a href="../membres/profil-<?= $sujet['id_utilisateur_posteur'] ?>"><?= htmlspecialchars($sujet['membre_pseudo_createur']) ?></a>
 					</td>
-					<td><a href="./voirtopic.php?t=<?= $sujet['id_topic'] ?>"><?= stripslashes(htmlspecialchars($sujet['topic_titre'])) ?></a><br/>
+					<td><a href="./voirtopic.php?t=<?= $sujet['id_topic'] ?>">[Annonce] <?= stripslashes(htmlspecialchars($sujet['topic_titre'])) ?></a><br/>
 						Par <a href="../membres/profil-<?= $sujet['id_utilisateur_derniere_reponse'] ?>"><?= htmlspecialchars($sujet['membre_pseudo_last_posteur']) ?></a>
 						le <?= date('H\hi \l\e d M y', strtotime($sujet['date_created'])) ?>
 					</td>
