@@ -109,7 +109,7 @@
 	<?php
 	$categorie = 0;
 	foreach ($forums as $category):
-		if ($user['grade'] == $category['permission'] || ($user == NULL AND $category['permission'] == 0) || $user['grade'] > 7) {
+		if ((isset($_SESSION['auth']) && $user['grade'] == $category['permission']) || ($user == NULL AND $category['permission'] == 0) || isset($_SESSION['auth']) && $user['grade'] > 7) {
 			if ($categorie != $category['id']) {
 				$categorie = $category['id']; ?>
 				<tr class="table-info">
@@ -121,7 +121,7 @@
 				</tr>
 			<?php } ?>
 			<tr>
-				<td><?= $ico_mess ?></td>
+				<td></td>
 				<td>
 					<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
 					<em><?= $category['forum_description'] ?></em>

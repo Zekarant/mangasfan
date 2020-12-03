@@ -9,13 +9,13 @@ class Forum extends Controller {
 	public function index(){
 		$pageTitle = "Index du forum";
 		$style = '../css/commentaires.css';
-		$forums = $this->model->allForums();
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
 		} else {
 			$user = NULL;
 		}
+		$forums = $this->model->allForums();
 		if (isset($_POST['sectionSubmit'])) {
 			Forum::ajouterSection($_POST['sectionName'], $user);
 		}
@@ -30,18 +30,20 @@ class Forum extends Controller {
 		$sousForum = $this->model->allSousForums($idForum);
 		$pageTitle = $sousForum['forum_name'];
 		$style = "../css/commentaires.css";
-		$sujets = $this->model->allSujetsAnnonces($idForum);
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
+			$sujets = $this->model->allSujetsAnnonces($idForum, $user['id_user']);
+			$sujetsNormaux = $this->model->allSujets($idForum, $user['id_user']);
 		} else {
-			$user = NULL;
+			$user = 0;
+			$sujets = $this->model->allSujetsAnnonces($idForum, $user);
+			$sujetsNormaux = $this->model->allSujets($idForum, $user);
 		}
-		$sujetsNormaux = $this->model->allSujets($idForum, $user['id_user']);
 		if (isset($_POST['topicValider'])) {
 			Forum::ajouterTopic($_POST['titleTopic'], $_POST['typeTopic'], $idForum, $user['id_user'], $_POST['messageTopic']);
 		}
-		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux'));
+		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux', 'user'));
 	}
 
 	public function listerTopic(int $idTopic){
@@ -52,18 +54,25 @@ class Forum extends Controller {
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
-		} else {
-			$user = NULL;
-		}
-		if (isset($_POST['validerMessage'])) {
-			Forum::posterMessage($idTopic, $user['id_user'], $_POST['contenuMessage'], $topic['id_forum']);
-		}
-		$topicVu = $this->model->topicVu($idTopic, $user['id_user']);
-		if ($topicVu == 0) {
+			$topicVu = $this->model->topicVu($idTopic, $user['id_user']);
+			if ($topicVu == 0) {
 			$this->model->insererVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
 		} else {
 			$this->model->updateVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
 		}
+		} else {
+			$user = 0;
+			$topicVu = $this->model->topicVu($idTopic, $user);
+			if ($topicVu == 0) {
+			$this->model->insererVu($user, $idTopic, $topic['id_forum'], $topic['topic_last_post']);
+		} else {
+			$this->model->updateVu($user, $idTopic, $topic['id_forum'], $topic['topic_last_post']);
+		}
+		}
+		if (isset($_POST['validerMessage'])) {
+			Forum::posterMessage($idTopic, $user['id_user'], $_POST['contenuMessage'], $topic['id_forum']);
+		}
+		
 		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user'));
 	}
 
