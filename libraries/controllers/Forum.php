@@ -12,10 +12,11 @@ class Forum extends Controller {
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
+			$forums = $this->model->allForums($user['id_user']);
 		} else {
-			$user = NULL;
+			$user = 0;
+			$forums = $this->model->allForums($user);
 		}
-		$forums = $this->model->allForums();
 		if (isset($_POST['sectionSubmit'])) {
 			Forum::ajouterSection($_POST['sectionName'], $user);
 		}
@@ -56,23 +57,22 @@ class Forum extends Controller {
 			$user = $users->user($_SESSION['auth']['id_user']);
 			$topicVu = $this->model->topicVu($idTopic, $user['id_user']);
 			if ($topicVu == 0) {
-			$this->model->insererVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
-		} else {
-			$this->model->updateVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
-		}
+				$this->model->insererVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
+			} else {
+				$this->model->updateVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
+			}
 		} else {
 			$user = 0;
 			$topicVu = $this->model->topicVu($idTopic, $user);
 			if ($topicVu == 0) {
-			$this->model->insererVu($user, $idTopic, $topic['id_forum'], $topic['topic_last_post']);
-		} else {
-			$this->model->updateVu($user, $idTopic, $topic['id_forum'], $topic['topic_last_post']);
-		}
+				$this->model->insererVu($user, $idTopic, $topic['id_forum'], $topic['topic_last_post']);
+			} else {
+				$this->model->updateVu($user, $idTopic, $topic['id_forum'], $topic['topic_last_post']);
+			}
 		}
 		if (isset($_POST['validerMessage'])) {
 			Forum::posterMessage($idTopic, $user['id_user'], $_POST['contenuMessage'], $topic['id_forum']);
 		}
-		
 		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user'));
 	}
 

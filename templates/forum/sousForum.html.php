@@ -89,7 +89,7 @@
 				}
 				?>		
 				<tr>
-					<td><img src="../images/<?= $ico_mess ?>" width="75" /></td>
+					<td><img src="../images/<?= $ico_mess ?>" width="75"/></td>
 					<td>
 						<a href="./voirtopic.php?t=<?= $sujet['id_topic'] ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
 							[Annonce] <?= stripslashes(htmlspecialchars($sujet['topic_titre'])) ?>
@@ -141,13 +141,13 @@
 							}
 						}
 					} else {
-						$ico_mess = 'nonlu.png';
+						$ico_mess = 'lu.png';
 					}
 				} else {
 					$ico_mess = 'lu.png';
 				}?>
 				<tr>
-					<td><img src="../images/<?= $ico_mess ?>" width="75" /></td>
+					<td><img src="../images/<?= $ico_mess ?>" width="75"/></td>
 					<td>
 						<a href="./voirtopic.php?t=<?= $sujet['id_topic'] ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
 							<?= stripslashes(htmlspecialchars($sujet['topic_titre'])) ?>

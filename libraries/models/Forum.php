@@ -5,17 +5,37 @@ namespace models;
 class Forum extends Model {
 
 
-	public function allForums(){
-		$req = $this->pdo->prepare('SELECT id, name, f_forums.forum_id, forum_name, forum_description, forum_post, forum_topic, permission, f_topics.id_topic, f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade
+	public function allForums(?int $id = 0){
+		$add1 = "";
+		$add2 = "";
+		if ($id != 0){
+			$add1 = ', tv_id, tv_post_id, tv_forum_id, tv_poste'; 
+			$add2 = 'LEFT JOIN forum_topic_view 
+			ON f_forums.forum_id = forum_topic_view.tv_forum_id AND forum_topic_view.tv_id = :id';
+		}
+		$req = $this->pdo->prepare('SELECT DISTINCT forum_id, id, name, f_forums.forum_id, forum_name, forum_description, forum_post, forum_topic, permission, f_topics.id_topic, forum_last_post_id, topic_last_post,f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade '.$add1.'
 			FROM forum_categories
 			INNER JOIN f_forums ON forum_categories.id = f_forums.category_id
 			LEFT JOIN f_messages ON f_messages.id_message = f_forums.forum_last_post_id
 			LEFT JOIN f_topics ON f_topics.id_topic = f_messages.id_topic
 			LEFT JOIN users ON users.id_user = f_messages.id_user
+			'.$add2.'
+			GROUP BY id, forum_id
 			ORDER BY id, forum_id');
-		$req->execute();
+		if ($id != 0) {
+			$req->execute(['id' => $id]);
+		} else {
+			$req->execute();
+		}
 		$categories = $req->fetchAll();
 		return $categories;
+	}
+
+	public function chercher($id){
+		$req = $this->pdo->prepare('SELECT SUM(tv_poste) FROM forum_topic_view WHERE tv_forum_id = :id');
+		$req->execute(['id' => $id]);
+		$test = $req->fetch();
+		return $test;
 	}
 
 	public function allSousForums(int $idForum){
@@ -182,17 +202,17 @@ class Forum extends Model {
 	public function topicVu($idTopic, $idUser){
 		$req = $this->pdo->prepare('SELECT COUNT(*) FROM forum_topic_view WHERE tv_topic_id = :topic AND tv_id = :id');
 		$req->execute(['topic' => $idTopic, 'id' => $idUser]);
-		$nbr_vu = $req->fetchColumn();
+		$nbr_vu = $req->fetch();
 		return $nbr_vu;
 	}
 
 	public function insererVu($idUser, $idTopic, $idForum, $lastPost){
-		$req = $this->pdo->prepare('INSERT INTO forum_topic_view (tv_id, tv_topic_id, tv_forum_id, tv_post_id) VALUES (:id, :topic, :forum, :last_post)');
+		$req = $this->pdo->prepare('INSERT INTO forum_topic_view (tv_id, tv_topic_id, tv_forum_id, tv_post_id, tv_poste) VALUES (:id, :topic, :forum, :last_post, 1)');
 		$req->execute(['id' => $idUser, 'topic' => $idTopic, 'forum' => $idForum, 'last_post' => $lastPost]);
 	}
 
 	public function updateVu($idUser, $idTopic, $idForum, $lastPost){
-		$req = $this->pdo->prepare('UPDATE forum_topic_view SET tv_post_id = :last_post WHERE tv_forum_id = :forum AND tv_topic_id = :topic AND tv_id = :id');
+		$req = $this->pdo->prepare('UPDATE forum_topic_view SET tv_poste = 0, tv_post_id = :last_post WHERE tv_forum_id = :forum AND tv_topic_id = :topic AND tv_id = :id');
 		$req->execute(['last_post' => $lastPost, 'forum' => $idForum, 'topic' => $idTopic, 'id' => $idUser]);
 	}
 }

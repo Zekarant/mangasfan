@@ -110,8 +110,35 @@
 	$categorie = 0;
 	foreach ($forums as $category):
 		if ((isset($_SESSION['auth']) && $user['grade'] == $category['permission']) || ($user == NULL AND $category['permission'] == 0) || isset($_SESSION['auth']) && $user['grade'] > 7) {
+			if (!empty($user)){
+				$controller = new \models\Forum();
+				$test = $controller->chercher($category['forum_id']);
+				if ($category['tv_poste'] == 0 && $test[0] != 0){
+					if ($category['tv_post_id'] == $category['topic_last_post']){
+						$ico_mess = 'lu.png';
+					} else {
+						$ico_mess = 'nonlu.png';
+					}
+				} elseif ($test[0] == 0) {
+					if ($test[0] == 0) {
+						$ico_mess = 'lu.png';
+					} else {
+						$ico_mess = 'nonlu.png';
+					}
+				} else {
+					if ($test[0] == 0 && $category['tv_post_id'] == $category['topic_last_post']){
+						$ico_mess = 'nonlu.png';
+					} else {
+						$ico_mess = 'nonlu.png';
+					}
+				}
+					
+			} else {
+				$ico_mess = 'lu.png';
+			}
 			if ($categorie != $category['id']) {
-				$categorie = $category['id']; ?>
+				$categorie = $category['id'];
+				?>
 				<tr class="table-info">
 					<th></th>
 					<th><?= \Rewritting::sanitize($category['name']); ?></th>             
@@ -121,7 +148,7 @@
 				</tr>
 			<?php } ?>
 			<tr>
-				<td></td>
+				<td><img src="../images/<?= $ico_mess ?>" width="75"/></td>
 				<td>
 					<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
 					<em><?= $category['forum_description'] ?></em>
