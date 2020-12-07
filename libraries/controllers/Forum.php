@@ -102,6 +102,10 @@ class Forum extends Controller {
 		if (!empty($message)) {
 			if ($user != NULL) {
 				$this->model->ajouterTopic($title, $type, $idForum, $user, $message);
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Le topic a bien été ajouté !";
+				$_SESSION['flash-color'] = "success";
+				\Http::redirect('voirforum.php?f=' . $idForum);
 			} else {
 				$_SESSION['flash-type'] = 'error-flash';
 				$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir poster un message.";
@@ -177,6 +181,88 @@ class Forum extends Controller {
 			$_SESSION['flash-type'] = 'error-flash';
 			$_SESSION['flash-message'] = "La section a bien été créée sur la page d'index du forum !";
 			$_SESSION['flash-color'] = "success";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function editionMessage(int $idTopic, int $idMessage){
+		if (is_numeric($idTopic) && is_numeric($idMessage)) {
+			if (isset($_SESSION['auth'])) {
+				$users = new \models\Users();
+				$user = $users->user($_SESSION['auth']['id_user']);
+				$topic = $this->model->searchTopic($idTopic, $idMessage);
+				if(isset($topic['id_topic'])){
+					if ($user['id_user'] == $topic['id_user']) {
+						$pageTitle = "Modifier mon post de forum";
+						$style = "../css/commentaires.css";
+						if (isset($_POST['validerNewMessage'])) {
+							Forum::validerEdition($_POST['newContenu'], $user, $topic);
+						}
+						\Renderer::render('../templates/forum/editer', '../templates', compact('pageTitle', 'style', 'topic', 'user'));
+					} else {
+						$_SESSION['flash-type'] = 'error-flash';
+						$_SESSION['flash-message'] = "Ce n'est pas votre message, vous ne pouvez pas le modifier !";
+						$_SESSION['flash-color'] = "warning";
+						\Http::redirect('index.php');
+					}
+				}
+				else {
+					$_SESSION['flash-type'] = 'error-flash';
+					$_SESSION['flash-message'] = "On a un problème, on ne trouve rien !";
+					$_SESSION['flash-color'] = "warning";
+					\Http::redirect('index.php');
+				}
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir faire ça !";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		}
+	}
+
+	public function validerEdition($contenu, $user, $topic){
+		if (isset($_SESSION['auth'])) {
+			if ($user['id_user'] == $topic['id_user']) {
+				$this->model->modifierMessage($contenu, $topic['id_topic'], $user['id_user']);
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Votre message a bien été modifié !";
+				$_SESSION['flash-color'] = "success";
+				\Http::redirect('voirtopic.php?t=' . $topic['id_topic'] . "#" . $topic['id_message']);
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Ce n'est pas votre message";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir faire ça !";
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function supprimerTopic($topic){
+		if (isset($_SESSION['auth'])) {
+			$users = new \models\Users();
+			$user = $users->user($_SESSION['auth']['id_user']);
+			if ($user['grade'] >= 7) {
+				$test = $this->model->supprimerTopic($topic);
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Le topic a bien été supprimé !";
+				$_SESSION['flash-color'] = "success";
+				\Http::redirect('index.php');
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Vous n'avez pas les permissions de faire ça";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir faire ça !";
+			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
 	}

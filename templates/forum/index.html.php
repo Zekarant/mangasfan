@@ -153,8 +153,8 @@
 					<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
 					<em><?= $category['forum_description'] ?></em>
 				</td>
-				<td><?= \Rewritting::sanitize($category['forum_post']) ?></td>
 				<td><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
+				<td><?= \Rewritting::sanitize($category['forum_post']) ?></td>
 				<td><?php if (!empty($category['forum_post'])){ ?>
 					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?> dans <a href="voirtopic.php?t=<?= $category['id_topic'] ?>"><?= $category['topic_titre'] ?></a>	<br/>
 					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>" style="color: <?= \Color::rang_etat($category['grade']) ?>"><?= $category['username'] ?></a> - 
