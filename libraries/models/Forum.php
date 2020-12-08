@@ -13,7 +13,7 @@ class Forum extends Model {
 			$add2 = 'LEFT JOIN forum_topic_view 
 			ON f_forums.forum_id = forum_topic_view.tv_forum_id AND forum_topic_view.tv_id = :id';
 		}
-		$req = $this->pdo->prepare('SELECT DISTINCT forum_id, id, name, f_forums.forum_id, forum_name, forum_description, forum_post, forum_topic, permission, f_topics.id_topic, forum_last_post_id, topic_last_post,f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade '.$add1.'
+		$req = $this->pdo->prepare('SELECT DISTINCT forum_id, id, name, f_forums.forum_id, forum_name, forum_description, forum_post, forum_topic, permission, forum_locked, f_topics.id_topic, forum_last_post_id, topic_last_post,f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade '.$add1.'
 			FROM forum_categories
 			INNER JOIN f_forums ON forum_categories.id = f_forums.category_id
 			LEFT JOIN f_messages ON f_messages.id_message = f_forums.forum_last_post_id
@@ -78,7 +78,7 @@ class Forum extends Model {
 			$add2 = "LEFT JOIN forum_topic_view 
 			ON f_topics.id_topic = forum_topic_view.tv_topic_id AND forum_topic_view.tv_id = :id";
 		}
-		$req = $this->pdo->prepare('SELECT f_topics.id_topic, topic_titre, topic_createur, topic_vu, topic_post, topic_posted, topic_last_post,
+		$req = $this->pdo->prepare('SELECT f_topics.id_topic, topic_titre, topic_createur, topic_vu, topic_post, topic_posted, topic_last_post, topic_locked,
 			Mb.username AS membre_pseudo_createur, Mb.id_user AS id_utilisateur_posteur, date_created, Ma.username AS membre_pseudo_last_posteur, Ma.id_user AS id_utilisateur_derniere_reponse, id_message ' . $add1 . ' FROM f_topics 
 			LEFT JOIN users Mb ON Mb.id_user = f_topics.topic_createur
 			LEFT JOIN f_messages ON f_topics.topic_last_post = f_messages.id_message
@@ -152,8 +152,8 @@ class Forum extends Model {
 
 	public function ajouterTopic($title, $type, $idForum, $idUser, $message){
 		$req = $this->pdo->prepare('INSERT INTO f_topics
-			(id_forum, topic_titre, topic_createur, topic_vu, topic_posted, topic_last_post, topic_genre, topic_post)
-			VALUES(:idForum, :title, :idUser, 1, NOW(), 0, :type, 0)');
+			(id_forum, topic_titre, topic_createur, topic_vu, topic_posted, topic_first_post, topic_last_post, topic_genre, topic_post)
+			VALUES(:idForum, :title, :idUser, 1, NOW(), 0, 0, :type, 0)');
 		$req->execute(['idForum' => $idForum, 'title' => $title, 'idUser' => $idUser, 'type' => $type]);
 		$nouveautopic = $this->pdo->lastInsertId();
 
@@ -165,7 +165,7 @@ class Forum extends Model {
 
 
 		$req = $this->pdo->prepare('UPDATE f_topics
-			SET topic_last_post = :nouveaupost, topic_post = 1
+			SET topic_first_post = :nouveaupost, topic_last_post = :nouveaupost, topic_post = 1
 			WHERE id_topic = :nouveautopic');
 		$req->execute(['nouveaupost' => $nouveaupost, 'nouveautopic' => $nouveautopic]);
 
@@ -236,34 +236,99 @@ class Forum extends Model {
 		$forum = $data['id_forum'];
 
 		$topics = $this->pdo->prepare('SELECT topic_post FROM f_topics WHERE id_topic = :topic');
-  		$topics->execute(['topic' => $idTopic]);
+		$topics->execute(['topic' => $idTopic]);
 		$nombreTopics = $topics->fetch();
 		$nombrepost = $nombreTopics['topic_post'];
 
 		$suppression = $this->pdo->prepare('DELETE FROM f_topics WHERE id_topic = :topic');
-  		$suppression->execute(['topic' => $idTopic]); 
+		$suppression->execute(['topic' => $idTopic]); 
 
 		$query = $this->pdo->prepare('SELECT id_user, COUNT(*) AS nombre_mess FROM f_messages WHERE id_topic = :topic GROUP BY id_user');
-        $query->execute(['topic' => $idTopic]);
-        while($data = $query->fetch()){
-        	$req2 = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages - :mess WHERE id_user = :id');
-        	$req2->execute(['mess' => $data['nombre_mess'], 'id' => $data['id_user']]);
+		$query->execute(['topic' => $idTopic]);
+		while($data = $query->fetch()){
+			$req2 = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages - :mess WHERE id_user = :id');
+			$req2->execute(['mess' => $data['nombre_mess'], 'id' => $data['id_user']]);
 		}
 
 		$suppressionForum = $this->pdo->prepare('DELETE FROM f_messages WHERE id_topic = :topic');
-        $suppressionForum->execute(['topic' => $idTopic]);
+		$suppressionForum->execute(['topic' => $idTopic]);
 
-  		$recupererPost = $this->pdo->prepare('SELECT id_message FROM f_messages WHERE id_forum = :forum ORDER BY id_message DESC');
-  		$recupererPost->execute(['forum' => $forum]);
-  		$data1 = $recupererPost->fetch();
-  		if (!empty($data1)) {
-  			$message = $data1['id_message'];
-  		} else {
-  			$message = 0;
-  		}
-  		
+		$recupererPost = $this->pdo->prepare('SELECT id_message FROM f_messages WHERE id_forum = :forum ORDER BY id_message DESC');
+		$recupererPost->execute(['forum' => $forum]);
+		$data1 = $recupererPost->fetch();
+		if (!empty($data1)) {
+			$message = $data1['id_message'];
+		} else {
+			$message = 0;
+		}
+		$maj = $this->pdo->prepare('UPDATE f_forums SET forum_topic = forum_topic - 1, forum_post = forum_post - :nbr, forum_last_post_id = :id WHERE forum_id = :forum');
+		$maj->execute(['nbr' => $nombrepost, 'id' => $message, 'forum' => $forum]);   
+	}
 
-  		$maj = $this->pdo->prepare('UPDATE f_forums SET forum_topic = forum_topic - 1, forum_post = forum_post - :nbr, forum_last_post_id = :id WHERE forum_id = :forum');
- 		$maj->execute(['nbr' => $nombrepost, 'id' => $message, 'forum' => $forum]);   
+	public function supprimerMessage(int $idTopic, int $idMessage){
+		$messageForum = $this->pdo->prepare('SELECT * FROM f_messages LEFT JOIN f_forums ON f_messages.id_forum = f_forums.forum_id WHERE id_message = :idMessage');
+		$messageForum->execute(['idMessage' => $idMessage]);
+		$data = $messageForum->fetch();
+		$topic = $data['id_topic'];
+		$forum = $data['id_forum'];
+		$poster = $data['id_user'];
+
+		$req = $this->pdo->prepare('SELECT topic_first_post, topic_last_post FROM f_topics
+			WHERE id_topic = :idTopic');
+		$req->execute(['idTopic' => $idTopic]);
+		$data_post = $req->fetch();
+		if ($data_post['topic_first_post'] == $idMessage)
+		{
+			Forum::supprimerTopic($idTopic);          
+		}
+		elseif ($data_post['topic_last_post'] == $idMessage){
+
+			$suppressionMessage = $this->pdo->prepare('DELETE FROM f_messages WHERE id_message = :idMessage');
+			$suppressionMessage->execute(['idMessage' => $idMessage]);
+
+			$recupererId = $this->pdo->prepare('SELECT id_message FROM f_messages WHERE id_topic = :idTopic 
+				ORDER BY id_message DESC LIMIT 0,1');
+			$recupererId->execute(['idTopic' => $idTopic]);
+			$data = $recupererId->fetch();             
+			$last_post_topic = $data['id_message'];
+
+			$recupererLastPost = $this->pdo->prepare('SELECT id_message FROM f_messages WHERE id_forum = :forum
+				ORDER BY id_message DESC LIMIT 0,1');
+			$recupererLastPost->execute(['forum' => $forum]);
+			$lastPost = $recupererLastPost->fetch();             
+			$last_post_forum = $lastPost['id_message'];
+			
+			$updateLastPost = $this->pdo->prepare('UPDATE f_topics SET topic_last_post = :last
+				WHERE topic_last_post = :post');
+			$updateLastPost->execute(['last' => $last_post_topic, 'post' => $idMessage]);
+
+			$updateNumber = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post - 1, forum_last_post_id = :last
+				WHERE forum_id = :forum');
+			$updateNumber->execute(['last' => $last_post_forum, 'forum' => $forum]);
+
+			$enlever = $this->pdo->prepare('UPDATE f_topics SET topic_post = topic_post - 1
+				WHERE id_topic = :topic');
+			$enlever->execute(['topic' => $idTopic]);
+
+			$enleverMembre = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages - 1
+				WHERE id_user = :id');
+			$enleverMembre->execute(['id' => $poster]);
+		} else {
+			$suppression= $this->pdo->prepare('DELETE FROM f_messages WHERE id_message = :post');
+			$suppression->execute(['post' => $idMessage]);
+
+			$enlever = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post - 1  WHERE forum_id = :forum');
+			$enlever->bindValue(':forum',$forum,PDO::PARAM_INT);
+			$enlever->execute(['forum' => $forum]); 
+
+			$enleverTopic = $this->pdo->prepare('UPDATE f_topics SET topic_post = topic_post - 1
+				WHERE id_topic = :topic');
+			$enleverTopic->execute(['topic' => $idTopic]);
+
+			$enleverMembre = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages - 1
+				WHERE id_user = :id');
+			$enleverMembre->execute(['id' => $data['post_createur']]);
+		}
+		
 	}
 }

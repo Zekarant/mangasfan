@@ -11,11 +11,15 @@
 	<div class="card" id="<?= \Rewritting::sanitize($message['id_message']) ?>">
 	<div class="card-header">
 		<?= \Rewritting::sanitize($topic['topic_titre']) ?> - Posté le <?= Users::dateAnniversaire($message['date_created']) ?>
-		<?php if ((isset($_SESSION['auth']) && $user['id_user'] == $message['id_utilisateur_message']) || isset($_SESSION['auth']) && $user['grade'] >= 7) { ?>
+		<?php if (isset($_SESSION['auth']) && $user['id_user'] == $message['id_utilisateur_message']) { ?>
 			<br/>
 			<hr>
 			<a href="editer.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&message=<?= \Rewritting::sanitize($message['id_message']) ?>" class="btn btn-sm btn-outline-info">Modifier</a>
-			<a href="#" class="btn btn-sm btn-outline-danger">Supprimer</a>
+			<a href="supprimer.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&message=<?= \Rewritting::sanitize($message['id_message']) ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer ce message ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
+		<?php } elseif ((isset($_SESSION['auth']) && $user['id_user'] == $message['id_utilisateur_message']) || isset($_SESSION['auth']) && $user['grade'] >= 7) { ?>
+			<br/>
+			<hr>
+			<a href="supprimer.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&message=<?= \Rewritting::sanitize($message['id_message']) ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer ce message ?!`)" class="btn btn-sm btn-outline-danger">Supprimer</a>
 		<?php } ?>
 	</div>
 	<div class="card-body">

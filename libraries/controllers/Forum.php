@@ -221,6 +221,36 @@ class Forum extends Controller {
 		}
 	}
 
+	public function suppressionMessage(int $idTopic, int $idMessage){
+		if (is_numeric($idTopic) && is_numeric($idMessage)) {
+			if (isset($_SESSION['auth'])) {
+				$users = new \models\Users();
+				$user = $users->user($_SESSION['auth']['id_user']);
+				$topic = $this->model->searchTopic($idTopic, $idMessage);
+				if(isset($topic['id_topic'])){
+					if ($user['id_user'] == $topic['id_user'] || ($user['id_user'] == $topic['id_user'] && $user['grade'] >= 7)) {
+						$this->model->supprimerMessage($idTopic, $idMessage);
+						$_SESSION['flash-type'] = 'error-flash';
+						$_SESSION['flash-message'] = "Votre message a bien été supprimé !";
+						$_SESSION['flash-color'] = "success";
+						\Http::redirect('voirforum.php?f=' . $topic['id_forum']);
+					}
+					else {
+						$_SESSION['flash-type'] = 'error-flash';
+						$_SESSION['flash-message'] = "Vous devez être connecté pour faire ça !";
+						$_SESSION['flash-color'] = "warning";
+						\Http::redirect('index.php');
+					}
+				} else {
+					$_SESSION['flash-type'] = 'error-flash';
+					$_SESSION['flash-message'] = "Le topic n'existe pas !";
+					$_SESSION['flash-color'] = "warning";
+					\Http::redirect('index.php');
+				}
+			}
+		}
+	}
+
 	public function validerEdition($contenu, $user, $topic){
 		if (isset($_SESSION['auth'])) {
 			if ($user['id_user'] == $topic['id_user']) {

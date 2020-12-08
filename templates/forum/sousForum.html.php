@@ -147,7 +147,8 @@
 					$ico_mess = 'lu.png';
 				}?>
 				<tr>
-					<td><img src="../images/<?= \Rewritting::sanitize($ico_mess) ?>" width="75"/></td>
+					<td>
+						<img src="../images/<?= \Rewritting::sanitize($ico_mess) ?>" width="75"/>
 					<td>
 						<a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
 							<?= \Rewritting::sanitize($sujet['topic_titre']) ?>
