@@ -56,6 +56,9 @@
             <a class="nav-link" href="/galeries">Galeries</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/forum">Forum</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/membres/compte.php">Mon compte</a>
           </li>
           <?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 2) { ?>
@@ -123,24 +126,12 @@
 
        <div class="col-md-6">
         <h3>Nos partenaires</h3>
-        <a href="https://www.pokelove.fr/" target="_blank">
-          <img src="https://1.bp.blogspot.com/-7Ll1bD0j16Y/XWP2tH8flcI/AAAAAAAANO8/y9Rg41CAcC0t_naVCyWNrmug4UYYyPbBwCLcBGAs/s1600/partenaire_nidoranm.png" alt="Logo de Pokélove" width="88" height="31" />
-        </a>
         <a href="http://www.nexgate.ch" target="_blank">
           <img style="border:0;" src="https://www.nexgate.ch/images/button8831.png" alt="Hébergement gratuit !" title="Hébergement gratuit - nexgate.ch" />
-        </a>
-        <a href="https://www.bclover.net/" target="_blank">
-          <img style="border:0;" src="https://www.mangasfan.fr/images/bryx.png" alt="Logo de Black Clover" width="88" height="31" />
-        </a>
-        <a href="http://pokemon-boutique.fr/?afmc=1r&utm_campaign=1r&utm_source=leaddyno&utm_medium=affiliate" target="_blank">
-          <img style="border:0;" src="https://www.mangasfan.fr/images/mf-petit.png" alt="Logo pour Pokémon Boutique" width="88" height="31" />
         </a>
         <div class="row">
           <div class="col-md-12">
             <h3>Nos réseaux</h3>
-            <a href="https://www.facebook.com/MangasFanOff/" target="_blank">
-              <img src="https://www.mangasfan.fr/images/fb.png" alt="Facebook - Mangas'Fan" class="image_reseaux" />
-            </a>
             <a href="https://twitter.com/MangasFanOff" target="_blank">
               <img src="https://www.mangasfan.fr/images/tw.png" alt="Twitter - Mangas'Fan"  class="image_reseaux" />
             </a>
@@ -149,10 +140,6 @@
             </a>
             <a href="https://www.instagram.com/mangasfanoff/" target="_blank">
               <img src="https://www.mangasfan.fr/images/insta.png" alt="Instagram - Mangas'Fan"  class="image_reseaux" />
-            </a>
-
-            <a href="https://www.twitch.tv/mangasfanofficiel/" target="_blank">
-              <img src="https://www.mangasfan.fr/images/twitch.png" alt="Twitch - Mangas'Fan"  class="image_reseaux" />
             </a>
             <a href="https://www.youtube.com/channel/UCEKb-Gz4ZyNQo5jHckWimpQ" target="_blank">
               <img src="https://www.mangasfan.fr/images/youtube.png" alt="Youtube - Mangas'Fan"  class="image_reseaux" />
@@ -165,7 +152,7 @@
 </div>
 <div class="footer-bottom">       
   <div class="container">           
-    <p class="pull-left">Version 7.0.0 de Mangas'Fan © 2017 - 2020. Développé par Zekarant et Nico. Design by Asami. Tous droits réservés. Toute atteinte au droit d'auteur n'est pas désirée.<br/> Propulsé par <a href="https://www.nexgate.ch/">https://www.nexgate.ch/.</a></p>        
+    <p class="pull-left">Version 7.2.0 de Mangas'Fan © 2017 - 2020. Développé par Zekarant et Nico. Design by Asami. Tous droits réservés. Toute atteinte au droit d'auteur n'est pas désirée.<br/> Propulsé par <a href="https://www.nexgate.ch/">https://www.nexgate.ch/.</a></p>        
   </div>    
 </div>
 </body>

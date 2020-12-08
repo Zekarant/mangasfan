@@ -1,3 +1,4 @@
+<?php if (isset($_SESSION['auth']) && $user['grade'] >= 7) { ?>
 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajoutSection">
 	Ajouter une nouvelle section
 </button>
@@ -114,14 +115,17 @@
 		</div>
 	</div>
 </div>
-
+<?php } ?>
 <h1 class="titre">Index du forum</h1>
 <hr>
+<div class="alert alert-info">
+	<strong>Information : </strong>Le forum est tout neuf et peu donc comporter de nombreux bugs, nous comptons sur vous pour les signaler dans la section appropriée !
+</div>
 <table class="table">
 	<?php
 	$categorie = 0;
 	foreach ($forums as $category):
-		if ((isset($_SESSION['auth']) && $user['grade'] == $category['permission']) || ($user == NULL AND $category['permission'] == 0) || isset($_SESSION['auth']) && $user['grade'] > 7) {
+		if ((isset($_SESSION['auth']) && $user['grade'] >= $category['permission']) || ($user == NULL AND $category['permission'] == 0) || isset($_SESSION['auth']) && $user['grade'] > 7) {
 			if (!empty($user)){
 				$controller = new \models\Forum();
 				$test = $controller->chercher($category['forum_id']);
@@ -182,23 +186,23 @@
 				<tr class="table-info">
 					<th></th>
 					<th><?= \Rewritting::sanitize($category['name']); ?></th>             
-					<th>Sujets</th>       
-					<th>Messages</th>       
+					<th class="tableau_fofo">Sujets</th>       
+					<th class="tableau_fofo">Messages</th>       
 					<th>Dernier message</th>   
 				</tr>
 			<?php } ?>
 			<tr>
-				<td><img src="../images/<?= $ico_mess ?>" width="75"/></td>
+				<td><img src="../images/<?= \Rewritting::sanitize($ico_mess) ?>" width="75"/></td>
 				<td>
-					<a href="./voirforum.php?f=<?= $category['forum_id'] ?>"><?= $category['forum_name'] ?></a><br/>
-					<em><?= $category['forum_description'] ?></em>
+					<a href="./voirforum.php?f=<?= \Rewritting::sanitize($category['forum_id']) ?>"><?= \Rewritting::sanitize($category['forum_name']) ?></a><br/>
+					<span class="tableau_fofo"><em><?= \Rewritting::sanitize($category['forum_description']) ?></em></span>
 				</td>
-				<td><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
-				<td><?= \Rewritting::sanitize($category['forum_post']) ?></td>
+				<td class="tableau_fofo"><?= \Rewritting::sanitize($category['forum_topic']) ?></td>
+				<td class="tableau_fofo"><?= \Rewritting::sanitize($category['forum_post']) ?></td>
 				<td><?php if (!empty($category['forum_post'])){ ?>
-					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?> dans <a href="voirtopic.php?t=<?= $category['id_topic'] ?>"><?= $category['topic_titre'] ?></a>	<br/>
-					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>" style="color: <?= \Color::rang_etat($category['grade']) ?>"><?= $category['username'] ?></a> - 
-					<a href="voirtopic.php?t=<?= $category['id_topic'] ?>#<?= $category['id_message'] ?>">Accéder au message</a>
+					Posté le <?= date('d/m/Y à H:i', strtotime($category['date_created'])) ?> dans <a href="voirtopic.php?t=<?= \Rewritting::sanitize($category['id_topic']) ?>"><?= \Rewritting::sanitize($category['topic_titre']) ?></a>	<br/>
+					par <a href="../membres/profil-<?= \Rewritting::sanitize($category['id_utilisateur']) ?>" style="color: <?= \Color::rang_etat($category['grade']) ?>"><?= \Rewritting::sanitize($category['username']) ?></a> - 
+					<a href="voirtopic.php?t=<?= \Rewritting::sanitize($category['id_topic']) ?>#<?= \Rewritting::sanitize($category['id_message']) ?>">Accéder au message</a>
 				<?php } else { ?>
 					Pas de message
 				<?php } ?>

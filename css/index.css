@@ -243,15 +243,14 @@ footer-bottom p.pull-left
 		padding-top: 300px;
 		font-size: 19px;
 	}
+	
 
 	.image_archives {
 		width: 100%;
 	}
 	.cookie-alert {
       text-align: center;
-      left: 0; right: 0;
-        margin: 0 auto;
-      max-width:90%;
-      padding:10px 30px;
+      left: 0;
+      width:100%;
    }
 }

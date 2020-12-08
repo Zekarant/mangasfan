@@ -436,6 +436,9 @@ div.bloc_page{
 	header {
 		height: 275px;
 	}
+	.tableau_fofo {
+		display: none;
+	}
 	.bottom {
 		display: none;
 	}
@@ -443,10 +446,8 @@ div.bloc_page{
 		width: 100%;
 	}
 	.cookie-alert {
-      text-align: center;
-      left: 0; right: 0;
-        margin: 0 auto;
-      max-width:90%;
-      padding:10px 30px;
+       text-align: center;
+      left: 0;
+      width:100%;
    }
 }

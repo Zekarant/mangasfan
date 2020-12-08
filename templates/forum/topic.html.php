@@ -1,4 +1,4 @@
-<p>Votre localisation : <a href="../forum">Accueil du forum</a> -> <a href="voirforum.php?f=<?= $topic['id_forum'] ?>"><?= $topic['forum_name'] ?></a> -> <?= $topic['topic_titre'] ?></p>
+<p>Votre localisation : <a href="../forum">Accueil du forum</a> -> <a href="voirforum.php?f=<?= \Rewritting::sanitize($topic['id_forum']) ?>"><?= \Rewritting::sanitize($topic['forum_name']) ?></a> -> <?= \Rewritting::sanitize($topic['topic_titre']) ?></p>
 <hr>
 <h2 class="titre"><?= \Rewritting::sanitize($topic['topic_titre']) ?> <?php if($topic['topic_locked'] == 1){ echo "- Topic verrouillé"; } ?></h2>
 <hr>
@@ -14,7 +14,7 @@
 	<form method="post" action="deplacer.php?t=<?= $topic['id_topic'] ?>">
 		<select name="dest" class="form-control">               
 			<?php foreach($forum as $forums): ?>
-				<option value='<?= $forums['forum_id'] ?>' id='<?= $forums['forum_id'] ?>'><?= $forums['forum_name'] ?></option>
+				<option value='<?= \Rewritting::sanitize($forums['forum_id']) ?>' id='<?= \Rewritting::sanitize($forums['forum_id']) ?>'><?= \Rewritting::sanitize($forums['forum_name']) ?></option>
 			<?php endforeach; ?>
 		</select>
 		<input type="hidden" name="from" value='<?= $topic['id_forum'] ?>'>
