@@ -194,6 +194,13 @@ class Forum extends Model {
 		return $categories;
 	}
 
+	public function recupererForums(){
+		$req = $this->pdo->prepare('SELECT * FROM f_forums ORDER BY forum_id');
+		$req->execute();
+		$categories = $req->fetchAll();
+		return $categories;
+	}
+
 	public function addForum($title, $description, $categorie, $permission, $status){
 		$req = $this->pdo->prepare('INSERT INTO f_forums(category_id, forum_name, forum_description, forum_last_post_id, forum_post, forum_topic, permission, forum_locked) VALUES(:categorie, :title, :description, 0, 0, 0, :permission, :status)');
 		$req->execute(['categorie' => $categorie, 'title' => $title, 'description' => $description, 'permission' => $permission, 'status' => $status]);
@@ -335,5 +342,50 @@ class Forum extends Model {
 	public function changerStatus(int $idTopic, int $status){
 		$req = $this->pdo->prepare('UPDATE f_topics SET topic_locked = :status WHERE id_topic = :idTopic');
 		$req->execute(['status' => $status, 'idTopic' => $idTopic]);
+	}
+
+	public function deplacerTopic(int $idTopic, int $destination, int $from){
+		$chercherTopic = $this->pdo->prepare('SELECT id_forum FROM f_topics LEFT JOIN f_forums ON forum_id = id_forum WHERE id_topic = :topic');
+		$chercherTopic->execute(['topic' => $idTopic]);
+		$forumTrouve = $chercherTopic->fetch();
+		$forum = $forumTrouve['id_forum'];
+
+		$deplacerTopic = $this->pdo->prepare('UPDATE f_topics SET id_forum = :dest WHERE id_forum = :topic');
+		$deplacerTopic->execute(['dest' => $destination, 'topic' => $idTopic]);
+
+		$deplacerPosts = $this->pdo->prepare('UPDATE f_messages SET id_forum = :dest WHERE id_topic = :topic');
+		$deplacerPosts->execute(['dest' => $destination, 'topic' => $idTopic]);    
+
+		$verificationCompter = $this->pdo->prepare('SELECT COUNT(*) AS nombre_post
+			FROM f_messages WHERE id_topic = :topic');
+		$verificationCompter->execute(['topic' => $idTopic]);    
+		$donnee = $verificationCompter->fetch();
+		$nombrepost = $donnee['nombre_post'];
+		
+		if ($nombrepost != 0) {
+			$update = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post - :nbr, forum_topic = forum_topic - 1,
+				forum_last_post_id = 0
+				WHERE forum_id = :ori');
+			$update->execute(['nbr' => $nombrepost, 'ori' => $from]);
+		} else {
+			$searchPost = $this->pdo->prepare('SELECT id_message FROM f_messages WHERE id_forum = :ori ORDER BY id_message DESC LIMIT 0,1');
+			$searchPost->execute(['ori' => $from]);
+			$donnee = $searchPost->fetch();       
+			$last_post = $donnee['id_message'];
+
+			$update = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post - :nbr, forum_topic = forum_topic - 1, forum_last_post_id = :id WHERE forum_id = :ori');
+			$update->execute(['nbr' => $nombrepost, 'ori' => $from, 'id' => $last_post]);
+
+			
+		}
+
+		$lastVerif = $this->pdo->prepare('SELECT id_message FROM f_messages WHERE id_forum = :dest
+			ORDER BY id_message DESC LIMIT 0,1');
+		$lastVerif->execute(['dest' => $destination]);
+		$data = $lastVerif->fetch();
+		$last_post = $data['id_message'];
+
+		$lastUpdate = $this->pdo->prepare('UPDATE f_forums SET forum_post = forum_post + :nbr, forum_topic = forum_topic + 1, forum_last_post_id = :last WHERE forum_id = :forum');
+		$lastUpdate->execute(['nbr' => $nombrepost, 'last' => $last_post, 'forum' => $destination]);
 	}
 }

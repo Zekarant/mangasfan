@@ -52,6 +52,7 @@ class Forum extends Controller {
 		$pageTitle = $topic['topic_titre'];
 		$style = "../css/commentaires.css";
 		$messages = $this->model->allMessages($idTopic);
+		$forum = $this->model->recupererForums();
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
@@ -73,7 +74,7 @@ class Forum extends Controller {
 		if (isset($_POST['validerMessage'])) {
 			Forum::posterMessage($idTopic, $user['id_user'], $_POST['contenuMessage'], $topic['id_forum']);
 		}
-		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user'));
+		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user', 'forum'));
 	}
 
 	public function posterMessage($idTopic, $utilisateur, $message, $forum){
@@ -327,6 +328,30 @@ class Forum extends Controller {
 					\Http::redirect('index.php');
 				}
 				
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Vous n'avez pas les permissions de faire ça";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir faire ça !";
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function deplacerTopic($idTopic, $destination, $from){
+		if (isset($_SESSION['auth'])) {
+			$users = new \models\Users();
+			$user = $users->user($_SESSION['auth']['id_user']);
+			if ($user['grade'] >= 7) {
+				$this->model->deplacerTopic($idTopic, $destination, $from);
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Le topic a bien été déplacé !";
+				$_SESSION['flash-color'] = "success";
+				\Http::redirect('voirtopic.php?t=' . $destination);
 			} else {
 				$_SESSION['flash-type'] = 'error-flash';
 				$_SESSION['flash-message'] = "Vous n'avez pas les permissions de faire ça";

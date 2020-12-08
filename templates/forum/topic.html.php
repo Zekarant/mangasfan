@@ -6,10 +6,20 @@
 <?php if (isset($_SESSION['auth']) && $user['grade'] >= 7) { ?>
 	<a href="supprimer_topic.php?t=<?= \Rewritting::sanitize($topic['id_topic']) ?>" class="btn btn-outline-danger">Supprimer le topic</a>
 	<?php if ($topic['topic_locked'] == 1 && $topic['forum_locked'] == 0) { ?>
-			 	<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Devérrouiller ce topic ?`)" class="btn btn-outline-success">Devérrouiller le topic</a>
-			<?php } elseif ($topic['topic_locked'] == 0 && $topic['forum_locked'] == 0) { ?>
-				<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Verrouiller ce topic ?`)" class="btn btn-outline-warning">Verrouiller le topic</a>
-			<?php } ?>
+		<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Devérrouiller ce topic ?`)" class="btn btn-outline-success">Devérrouiller le topic</a>
+	<?php } elseif ($topic['topic_locked'] == 0 && $topic['forum_locked'] == 0) { ?>
+		<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Verrouiller ce topic ?`)" class="btn btn-outline-warning">Verrouiller le topic</a>
+	<?php } ?>
+	<hr>
+	<form method="post" action="deplacer.php?t=<?= $topic['id_topic'] ?>">
+		<select name="dest" class="form-control">               
+			<?php foreach($forum as $forums): ?>
+				<option value='<?= $forums['forum_id'] ?>' id='<?= $forums['forum_id'] ?>'><?= $forums['forum_name'] ?></option>
+			<?php endforeach; ?>
+		</select>
+		<input type="hidden" name="from" value='<?= $topic['id_forum'] ?>'>
+		<input type="submit" class="btn btn-sm btn-outline-info" name="submit" value="Envoyer" />
+	</form>
 <?php } ?>
 <br/><br/>
 <?php foreach ($messages as $message): ?>
@@ -65,4 +75,4 @@
 	<div class="alert alert-info">
 		Vous devez être connecté à votre compte pour pouvoir poster un message, n'hésitez pas à le créer !
 	</div>
-<?php } ?>
+	<?php } ?>
