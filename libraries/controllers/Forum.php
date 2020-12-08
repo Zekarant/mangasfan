@@ -22,7 +22,7 @@ class Forum extends Controller {
 		}
 		$categories = $this->model->allCategories();
 		if (isset($_POST['addForum'])) {
-			Forum::addForum($user, $_POST['titreForum'], $_POST['descriptionForum'], $_POST['addCategorie'], $_POST['addPermission']);
+			Forum::addForum($user, $_POST['titreForum'], $_POST['descriptionForum'], $_POST['addCategorie'], $_POST['addPermission'], $_POST['statusForum']);
 		}
 		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'forums', 'user', 'categories'));
 	}
@@ -42,7 +42,7 @@ class Forum extends Controller {
 			$sujetsNormaux = $this->model->allSujets($idForum, $user);
 		}
 		if (isset($_POST['topicValider'])) {
-			Forum::ajouterTopic($_POST['titleTopic'], $_POST['typeTopic'], $idForum, $user['id_user'], $_POST['messageTopic']);
+			Forum::ajouterTopic($_POST['titleTopic'], $_POST['typeTopic'], $idForum, $user['id_user'], $_POST['messageTopic'], $_POST['status']);
 		}
 		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux', 'user'));
 	}
@@ -98,10 +98,10 @@ class Forum extends Controller {
 		}
 	}
 
-	public function ajouterTopic($title, $type, $idForum, $user, $message){
+	public function ajouterTopic($title, $type, $idForum, $user, $message, $status){
 		if (!empty($message)) {
 			if ($user != NULL) {
-				$this->model->ajouterTopic($title, $type, $idForum, $user, $message);
+				$this->model->ajouterTopic($title, $type, $idForum, $user, $message, $status);
 				$_SESSION['flash-type'] = 'error-flash';
 				$_SESSION['flash-message'] = "Le topic a bien été ajouté !";
 				$_SESSION['flash-color'] = "success";
@@ -149,16 +149,23 @@ class Forum extends Controller {
 		}
 	}
 
-	public function addForum($user, $title, $description, $categorie, $permission){
+	public function addForum($user, $title, $description, $categorie, $permission, $status){
 		if ($user != NULL && $user['grade'] >= 7) {
 			if (!empty($title)) {
 				if (!empty($description)) {
 					if ($permission >= 0 && $permission <= 8 || is_string($permission)) {
-						$this->model->addForum($title, $description, $categorie, $permission);
-						$_SESSION['flash-type'] = 'error-flash';
-						$_SESSION['flash-message'] = "Forum ajouté avec succès !";
-						$_SESSION['flash-color'] = "success";
-						\Http::redirect('index.php');
+						if ($status != "0" && $status != "1") {
+							$_SESSION['flash-type'] = 'error-flash';
+							$_SESSION['flash-message'] = "Hop, pas de bonne valeur !";
+							$_SESSION['flash-color'] = "warning";
+							\Http::redirect('index.php');
+						} else {
+							$this->model->addForum($title, $description, $categorie, $permission, $status);
+							$_SESSION['flash-type'] = 'error-flash';
+							$_SESSION['flash-message'] = "Forum ajouté avec succès !";
+							$_SESSION['flash-color'] = "success";
+							\Http::redirect('index.php');
+						}
 					} else {
 						$_SESSION['flash-type'] = 'error-flash';
 						$_SESSION['flash-message'] = "Bien tenté, mais cette catégorie n'existe pas :D";
@@ -278,11 +285,48 @@ class Forum extends Controller {
 			$users = new \models\Users();
 			$user = $users->user($_SESSION['auth']['id_user']);
 			if ($user['grade'] >= 7) {
-				$test = $this->model->supprimerTopic($topic);
+				$this->model->supprimerTopic($topic);
 				$_SESSION['flash-type'] = 'error-flash';
 				$_SESSION['flash-message'] = "Le topic a bien été supprimé !";
 				$_SESSION['flash-color'] = "success";
 				\Http::redirect('index.php');
+			} else {
+				$_SESSION['flash-type'] = 'error-flash';
+				$_SESSION['flash-message'] = "Vous n'avez pas les permissions de faire ça";
+				$_SESSION['flash-color'] = "warning";
+				\Http::redirect('index.php');
+			}
+		} else {
+			$_SESSION['flash-type'] = 'error-flash';
+			$_SESSION['flash-message'] = "Vous devez être connecté pour pouvoir faire ça !";
+			$_SESSION['flash-color'] = "warning";
+			\Http::redirect('index.php');
+		}
+	}
+
+	public function changerStatus($topic, $status){
+		if (isset($_SESSION['auth'])) {
+			$users = new \models\Users();
+			$user = $users->user($_SESSION['auth']['id_user']);
+			if ($user['grade'] >= 7) {
+				$topicVerifie = $this->model->topic($topic);
+				if ($topic == $topicVerifie['id_topic']) {
+					if ($status == "1") {
+						$this->model->changerStatus($topic, 0);
+					} else {
+						$this->model->changerStatus($topic, 1);
+					}
+					$_SESSION['flash-type'] = 'error-flash';
+					$_SESSION['flash-message'] = "Le status a bien été changé !";
+					$_SESSION['flash-color'] = "success";
+					\Http::redirect('voirtopic.php?t=' . $topic);
+				} else {
+					$_SESSION['flash-type'] = 'error-flash';
+					$_SESSION['flash-message'] = "Ce topic n'existe pas !";
+					$_SESSION['flash-color'] = "warning";
+					\Http::redirect('index.php');
+				}
+				
 			} else {
 				$_SESSION['flash-type'] = 'error-flash';
 				$_SESSION['flash-message'] = "Vous n'avez pas les permissions de faire ça";

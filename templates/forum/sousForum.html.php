@@ -39,6 +39,24 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-lg-4">
+								Status :
+							</div>
+							<div class="col-lg-8">
+								<?php if ($sousForum['forum_locked'] == 1) { ?>
+									<select name="status" class="form-control">
+										<option value="1">Verrouillé</option>
+									</select>
+								<?php } else { ?>
+									<select name="status" class="form-control">
+										<option value="0">Déverrouillé</option>
+										<option value="1">Verrouillé</option>
+									</select>
+									<br/>
+								<?php } ?>
+							</div>
+						</div>
+						<div class="row">
 							<label>Message :</label>
 							<textarea class="form-control" name="messageTopic"></textarea>
 							<br/>
@@ -70,22 +88,46 @@
 					if ($sujet['tv_id'] == $user['id_user']){
 						if ($sujet['tv_poste'] == '0'){
 							if ($sujet['tv_post_id'] == $sujet['topic_last_post']){
-								$ico_mess = 'lu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'lu.png';
+								} else {
+									$ico_mess = 'locked.png';
+								}
 							} else {
-								$ico_mess = 'nonlu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'nonlu.png';
+								} else {
+									$ico_mess = 'locknonlu.png';
+								}
 							}
 						} else {
 							if ($sujet['tv_post_id'] == $sujet['topic_last_post']){
-								$ico_mess = 'nonlu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'nonlu.png';
+								} else {
+									$ico_mess = 'locknonlu.png';
+								}
 							} else {
-								$ico_mess = 'nonlu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'nonlu.png';
+								} else {
+									$ico_mess = 'locknonlu.png';
+								}
 							}
 						}
 					} else {
-						$ico_mess = 'nonlu.png';
+						if ($sujet['topic_locked'] == 0) {
+							$ico_mess = 'nonlu.png';
+						} else {
+							$ico_mess = 'locknonlu.png';
+						}
 					}
 				} else {
-					$ico_mess = 'lu.png';
+					if ($sujet['topic_locked'] == 0) {
+						$ico_mess = 'lu.png';
+					} else {
+						$ico_mess = 'locked.png';
+					}
 				}
 				?>		
 				<tr>
@@ -129,42 +171,66 @@
 					if ($sujet['tv_id'] == $user['id_user']){
 						if ($sujet['tv_poste'] == '0'){
 							if ($sujet['tv_post_id'] == $sujet['topic_last_post']){
-								$ico_mess = 'lu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'lu.png';
+								} else {
+									$ico_mess = 'locked.png';
+								}
 							} else {
-								$ico_mess = 'nonlu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'nonlu.png';
+								} else {
+									$ico_mess = 'locknonlu.png';
+								}
 							}
 						} else {
 							if ($sujet['tv_post_id'] == $sujet['topic_last_post']){
-								$ico_mess = 'nonlu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'nonlu.png';
+								} else {
+									$ico_mess = 'locknonlu.png';
+								}
 							} else {
-								$ico_mess = 'nonlu.png';
+								if ($sujet['topic_locked'] == 0) {
+									$ico_mess = 'nonlu.png';
+								} else {
+									$ico_mess = 'locknonlu.png';
+								}
 							}
 						}
 					} else {
-						$ico_mess = 'lu.png';
+						if ($sujet['topic_locked'] == 0) {
+							$ico_mess = 'lu.png';
+						} else {
+							$ico_mess = 'locked.png';
+						}
 					}
 				} else {
-					$ico_mess = 'lu.png';
+					if ($sujet['topic_locked'] == 0) {
+						$ico_mess = 'lu.png';
+					} else {
+						$ico_mess = 'locked.png';
+					}
 				}?>
 				<tr>
 					<td>
 						<img src="../images/<?= \Rewritting::sanitize($ico_mess) ?>" width="75"/>
-					<td>
-						<a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
-							<?= \Rewritting::sanitize($sujet['topic_titre']) ?>
-						</a>
-					</td>
-					<td class="nombremessages"><?= \Rewritting::sanitize($sujet['topic_post']) ?></td>
-					<td><?= \Rewritting::sanitize($sujet['topic_vu']) ?></td>
-					<td>
-						<a href="../membres/profil-<?= \Rewritting::sanitize($sujet['id_utilisateur_posteur']) ?>"><?= \Rewritting::sanitize($sujet['membre_pseudo_createur']) ?></a>
-					</td>
-					<td><a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>"><?= \Rewritting::sanitize($sujet['topic_titre']) ?></a><br/>
-						Par <a href="../membres/profil-<?= \Rewritting::sanitize($sujet['id_utilisateur_derniere_reponse']) ?>"><?= \Rewritting::sanitize($sujet['membre_pseudo_last_posteur']) ?></a>
-						le <?= date('H\hi \l\e d M y', strtotime($sujet['date_created'])) ?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
-	<?php } ?>
+						<td>
+							<a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
+								<?= \Rewritting::sanitize($sujet['topic_titre']) ?>
+							</a>
+						</td>
+						<td class="nombremessages"><?= \Rewritting::sanitize($sujet['topic_post']) ?></td>
+						<td><?= \Rewritting::sanitize($sujet['topic_vu']) ?></td>
+						<td>
+							<a href="../membres/profil-<?= \Rewritting::sanitize($sujet['id_utilisateur_posteur']) ?>"><?= \Rewritting::sanitize($sujet['membre_pseudo_createur']) ?></a>
+						</td>
+						<td><a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>"><?= \Rewritting::sanitize($sujet['topic_titre']) ?></a><br/>
+							Par <a href="../membres/profil-<?= \Rewritting::sanitize($sujet['id_utilisateur_derniere_reponse']) ?>"><?= \Rewritting::sanitize($sujet['membre_pseudo_last_posteur']) ?></a>
+							le <?= date('H\hi \l\e d M y', strtotime($sujet['date_created'])) ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php } ?>

@@ -39,7 +39,7 @@ class Forum extends Model {
 	}
 
 	public function allSousForums(int $idForum){
-		$req = $this->pdo->prepare('SELECT forum_name, forum_topic FROM f_forums WHERE forum_id = :idForum');
+		$req = $this->pdo->prepare('SELECT forum_name, forum_topic, forum_locked FROM f_forums WHERE forum_id = :idForum');
 		$req->execute(['idForum' => $idForum]);
 		$sousForums = $req->fetch();
 		return $sousForums;
@@ -53,7 +53,7 @@ class Forum extends Model {
 			$add2 = "LEFT JOIN forum_topic_view 
 			ON f_topics.id_topic = forum_topic_view.tv_topic_id AND forum_topic_view.tv_id = :id";
 		}
-		$req = $this->pdo->prepare('SELECT f_topics.id_topic, topic_titre, topic_createur, topic_vu, topic_post, topic_posted, topic_last_post,
+		$req = $this->pdo->prepare('SELECT f_topics.id_topic, topic_titre, topic_createur, topic_vu, topic_post, topic_posted, topic_last_post, topic_locked,
 			Mb.username AS membre_pseudo_createur, Mb.id_user AS id_utilisateur_posteur, date_created, Ma.username AS membre_pseudo_last_posteur, Ma.id_user AS id_utilisateur_derniere_reponse, id_message '.$add1.' FROM f_topics 
 			LEFT JOIN users Mb ON Mb.id_user = f_topics.topic_createur
 			LEFT JOIN f_messages ON f_topics.topic_last_post = f_messages.id_message
@@ -100,7 +100,7 @@ class Forum extends Model {
 		$req = $this->pdo->prepare('UPDATE f_topics SET topic_vu = topic_vu + 1 WHERE id_topic = :idTopic');
 		$req->execute(['idTopic' => $idTopic]);
 
-		$req = $this->pdo->prepare('SELECT id_topic, topic_titre, topic_post, f_topics.id_forum, topic_last_post, forum_name
+		$req = $this->pdo->prepare('SELECT id_topic, topic_titre, topic_post, f_topics.id_forum, topic_last_post, topic_locked, forum_name, forum_locked
 			FROM f_topics 
 			LEFT JOIN f_forums ON f_topics.id_forum = f_forums.forum_id 
 			WHERE id_topic = :idTopic');
@@ -150,11 +150,11 @@ class Forum extends Model {
 		$req->execute(['post' => $nouveaupost, 'id' => $idUser, 'topic' => $idTopic]);
 	}
 
-	public function ajouterTopic($title, $type, $idForum, $idUser, $message){
+	public function ajouterTopic($title, $type, $idForum, $idUser, $message, $status){
 		$req = $this->pdo->prepare('INSERT INTO f_topics
-			(id_forum, topic_titre, topic_createur, topic_vu, topic_posted, topic_first_post, topic_last_post, topic_genre, topic_post)
-			VALUES(:idForum, :title, :idUser, 1, NOW(), 0, 0, :type, 0)');
-		$req->execute(['idForum' => $idForum, 'title' => $title, 'idUser' => $idUser, 'type' => $type]);
+			(id_forum, topic_titre, topic_createur, topic_vu, topic_posted, topic_first_post, topic_last_post, topic_genre, topic_post, topic_locked)
+			VALUES(:idForum, :title, :idUser, 1, NOW(), 0, 0, :type, 0, :locked)');
+		$req->execute(['idForum' => $idForum, 'title' => $title, 'idUser' => $idUser, 'type' => $type, 'locked' => $status]);
 		$nouveautopic = $this->pdo->lastInsertId();
 
 		$req = $this->pdo->prepare('INSERT INTO f_messages
@@ -194,9 +194,9 @@ class Forum extends Model {
 		return $categories;
 	}
 
-	public function addForum($title, $description, $categorie, $permission){
-		$req = $this->pdo->prepare('INSERT INTO f_forums(category_id, forum_name, forum_description, forum_last_post_id, forum_post, forum_topic, permission) VALUES(:categorie, :title, :description, 0, 0, 0, :permission)');
-		$req->execute(['categorie' => $categorie, 'title' => $title, 'description' => $description, 'permission' => $permission]);
+	public function addForum($title, $description, $categorie, $permission, $status){
+		$req = $this->pdo->prepare('INSERT INTO f_forums(category_id, forum_name, forum_description, forum_last_post_id, forum_post, forum_topic, permission, forum_locked) VALUES(:categorie, :title, :description, 0, 0, 0, :permission, :status)');
+		$req->execute(['categorie' => $categorie, 'title' => $title, 'description' => $description, 'permission' => $permission, 'status' => $status]);
 	}
 
 	public function topicVu($idTopic, $idUser){
@@ -330,5 +330,10 @@ class Forum extends Model {
 			$enleverMembre->execute(['id' => $data['post_createur']]);
 		}
 		
+	}
+
+	public function changerStatus(int $idTopic, int $status){
+		$req = $this->pdo->prepare('UPDATE f_topics SET topic_locked = :status WHERE id_topic = :idTopic');
+		$req->execute(['status' => $status, 'idTopic' => $idTopic]);
 	}
 }

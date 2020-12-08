@@ -93,6 +93,18 @@
 							</select>
 						</div>
 					</div>
+					<br/>
+					<div class="row">
+						<div class="col-lg-3">
+							Status du forum :
+						</div>
+						<div class="col-lg-9">
+							<select class="form-control" name="statusForum">
+								<option value="0">Déverrouillé</option>
+								<option value="1">Verrouillé</option>
+							</select>
+						</div>
+					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
 						<input type="submit" name="addForum" class="btn btn-outline-primary" value="Poster le forum" />
@@ -115,26 +127,54 @@
 				$test = $controller->chercher($category['forum_id']);
 				if ($category['tv_poste'] == 0 && $test[0] != 0){
 					if ($category['tv_post_id'] == $category['topic_last_post']){
-						$ico_mess = 'lu.png';
+						if ($category['forum_locked'] == 0) {
+							$ico_mess = 'lu.png';
+						} else {
+							$ico_mess = 'locked.png';
+						}
 					} else {
-						$ico_mess = 'nonlu.png';
+						if ($category['forum_locked'] == 0) {
+							$ico_mess = 'nonlu.png';
+						} else {
+							$ico_mess = 'locknonlu.png';
+						}
 					}
 				} elseif ($test[0] == 0) {
 					if ($test[0] == 0) {
-						$ico_mess = 'lu.png';
+						if ($category['forum_locked'] == 0) {
+							$ico_mess = 'lu.png';
+						} else {
+							$ico_mess = 'locked.png';
+						}
 					} else {
-						$ico_mess = 'nonlu.png';
+						if ($category['forum_locked'] == 0) {
+							$ico_mess = 'nonlu.png';
+						} else {
+							$ico_mess = 'locknonlu.png';
+						}
 					}
 				} else {
 					if ($test[0] == 0 && $category['tv_post_id'] == $category['topic_last_post']){
-						$ico_mess = 'nonlu.png';
+						if ($category['forum_locked'] == 0) {
+							$ico_mess = 'nonlu.png';
+						} else {
+							$ico_mess = 'locknonlu.png';
+						}
 					} else {
-						$ico_mess = 'nonlu.png';
+						if ($category['forum_locked'] == 0) {
+							$ico_mess = 'nonlu.png';
+						} else {
+							$ico_mess = 'locknonlu.png';
+						}
 					}
 				}
-					
+
 			} else {
-				$ico_mess = 'lu.png';
+				if ($category['forum_locked'] == 0) {
+					$ico_mess = 'lu.png';
+				} else {
+					$ico_mess = 'locked.png';
+				}
 			}
 			if ($categorie != $category['id']) {
 				$categorie = $category['id'];
