@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index test de Mangas'Fan V7 sous Symfony{% endblock %}
+
+{% block body %}
+    <h1>Test de MF sous Symfony - {{ news|length }} news</h1>
+    {% for new in news %}
+        <article>
+            <h2><a href="#">{{ new.title }}</a></h2>
+            <p>{{ new.description }}</p>
+            <img src="{{ new.image }}" alt="Image de {{ new.title }}"/>
+        </article>
+    {% endfor %}
+{% endblock %}
