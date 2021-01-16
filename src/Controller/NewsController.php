@@ -15,7 +15,7 @@ class NewsController extends AbstractController
      */
     public function index(NewsRepository $newsRepository) : Response
     {
-        $news = $newsRepository->findAll();
+        $news = $newsRepository->findBy([], ['createdAt' => 'DESC']);
         return $this->render('news/index.html.twig', compact('news'));
     }
 
