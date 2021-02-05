@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\NewsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\Timestampable;
 use Symfony\Component\Validator\Constraints\Date;
 
 /**
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints\Date;
  */
 class News
 {
+    use Timestampable;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -34,16 +36,6 @@ class News
      * @ORM\Column(type="string", length=255)
      */
     private $image;
-
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -84,43 +76,6 @@ class News
         $this->image = $image;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function updateTimestamps()
-    {
-        if($this->getCreatedAt() === null){
-            $this->setCreatedAt(new \DateTime);
-        }
-
-        $this->setUpdatedAt(new \DateTime);
     }
 
 }

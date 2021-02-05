@@ -7,5 +7,6 @@
         <p>{{ news.description }}</p>
     </article>
 
-    <a href="{{  path('app_home') }}">Retourner à l'accueil</a>
+    <a href="{{ path('app_news_edit', {id: news.id}) }}">Éditer la news</a>
+    <a href="{{ path('app_home') }}">Retourner à l'accueil</a>
 {% endblock %}

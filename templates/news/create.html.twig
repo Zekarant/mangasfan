@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle news{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle news</h1>
+    {{ form_start(formulaireAddNews) }}
+            {{ form_widget(formulaireAddNews) }}
+
+    <input type="submit" value="Ajouter une nouvelle news" class="btn btn-outline-info">
+    {{ form_end(formulaireAddNews) }}
+{% endblock %}

@@ -8,6 +8,12 @@
         {% block javascripts %}{% endblock %}
     </head>
     <body>
+        <nav>
+            <ul>
+                <li><a href="{{ path('app_home') }}">Accueil du site</a></li>
+                <li><a href="{{ path('app_news_create') }}">Créer une nouvelle news</a></li>
+            </ul>
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>
