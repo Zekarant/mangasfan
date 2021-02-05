@@ -76,4 +76,14 @@ class NewsController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/news/{id<[0-9]+>}/delete", name="app_news_delete", methods={"DELETE"})
+     */
+    public function delete(EntityManagerInterface $em, News $news) : Response {
+        $em->remove($news);
+        $em->flush();
+        return $this->redirectToRoute('app_home');
+
+    }
 }

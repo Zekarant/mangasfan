@@ -8,5 +8,10 @@
     </article>
 
     <a href="{{ path('app_news_edit', {id: news.id}) }}">Éditer la news</a>
+    <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sûrs de vouloir supprimer cette news ?') && document.getElementById('js-news-delete-form').submit();">Supprimer la news</a>
     <a href="{{ path('app_home') }}">Retourner à l'accueil</a>
+
+    <form id="js-news-delete-form" action="{{ path('app_news_delete', {id: news.id}) }}" method="POST" style="display: none;">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
 {% endblock %}
