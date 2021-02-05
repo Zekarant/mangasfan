@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\News;
+use App\Form\NewsType;
 use App\Repository\NewsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,11 +38,7 @@ class NewsController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em) : Response
     {
         $news = new News;
-        $form = $this->createFormBuilder($news)
-            ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('image',UrlType::class)
-            ->getForm();
+        $form = $this->createForm(NewsType::class, $news);
 
         $form->handleRequest($request);
 
@@ -58,15 +55,13 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/{id<[0-9]+>}/edit", name="app_news_edit", methods="GET|POST")
+     * @Route("/news/{id<[0-9]+>}/edit", name="app_news_edit", methods={"GET", "PUT"})
      */
     public function edit(Request $request, EntityManagerInterface $em, News $news) : Response {
 
-        $form = $this->createFormBuilder($news)
-            ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('image', UrlType::class)
-            ->getForm();
+        $form = $this->createForm(NewsType::class, $news, [
+            'method' => 'PUT'
+        ]);
 
         $form->handleRequest($request);
 
