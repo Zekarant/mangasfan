@@ -80,9 +80,12 @@ class NewsController extends AbstractController
     /**
      * @Route("/news/{id<[0-9]+>}/delete", name="app_news_delete", methods={"DELETE"})
      */
-    public function delete(EntityManagerInterface $em, News $news) : Response {
-        $em->remove($news);
-        $em->flush();
+    public function delete(Request $request, EntityManagerInterface $em, News $news) : Response {
+        if ($this->isCsrfTokenValid('news_delete_' . $news->getId(), $request->request->get('csrf_token'))){
+            $em->remove($news);
+            $em->flush();
+        }
+
         return $this->redirectToRoute('app_home');
 
     }

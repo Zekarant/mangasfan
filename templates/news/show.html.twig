@@ -12,6 +12,7 @@
     <a href="{{ path('app_home') }}">Retourner à l'accueil</a>
 
     <form id="js-news-delete-form" action="{{ path('app_news_delete', {id: news.id}) }}" method="POST" style="display: none;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token('news_delete_' ~ news.id) }}"
         <input type="hidden" name="_method" value="DELETE">
     </form>
 {% endblock %}
