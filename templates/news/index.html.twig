@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}Index test de Mangas'Fan V7 sous Symfony{% endblock %}
 
@@ -7,7 +7,8 @@
     {% for new in news %}
         <article>
             <h2><a href="{{ path('app_news_show', {id: new.id}) }}">{{ new.title }}</a></h2>
-            <p>{{ new.description }}</p>
+            <p>{{ new.description|u.truncate(200, '...', false) }}</p>
+            <p>Postée le {{ new.createdAt|date("d/m/Y") }}</p>
             <img src="{{ new.image }}" alt="Image de {{ new.title }}"/>
         </article>
     {% endfor %}

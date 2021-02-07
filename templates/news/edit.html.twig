@@ -1,12 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}Éditer la news "{{ news.title }}"{% endblock %}
 
 {% block body %}
     <h1>Éditer la news n°{{ news.id }}</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-
-    <input type="submit" value="Éditer la news" class="btn btn-outline-info">
-    {{ form_end(form) }}
+    {{ include('news/_form.html.twig', {'submitButtonText': 'Modifier la news'}) }}
 {% endblock %}

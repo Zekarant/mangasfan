@@ -33,7 +33,7 @@ class NewsController extends AbstractController
     }
 
     /**
-     * @Route("/news/create", name="app_news_create", methods="GET|POST")
+     * @Route("/news/create", name="app_news_create", methods={"GET", "POST"})
      */
     public function create(Request $request, EntityManagerInterface $em) : Response
     {
@@ -46,11 +46,13 @@ class NewsController extends AbstractController
             $em->persist($news);
             $em->flush();
 
+            $this->addFlash('success', 'La news a bien été créée !');
+
             return $this->redirectToRoute('app_home');
         }
 
         return $this->render('news/create.html.twig', [
-            'formulaireAddNews' => $form->createView()
+            'form' => $form->createView()
         ]);
     }
 
@@ -68,6 +70,8 @@ class NewsController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
 
+            $this->addFlash('success', 'La news a bien été éditée !');
+
             return $this->redirectToRoute('app_home');
         }
 
@@ -80,10 +84,12 @@ class NewsController extends AbstractController
     /**
      * @Route("/news/{id<[0-9]+>}/delete", name="app_news_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, EntityManagerInterface $em, News $news) : Response {
+    public function delete(Request $request, News $news, EntityManagerInterface $em) : Response {
         if ($this->isCsrfTokenValid('news_delete_' . $news->getId(), $request->request->get('csrf_token'))){
             $em->remove($news);
             $em->flush();
+
+            $this->addFlash('info', 'La news a bien été supprimée !');
         }
 
         return $this->redirectToRoute('app_home');
