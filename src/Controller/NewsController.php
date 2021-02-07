@@ -89,7 +89,7 @@ class NewsController extends AbstractController
             $em->remove($news);
             $em->flush();
 
-            $this->addFlash('info', 'La news a bien été supprimée !');
+            $this->addFlash('danger', 'La news a bien été supprimée !');
         }
 
         return $this->redirectToRoute('app_home');
