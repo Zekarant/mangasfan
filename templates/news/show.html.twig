@@ -4,14 +4,15 @@
 {% block body %}
     <article>
         <h1>{{ news.title }}</h1>
+        <hr>
+        <a href="{{ path('app_news_edit', {id: news.id}) }}" class="btn btn-sm btn-outline-primary">Éditer la news</a>
+        <a href="#" class="btn btn-sm btn-outline-danger" onclick="event.preventDefault(); confirm('Etes-vous sûrs de vouloir supprimer cette news ?') && document.getElementById('js-news-delete-form').submit();">Supprimer la news</a>
+
+        <form id="js-news-delete-form" action="{{ path('app_news_delete', {'id': news.id}) }}" method="POST" style="display: none;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token('news_delete_' ~ news.id) }}">
+            <input type="hidden" name="_method" value="DELETE">
+        </form>
+        <hr>
         <p>{{ news.description }}</p>
     </article>
-
-    <a href="{{ path('app_news_edit', {id: news.id}) }}">Éditer la news</a>
-    <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sûrs de vouloir supprimer cette news ?') && document.getElementById('js-news-delete-form').submit();">Supprimer la news</a>
-
-    <form id="js-news-delete-form" action="{{ path('app_news_delete', {'id': news.id}) }}" method="POST" style="display: none;">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token('news_delete_' ~ news.id) }}">
-        <input type="hidden" name="_method" value="DELETE">
-    </form>
 {% endblock %}

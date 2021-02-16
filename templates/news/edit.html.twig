@@ -4,5 +4,6 @@
 
 {% block body %}
     <h1>Éditer la news n°{{ news.id }}</h1>
+    <hr>
     {{ include('news/_form.html.twig', {'submitButtonText': 'Modifier la news'}) }}
 {% endblock %}
