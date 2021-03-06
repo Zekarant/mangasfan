@@ -16,9 +16,14 @@ class RedactionAnimes extends Model {
 		$req->execute(['title' => $title, 'imagePresentation' => $imagePresentation, 'imageCover' => $imageCover, 'type' => $type, 'slug' => $slug, 'idAnime' => $idAnime, 'avertissement' => $avertissement]);
 	}
 
-	public function modifierDescription(string $description, int $idAnime){
-		$req = $this->pdo->prepare('UPDATE mangas_animes SET presentation = :description WHERE id = :idAnime');
-		$req->execute(['description' => $description, 'idAnime' => $idAnime]);
+	public function modifierDescription(string $description, string $synopsis, int $idAnime){
+		$req = $this->pdo->prepare('UPDATE mangas_animes SET presentation = :description, synopsis = :synopsis WHERE id = :idAnime');
+		$req->execute(['description' => $description, 'synopsis' => $synopsis, 'idAnime' => $idAnime]);
+	}
+
+	public function modifierSynopsis(string $synopsis, int $idAnime){
+		$req = $this->pdo->prepare('UPDATE mangas_animes SET synopsis = :synopsis WHERE id = :idAnime');
+		$req->execute(['synopsis' => $synopsis, 'idAnime' => $idAnime]);
 	}
 
 	public function listeOnglets(int $idAnime){

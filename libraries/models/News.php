@@ -8,6 +8,20 @@ class News extends Model {
 
 	/**
 	*
+	* Affiche la new la plus récente
+	* @param $order
+	* @param $limit
+	* @return array
+	*/
+	public function findLastNew() : array {
+		$lastNews = $this->pdo->prepare('SELECT id_news, title, news.description, create_date, image, contenu, slug, username FROM news INNER JOIN users ON news.author = users.id_user WHERE visibility = 0 AND validation = 0 ORDER BY id_news DESC');
+		$lastNews->execute();
+		$news = $lastNews->fetch();
+		return $news;
+	}
+
+	/**
+	*
 	* Affiche toutes les news 
 	* @param $order
 	* @param $limit
@@ -28,17 +42,10 @@ class News extends Model {
 	}
 
 	public function recentsMangas(){
-		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE type = "manga" ORDER BY id DESC LIMIT 3');
+		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE nb_article > 0 ORDER BY id DESC LIMIT 4');
 		$req->execute();
 		$mangas = $req->fetchAll();
 		return $mangas;
-	}
-
-	public function recentsAnimes(){
-		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE type = "anime" ORDER BY id DESC LIMIT 3');
-		$req->execute();
-		$animes = $req->fetchAll();
-		return $animes;
 	}
 
 	public function archives(){

@@ -9,6 +9,8 @@ class Forum extends Controller {
 	public function index(){
 		$pageTitle = "Index du forum";
 		$style = '../css/commentaires.css';
+		$description = "Forum officiel de Mangas'Fan, venez discuter de tout avec d'autres membres de la communauté. Animes, mangas, jeux vidéo, tout est là !";
+		$image = "https://www.pixenli.com/image/J6FtHnhW";
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
@@ -24,12 +26,14 @@ class Forum extends Controller {
 		if (isset($_POST['addForum'])) {
 			Forum::addForum($user, $_POST['titreForum'], $_POST['descriptionForum'], $_POST['addCategorie'], $_POST['addPermission'], $_POST['statusForum']);
 		}
-		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'forums', 'user', 'categories'));
+		\Renderer::render('../templates/forum/index', '../templates', compact('pageTitle', 'style', 'forums', 'user', 'categories', 'description', 'image'));
 	}
 
 	public function voirforum(int $idForum){
 		$sousForum = $this->model->allSousForums($idForum);
 		$pageTitle = $sousForum['forum_name'];
+		$description = "Tous les sujets de " . \Rewritting::sanitize($sousForum['forum_name']);
+		$image = "https://www.pixenli.com/image/J6FtHnhW";
 		$style = "../css/commentaires.css";
 		$users = new \models\Users();
 		if (isset($_SESSION['auth'])) {
@@ -44,12 +48,14 @@ class Forum extends Controller {
 		if (isset($_POST['topicValider'])) {
 			Forum::ajouterTopic($_POST['titleTopic'], $_POST['typeTopic'], $idForum, $user['id_user'], $_POST['messageTopic'], $_POST['status']);
 		}
-		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux', 'user'));
+		\Renderer::render('../templates/forum/sousForum', '../templates', compact('pageTitle', 'style', 'sousForum', 'sujets', 'sujetsNormaux', 'user', 'image', 'description'));
 	}
 
 	public function listerTopic(int $idTopic){
 		$topic = $this->model->topic($idTopic);
 		$pageTitle = $topic['topic_titre'];
+		$description = "Messages du topic "  . \Rewritting::sanitize($topic['topic_titre']);
+		$image = "https://www.pixenli.com/image/J6FtHnhW";
 		$style = "../css/commentaires.css";
 		$messages = $this->model->allMessages($idTopic);
 		$forum = $this->model->recupererForums();
@@ -57,7 +63,7 @@ class Forum extends Controller {
 		if (isset($_SESSION['auth'])) {
 			$user = $users->user($_SESSION['auth']['id_user']);
 			$topicVu = $this->model->topicVu($idTopic, $user['id_user']);
-			if ($topicVu == 0) {
+			if ($topicVu['topic_vu'] == 0) {
 				$this->model->insererVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
 			} else {
 				$this->model->updateVu($user['id_user'], $idTopic, $topic['id_forum'], $topic['topic_last_post']);
@@ -74,7 +80,7 @@ class Forum extends Controller {
 		if (isset($_POST['validerMessage'])) {
 			Forum::posterMessage($idTopic, $user['id_user'], $_POST['contenuMessage'], $topic['id_forum']);
 		}
-		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user', 'forum'));
+		\Renderer::render('../templates/forum/topic', '../templates', compact('pageTitle', 'style', 'topic', 'messages', 'user', 'forum', 'description', 'image'));
 	}
 
 	public function posterMessage($idTopic, $utilisateur, $message, $forum){
@@ -204,7 +210,7 @@ class Forum extends Controller {
 						$pageTitle = "Modifier mon post de forum";
 						$style = "../css/commentaires.css";
 						if (isset($_POST['validerNewMessage'])) {
-							Forum::validerEdition($_POST['newContenu'], $user, $topic);
+							Forum::validerEdition($_POST['newContenu'], $user, $topic, $idMessage);
 						}
 						\Renderer::render('../templates/forum/editer', '../templates', compact('pageTitle', 'style', 'topic', 'user'));
 					} else {
@@ -259,10 +265,10 @@ class Forum extends Controller {
 		}
 	}
 
-	public function validerEdition($contenu, $user, $topic){
+	public function validerEdition($contenu, $user, $topic, $idMessage){
 		if (isset($_SESSION['auth'])) {
 			if ($user['id_user'] == $topic['id_user']) {
-				$this->model->modifierMessage($contenu, $topic['id_topic'], $user['id_user']);
+				$this->model->modifierMessage($contenu, $topic['id_topic'], $user['id_user'], $idMessage);
 				$_SESSION['flash-type'] = 'error-flash';
 				$_SESSION['flash-message'] = "Votre message a bien été modifié !";
 				$_SESSION['flash-color'] = "success";

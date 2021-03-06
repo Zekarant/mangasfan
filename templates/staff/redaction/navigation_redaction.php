@@ -22,9 +22,6 @@
 		<?php } ?>
 		Rédaction :
 		<li class="nav-item">
-			<a class="nav-link lien_nav_staff" href="/staff/redaction/ajouterJeu.php">» Ajouter un jeu</a>
-		</li>
-		<li class="nav-item">
 			<a class="nav-link lien_nav_staff" href="/staff/redaction/ajouterMangaAnime.php">» Ajouter un anime/manga</a>
 		</li>
 		<br/>

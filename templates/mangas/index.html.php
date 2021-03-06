@@ -2,11 +2,11 @@
 	<a href="../staff/redaction" target="_blank" class="btn btn-outline-info">Accéder au pannel de rédaction</a>
 	<hr>
 <?php } ?>
-<h2 class="titre">Accueil des mangas</h2>
+<h2 class="titre">Accueil des animes</h2>
 <hr>
 <form method="POST" action="">
 	<div class="row">
-		<div class="col-lg-8 d-flex justify-content-center">
+		<div class="col-lg-8 justify-content-center">
 			<input type="text" name="search" class="form-control" placeholder="Saisir le nom du manga recherché">
 			<input type="submit" name="search_ok" class="btn btn-outline-success" value="Rechercher">	
 		</div>
@@ -16,7 +16,7 @@
 					<li class="page-item disabled">
 						<a class="page-link" href="#" tabindex="-1">Pages :</a>
 					</li>
-					<?php for ($i = 1; $i < $nb_pages; $i++) {
+					<?php for ($i = 1; $i <= $nb_pages; $i++) {
 						if ($i == $page) { ?>
 							<li class="page-item">
 								<a class="page-link" href="#"><?= $i; ?></a>
@@ -39,19 +39,21 @@
 			<div class="col-sm-2">
 				<div class="card card-jeux" style="width: 100%;">
 					<a href="<?= \Rewritting::sanitize($mangas['slug']) ?>">
+						<div class="bouton_mangasAnimes">
+							<?php if ($mangas['publicAverti'] == 1) { ?>
+								<span class="btn btn-sm btn-danger justify-content-right">Public averti</span>
+							<?php } ?>
+						</div>
 						<img src="<?= \Rewritting::sanitize($mangas['banniere']) ?>" class="card-img-top" style="object-fit: cover; height: 27rem;">
 					</a>
 					<div class="card-body">
 						<h5 class="card-title text-center"><?= \Rewritting::sanitize($mangas['titre']) ?>
-							<?php if ($mangas['publicAverti'] == 1) { ?>
-							 - <span class="badge badge-pill badge-danger">Public averti</span>
-						<?php } ?>
-						</h5>
-					</div>
+					</h5>
 				</div>
 			</div>
-		<?php endforeach; ?>
-	</div>
+		</div>
+	<?php endforeach; ?>
+</div>
 </div>
 <hr>
 <nav>

@@ -5,10 +5,10 @@ namespace models;
 class Animes extends Model {
 
 	public function allAnimes(?int $limit = 0, ?int $autre = 24){
-		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE nb_article != 0 AND type = "anime" ORDER BY id DESC LIMIT ' . $limit . ',' . $autre);
+		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE type = "anime" ORDER BY id DESC LIMIT ' . $limit . ',' . $autre);
 		$req->execute();
-		$mangas = $req->fetchAll();
-		return $mangas;
+		$animes = $req->fetchAll();
+		return $animes;
 	}
 
 	public function paginationCount(){
@@ -72,7 +72,7 @@ class Animes extends Model {
 	}
 
 	public function verifierCategory(string $category, int $idManga){
-		$verif_cat = $this->pdo->prepare("SELECT * FROM mangas_animes_articles P INNER JOIN categories_mangas_animes O ON P.id_onglet = O.id_category WHERE O.name_category = :category AND P.id_anime_mangas = :idManga ORDER BY P.date_post");
+		$verif_cat = $this->pdo->prepare("SELECT * FROM mangas_animes_articles P LEFT JOIN categories_mangas_animes O ON P.id_onglet = O.id_category WHERE O.name_category = :category AND P.id_anime_mangas = :idManga ORDER BY P.date_post");
 		$verif_cat->execute(['category' => $category, 'idManga' => $idManga]);
 		return $verif_cat;
 	}

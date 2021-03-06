@@ -5,7 +5,7 @@
 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajoutSection">
 	Ajouter une nouvelle section
 </button>
-<div class="modal" id="ajoutSection" tabindex="-1" role="dialog" aria-labelledby="ajoutSectionTitle" aria-hidden="true">
+<div class="modal" id="ajoutSection" role="dialog" aria-labelledby="ajoutSectionTitle" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -166,32 +166,32 @@
 			<th><strong>Dernier message</strong></th>
 		</thead>
 		<tbody>
-			<?php foreach ($sujetsNormaux as $sujet): 
+			<?php foreach ($sujetsNormaux as $sujets): 
 				if (!empty($user)){
-					if ($sujet['tv_id'] == $user['id_user']){
-						if ($sujet['tv_poste'] == '0'){
-							if ($sujet['tv_post_id'] == $sujet['topic_last_post']){
-								if ($sujet['topic_locked'] == 0) {
+					if ($sujets['tv_id'] == $user['id_user']){
+						if ($sujets['tv_poste'] == '0'){
+							if ($sujets['tv_post_id'] == $sujets['topic_last_post']){
+								if ($sujets['topic_locked'] == 0) {
 									$ico_mess = 'lu.png';
 								} else {
 									$ico_mess = 'locked.png';
 								}
 							} else {
-								if ($sujet['topic_locked'] == 0) {
+								if ($sujets['topic_locked'] == 0) {
 									$ico_mess = 'nonlu.png';
 								} else {
 									$ico_mess = 'locknonlu.png';
 								}
 							}
 						} else {
-							if ($sujet['tv_post_id'] == $sujet['topic_last_post']){
-								if ($sujet['topic_locked'] == 0) {
+							if ($sujets['tv_post_id'] == $sujets['topic_last_post']){
+								if ($sujets['topic_locked'] == 0) {
 									$ico_mess = 'nonlu.png';
 								} else {
 									$ico_mess = 'locknonlu.png';
 								}
 							} else {
-								if ($sujet['topic_locked'] == 0) {
+								if ($sujets['topic_locked'] == 0) {
 									$ico_mess = 'nonlu.png';
 								} else {
 									$ico_mess = 'locknonlu.png';
@@ -199,14 +199,14 @@
 							}
 						}
 					} else {
-						if ($sujet['topic_locked'] == 0) {
-							$ico_mess = 'lu.png';
+						if ($sujets['topic_locked'] == 0) {
+							$ico_mess = 'nonlu.png';
 						} else {
-							$ico_mess = 'locked.png';
+							$ico_mess = 'lockednonlu.png';
 						}
 					}
 				} else {
-					if ($sujet['topic_locked'] == 0) {
+					if ($sujets['topic_locked'] == 0) {
 						$ico_mess = 'lu.png';
 					} else {
 						$ico_mess = 'locked.png';
@@ -216,18 +216,18 @@
 					<td>
 						<img src="../images/<?= \Rewritting::sanitize($ico_mess) ?>" width="75"/>
 						<td>
-							<a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujet['topic_posted'])) ?>">
-								<?= \Rewritting::sanitize($sujet['topic_titre']) ?>
+							<a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujets['id_topic']) ?>" title="Topic commencé à <?= date('H\hi \l\e d M y', strtotime($sujets['topic_posted'])) ?>">
+								<?= \Rewritting::sanitize($sujets['topic_titre']) ?>
 							</a>
 						</td>
-						<td class="nombremessages"><?= \Rewritting::sanitize($sujet['topic_post']) ?></td>
-						<td><?= \Rewritting::sanitize($sujet['topic_vu']) ?></td>
+						<td class="nombremessages"><?= \Rewritting::sanitize($sujets['topic_post']) ?></td>
+						<td><?= \Rewritting::sanitize($sujets['topic_vu']) ?></td>
 						<td>
-							<a href="../membres/profil-<?= \Rewritting::sanitize($sujet['id_utilisateur_posteur']) ?>"><?= \Rewritting::sanitize($sujet['membre_pseudo_createur']) ?></a>
+							<a href="../membres/profil-<?= \Rewritting::sanitize($sujets['id_utilisateur_posteur']) ?>"><?= \Rewritting::sanitize($sujets['membre_pseudo_createur']) ?></a>
 						</td>
-						<td><a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujet['id_topic']) ?>"><?= \Rewritting::sanitize($sujet['topic_titre']) ?></a><br/>
-							Par <a href="../membres/profil-<?= \Rewritting::sanitize($sujet['id_utilisateur_derniere_reponse']) ?>"><?= \Rewritting::sanitize($sujet['membre_pseudo_last_posteur']) ?></a>
-							le <?= date('H\hi \l\e d M y', strtotime($sujet['date_created'])) ?>
+						<td><a href="./voirtopic.php?t=<?= \Rewritting::sanitize($sujets['id_topic']) ?>"><?= \Rewritting::sanitize($sujets['topic_titre']) ?></a><br/>
+							Par <a href="../membres/profil-<?= \Rewritting::sanitize($sujets['id_utilisateur_derniere_reponse']) ?>"><?= \Rewritting::sanitize($sujets['membre_pseudo_last_posteur']) ?></a>
+							le <?= date('H\hi \l\e d M y', strtotime($sujets['date_created'])) ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

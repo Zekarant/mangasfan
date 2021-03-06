@@ -198,6 +198,7 @@ class Users extends Controller {
   * PAGE DE COMPTE DU MEMBRE
   */
   public function compte(){
+    $gradeMembre = new \models\Users();
     if (!isset($_SESSION['auth'])) {
       $_SESSION['flash-type'] = "error-flash";
       $_SESSION['flash-message'] = "Vous ne pouvez pas accéder à cette page en tant qu'invité, merci de vous connecter !";
@@ -207,6 +208,7 @@ class Users extends Controller {
     $utilisateur = $this->model->user($_SESSION['auth']['id_user']);
     $controllerMaintenance = new \models\Administration();
     $maintenance = $controllerMaintenance->verifier("Membres");
+    $gradeMembres = $gradeMembre->gradeMembres($utilisateur['id_user']);
     if ((!isset($_SESSION['auth']) OR $utilisateur['grade'] <= 3) && $maintenance['active_maintenance'] == 1) {
       \Http::redirect('/maintenance.php');
       exit();
@@ -231,7 +233,7 @@ class Users extends Controller {
     if (isset($_POST['supprimer_compte'])) {
       Users::suppressionCompte($utilisateur);
     }
-    \Renderer::render('../templates/membres/compte', '../templates/', compact('utilisateur', 'pageTitle', 'style'));
+    \Renderer::render('../templates/membres/compte', '../templates/', compact('utilisateur', 'pageTitle', 'style', 'gradeMembres'));
   }
 
   /**

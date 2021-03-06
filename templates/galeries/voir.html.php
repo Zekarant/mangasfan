@@ -56,9 +56,8 @@ if (isset($_SESSION['auth']) && $utilisateur['grade'] == 0) { ?>
 					<ul>
 						<li>Restez courtois lorsque vous postez un commentaire.</li>
 						<li>Merci de respecter les avis des autres membres.</li>
-						<li>Lorsque vous postez un commentaire, merci de respecter le sujet de la news.</li>
 						<li>Tout abus de l'espace commentaires sera sanctionné.</li>
-						<li>Respecter le travail de l'auteur.</li>
+						<li>Respectez le travail de l'auteur.</li>
 					</ul>
 				</small>
 			</div>

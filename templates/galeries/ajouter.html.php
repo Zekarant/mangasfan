@@ -3,7 +3,7 @@
 <a href="administration.php" class="btn btn-sm btn-outline-primary">Administration de ma galerie</a>
 <hr>
 <div class='alert alert-info' role='alert'>
-	<strong>Information importante :</strong> Vous avez très certainement envie d'ajouter une image tout de suite, mais noter que pour que votre image soit ajoutée, il faut qu'elle respecte quelques contraintes pour permettre une bonne lecture :<br/><br/>
+	<strong>Information importante :</strong> Vous avez très certainement envie d'ajouter une image tout de suite, mais notez que pour que votre image soit ajoutée, il faut qu'elle respecte quelques contraintes pour permettre une bonne lecture :<br/><br/>
 	<ul>
 		<li>Votre titre doit comporter entre <strong>3 et 50 caractères.</strong></li>
 		<li>Les <strong>mots clés</strong> sont facultatifs. Si vous en mettez, ils doivent être séparés par une virgule !</li>

@@ -12,7 +12,7 @@
 	} elseif ($countGalerie == 1) {
 		echo "Vous avez actuellement 1 article sur votre galerie.";
 	} else {
-		echo "Vous avez actuellement " . count($countGalerie) . " articles sur votre galerie.";
+		echo "Vous avez actuellement " . \Rewritting::sanitize($countGalerie) . " articles sur votre galerie.";
 	} ?>
 </div>
 <?php if($countGalerie != 0){ ?>

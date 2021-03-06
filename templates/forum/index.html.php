@@ -1,4 +1,4 @@
-<?php if (isset($_SESSION['auth']) && $user['grade'] >= 7) { ?>
+<?php if (isset($_SESSION['auth']) && $utilisateur['grade'] >= 7) { ?>
 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ajoutSection">
 	Ajouter une nouvelle section
 </button>
@@ -119,7 +119,7 @@
 <h1 class="titre">Index du forum</h1>
 <hr>
 <div class="alert alert-info">
-	<strong>Information : </strong>Le forum est tout neuf et peu donc comporter de nombreux bugs, nous comptons sur vous pour les signaler dans la section appropriée !
+	<strong>Information : </strong>Le forum est tout neuf et peut donc comporter de nombreux bugs, nous comptons sur vous pour les signaler dans la section appropriée !
 </div>
 <table class="table">
 	<?php
@@ -128,56 +128,32 @@
 		if ((isset($_SESSION['auth']) && $user['grade'] >= $category['permission']) || ($user == NULL AND $category['permission'] == 0) || isset($_SESSION['auth']) && $user['grade'] > 7) {
 			if (!empty($user)){
 				$controller = new \models\Forum();
-				$test = $controller->chercher($category['forum_id']);
-				if ($category['tv_poste'] == 0 && $test[0] != 0){
-					if ($category['tv_post_id'] == $category['topic_last_post']){
+				$test = $controller->chercher($category['forum_id'], $user['id_user']);
+				if(isset($test['total'])){
+					if ($test['total'] == $category['forum_topic'] && $category['tv_poste'] == "0") {
 						if ($category['forum_locked'] == 0) {
-							$ico_mess = 'lu.png';
+							$ico_mess = "lu.png";
 						} else {
-							$ico_mess = 'locked.png';
+							$ico_mess = "locked.png";
 						}
 					} else {
 						if ($category['forum_locked'] == 0) {
-							$ico_mess = 'nonlu.png';
+							$ico_mess = "nonlu.png";
 						} else {
-							$ico_mess = 'locknonlu.png';
+							$ico_mess = "locknonlu.png";
 						}
 					}
-				} elseif ($test[0] == 0) {
-					if ($test[0] == 0) {
-						if ($category['forum_locked'] == 0) {
-							$ico_mess = 'lu.png';
-						} else {
-							$ico_mess = 'locked.png';
-						}
-					} else {
-						if ($category['forum_locked'] == 0) {
-							$ico_mess = 'nonlu.png';
-						} else {
-							$ico_mess = 'locknonlu.png';
-						}
-					}
+				} elseif(empty($test['total']) && isset($_SESSION['auth']) && $category['forum_topic'] == 0) {
+					$ico_mess = "lu.png";
 				} else {
-					if ($test[0] == 0 && $category['tv_post_id'] == $category['topic_last_post']){
-						if ($category['forum_locked'] == 0) {
-							$ico_mess = 'nonlu.png';
-						} else {
-							$ico_mess = 'locknonlu.png';
-						}
-					} else {
-						if ($category['forum_locked'] == 0) {
-							$ico_mess = 'nonlu.png';
-						} else {
-							$ico_mess = 'locknonlu.png';
-						}
-					}
+					$ico_mess = "nonlu.png";
 				}
-
+				
 			} else {
 				if ($category['forum_locked'] == 0) {
-					$ico_mess = 'lu.png';
+					$ico_mess = "lu.png";
 				} else {
-					$ico_mess = 'locked.png';
+					$ico_mess = "locked.png";
 				}
 			}
 			if ($categorie != $category['id']) {
@@ -211,4 +187,3 @@
 	<?php } 
 endforeach; ?>
 </table>
-

@@ -19,6 +19,13 @@ class Users extends Model {
 		return $membres;
 	}
 
+	public function gradeMembres(int $idUser){
+		$req = $this->pdo->prepare('SELECT * FROM grade_users INNER JOIN users ON users.id_user = grade_users.id_user INNER JOIN grades ON grades.id_grade = grade_users.id_grade WHERE grade_users.id_user = :idUser ORDER BY grades.id_grade DESC');
+		$req->execute(['idUser' => $idUser]);
+		$membres = $req->fetchAll();
+		return $membres;
+	}
+
 	/**
 	* Liste des membres visible par tous
 	* @return $membres

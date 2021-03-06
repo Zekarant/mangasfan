@@ -5,7 +5,7 @@ namespace models;
 class Mangas extends Model {
 
 	public function allMangas(?int $limit = 0, ?int $autre = 24){
-		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE nb_article != 0 AND type = "manga" ORDER BY id DESC LIMIT ' . $limit . ',' . $autre);
+		$req = $this->pdo->prepare('SELECT * FROM mangas_animes WHERE type = "manga" ORDER BY id DESC LIMIT ' . $limit . ',' . $autre);
 		$req->execute();
 		$mangas = $req->fetchAll();
 		return $mangas;

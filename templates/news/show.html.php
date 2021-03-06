@@ -1,3 +1,7 @@
+<?php if ($utilisateur['grade'] >= 5) { ?>
+  <a href="../staff/news/modifier_news.php?id_news=<?= \Rewritting::sanitize($news['id_news']) ?>" target="_blank" class="btn btn-outline-info">Accéder au pannel de rédaction</a>
+  <hr>
+<?php } ?>
 <h2 class="titre"><?= \Rewritting::sanitize($news['title']) ?></h2>
 <hr>
 <?= htmlspecialchars_decode(\Rewritting::sanitize($news['contenu'])) ?>
@@ -17,39 +21,39 @@
             <div class="bloc-auteur">
                 <div class="row">
                     <div class="col-lg-3">
-                        <img src="https://www.mangasfan.fr/membres/images/avatars/<?= \Rewritting::sanitize($news['avatar']); ?>" alt="Avatar de <?= \Rewritting::sanitize($news['username']) ?>" class="auteur-avatar" />
+                        <img src="https://www.mangasfan.fr/membres/images/avatars/<?= \Rewritting::sanitize($news['avatar']); ?>" alt="Avatar de <?= \Rewritting::sanitize($news['username']) ?>" class="auteur-avatar pl-2" />
                     </div>
                     <div class="col-lg-9 a-propos-auteur">
                         <h5><?= \Rewritting::sanitize($news['username']); ?></h5>
                         <hr>
-                        <small><i>« <?= \Rewritting::sanitize($news['role']); ?> »</i></small>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <small><i>« <?= htmlspecialchars($news['role']); ?> »</i></small>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        A propos de la news
     </div>
-    <div class="col-lg-6">
-        <div class="card">
-          <div class="card-header">
-            A propos de la news
-        </div>
-        <div class="bloc-auteur">
-            <?php if($news['category'] != "Site"){ 
-                if($news['category'] == "Anime"){ ?>
-                    Cette news appartient à la catégorie « <a href="../categories.php?id=animes"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
-                    Par ailleurs, nous avons une page concernée aux animes sur le site, consultez-là <a href="/animes">ici</a>.
-                <?php } elseif($news['category'] == "Mangas"){ ?>
-                   Cette news appartient à la catégorie « <a href="../categories.php?id=mangas"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
-                   Par ailleurs, nous avons une page concernée aux mangas sur le site, consultez-là <a href="/mangas">ici</a>.
-               <?php } else { ?>
-                    Cette news appartient à la catégorie « <a href="../categories.php?id=jv"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
-                    Par ailleurs, nous avons une page concernée aux jeux vidéo sur le site, consultez-là <a href="/jeux-video">ici</a>.
-               <?php }
-           }
-           else { ?>
-            Cette news appartient à la catégorie « <a href="../categories.php?id=site"><strong>Site</strong></a> »
-        <?php } ?>
-    </div>
+    <div class="bloc-auteur">
+        <?php if($news['category'] != "Site"){ 
+            if($news['category'] == "Anime"){ ?>
+                Cette news appartient à la catégorie « <a href="../categories.php?id=animes"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
+                Par ailleurs, nous avons une page concernée aux animes sur le site, consultez-là <a href="/animes">ici</a>.
+            <?php } elseif($news['category'] == "Mangas"){ ?>
+               Cette news appartient à la catégorie « <a href="../categories.php?id=mangas"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
+               Par ailleurs, nous avons une page concernée aux mangas sur le site, consultez-là <a href="/mangas">ici</a>.
+           <?php } else { ?>
+            Cette news appartient à la catégorie « <a href="../categories.php?id=jv"><strong><?= \Rewritting::sanitize($news['category']); ?></strong></a> ».<br/><br/>
+            Par ailleurs, nous avons une page concernée aux jeux vidéo sur le site, consultez-là <a href="/jeux-video">ici</a>.
+        <?php }
+    }
+    else { ?>
+        Cette news appartient à la catégorie « <a href="../categories.php?id=site"><strong>Site</strong></a> ».
+    <?php } ?>
+</div>
 </div>
 </div>
 </div>

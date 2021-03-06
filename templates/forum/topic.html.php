@@ -6,7 +6,7 @@
 <?php if (isset($_SESSION['auth']) && $user['grade'] >= 7) { ?>
 	<a href="supprimer_topic.php?t=<?= \Rewritting::sanitize($topic['id_topic']) ?>" class="btn btn-outline-danger">Supprimer le topic</a>
 	<?php if ($topic['topic_locked'] == 1 && $topic['forum_locked'] == 0) { ?>
-		<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Devérrouiller ce topic ?`)" class="btn btn-outline-success">Devérrouiller le topic</a>
+		<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Devérrouiller ce topic ?`)" class="btn btn-outline-success">Déverrouiller le topic</a>
 	<?php } elseif ($topic['topic_locked'] == 0 && $topic['forum_locked'] == 0) { ?>
 		<a href="status.php?topic=<?= \Rewritting::sanitize($topic['id_topic']) ?>&status=<?= \Rewritting::sanitize($topic['topic_locked']) ?>" onclick="return window.confirm(`Verrouiller ce topic ?`)" class="btn btn-outline-warning">Verrouiller le topic</a>
 	<?php } ?>

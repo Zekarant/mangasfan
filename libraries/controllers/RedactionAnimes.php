@@ -36,9 +36,15 @@ class RedactionAnimes extends Controller {
 			RedactionAnimes::modifierEntete($_POST['title_game'], $_POST['picture_game'], $_POST['picture_pres'], $_POST['inlineRadioOptions'], $utilisateur, $anime, $avertissement);
 		}
 		if (isset($_POST['valid_presentation'])) {
-			$this->model->modifierDescription($_POST['text_pres'], $anime['id']);
+			$this->model->modifierDescription($_POST['text_pres'], $_POST['text_synop'], $anime['id']);
 			$logs = new \models\Administration();
 			$logs->insertLogs($utilisateur['id_user'], "a modifié la description <strong>" . \Rewritting::sanitize($anime['titre']) . "</strong>", "Rédaction");
+			\Http::redirect(\Rewritting::sanitize($anime['slug']));
+		}
+		if (isset($_POST['valid_synopsis'])) {
+			$this->model->modifierSynopsis($_POST['text_synop'], $anime['id']);
+			$logs = new \models\Administration();
+			$logs->insertLogs($utilisateur['id_user'], "a modifié le synopsis <strong>" . \Rewritting::sanitize($anime['titre']) . "</strong>", "Rédaction");
 			\Http::redirect(\Rewritting::sanitize($anime['slug']));
 		}
 		$recupererOnglets = $this->model->listeOnglets($anime['id']);
@@ -123,7 +129,7 @@ class RedactionAnimes extends Controller {
 			$slug = \Rewritting::stringToURLString($_POST['title_page']);
 			$idOnglet = $this->model->searchIdOnglet($anime['id'], $categorie);
 			$this->model->ajouterArticle($anime['id'], $idOnglet['id_category'], $_POST['title_page'], $_POST['text_pres'], $utilisateur['id_user'], $_POST['picture_game'], $slug, $_POST['visibilite']);
-			$url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
+			$url = "https://discord.com/api/webhooks/802923096067276860/GPomQEypBp10EXoKny75mtQ1z13el28yHWdpedJvgNtOcZWcrSZrUVllOz9y6aiB0zlV";
 			$hookObject = json_encode([
 				"embeds" => [
 					[

@@ -71,7 +71,7 @@ class RedactionNews extends Controller {
 				$logs = new \models\Administration();
 				$logs->insertLogs($user['id_user'], "a posté une news", "Pannel de rédaction");
 				if ($_POST['visible'] == 0) {
-					$url2 = "https://discordapp.com/api/webhooks/662479994714456065/RLQZ82-lXO4-QRxq5FVn2VDVHT4AW5Vwr_y_ik5CoXwCJDQp5PClrBfVTMnWtQpgIAd2";
+					$url2 = "https://discord.com/api/webhooks/802922496688128000/7zza6Yy3aW7NJduCNnjxjn0gTnMozWy5beOGde8CzldVYC5cnI0T_LhydQSmlyCMZJ0f";
 					$hookObject2 = json_encode([
 						"tts" => false,
 						"embeds" => [
@@ -84,7 +84,7 @@ class RedactionNews extends Controller {
 								"author" => [
 									"name" => "Mangas'Fan - Nouvelle news !",
 									"url" => "https://www.mangasfan.fr",
-									"icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
+									"icon_url" => "https://zupimages.net/up/21/03/hjkk.png"
 								],
 								"image" => [
 									"url" => htmlspecialchars($_POST['image'])
@@ -106,7 +106,7 @@ class RedactionNews extends Controller {
 					$response = curl_exec( $ch2 );
 					curl_close( $ch2 );
 				}
-				$url = "https://discordapp.com/api/webhooks/714474466461089845/soH9sQmLVQZs64Ry_TzNy_q29i3a1bjPE2AiwIHsrBU52ppFzRFjErCC5IUV2VvkmxsE";
+				$url = "https://discord.com/api/webhooks/802922966559490069/xU7jZG-MvJtD9UfwrBVf-o-xiaCRMux_MD7xrp56Kkk-rLomxJ2nvd9ABOa84ofhs70R";
 				$hookObject = json_encode([
 					"tts" => false,
 					"embeds" => [
@@ -119,7 +119,7 @@ class RedactionNews extends Controller {
 							"author" => [
 								"name" => "Mangas'Fan - Nouvelle news !",
 								"url" => "https://www.mangasfan.fr",
-								"icon_url" => "https://images-ext-1.discordapp.net/external/fPFRMFRClTDREMNdBVT20N4UAbBb8JjeMoiy8Bc3oAY/%3Fwidth%3D473%26height%3D473/https/media.discordapp.net/attachments/417370151424360448/658301476413898792/favicon.png"
+								"icon_url" => "https://zupimages.net/up/21/03/hjkk.png"
 							],
 							"image" => [
 								"url" => htmlspecialchars($_POST['image'])

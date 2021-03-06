@@ -21,6 +21,11 @@ class RedactionMangas extends Model {
 		$req->execute(['description' => $description, 'idManga' => $idManga]);
 	}
 
+	public function modifierSynopsis(string $synopsis, int $idAnime){
+		$req = $this->pdo->prepare('UPDATE mangas_animes SET synopsis = :synopsis WHERE id = :idAnime');
+		$req->execute(['synopsis' => $synopsis, 'idAnime' => $idAnime]);
+	}
+
 	public function listeOnglets(int $idManga){
 		$req = $this->pdo->prepare('SELECT * FROM categories_mangas_animes INNER JOIN mangas_animes ON 	id_anime_mangas = id WHERE 	id_anime_mangas = :idManga ORDER BY id_category');
 		$req->execute(['idManga' => $idManga]);
@@ -110,9 +115,9 @@ class RedactionMangas extends Model {
 		$req->execute(['title' => $title, 'image' => $image, 'category' => $category, 'visibility' => $visibility, 'contenu' => $contenu, 'slug' => $slug, 'idManga' => $idManga, 'idArticle' => $idArticle]);
 	}
 
-	public function ajouterManga(string $titre, string $cover, string $banniere, string $presentation, string $type, string $slug){
-		$req = $this->pdo->prepare('INSERT INTO mangas_animes(titre, cover, banniere, presentation, type, date_creation, slug, nb_article) VALUES(:titre, :cover, :banniere, :presentation, :type, NOW(), :slug, 0)');
-		$req->execute(['titre' => $titre, 'cover' => $cover, 'banniere' => $banniere, 'presentation' => $presentation, 'type' => $type, 'slug' => $slug]);
+	public function ajouterManga(string $titre, string $cover, string $banniere, string $presentation, string $synopsis, string $type, string $slug){
+		$req = $this->pdo->prepare('INSERT INTO mangas_animes(titre, cover, banniere, presentation, type, date_creation, slug, nb_article, synopsis) VALUES(:titre, :cover, :banniere, :presentation, :type, NOW(), :slug, 0, :synopsis)');
+		$req->execute(['titre' => $titre, 'cover' => $cover, 'banniere' => $banniere, 'presentation' => $presentation, 'type' => $type, 'slug' => $slug, 'synopsis' => $synopsis]);
 	}
 
 	public function supprimerManga(int $idManga){

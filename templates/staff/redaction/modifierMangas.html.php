@@ -9,7 +9,7 @@
 			<div id="navigation">
 				<center>
 					<span class="en-tete">Informations essentielles</span>
-					<span class="presentation">Présentation</span>
+					<span class="presentation">Présentation & Synopsis</span>
 					<span class="articles">Catégories & Articles</span>
 					<span class="rediger">Rédiger</span>
 				</center>
@@ -102,6 +102,13 @@
 					<textarea name="text_pres" class="form-control"  rows="10" cols="70" placeholder="Votre commentaire" ><?= \Rewritting::sanitize($manga['presentation']);?></textarea>
 					<hr>
 					<input type="submit" class="btn btn-sm btn-outline-info" name="valid_presentation" value="Modifier la description" />
+				</form>
+				<br/>
+				<form method="POST" action="">
+					<label for="text_synopsis">Modifier le synopsis du manga : </label>
+					<textarea name="text_synop" class="form-control"  rows="10" cols="70" placeholder="Votre commentaire" ><?= \Rewritting::sanitize($manga['synopsis']);?></textarea>
+					<hr>
+					<input type="submit" class="btn btn-sm btn-outline-info" name="valid_synopsis" value="Modifier le synopsis" />
 				</form>
 				<br/>
 			</div>

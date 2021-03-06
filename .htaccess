@@ -7,9 +7,6 @@ RewriteRule ^membres/profil-([0-9a-zA-Z_-]+)$ membres/profil.php?id=$1 [L,QSA]
 RewriteRule ^galeries/([0-9a-zA-Z_-]+)$ galeries/voir.php?id=$1 [L,QSA]
 RewriteRule ^galeries/membres/([0-9a-zA-Z_-]+)-galerie$ galeries/voirgalerie.php?id=$1 [L,QSA]
 
-RewriteRule ^jeux-video/([a-zA-Z0-9_-]+)$ jeux-video/jeux.php?id=$1 [L,QSA]
-RewriteRule ^jeux-video/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ jeux-video/article.php?jeu=$1&article=$2 [L,QSA]
-
 RewriteRule ^mangas/([a-zA-Z0-9_-]+)$ mangas/mangas.php?id=$1 [L,QSA]
 RewriteRule ^mangas/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ mangas/article.php?manga=$1&article=$2 [L,QSA]
 

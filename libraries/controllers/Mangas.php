@@ -86,10 +86,10 @@ class Mangas extends Controller {
 			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
-		$pageTitle = \Rewritting::sanitize($manga['titre']);
+		$pageTitle = $manga['titre'];
 		$style = "../css/commentaires.css";
 		$description = \Rewritting::sanitize($manga['presentation']);
-		$image = \Rewritting::sanitize($manga['cover']);
+		$banniereSite = \Rewritting::sanitize($manga['cover']);
 		$notes = $this->model->notes('mangas', $manga['id']);
 		list($moyenne_note, $rst_moy, $vote) = $notes;
 		$verifier = "";
@@ -140,9 +140,14 @@ class Mangas extends Controller {
 		$category = $this->model->category($manga['id']);
 		list($recup_all_category, $parcours_category) = $category;
 		$mangas = $this->model->oneManga($manga['id']);
-		$verifierCategory = $this->model->verifierCategory($mangas['name_category'], $manga['id']);
-		$catExist = $this->model->categoryExist($mangas['name_category'], $manga['id'], $this->isAdmin);
-		\Renderer::render('../templates/mangas/voirManga', '../templates/', compact('pageTitle', 'style', 'manga', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesMangas', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'mangas', 'description', 'image'));
+		if (isset($mangas['name_category'])) {
+			$verifierCategory = $this->model->verifierCategory($mangas['name_category'], $manga['id']);
+			$catExist = $this->model->categoryExist($mangas['name_category'], $manga['id'], $this->isAdmin);
+		} else {
+			$verifierCategory = NULL;
+			$catExist = NULL;
+		}
+		\Renderer::render('../templates/mangas/voirManga', '../templates/', compact('pageTitle', 'style', 'manga', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesMangas', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'mangas', 'description', 'banniereSite'));
 	}
 
 	public function categories(){

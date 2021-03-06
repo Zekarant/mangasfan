@@ -7,21 +7,13 @@ class Color {
 		return $grade;
 	}
 
-	public static function getRang(int $rang, int $sexe, bool $stagiaire = false, bool $chef = false): string {
-		$rangs = ['Banni', 'Membre', 'Community Manager', 'Animateur', 'Newseur', 'Rédacteur', 'Modérateur', 'Développeur', 'Administrateur', 'Fondateur', 'Mangas\'Bot'];
-		$rangs_femme = ['Bannie', 'Membre', 'Community Manageuse', 'Animatrice', 'Newseuse', 'Rédactrice', 'Modératrice', 'Développeuse', 'Administratrice'];
-		if ($sexe == 1 && $chef == 0) {
-			$rang_txt = $rangs_femme[$rang] ?? $rangs[1];
-		} else {
-			$rang_txt = $rangs[$rang] ?? $rangs[1];
-		}
-		if ($chef && $rang_txt != $rangs[9] && $rang_txt != $rangs[1]  && $rang_txt != $rangs[0] && $rang_txt != $rangs[10]) {
-			return "Chef des " . $rang_txt . "s";
+	public static function getRang(string $rang, bool $stagiaire = false, bool $chef = false): string {
+		if ($chef) {
+			return "Chef des " . $rang . "s";
 		}
 		if ($stagiaire) {
-			$rang_txt = $rang_txt . " (Stagiaire)";
+			$rang = $rang . " (Stagiaire)";
 		}
-		return $rang_txt;
+		return $rang;
 	}
-
 }

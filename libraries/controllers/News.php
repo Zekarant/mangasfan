@@ -12,7 +12,8 @@ class News extends Controller {
 	* @return void
 	*/
 	public function index() : void {
-		$news = $this->model->findAllNews('create_date DESC', '0, 9');
+		$new = $this->model->findLastNew();
+		$news = $this->model->findAllNews('create_date DESC', '1, 9');
 		$pageTitle = "L'actualité des mangas et des animes";
 		$style = "css/index.css";
 		$description = "Toute l'actualité des animes sur Mangas'Fan ! News, mangas, animes, jeux, tout est à portée de main ! Votre communauté de fans sur Mangas'Fan.";
@@ -21,8 +22,7 @@ class News extends Controller {
 		$animations = new \models\Animation();
 		$animation = $animations->animation();
 		$mangas = $this->model->recentsMangas();
-		$animes = $this->model->recentsAnimes();
-		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'animation', 'image', 'mangas', 'animes'));
+		\Renderer::render('templates/news/index', 'templates/', compact('news', 'pageTitle', 'style', 'description', 'keywords', 'animation', 'image', 'mangas', 'new'));
 	}
 
 	public function newsArchives(){
@@ -57,6 +57,9 @@ class News extends Controller {
 	public function showNews(){
 
 		$commentModel = new \models\NewsComment();
+		$gradeMembre = new \models\Users();
+		
+
 		$news_id = NULL;
 		if (!empty($_GET['id'])) {
 			$news_id = $_GET['id'];

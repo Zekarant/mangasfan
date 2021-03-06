@@ -44,9 +44,6 @@
             <a class="nav-link" href="/">Accueil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/jeux-video">Jeux</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/mangas">Mangas</a>
           </li>
           <li class="nav-item">

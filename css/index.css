@@ -63,6 +63,9 @@ header {
 }
 
 /* Global */
+.titrePrincipal {
+	font-size: 40px;
+}
 .titre {
 	margin-top: 20px;
 	font-size: 40px;
@@ -70,7 +73,7 @@ header {
 	margin-bottom: 10px;
 }
 hr.tiret_news {
-	width: 70%;
+	width: 60%;
 }
 .image_news {
 	border: 1px solid grey;
@@ -79,10 +82,49 @@ hr.tiret_news {
 	height: 200px;
 	object-fit: cover;
 }
+.bouton_mangasAnimes {
+	position: absolute;
+	z-index: 2;
+	right: 10px;
+	padding-top: 0px;
+	margin-top: 20px;
+}
 .news {
 	text-align: center;
 	margin-bottom: 50px;
 }
+.imageLast_news {
+	border: 1px solid grey;
+	border-radius: 100%;
+	width: 250px;
+	height: 250px;
+	object-fit: cover;
+}
+
+.effet_newsLast {
+	display: inline-block;
+	position: relative;
+}
+.effet_newsLast:hover p.text  {
+	opacity: 1;
+}
+.effet_newsLast p.text  {
+	color: #FFF;
+	width: 250px;
+	height: 250px;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	padding-top: 110px;
+	opacity: 0;
+	display: block;
+	position: absolute;
+	-webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	-ms-transition: opacity .5s ease-in-out;
+}
+
 .image_news {
 	border: 1px solid grey;
 	border-radius: 100%;
@@ -97,6 +139,10 @@ hr.tiret_news {
 .effet_news:hover p.text  {
 	opacity: 1;
 }
+.titreLastNews a {
+	color: black;
+}
+
 .effet_news p.text  {
 	color: #FFF;
 	width: 200px;

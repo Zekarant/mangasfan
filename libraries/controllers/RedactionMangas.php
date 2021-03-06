@@ -36,9 +36,15 @@ class RedactionMangas extends Controller {
 			RedactionMangas::modifierEntete($_POST['title_game'], $_POST['picture_game'], $_POST['picture_pres'], $_POST['inlineRadioOptions'], $utilisateur, $manga, $avertissement);
 		}
 		if (isset($_POST['valid_presentation'])) {
-			$this->model->modifierDescription($_POST['text_pres'], $manga['id']);
+			$this->model->modifierDescription($_POST['text_pres'], $_POST['text_synop'], $manga['id']);
 			$logs = new \models\Administration();
-       		$logs->insertLogs($utilisateur['id_user'], "a modifié la description <strong>" . \Rewritting::sanitize($manga['titre']) . "</strong>", "Rédaction");
+       		$logs->insertLogs($utilisateur['id_user'], "a modifié la description et le synopsis <strong>" . \Rewritting::sanitize($manga['titre']) . "</strong>", "Rédaction");
+			\Http::redirect(\Rewritting::sanitize($manga['slug']));
+		}
+		if (isset($_POST['valid_synopsis'])) {
+			$this->model->modifierSynopsis($_POST['text_synop'], $manga['id']);
+			$logs = new \models\Administration();
+			$logs->insertLogs($utilisateur['id_user'], "a modifié le synopsis <strong>" . \Rewritting::sanitize($manga['titre']) . "</strong>", "Rédaction");
 			\Http::redirect(\Rewritting::sanitize($manga['slug']));
 		}
 		$recupererOnglets = $this->model->listeOnglets($manga['id']);
@@ -123,7 +129,7 @@ class RedactionMangas extends Controller {
         	$slug = \Rewritting::stringToURLString($_POST['title_page']);
         	$idOnglet = $this->model->searchIdOnglet($manga['id'], $categorie);
         	$this->model->ajouterArticle($manga['id'], $idOnglet['id_category'], $_POST['title_page'], $_POST['text_pres'], $utilisateur['id_user'], $_POST['picture_game'], $slug, $_POST['visibilite']);
-        	$url = "https://discordapp.com/api/webhooks/669111297358430228/c98i6GiOrxgCM_lViJFZk5jUSkJN9PYJ7vwWXOWLGpU5MD7lQKpiPmOKxkGFpupqogK8";
+        	$url = "https://discord.com/api/webhooks/802923096067276860/GPomQEypBp10EXoKny75mtQ1z13el28yHWdpedJvgNtOcZWcrSZrUVllOz9y6aiB0zlV";
 			$hookObject = json_encode([
 				"embeds" => [
 					[
@@ -208,7 +214,7 @@ class RedactionMangas extends Controller {
 				\Http::redirect('ajouterMangaAnime.php');
 			}
 			$slug = \Rewritting::stringToURLString($_POST['titre_manga']);
-			$this->model->ajouterManga($_POST['titre_manga'], $_POST['cover_manga'], $_POST['banniere_manga'], $_POST['presentation_manga'], $_POST['inlineRadioOptions'], $slug);
+			$this->model->ajouterManga($_POST['titre_manga'], $_POST['cover_manga'], $_POST['banniere_manga'], $_POST['presentation_manga'], $_POST['presentation_synopsis'], $_POST['inlineRadioOptions'], $slug);
 			\Http::redirect('index.php');
 		}
 		$pageTitle = "Ajouter un nouveau manga/anime";

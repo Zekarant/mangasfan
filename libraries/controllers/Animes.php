@@ -86,10 +86,10 @@ class Animes extends Controller {
 			$_SESSION['flash-color'] = "warning";
 			\Http::redirect('index.php');
 		}
-		$pageTitle = \Rewritting::sanitize($anime['titre']);
+		$pageTitle = $anime['titre'];
+		$banniereSite = \Rewritting::sanitize($anime['cover']);
 		$style = "../css/commentaires.css";
 		$description = \Rewritting::sanitize($anime['presentation']);
-		$image = \Rewritting::sanitize($anime['cover']);
 		$notes = $this->model->notes('animes', $anime['id']);
 		list($moyenne_note, $rst_moy, $vote) = $notes;
 		$verifier = "";
@@ -140,9 +140,15 @@ class Animes extends Controller {
 		$category = $this->model->category($anime['id']);
 		list($recup_all_category, $parcours_category) = $category;
 		$animes = $this->model->oneAnime($anime['id']);
-		$verifierCategory = $this->model->verifierCategory($animes['name_category'], $anime['id']);
-		$catExist = $this->model->categoryExist($animes['name_category'], $anime['id'], $this->isAdmin);
-		\Renderer::render('../templates/animes/voirAnime', '../templates/', compact('pageTitle', 'style', 'anime', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesAnimes', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'animes', 'description', 'image'));
+		if (isset($animes['name_category'])) {
+			$verifierCategory = $this->model->verifierCategory($animes['name_category'], $anime['id']);
+			$catExist = $this->model->categoryExist($animes['name_category'], $anime['id'], $this->isAdmin);
+		} else {
+			$verifierCategory = NULL;
+			$catExist = NULL;
+		}
+		
+		\Renderer::render('../templates/animes/voirAnime', '../templates/', compact('pageTitle', 'style', 'anime', 'notes', 'moyenne_note', 'rst_moy', 'vote', 'verifier', 'articlesAnimes', 'compterArticles', 'lastArticle', 'recup_all_category', 'parcours_category', 'verifierCategory', 'catExist', 'animes', 'description', 'banniereSite'));
 	}
 
 	public function categories(){

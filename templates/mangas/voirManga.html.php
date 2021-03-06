@@ -2,42 +2,59 @@
 <?php if ($utilisateur['grade'] >= 5) { ?>
 	<a href="../staff/redaction/modification-mangas/<?= \Rewritting::sanitize($manga['slug']) ?>" target="_blank" class="btn btn-sm btn-outline-info">Accéder à la rédaction de ce manga</a>
 <?php } ?>
-<hr>
-<h2 class="titre jv_index"><?= \Rewritting::sanitize($manga['titre']); ?></h2>
-<hr>
-<div class="d-flex justify-content-center">
-	<div class="card card-jeux" style="width: 70rem;">
-		<img src="<?= \Rewritting::sanitize($manga['cover']) ?>" class="card-img-top" style="object-fit: cover; height: 15rem;">
-	</div>
-</div>
-<center>
-	<?php if ($notes == 0) {
-		echo "Il n'y a aucun vote pour ce manga pour l'instant.";
-	} else { ?>
-		Note attribuée par les membres : <span style="color: <?= \Users::syst_not($rst_moy) ?>"><?= $rst_moy ?>/5</span> - (<i><?= $moyenne_note->rowCount().$vote ?></i>)
-	<?php } ?>
-</center>
-<?php if (isset($_SESSION['auth']) && $verifier->rowCount() == 0) { ?>
-	<div class="d-flex justify-content-center">
-		<strong>Voter : </strong>
-		<form method="POST" action="">
-			<input type="submit" name="etoile1" value="★" class="color_no etoile" />
-			<input type="submit" name="etoile2" value="★" class="color_no etoile" />
-			<input type="submit" name="etoile3" value="★" class="color_no etoile" />
-			<input type="submit" name="etoile4" value="★" class="color_no etoile" />
-			<input type="submit" name="etoile5" value="★" class="color_no etoile" />
-		</form>
-	</div>
+<br/><br/>
+<div class="container">
+	<h2 class="titrePrincipal"><?= \Rewritting::sanitize($manga['titre']) ?></h2>
 	<hr>
-	<?php if ($manga['publicAverti'] == 1) { ?>
-		<div class="alert alert-danger" role="alert">
-			<strong>Attention : </strong>Ce manga peut contenir des éléments violents, sexuels ou autres pouvant heurter un certain public. Nous préférons prévenir nos jeunes utilisateurs de faire attention s'ils souhaitent poursuivre leur lecture.
+	<div class="row">
+		<div class="col-lg-4">
+			<img src="<?= \Rewritting::sanitize($manga['banniere']) ?>" class="img-fluid">
 		</div>
-	<?php } 
-} if(!empty($manga['presentation'])){ ?>
-	<h4 class="title_jeu">Présentation</h4>
-	<p><?= htmlspecialchars_decode(\Rewritting::sanitize($manga['presentation'])); ?></p>
+		<div class="col-lg-8">
+			<?php if (isset($_SESSION['auth']) && $verifier->rowCount() == 0) { ?>
+				<div class="d-flex justify-content-center">
+					<strong>Voter : </strong>
+					<form method="POST" action="">
+						<input type="submit" name="etoile1" value="★" class="color_no etoile" />
+						<input type="submit" name="etoile2" value="★" class="color_no etoile" />
+						<input type="submit" name="etoile3" value="★" class="color_no etoile" />
+						<input type="submit" name="etoile4" value="★" class="color_no etoile" />
+						<input type="submit" name="etoile5" value="★" class="color_no etoile" />
+					</form>
+				</div>
+			<?php } ?>
+			<?php if ($notes == 0) { ?>
+				<center>Il n'y a aucun vote pour cet manga pour l'instant.</center>
+			<?php } else { ?>
+				<center>Note attribuée par les membres : <span style="color: <?= \Users::syst_not($rst_moy) ?>"><?= \Rewritting::sanitize($rst_moy) ?>/5</span> - (<i><?= $moyenne_note->rowCount().$vote ?></i>)</center>
+				<hr>
+			<?php } ?>
+			<br/>
+			<h3>Présentation de <?= \Rewritting::sanitize($manga['titre']) ?></h3>
+			<hr>
+			<?php if(!empty($manga['presentation'])){ ?>
+				<p><?= htmlspecialchars_decode(\Rewritting::sanitize($manga['presentation'])); ?></p>
+			<?php } else {
+				echo "La présentation de ce manga n'est pas encore disponible !";
+			} ?>
+		</div>
+	</div>
+	<br/>
+	<h3>Synopsis</h3>
+	<hr>
+	﻿<?php if(!empty($manga['synopsis'])){ ?>
+		<p><?= htmlspecialchars_decode(\Rewritting::sanitize($manga['synopsis'])); ?></p>
+	<?php } else { ?>
+		<div class="alert alert-info" role="alert">
+			Le synopsis de ce manga n'est pas encore disponible.
+		</div>
+	<?php } if ($manga['publicAverti'] == 1) { ?>
+	<div class="alert alert-danger" role="alert">
+		<strong>Attention : </strong>Ce manga peut contenir des éléments violents, sexuels ou autres pouvant heurter un certain public. Nous préférons prévenir nos jeunes utilisateurs de faire attention s'ils souhaitent poursuivre leur lecture.
+	</div>
 <?php } ?>
+</div>
+<?php if (isset($manga['name_category'])) { ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-6 dernier_articles">
@@ -107,6 +124,7 @@
 		</div>
 	</div>
 </div>
+<?php } ?>
 <script type="text/javascript">
 	$(function() {
 		$("span.name_cat,span.cat_active").on("click",function(){

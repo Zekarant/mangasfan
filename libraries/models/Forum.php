@@ -13,7 +13,7 @@ class Forum extends Model {
 			$add2 = 'LEFT JOIN forum_topic_view 
 			ON f_forums.forum_id = forum_topic_view.tv_forum_id AND forum_topic_view.tv_id = :id';
 		}
-		$req = $this->pdo->prepare('SELECT DISTINCT forum_id, id, name, f_forums.forum_id, forum_name, forum_description, forum_post, forum_topic, permission, forum_locked, f_topics.id_topic, forum_last_post_id, topic_last_post,f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade '.$add1.'
+		$req = $this->pdo->prepare('SELECT DISTINCT forum_id, id, name, f_forums.forum_id, forum_name, forum_description, forum_last_post_id, forum_post, forum_topic, permission, forum_locked, f_topics.id_topic, forum_last_post_id, topic_last_post,f_topics.topic_post, id_message, date_created, f_messages.id_user AS id_membre_message, topic_titre, username, users.id_user AS id_utilisateur, grade '.$add1.'
 			FROM forum_categories
 			INNER JOIN f_forums ON forum_categories.id = f_forums.category_id
 			LEFT JOIN f_messages ON f_messages.id_message = f_forums.forum_last_post_id
@@ -31,9 +31,9 @@ class Forum extends Model {
 		return $categories;
 	}
 
-	public function chercher($id){
-		$req = $this->pdo->prepare('SELECT SUM(tv_poste) FROM forum_topic_view WHERE tv_forum_id = :id');
-		$req->execute(['id' => $id]);
+	public function chercher($id, $idUser){
+		$req = $this->pdo->prepare('SELECT COUNT(*) AS total FROM forum_topic_view WHERE tv_forum_id = :id AND tv_id = :idUser GROUP BY tv_forum_id');
+		$req->execute(['id' => $id, 'idUser' => $idUser]);
 		$test = $req->fetch();
 		return $test;
 	}
@@ -70,11 +70,11 @@ class Forum extends Model {
 		return $sujets;
 	}
 
-	public function allSujets(int $idForum, ?int $id = 0){
+	public function allSujets(int $idForum, int $id){
 		$add1 = "";
 		$add2 = "";
 		if ($id != 0){
-			$add1 = ", tv_id, tv_post_id, tv_poste"; 
+			$add1 = ", tv_id, tv_topic_id, tv_post_id, tv_poste"; 
 			$add2 = "LEFT JOIN forum_topic_view 
 			ON f_topics.id_topic = forum_topic_view.tv_topic_id AND forum_topic_view.tv_id = :id";
 		}
@@ -146,8 +146,8 @@ class Forum extends Model {
 		$req = $this->pdo->prepare('UPDATE users SET nb_messages = nb_messages + 1 WHERE id_user = :utilisateur'); 
 		$req->execute(['utilisateur' => $utilisateur]);
 
-		$req = $this->pdo->prepare('UPDATE forum_topic_view SET tv_post_id = :post, tv_poste = 1 WHERE tv_id = :id AND tv_topic_id = :topic');
-		$req->execute(['post' => $nouveaupost, 'id' => $idUser, 'topic' => $idTopic]);
+		$req = $this->pdo->prepare('UPDATE forum_topic_view SET tv_post_id = :post, tv_poste = 1 WHERE tv_topic_id = :topic');
+		$req->execute(['post' => $nouveaupost, 'topic' => $idTopic]);
 	}
 
 	public function ajouterTopic($title, $type, $idForum, $idUser, $message, $status){
@@ -207,14 +207,14 @@ class Forum extends Model {
 	}
 
 	public function topicVu($idTopic, $idUser){
-		$req = $this->pdo->prepare('SELECT COUNT(*) FROM forum_topic_view WHERE tv_topic_id = :topic AND tv_id = :id');
+		$req = $this->pdo->prepare('SELECT COUNT(*) as topic_vu FROM forum_topic_view WHERE tv_topic_id = :topic AND tv_id = :id');
 		$req->execute(['topic' => $idTopic, 'id' => $idUser]);
 		$nbr_vu = $req->fetch();
 		return $nbr_vu;
 	}
 
 	public function insererVu($idUser, $idTopic, $idForum, $lastPost){
-		$req = $this->pdo->prepare('INSERT INTO forum_topic_view (tv_id, tv_topic_id, tv_forum_id, tv_post_id, tv_poste) VALUES (:id, :topic, :forum, :last_post, 1)');
+		$req = $this->pdo->prepare('INSERT INTO forum_topic_view (tv_id, tv_topic_id, tv_forum_id, tv_post_id, tv_poste) VALUES (:id, :topic, :forum, :last_post, 0)');
 		$req->execute(['id' => $idUser, 'topic' => $idTopic, 'forum' => $idForum, 'last_post' => $lastPost]);
 	}
 
@@ -230,9 +230,9 @@ class Forum extends Model {
 		return $topic;
 	}
 
-	public function modifierMessage(string $contenu, int $topic, int $user){
-		$req = $this->pdo->prepare('UPDATE f_messages SET contenu = :contenu WHERE id_topic = :topic AND id_user = :user');
-		$req->execute(['contenu' => $contenu, 'topic' => $topic, 'user' => $user]);
+	public function modifierMessage(string $contenu, int $topic, int $user, int $idMessage){
+		$req = $this->pdo->prepare('UPDATE f_messages SET contenu = :contenu WHERE id_topic = :topic AND id_user = :user AND id_message = :idMessage');
+		$req->execute(['contenu' => $contenu, 'topic' => $topic, 'user' => $user, 'idMessage' => $idMessage]);
 	}
 
 	public function supprimerTopic(int $idTopic){

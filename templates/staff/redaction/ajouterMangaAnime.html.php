@@ -2,7 +2,7 @@
 	<div class="row">
 		<?php include('navigation_redaction.php'); ?>
 		<div class="col-lg-10">
-			<h2 class="titre">Ajouter un nouveau jeu</h2>
+			<h2 class="titre">Ajouter un nouveau manga/anime</h2>
 			<a href="index.php" class="btn btn-sm btn-outline-info">Retourner sur l'index de rédaction</a>
 			<hr>
 			<div class="container-fluid">
@@ -18,6 +18,8 @@
 							<label>Type :</label>
 							<br/><br/><br/>
 							<label>Présentation (Facultatif) :</label>
+							<br/><br/><br/>
+							<label>Synopsis (Facultatif) :</label>
 						</div>
 						<div class="col-lg-10">
 							<input type="text" name="titre_manga" class="form-control" placeholder="Saisir le nom">
@@ -36,6 +38,8 @@
 							</div>
 							<br/><br/>
 							<textarea name="presentation_manga"></textarea>
+							<br/><br/>
+							<textarea name="presentation_synopsis"></textarea>
 							<input type="submit" class="btn btn-outline-info" name="ajouter_manga" value="Ajouter">
 						</div>
 					</div>

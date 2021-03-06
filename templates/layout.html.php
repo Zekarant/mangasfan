@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?= $pageTitle ?> - Mangas'Fan</title>
+	<title><?= \Rewritting::sanitize($pageTitle) ?> - Mangas'Fan</title>
 	<link rel="icon" href="/images/favicon.png"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -19,18 +19,18 @@
 	<meta name="twitter:creator" content="@Mangas_Fans" />
 	<meta property="og:site_name" content="mangasfan.fr"/>
 	<meta property="og:url" content="https://www.mangasfan.fr" />
-	<meta property="og:title" content="<?= $pageTitle ?> - Mangas'Fan" />
-	<meta name="twitter:title" content="<?= $pageTitle ?> - Mangas'Fan">
-	<link rel="stylesheet" type="text/css" href="<?= $style ?>">
+	<meta property="og:title" content="<?= \Rewritting::sanitize($pageTitle) ?> - Mangas'Fan" />
+	<meta name="twitter:title" content="<?= \Rewritting::sanitize($pageTitle) ?> - Mangas'Fan">
+	<link rel="stylesheet" type="text/css" href="<?= \Rewritting::sanitize($style) ?>">
 	<?php if (isset($description)) { ?>
-		<meta name="description" content="<?= $description ?>"/>
-		<meta property="og:description" content="<?= $description ?>" />
-		<meta name="twitter:description" content="<?= $description ?>">
+	<meta name="description" content="<?= \Rewritting::sanitize($description) ?>"/>
+	<meta property="og:description" content="<?= \Rewritting::sanitize($description) ?>" />
+	<meta name="twitter:description" content="<?= \Rewritting::sanitize($description) ?>">
 	<?php } if (isset($keywords)) { ?>
-		<meta name="keywords" content="<?= $keywords ?>"/>
+	<meta name="keywords" content="<?= \Rewritting::sanitize($keywords) ?>"/>
 	<?php } if(isset($image)){ ?>
-		<meta property="og:image" content="<?= $image ?>" />
-		<meta name="twitter:image" content="<?= $image ?>">
+	<meta property="og:image" content="<?= \Rewritting::sanitize($image) ?>" />
+	<meta name="twitter:image" content="<?= \Rewritting::sanitize($image) ?>">
 	<?php } ?>
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129397962-1"></script>
 	<script>
@@ -42,6 +42,7 @@
 	</script>
 	<script type="text/javascript" src="https://www.mangasfan.fr/templates/staff/tinymce/js/tinymce/tinymce.min.js"></script>
 	<script type="text/javascript" src="https://www.mangasfan.fr/templates/staff/tinymce/js/tinymce/tinymce.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
  <script>
   tinymce.init({
     selector: 'textarea',
@@ -59,6 +60,7 @@
     ]
   });
 </script>
+<script data-ad-client="ca-pub-2334295191103657" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
 	<div class="loader">
@@ -74,7 +76,12 @@
 		</div>
 		<?php unset($_SESSION['flash-message']);
 	} ?>
-	<header>
+	<?php if (isset($banniereSite)) { ?>
+		<header style="background-image: url('<?= \Rewritting::sanitize($banniereSite) ?>'); ">
+	<?php } else { ?>
+		<header style="background-image: url('/images/banniere.webp'); ">
+	<?php } ?>
+	
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
 			<a class="navbar-brand" href="https://www.mangasfan.fr"><img src="https://www.mangasfan.fr/images/logo.png" class="logo_site" alt="Logo du site" /></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,9 +91,6 @@
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a class="nav-link" href="/">Accueil</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/jeux-video">Jeux</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/mangas">Mangas</a>
@@ -113,6 +117,7 @@
 							<div class="dropleft" role="group">
 								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 									<a class="dropdown-item" href="/membres/compte.php">Modifier votre profil</a>
+									<a class="dropdown-item" href="/membres/profil-<?= \Rewritting::sanitize($utilisateur['id_user']) ?>">Voir mon profil</a>
 									<a class="dropdown-item" href="/membres/deconnexion.php">Déconnexion</a>
 								</div>
 							</li>
@@ -135,7 +140,7 @@
 				<a href="https://www.twitter.com/MangasFanOff" target="_blank" class="links">
 					<img src="https://www.mangasfan.fr/images/tw.png" alt="Logo Twitter" class="image_reseaux"/>
 				</a>
-				<a href="https://discord.gg/KK43VKd" target="_blank" class="links">
+				<a href="https://discord.gg/hwDReFjRN9" target="_blank" class="links">
 					<img src="https://www.mangasfan.fr/images/discord.png" alt="Logo Discord" class="image_reseaux" />
 				</a>
 				<a href="https://www.instagram.com/mangasfanoff/" target="_blank" class="links">
@@ -206,13 +211,16 @@
 						<a href="http://www.nexgate.ch" target="_blank">
 							<img style="border:0;" src="https://www.nexgate.ch/images/button8831.png" alt="Hébergement gratuit !" title="Hébergement gratuit - nexgate.ch" />
 						</a>
+						<a href="https://discord.gg/nQXqCZmaWX" target="_blank">
+							<img style="border:0; width: 88px; height: 31px;" src="https://media.discordapp.net/attachments/794986193468129322/799999741726294026/banniere_honagami.jpg" alt="Serveur Discord - Animes et Mangas" title="Serveur Discord - Animes et Mangas - Honagami" />
+						</a>
 						<div class="row">
 							<div class="col-md-12">
 								<h3>Nos réseaux</h3>
 								<a href="https://twitter.com/MangasFanOff" target="_blank">
 									<img src="https://www.mangasfan.fr/images/tw.png" alt="Twitter - Mangas'Fan"  class="image_reseaux" />
 								</a>
-								<a href="https://discord.gg/KK43VKd" target="_blank">
+								<a href="https://discord.gg/hwDReFjRN9" target="_blank">
 									<img src="https://www.mangasfan.fr/images/discord.png" alt="Discord - Mangas'Fan"  class="image_reseaux" />
 								</a>
 								<a href="https://www.instagram.com/mangasfanoff/" target="_blank">

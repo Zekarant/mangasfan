@@ -9,7 +9,7 @@
 			<div id="navigation">
 				<center>
 					<span class="en-tete">Informations essentielles</span>
-					<span class="presentation">Présentation</span>
+					<span class="presentation">Présentation & Synopsis</span>
 					<span class="articles">Catégories & Articles</span>
 					<span class="rediger">Rédiger</span>
 				</center>
@@ -104,6 +104,12 @@
 					<input type="submit" class="btn btn-sm btn-outline-info" name="valid_presentation" value="Modifier la description" />
 				</form>
 				<br/>
+				<form method="POST" action="">
+					<label for="text_synopsis">Modifier le synopsis de l'anime : </label>
+					<textarea name="text_synop" class="form-control"  rows="10" cols="70" placeholder="Votre commentaire" ><?= \Rewritting::sanitize($anime['synopsis']);?></textarea>
+					<hr>
+					<input type="submit" class="btn btn-sm btn-outline-info" name="valid_synopsis" value="Modifier le synopsis" />
+				</form>
 			</div>
 			<div id="articles" class="bloc_contenu table-responsive">
 				<table class="table">

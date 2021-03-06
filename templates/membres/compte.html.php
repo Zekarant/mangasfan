@@ -143,56 +143,37 @@
 				<div class="card-body">
 					<div class="avatar_site">
 						<img src="images/avatars/<?= \Rewritting::sanitize($utilisateur['avatar']) ?>" />
-						<div class="informations_compte">
-							<span class="badge badge-secondary" style="background-color: <?= Color::rang_etat($utilisateur['grade']) ?>;"><?= Color::getRang($utilisateur['grade'], $utilisateur['sexe'], $utilisateur['stagiaire'], $utilisateur['chef']) ?></span>
+							<hr>
+							<div class="informations_compte">
+								<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
+							</div>
+							<p>Inscrit le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($utilisateur['confirmed_at']))); ?>.</p>
+							<p>Mon adresse mail : <em><?= \Rewritting::sanitize($utilisateur['email']); ?></em></p>
+							<p>Mon sexe : <em><?= \Users::sexe(\Rewritting::sanitize($utilisateur['sexe'])); ?></em></p>
+							<p>Manga préféré : <em><?= \Rewritting::sanitize($utilisateur['manga']); ?></em></p>
+							<p>Anime préféré : <em><?= \Rewritting::sanitize($utilisateur['anime']); ?></em></p>
+							<p>Date d'anniversaire : <em><?= \Rewritting::sanitize(\Users::dateAnniversaire($utilisateur['date_anniversaire'])); ?></em></p>
+							<p>Description : <em>« <?= nl2br(\Rewritting::sanitize($utilisateur['description'])); ?> »</em></p>
+							<?php if ($utilisateur['grade'] >= 2){ ?>
+								<p>Rôle : <em>« <?= nl2br(\Rewritting::sanitize($utilisateur['role'])); ?> »</em></p>
+							<?php } ?>
+							<p>Site web : <em><a href="<?= \Rewritting::sanitize($utilisateur['site']); ?>" target="_blank"><?= \Rewritting::sanitize($utilisateur['site']); ?></a></em></p>
+							<p>Mangas'Points : <em><?= \Rewritting::sanitize($utilisateur['points']); ?> points.</em></p>
+						</div>
+					</div></div>
+					<br/>
+					<div class="card">
+						<div class="card-header">
+							Supprimer mon compte - Mangas'Fan
+						</div>
+						<div class="card-body">
+							<small>Attention : En cliquant, puis en confirmant que vous souhaitez quitter supprimer votre compte, ce dernier sera immédiatement supprimé. Soyez sûr de votre coup !</small>
+							<hr>
+							<form method="POST" action="">
+								<input type="submit" name="supprimer_compte" value="Supprimer mon compte" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer votre compte ?`)" class="btn btn-sm btn-outline-danger">
+							</form>
 						</div>
 					</div>
-					<hr>
-					<div class="informations_compte">
-						<h3><?= \Rewritting::sanitize($utilisateur['username']) ?></h3>
-					</div>
-					<p>Inscrit le <?= date('d/m/Y à H:i', strtotime(\Rewritting::sanitize($utilisateur['confirmed_at']))); ?>.</p>
-					<p>Mon adresse mail : <em><?= \Rewritting::sanitize($utilisateur['email']); ?></em></p>
-					<p>Mon sexe : <em><?= \Users::sexe(\Rewritting::sanitize($utilisateur['sexe'])); ?></em></p>
-					<p>Manga préféré : <em><?= \Rewritting::sanitize($utilisateur['manga']); ?></em></p>
-					<p>Anime préféré : <em><?= \Rewritting::sanitize($utilisateur['anime']); ?></em></p>
-					<p>Date d'anniversaire : <em><?= \Rewritting::sanitize(\Users::dateAnniversaire($utilisateur['date_anniversaire'])); ?></em></p>
-					<p>Description : <em>« <?= nl2br(\Rewritting::sanitize($utilisateur['description'])); ?> »</em></p>
-					<?php if ($utilisateur['grade'] >= 2){ ?>
-						<p>Rôle : <em>« <?= nl2br(\Rewritting::sanitize($utilisateur['role'])); ?> »</em></p>
-					<?php } ?>
-					<p>Site web : <em><a href="<?= \Rewritting::sanitize($utilisateur['site']); ?>" target="_blank"><?= \Rewritting::sanitize($utilisateur['site']); ?></a></em></p>
-					<p>Mangas'Points : <em><?= \Rewritting::sanitize($utilisateur['points']); ?> points.</em></p>
-				</div>
-			</div>
-			<?php if ($utilisateur['grade'] >= 2 && $utilisateur['grade'] <= 9) { ?>
-				<br/>
-				<div class="card">
-					<div class="card-header">
-						Démission de mon rôle - Mangas'Fan
-					</div>
-					<div class="card-body">
-						<small>Attention : En cliquant, puis en confirmant que vous souhaitez quitter votre poste, ce dernier sera immédiatement retiré. Soyez sûr de votre coup !</small>
-						<hr>
-						<form method="POST" action="">
-							<input type="submit" name="demission" value="Démissioner de mon poste" onclick="return window.confirm(`Êtes vous sur de vouloir démissioner ?`)" class="btn btn-sm btn-outline-warning">
-						</form>
-					</div>
-				</div>
-			<?php } ?>
-			<br/>
-			<div class="card">
-				<div class="card-header">
-					Supprimer mon compte - Mangas'Fan
-				</div>
-				<div class="card-body">
-					<small>Attention : En cliquant, puis en confirmant que vous souhaitez quitter supprimer votre compte, ce dernier sera immédiatement supprimé. Soyez sûr de votre coup !</small>
-					<hr>
-					<form method="POST" action="">
-						<input type="submit" name="supprimer_compte" value="Supprimer mon compte" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer votre compte ?`)" class="btn btn-sm btn-outline-danger">
-					</form>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
