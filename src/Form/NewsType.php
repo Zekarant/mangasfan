@@ -6,6 +6,7 @@ use App\Entity\News;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class NewsType extends AbstractType
 {
@@ -14,7 +15,11 @@ class NewsType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('image')
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => false,
+                'download_uri' => false,
+            ])
         ;
     }
 
