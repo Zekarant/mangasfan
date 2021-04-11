@@ -19,6 +19,8 @@ class NewsType extends AbstractType
                 'required' => false,
                 'allow_delete' => false,
                 'download_uri' => false,
+                'label' => "Image de la news :",
+                'imagine_pattern' => 'squared_thumbnail_small',
             ])
         ;
     }

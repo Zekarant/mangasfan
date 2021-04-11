@@ -48,7 +48,8 @@ class News
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="image")
-     *
+     * @Assert\Image(maxSize="2M")
+     * @Assert\NotNull(message="Vous devez obligatoirement renseigner une image")
      * @var File|null
      */
     private $imageFile;
