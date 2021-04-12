@@ -3,13 +3,31 @@
 {% block title %}Index test de Mangas'Fan V7 sous Symfony{% endblock %}
 
 {% block body %}
-    <h1>Test de MF sous Symfony - {{ news|length }} news</h1>
-    {% for new in news %}
-        <article>
-            <h2><a href="{{ path('app_news_show', {id: new.id}) }}">{{ new.title }}</a></h2>
-            <p>{{ new.description|u.truncate(200, '...', false) }}</p>
-            <p>Postée le {{ new.createdAt|date("d/m/Y") }}</p>
-            <img src="{{ new.image }}" alt="Image de {{ new.title }}"/>
-        </article>
-    {% endfor %}
+		<h1>Test de MF sous Symfony - {{ news|length }} news</h1>
+        <hr>
+		{% for row in news|batch(3) %}
+            <div class="row mb-5">
+                {% if news|length > 0 %}
+                    {% for new in row %}
+                        <div class="col-md-4">
+                            <article class="news">
+                                <img src="{{ vich_uploader_asset(new) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ new.title }}" class="rounded-circle mx-auto d-block"/>
+                                <h4 class="h4 text-center">
+                                    <a href="{{ path('app_news_show', {id: new.id}) }}" class="text-body">{{ new.title }}</a>
+                                </h4>
+                                <p><em>{{ new.description|u.truncate(200, '...', false) }}</em></p>
+                                <div class="row small">
+                                    <div class="col-lg-6">
+                                        <p>AUTEUR</p>
+                                    </div>
+                                    <div class="col-lg-6 text-right">
+                                        <p>Postée le {{ new.createdAt|date("d/m/Y") }}</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+		{% endfor %}
 {% endblock %}

@@ -40,7 +40,7 @@ class News
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $image;
 
@@ -49,7 +49,6 @@ class News
      *
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="image")
      * @Assert\Image(maxSize="2M")
-     * @Assert\NotNull(message="Vous devez obligatoirement renseigner une image")
      * @var File|null
      */
     private $imageFile;
